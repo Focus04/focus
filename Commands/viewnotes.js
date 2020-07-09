@@ -6,7 +6,7 @@ const nts = new Keyv(database.notes);
 module.exports = {
     name: 'viewnotes',
     description: `Views all notes linked to an account.`,
-    usage: 'viewnotes @`user`',
+    usage: 'viewnotes `username`',
     guildOnly: true,
     async execute(message, args) {
         let prefix = await prefixes.get(message.guild.id);
@@ -16,7 +16,7 @@ module.exports = {
         if (!member)
             return message.channel.send(`Couldn't find ${args[0]}.`);
         if (!member)
-            message.channel.send(`Proper command usage: ${prefix}viewnotes @[user]`);
+            message.channel.send(`Proper command usage: ${prefix}viewnotes [username]`);
         else
             if (!message.member.hasPermission('KICK_MEMBERS'))
                 message.channel.send('You need the Kick Members permission in order to run this command.');

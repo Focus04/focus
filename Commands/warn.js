@@ -13,14 +13,12 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`);
-        if(!member)
-            return message.channel.send(`Couldn't find ${args[0]}`);
+        let member = message.mentions.users.first();
         let author = message.author.username;
         let reason = [];
         for (i = 1; i < args.length; i++)
             reason = reason + args[i] + ' ';
-        if (!args[1])
+        if (!member || !args[1])
             message.channel.send(`Proper command usage: ${prefix}warn @[user] [reason]`);
         else
             if (!message.member.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable)

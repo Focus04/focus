@@ -6,18 +6,20 @@ const logchannels = new Keyv(database.logchannels);
 module.exports = {
     name: 'report',
     description: `Submits a report to the staff's logs channel.`,
-    usage: 'bugreport @`user` `offense`',
+    usage: 'report `username` `offense`',
     guildOnly: true,
     async execute(message, args) {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        let member = message.mentions.users.first();
+        let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`);
+        if(!member)
+            return message.channel.send(`Couldn't find ${args[0]}`);
         let report = [];
         for (let i = 1; i < args.length; i++)
             report = report + args[i] + ' ';
-        if (!member || !args[1])
-            message.channel.send(`Proper command usage: ${prefix}report @[user] [offense]`);
+        if (!args[1])
+            message.channel.send(`Proper command usage: ${prefix}report [username] [offense]`);
         else {
             let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
             let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
