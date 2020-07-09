@@ -28,7 +28,7 @@ module.exports = {
                 else {
                     let viewnotesembed = new Discord.MessageEmbed()
                         .setColor('#00ffbb')
-                        .setTitle(`${member.username}'s notes`)
+                        .setTitle(`${member.user.username}'s notes`)
                         .setDescription(notes)
                         .setTimestamp();
                     message.author.send(viewnotesembed);
