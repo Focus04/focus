@@ -27,7 +27,7 @@ client.on('guildCreate', () => {
 client.on('guildMemberAdd', async member => {
     let welcomechname = await welcomechannels.get(`welcomechannel_${member.guild.id}`);
     let welcome = member.guild.channels.cache.find(ch => ch.name === welcomechname);
-    let dm = welcomedms.get(`welcomedm_${member.guild.id}`);
+    let dm = await welcomedms.get(`welcomedm_${member.guild.id}`);
     if (welcome) {
         let msg;
         let welcomemessage = await welcomemessages.get(`welcomemessage_${member.guild.id}`);
