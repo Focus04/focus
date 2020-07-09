@@ -1,0 +1,20 @@
+{
+  "name": "focus",
+  "version": "5.4.7",
+  "description": "Focus' Professional Discord moderation bot.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Focus#7804",
+  "license": "ISC",
+  "dependencies": {
+    "@keyv/mongo": "^1.1.0",
+    "discord.js": "^12.2.0",
+    "fs": "0.0.1-security",
+    "keyv": "^4.0.1",
+    "moment": "^2.27.0",
+    "ms": "^2.1.2",
+    "node-fetch": "^2.6.0"
+  }
+}
