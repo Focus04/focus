@@ -28,9 +28,9 @@ module.exports = {
             else {
                 let notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
                 if (!notes)
-                    notes = note + ` Added by ${message.author.username} on ${moment(message.createdTimestamp).format('LT')} ${moment(message.createdTimestamp).format('LL')} (${moment(message.createdTimestamp).fromNow()})` + `\n`;
+                    notes = note + ` Added by ${message.author.username} on ${moment(message.createdTimestamp).format('LT')} ${moment(message.createdTimestamp).format('LL')}` + `\n`;
                 else
-                    notes = notes + note + ` - added by ${message.author.username} on ${moment(message.createdTimestamp).format('LT')} ${moment(message.createdTimestamp).format('LL')} (${moment(message.createdTimestamp).fromNow()})` + `\n`;
+                    notes = notes + note + ` - added by ${message.author.username} on ${moment(message.createdTimestamp).format('LT')} ${moment(message.createdTimestamp).format('LL')}` + `\n`;
                 await nts.set(`notes_${member.id}_${message.guild.id}`, notes);
                 await message.author.send(`Note successfully added on ${member}'s account`);
                 message.channel.bulkDelete(1);
