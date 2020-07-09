@@ -12,7 +12,7 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        let member = message.guild.members.find(user => user.user.username.toLowerCase() === `${args[0]}` || user.nickname.toLowerCase() === `${args[0]}`);
+        let member = message.guild.members.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`);
         if (!member)
             return message.channel.send(`Couldn't find ${args[0]}.`);
         if (!member)
