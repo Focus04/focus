@@ -10,7 +10,6 @@ const welcomemessages = new Keyv(database.welcomemessages);
 const welcomedms = new Keyv(database.welcomedms);
 const leavechannels = new Keyv(database.leavechannels);
 const leavemessages = new Keyv(database.leavemessages);
-const leavedms = new Keyv(database.leavedms);
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./Commands');
@@ -37,14 +36,13 @@ client.on('guildMemberAdd', async member => {
         else
             msg = `${welcomemessage} ${member}`;
         welcome.send(msg);
-        if(dm)
-            member.send(dm);
+    if(dm)
+        member.send(dm);
     }
 })
 client.on('guildMemberRemove', async member => {
     let leavechname = await leavechannels.get(`leavechannel_${member.guild.id}`);
     let leave = member.guild.channels.cache.find(ch => ch.name === leavechname);
-    let dm = leavedms.get(`leavedm_${member.guild.id}`);
     if (leave) {
         let msg;
         let leavemessage = await leavemessages.get(`leavemessage_${member.guild.id}`);
@@ -53,8 +51,6 @@ client.on('guildMemberRemove', async member => {
         else
             msg = `${leavemessage} ${member.user.username}`;
         leave.send(msg);
-        if(dm)
-            member.send(dm);
     }
 })
 client.on('messageDelete', async message => {
