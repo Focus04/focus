@@ -10,11 +10,12 @@ module.exports = {
         let data = await fetch('https://monitor.teamshrimp.com/api/fetch/all/91.134.166.78/1337/')
             .then(response => response.json());
         let online;
-        if(data.online)
+        if (data.online)
             online = 'Yes';
         else
             online = 'No';
-        let players = data.players.map(player => {
+        let players;
+        data.players.map(player => {
             players = players + `${player.name}(${player.id})     ${player.score}     ${player.ping}` + `\n`;
         })
         let rgembed = new Discord.MessageEmbed()
@@ -22,13 +23,13 @@ module.exports = {
             .setTitle(`${data.servername}`)
             .setDescription(`${data.gametype}`)
             .addFields(
-                { name: 'Server IP', value: `${data.ip}:${data.port}`},
-                { name: 'Version', value: `${data.version}`},
-                { name: 'Forums', value: `${data.weburl}`},
-                { name: 'Online', value: `${online}`},
-                { name: 'Map', value: `${data.mapname}`},
-                { name: 'Players', value: `${data.max_players}/${data.num_players}`},
-                { name: 'Name(ID)     Score      Ping', value: `${'```' + players + '```'}`}
+                { name: 'Server IP', value: `${data.ip}:${data.port}`, inline: true },
+                { name: 'Version', value: `${data.version}`, inline: true },
+                { name: 'Forums', value: `${data.weburl}`, inline: true },
+                { name: 'Online', value: `${online}`, inline: true },
+                { name: 'Map', value: `${data.mapname}`, inline: true },
+                { name: 'Players', value: `${data.max_players}/${data.num_players}`, inline: true },
+                { name: 'Name(ID)     Score      Ping', value: `${'```' + players + '```'}` }
             )
             .setThumbnail('https://i.imgur.com/GWRrz6m.png')
             .setTimestamp();
