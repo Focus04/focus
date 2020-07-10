@@ -14,8 +14,11 @@ module.exports = {
         if (!prefix)
             prefix = '/';
         let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`);
-        if(!member)
-            return message.channel.send(`Couldn't find ${args[0]}.`);
+        if(!member){
+            await message.author.send(`Couldn't find ${args[0]}.`);
+            message.channel.bulkDelete(1);
+            return;
+        }
         let note = [];
         for (let i = 1; i < args.length; i++)
             note = note + args[i] + ' ';
