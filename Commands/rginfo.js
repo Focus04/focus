@@ -25,12 +25,12 @@ module.exports = {
             .setDescription(`${data.gametype}`)
             .addFields(
                 { name: 'Server IP', value: `${data.ip}:${data.port}`, inline: true },
-                { name: 'Version', value: `${data.version}`, inline: true },
-                { name: 'Forums', value: `${data.weburl}`, inline: true },
-                { name: 'Online', value: `${online}`, inline: true },
                 { name: 'Map', value: `${data.mapname}`, inline: true },
+                { name: 'Forums', value: `http://rg-clan.com`, inline: true },
+                { name: 'Online', value: `${online}`, inline: true },
+                { name: 'Version', value: `${data.version}`, inline: true },
                 { name: 'Players', value: `${data.num_players}/${data.max_players}`, inline: true },
-                { name: 'Name(ID)          Score           Ping', value: `${players}` }
+                { name: 'Name(ID)                    Score                     Ping', value: `${players}` }
             )
             .setThumbnail('https://i.imgur.com/GWRrz6m.png')
             .setTimestamp();
