@@ -14,11 +14,11 @@ module.exports = {
             online = 'Yes';
         else
             online = 'No';
-        let players;
+        let players = '```';
         data.players.map(player => {
             players = players + `${player.name}(${player.id})     ${player.score}     ${player.ping}` + `\n`;
         })
-        message.channel.send(data);
+        players = players + '```';
         let rgembed = new Discord.MessageEmbed()
             .setColor('#00ffbb')
             .setTitle(`${data.servername}`)
@@ -29,8 +29,9 @@ module.exports = {
                 { name: 'Forums', value: `${data.weburl}`, inline: true },
                 { name: 'Online', value: `${online}`, inline: true },
                 { name: 'Map', value: `${data.mapname}`, inline: true },
-                { name: 'Players', value: `${data.max_players}/${data.num_players}`, inline: true },
-                { name: 'Name(ID)     Score      Ping', value: `${'```' + players + '```'}` }
+                { name: 'Players', value: `${data.num_players}/${data.max_players}`, inline: true },
+                { name: `\u200B`, value: `\u200B`},
+                { name: 'Name(ID)     Score      Ping', value: `${players}` }
             )
             .setThumbnail('https://i.imgur.com/GWRrz6m.png')
             .setTimestamp();
