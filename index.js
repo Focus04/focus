@@ -2,14 +2,18 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const database = require('./database.json');
 const Keyv = require('keyv');
+const togglewelcomedm = require('./Commands/togglewelcomedm');
 const prefixes = new Keyv(database.prefixes);
 const logchannels = new Keyv(database.logchannels);
 const msglogs = new Keyv(database.msglogs);
 const welcomechannels = new Keyv(database.welcomechannels);
 const welcomemessages = new Keyv(database.welcomemessages);
+const togglewelcome = new Keyv(database.togglewelcomememsg);
 const welcomedms = new Keyv(database.welcomedms);
+const togglewelcomedms = new Keyv(database.togglewelcomedm)
 const leavechannels = new Keyv(database.leavechannels);
 const leavemessages = new Keyv(database.leavemessages);
+const toggleleave = new Keyv(database.toggleleavemsg);
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./Commands');
@@ -28,7 +32,9 @@ client.on('guildMemberAdd', async member => {
     let welcomechname = await welcomechannels.get(`welcomechannel_${member.guild.id}`);
     let welcome = member.guild.channels.cache.find(ch => ch.name === welcomechname);
     let dm = await welcomedms.get(`welcomedm_${member.guild.id}`);
-    if (welcome) {
+    let dmstate = await togglewelcomedm.get(`togglewelcomedm_${member.guild.id}`);
+    let state = await togglewelcome.get(`togglewelcome_${message.guild.id}`);
+    if (welcome && state == 1) {
         let msg;
         let welcomemessage = await welcomemessages.get(`welcomemessage_${member.guild.id}`);
         if (!welcomemessage)
@@ -36,18 +42,19 @@ client.on('guildMemberAdd', async member => {
         else
             msg = `${welcomemessage} ${member}`;
         welcome.send(msg);
-    if(dm)
+    if(dm && dmstate == 1)
         member.send(dm);
     }
 })
 client.on('guildMemberRemove', async member => {
     let leavechname = await leavechannels.get(`leavechannel_${member.guild.id}`);
     let leave = member.guild.channels.cache.find(ch => ch.name === leavechname);
-    if (leave) {
+    let state = await toggleleave.get(`toggleleave_${message.guild.id}`);
+    if (leave && state == 1) {
         let msg;
         let leavemessage = await leavemessages.get(`leavemessage_${member.guild.id}`);
         if (!leavemessage)
-            msg = `${member.user.username} parted ways with us...`;
+            msg = `${member.user.username} has parted ways with us...`;
         else
             msg = `${leavemessage} ${member.user.username}`;
         leave.send(msg);
