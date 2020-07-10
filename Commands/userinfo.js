@@ -7,11 +7,11 @@ module.exports = {
     guildOnly: true,
     execute(message) {
         if (!message.mentions.users.size) {
-            let roles = '```';
+            let roles
             message.member.roles.cache.map(role => {
                 roles = roles + role.name + `\n`;
             })
-            roles = roles + '```';
+            roles = '```'  + roles + '```';
             let perms='```';
             message.member.permissions.toArray().map(perm => {
                 perms = perms + perm + `\n`;
