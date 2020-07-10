@@ -9,7 +9,7 @@ module.exports = {
         if (!message.mentions.users.size) {
             let roles = message.member.roles.cache.map(role => role.name).join(`, `);
             roles = '```' + roles + '```';
-            let perms = message.member.permissions.toArray().map(perm => perm).join(', ');
+            let perms = message.member.permissions.toArray().map(perm => perm).join(`\n`);
             perms = '```' + perms + '```';
             let badges = message.author.flags.toArray().map(flag => flag).join(', ');
             if (!badges)
