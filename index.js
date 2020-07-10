@@ -2,7 +2,6 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const database = require('./database.json');
 const Keyv = require('keyv');
-const togglewelcomedm = require('./Commands/togglewelcomedm');
 const prefixes = new Keyv(database.prefixes);
 const logchannels = new Keyv(database.logchannels);
 const msglogs = new Keyv(database.msglogs);
