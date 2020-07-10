@@ -41,7 +41,7 @@ client.on('guildMemberAdd', async member => {
         else
             msg = `${welcomemessage} ${member}`;
         welcome.send(msg);
-    if(dm && dmstate == 1)
+    if(dmstate == 1)
         member.send(dm);
     }
 })
