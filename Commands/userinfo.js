@@ -8,7 +8,7 @@ module.exports = {
     execute(message) {
         if (!message.mentions.users.size) {
             let roles = '```';
-            message.member.roles.cache.map(role => {
+            message.member.roles.cache.toArray().map(role => {
                 roles = roles + role.name + `\n`;
             })
             roles = roles + '```';
