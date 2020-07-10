@@ -30,8 +30,7 @@ module.exports = {
                 { name: 'Online', value: `${online}`, inline: true },
                 { name: 'Map', value: `${data.mapname}`, inline: true },
                 { name: 'Players', value: `${data.num_players}/${data.max_players}`, inline: true },
-                { name: `\u200B`, value: `\u200B`},
-                { name: 'Name(ID)     Score      Ping', value: `${players}` }
+                { name: 'Name(ID)          Score           Ping', value: `${players}` }
             )
             .setThumbnail('https://i.imgur.com/GWRrz6m.png')
             .setTimestamp();
