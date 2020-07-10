@@ -18,6 +18,7 @@ module.exports = {
         data.players.map(player => {
             players = players + `${player.name}(${player.id})     ${player.score}     ${player.ping}` + `\n`;
         })
+        message.channel.send(data);
         let rgembed = new Discord.MessageEmbed()
             .setColor('#00ffbb')
             .setTitle(`${data.servername}`)
