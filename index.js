@@ -33,7 +33,7 @@ client.on('guildMemberAdd', async member => {
     let welcome = member.guild.channels.cache.find(ch => ch.name === welcomechname);
     let dm = await welcomedms.get(`welcomedm_${member.guild.id}`);
     let dmstate = await togglewelcomedm.get(`togglewelcomedm_${member.guild.id}`);
-    let state = await togglewelcome.get(`togglewelcome_${message.guild.id}`);
+    let state = await togglewelcome.get(`togglewelcome_${member.guild.id}`);
     if (welcome && state == 1) {
         let msg;
         let welcomemessage = await welcomemessages.get(`welcomemessage_${member.guild.id}`);
@@ -49,7 +49,7 @@ client.on('guildMemberAdd', async member => {
 client.on('guildMemberRemove', async member => {
     let leavechname = await leavechannels.get(`leavechannel_${member.guild.id}`);
     let leave = member.guild.channels.cache.find(ch => ch.name === leavechname);
-    let state = await toggleleave.get(`toggleleave_${message.guild.id}`);
+    let state = await toggleleave.get(`toggleleave_${member.guild.id}`);
     if (leave && state == 1) {
         let msg;
         let leavemessage = await leavemessages.get(`leavemessage_${member.guild.id}`);
