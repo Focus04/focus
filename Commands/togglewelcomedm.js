@@ -18,7 +18,7 @@ module.exports = {
         else {
             let welcomedm = await welcomedms.get(`welcomedm_${message.guild.id}`);
             if (!welcomedm)
-                message.channel.send(`You first need to set a welcome DM. Use ${prefix}setwelcomedm to setup one.`);
+                message.channel.send(`You first need to set a welcome DM. Use ${prefix}welcomedm to setup one.`);
             else {
                 let logs = await togglewelcomedm.get(`togglewelcomedm_${message.guild.id}`);
                 let state;

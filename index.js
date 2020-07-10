@@ -32,6 +32,8 @@ client.on('guildMemberAdd', async member => {
     let welcome = member.guild.channels.cache.find(ch => ch.name === welcomechname);
     let dm = await welcomedms.get(`welcomedm_${member.guild.id}`);
     let dmstate = await togglewelcomedm.get(`togglewelcomedm_${member.guild.id}`);
+    if(dm && dmstate == 1)
+        member.send(dm);
     let state = await togglewelcome.get(`togglewelcomemsg_${member.guild.id}`);
     if (welcome && state == 1) {
         let msg;
@@ -41,8 +43,6 @@ client.on('guildMemberAdd', async member => {
         else
             msg = `${welcomemessage} ${member}`;
         welcome.send(msg);
-    if(dmstate == 1)
-        member.send(dm);
     }
 })
 client.on('guildMemberRemove', async member => {
