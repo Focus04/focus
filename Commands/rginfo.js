@@ -16,7 +16,7 @@ module.exports = {
             online = 'No';
         let players = '```';
         data.players.map(player => {
-            players = players + `${player.name}(${player.id})     ${player.score}               ${player.ping}` + `\n`;
+            players = players + `${player.name}(${player.id})     ${player.score}          ${player.ping}` + `\n`;
         })
         players = players + '```';
         let rgembed = new Discord.MessageEmbed()
@@ -30,7 +30,7 @@ module.exports = {
                 { name: 'Online', value: `${online}`, inline: true },
                 { name: 'Version', value: `${data.version}`, inline: true },
                 { name: 'Players', value: `${data.num_players}/${data.max_players}`, inline: true },
-                { name: '     Name(ID)                    Score                     Ping', value: `${players}` }
+                { name: 'Name(ID)                    Score               Ping', value: `${players}` }
             )
             .setThumbnail('https://i.imgur.com/GWRrz6m.png')
             .setTimestamp();
