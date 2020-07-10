@@ -7,31 +7,28 @@ module.exports = {
     usage: 'rginfo',
     guildOnly: true,
     async execute(message, args) {
-        let datainfo = await fetch('http://monitor.sacnr.com/api/?IP=91.134.166.78&Port=1337&Action=info&Format=JSON')
+        let data = await fetch('https://monitor.teamshrimp.com/api/fetch/all/91.134.166.78/1337/')
             .then(response => response.json());
-        let dataplayers = await fetch('http://monitor.sacnr.com/api/?IP=91.134.166.78&Port=1337&Action=players&Format=JSON')
-            .then(response => response.json());
-        let hosted;
-        if(datainfo.HostedTab == 1)
-            hosted = 'Yes';
-        else if(datainfo.HostedTab == 0)
-            hosted = 'No';
+        let online;
+        if(data.online)
+            online = 'Yes';
+        else
+            online = 'No';
+        let players = data.players.map(player => {
+            players = players + `${player.name}(${player.id})     ${player.score}     ${player.ping}` + `\n`;
+        })
         let rgembed = new Discord.MessageEmbed()
             .setColor('#00ffbb')
-            .setTitle(`${datainfo.Hostname}`)
-            .setDescription(`${datainfo.Gamemode}`)
+            .setTitle(`${data.servername}`)
+            .setDescription(`${data.gametype}`)
             .addFields(
-                { name: 'Server ID', value: `${datainfo.ServerID}`},
-                { name: 'Server IP', value: `${datainfo.IP}:${datainfo.Port}`},
-                { name: 'Language', value: `${datainfo.Language}`},
-                { name: 'Last Updated', value: `${moment(datainfo.LastUpdate).format('LT')} ${moment(datainfo.LastUpdate).format('LL')} (${moment(datainfo.LastUpdate).fromNow()})`},
-                { name: 'Version', value: `${datainfo.Version}`},
-                { name: 'Forums', value: `${datainfo.WebURL}`},
-                { name: 'Hosted Tab', value: `${hosted}`},
-                { name: 'Map', value: `${datainfo.Map}`},
-                { name: 'Time', value: `${datainfo.Time}`},
-                { name: 'Players', value: `${datainfo.Players}/${datainfo.MaxPlayers} (Average: ${datainfo.AvgPlayers})`},
-                { name: `\u200B`, value: `${'```' + players + '```'}`}
+                { name: 'Server IP', value: `${data.ip}:${data.port}`},
+                { name: 'Version', value: `${data.version}`},
+                { name: 'Forums', value: `${data.weburl}`},
+                { name: 'Online', value: `${online}`},
+                { name: 'Map', value: `${data.mapname}`},
+                { name: 'Players', value: `${data.max_players}/${data.num_players}`},
+                { name: 'Name(ID)     Score      Ping', value: `${'```' + players + '```'}`}
             )
             .setThumbnail('https://i.imgur.com/GWRrz6m.png')
             .setTimestamp();
