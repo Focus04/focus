@@ -7,21 +7,15 @@ module.exports = {
     guildOnly: true,
     execute(message) {
         if (!message.mentions.users.size) {
-            let roles = message.member.roles.cache.map(role => role.name).join(` `);
+            let roles = message.member.roles.cache.map(role => role.name).join(`, `);
             roles = '```' + roles + '```';
-            let perms='```';
-            message.member.permissions.toArray().map(perm => {
-                perms = perms + perm + `\n`;
-            })
-            perms = perms + '```';
-            let badges = '```';
-            message.author.flags.toArray().map(flag => {
-                badges = badges + flag + `\n`;
-            })
-            if (badges === '```')
+            let perms = message.member.permissions.toArray().map(perm => perm).join(', ');
+            perms = '```' + perms + '```';
+            let badges = message.author.flags.toArray().map(flag => flag).join(', ');
+            if (!badges)
                 badges = 'None';
             else
-                badges = badges + '```';
+                badges = '```' + badges + '```';
             const userinfoembed1 = new Discord.MessageEmbed()
                 .setColor('#00ffbb')
                 .setTitle('User Information')
