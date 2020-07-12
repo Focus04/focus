@@ -63,7 +63,7 @@ client.on('messageDelete', async message => {
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
     let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
     let msglog = await msglogs.get(`msglogs_${message.guild.id}`);
-    if (log && msglog == 1) {
+    if (log && msglog == 1 && !message.author.bot) {
         let deleteembed = new Discord.MessageEmbed()
             .setColor('#00ffbb')
             .setTitle('Message Deleted')
@@ -80,7 +80,7 @@ client.on('messageUpdate', async (oldmsg, newmsg) => {
     let logchname = await logchannels.get(`logchannel_${oldmsg.guild.id}`);
     let log = oldmsg.guild.channels.cache.find(ch => ch.name === `${logchname}`);
     let msglog = await msglogs.get(`msglogs_${oldmsg.guild.id}`);
-    if (log && msglog == 1) {
+    if (log && msglog == 1 && !oldmsg.author.bot) {
         let editembed = new Discord.MessageEmbed()
             .setColor('#00ffbb')
             .setTitle('Message Edited')
