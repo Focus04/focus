@@ -14,15 +14,14 @@ module.exports = {
         let rolename = [];
         for(let i=1;i<args.length;i++)
             rolename = rolename + args[i] + ' ';
-        rolename = rolename - ' ';
         if (!message.guild.me.hasPermission('MANAGE_ROLES'))
             return message.channel.send('I need the Manage Roles permission in order to execute this command!');
         if (!args[0])
             message.channel.send(`Proper command usage: ${prefix}giverole @[member] [role]`);
         else {
-            let role = message.guild.roles.cache.find(role => role.name === `${rolename}`);
+            let role = message.guild.roles.cache.find(role => role.name + ' ' === `${rolename}`);
             if (!role)
-                message.channel.send(`Couldn't find any roles named "${rolename}"`);
+                message.channel.send(`Couldn't find any roles named ${rolename}`);
             else
                 if (!message.member.hasPermission('MANAGE_ROLES'))
                     message.channel.send('You need the Manage Roles permission in order to run this command!');
