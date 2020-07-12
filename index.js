@@ -6,6 +6,7 @@ const prefixes = new Keyv(database.prefixes);
 const logchannels = new Keyv(database.logchannels);
 const msglogs = new Keyv(database.msglogs);
 const welcomechannels = new Keyv(database.welcomechannels);
+const welcomeroles = new Keyv(database.welcomeroles);
 const welcomemessages = new Keyv(database.welcomemessages);
 const togglewelcome = new Keyv(database.togglewelcomememsg);
 const welcomedms = new Keyv(database.welcomedms);
@@ -34,6 +35,10 @@ client.on('guildMemberAdd', async member => {
     let dmstate = await togglewelcomedm.get(`togglewelcomedm_${member.guild.id}`);
     if(dm && dmstate == 1)
         member.send(dm);
+    let welcomerolename = await welcomeroles.get(`welcomerole_${member.guild.id}`);
+    let welcomerole = member.guild.roles.cache.find(role => role.name === `${welcomerolename}`);
+    if(welcomerole)
+        member.roles.add(welcomerole);
     let state = await togglewelcome.get(`togglewelcomemsg_${member.guild.id}`);
     if (welcome && state == 1) {
         let msg;
