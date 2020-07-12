@@ -11,7 +11,7 @@ module.exports = {
     async execute(message, args) {
         let prefix = await prefixes.get(`${message.guild.id}`);
         let member = message.mentions.members.first();
-        let rolename = args.slice(member.length + 1).join(' ');
+        let rolename = args.shift().join(' ');
         if (!message.guild.me.hasPermission('MANAGE_ROLES'))
             return message.channel.send('I need the Manage Roles permission in order to execute this command!');
         if (!args[0])
