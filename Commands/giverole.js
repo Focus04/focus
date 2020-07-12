@@ -16,7 +16,7 @@ module.exports = {
             rolename = rolename + args[i] + ' ';
         if (!message.guild.me.hasPermission('MANAGE_ROLES'))
             return message.channel.send('I need the Manage Roles permission in order to execute this command!');
-        if (!args[0])
+        if (!args[1])
             message.channel.send(`Proper command usage: ${prefix}giverole @[member] [role]`);
         else {
             let role = message.guild.roles.cache.find(role => role.name + ' ' === `${rolename}`);
@@ -27,13 +27,16 @@ module.exports = {
                     message.channel.send('You need the Manage Roles permission in order to run this command!');
                 else {
                     member.roles.add(role);
+                    let perms = role.permissions.toArray().map(perm => perm).join(`\n`);
+                    perms = '```' + perms + '```';
                     let giveroleembed = new Discord.MessageEmbed()
                         .setColor('#00ffbb')
                         .setTitle('Given Role')
                         .addFields(
                             { name: 'To', value: `${member}`},
                             { name: 'By', value: `${message.author.username}`},
-                            { name: 'Role', value: `${rolename}`}
+                            { name: 'Role', value: `${rolename}`},
+                            { name: 'Permissions', value: `${perms}`}
                         )
                         .setTimestamp();
                     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);

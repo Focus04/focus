@@ -4,6 +4,7 @@ const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const welcomechannels = new Keyv(database.welcomechannels);
 const welcomemessages = new Keyv(database.welcomemessages);
+const togglewelcomemsg = new Keyv(database.togglewelcomememsg);
 module.exports = {
     name: 'welcomemessage',
     description: `Sets a custom welcome message to be displayed when someone joins the server.`,
@@ -28,6 +29,7 @@ module.exports = {
                     message.channel.send(`You need to set a channel for welcome messages to be sent in. Use ${prefix}setwelcomechannel to setup one.`);
                 else {
                     await welcomemessages.set(`welcomemessage_${message.guild.id}`, msg);
+                    await togglewelcomemsg.set(`togglewelcomemsg_${message.guild.id}`, 1);
                     message.channel.send(`Welcome message set to ${msg}.`);
                 }
             }

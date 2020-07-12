@@ -4,6 +4,7 @@ const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const leavechannels = new Keyv(database.leavechannels);
 const leavemessages = new Keyv(database.leavemessages);
+const toggleleavemsg = new Keyv(database.toggleleavemsg);
 module.exports = {
     name: 'leavemessage',
     description: `Sets a custom good bye message for those leaving the server.`,
@@ -28,6 +29,7 @@ module.exports = {
                     message.channel.send(`You need to set a channel for leave messages to be sent in. Use ${prefix}setleavechannel to setup one.`);
                 else {
                     await leavemessages.set(`leavemessage_${message.guild.id}`, msg);
+                    await toggleleavemsg.set(`toggleleavemsg_${message.guild.id}`, 1);
                     message.channel.send(`Leave message set to ${msg}.`);
                 }
             }
