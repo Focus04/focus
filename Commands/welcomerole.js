@@ -23,7 +23,7 @@ module.exports = {
                 if (!message.member.hasPermission('MANAGE_ROLES'))
                     message.channel.send('You lack permissions to run this command!');
                 else {
-                    await welcomeroles.set(`welcomerole_${message.guild.id}`, role);
+                    await welcomeroles.set(`welcomerole_${message.guild.id}`, rolename);
                     message.channel.send(`Welcome role successfully changed to ${rolename}`);
                 }
         }
