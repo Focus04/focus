@@ -1,8 +1,8 @@
 const Discord = require('discord.js');
 const database = require('../database.json');
 const Keyv = require('keyv');
-const prefixes = Keyv(database.prefixes);
-const welcomeroles = Keyv(database.welcomeroles);
+const prefixes = new Keyv(database.prefixes);
+const welcomeroles = new Keyv(database.welcomeroles);
 module.exports = {
     name: 'welcomerole',
     description: `Sets a role to be assigned to new users when they join the server.`,
