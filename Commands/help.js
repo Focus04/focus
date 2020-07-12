@@ -14,7 +14,7 @@ module.exports = {
             prefix = '/';
         if (!args.length) {
             let modemoji = message.client.emojis.cache.get('729353638132318318').toString();
-            let modcmds = '```' + `${prefix}report, ${prefix}ban, ${prefix}unban, ${prefix}kick, ${prefix}mute, ${prefix}unmute, ${prefix}warn, ${prefix}record, ${prefix}addnote, ${prefix}viewnotes, ${prefix}clear` + '```';
+            let modcmds = '```' + `${prefix}report, ${prefix}ban, ${prefix}unban, ${prefix}kick, ${prefix}mute, ${prefix}unmute, ${prefix}warn, ${prefix}record, ${prefix}giverole, ${prefix}takerole, ${prefix}addnote, ${prefix}viewnotes, ${prefix}clear` + '```';
             let infoemoji = message.client.emojis.cache.get('729353637985517568').toString();
             let infocmds = '```' + `${prefix}help, ${prefix}serverinfo, ${prefix}userinfo, ${prefix}avatar` + '```';
             let logemoji = message.client.emojis.cache.get('729353638056689735').toString();
