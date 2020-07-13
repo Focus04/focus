@@ -31,12 +31,12 @@ module.exports = {
                     if (!message.member.hasPermission('MANAGE_ROLES'))
                         message.channel.send('You need the Manage Roles permission in order to run this command!');
                     else {
-                        let highestrole = 1000;
+                        let highestrole = -1;
                         message.member.roles.cache.map(r => {
-                            if (r.position < highestrole)
+                            if (r.position > highestrole)
                                 highestrole = r.position;
                         });
-                        if (role.position <= highestrole)
+                        if (role.position >= highestrole)
                             message.channel.send('Your roles must be higher than the role that you want to give. In case they are, make sure that my role is higher than the role of the member you want to give a role to!');
                         else {
                             member.roles.add(role);
