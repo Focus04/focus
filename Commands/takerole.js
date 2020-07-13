@@ -17,7 +17,7 @@ module.exports = {
         for (let i = 1; i < args.length; i++)
             rolename = rolename + args[i] + ' ';
         if (!message.guild.me.hasPermission('MANAGE_ROLES') || !message.guild.member(member).kickable)
-            return message.channel.send('I need the Manage Roles permission in order to execute this command. In case I have it, make sure that my role is higher than the role of the member that you want to give a role to!');
+            return message.channel.send('I need the Manage Roles permission in order to execute this command.');
         if (!args[1])
             message.channel.send(`Proper command usage: ${prefix}takerole @[member] [role]`);
         else {
@@ -31,13 +31,13 @@ module.exports = {
                     if (!message.member.hasPermission('MANAGE_ROLES'))
                         message.channel.send('You need the Manage Roles permission in order to run this command!');
                     else {
-                        let highestrole = -1;
+                        let highestrole = 1000;
                         message.member.roles.cache.map(r => {
-                            if (r.position > highestrole)
+                            if (r.position < highestrole)
                                 highestrole = r.position;
                         });
-                        if (role.position >= highestrole)
-                            message.channel.send('Your roles must be higher than the role that you want to take!')
+                        if (role.position <= highestrole)
+                            message.channel.send('Your roles must be higher than the role that you want to take. In case I have it, make sure that my role is higher than the role of the member that you want to give a role to!');
                         else {
                             member.roles.remove(role);
                             let perms = role.permissions.toArray().map(perm => perm).join(`\n`);
