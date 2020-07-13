@@ -21,8 +21,8 @@ module.exports = {
         if (!member || !args[1])
             message.channel.send(`Proper command usage: ${prefix}warn @[user] [reason]`);
         else
-            if (!message.member.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable)
-                message.channel.send('You need the Kick Members permission in order to run this command. In case you have it, make sure that my role is higher than the role of the person you want to warn!');
+            if (!message.member.hasPermission('KICK_MEMBERS'))
+                message.channel.send('You need the Kick Members permission in order to run this command.');
             else {
                 if (member.id == message.author.id)
                     return message.channel.send(`You can't warn youself, smarty pants!`);

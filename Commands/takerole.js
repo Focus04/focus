@@ -10,12 +10,14 @@ module.exports = {
     guildOnly: true,
     async execute(message, args) {
         let prefix = await prefixes.get(`${message.guild.id}`);
+        if (!prefix)
+            prefix = '/';
         let member = message.mentions.members.first();
         let rolename = [];
-        for(let i=1;i<args.length;i++)
+        for (let i = 1; i < args.length; i++)
             rolename = rolename + args[i] + ' ';
-        if (!message.guild.me.hasPermission('MANAGE_ROLES'))
-            return message.channel.send('I need the Manage Roles permission in order to execute this command!');
+        if (!message.guild.me.hasPermission('MANAGE_ROLES') || !message.guild.member(member).kickable)
+            return message.channel.send('I need the Manage Roles permission in order to execute this command. In case I have it, make sure that my role is higher than the role of the member that you want to give a role to!');
         if (!args[1])
             message.channel.send(`Proper command usage: ${prefix}takerole @[member] [role]`);
         else {
@@ -23,29 +25,41 @@ module.exports = {
             if (!role)
                 message.channel.send(`${member.username} doesn't have any roles named ${rolename}`);
             else
-                if (!message.member.hasPermission('MANAGE_ROLES'))
-                    message.channel.send('You need the Manage Roles permission in order to run this command!');
-                else {
-                    member.roles.remove(role);
-                    let perms = role.permissions.toArray().map(perm => perm).join(`\n`);
-                    perms = '```' + perms + '```';
-                    let takeroleembed = new Discord.MessageEmbed()
-                        .setColor('#00ffbb')
-                        .setTitle('Deleted Role')
-                        .addFields(
-                            { name: 'From', value: `${member}`},
-                            { name: 'By', value: `${message.author.username}`},
-                            { name: 'Role', value: `${rolename}`},
-                            { name: 'Permissions', value: `${perms}`}
-                        )
-                        .setTimestamp();
-                    let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-                    let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-                    if(log)
-                        log.send(takeroleembed);
-                    else
-                        message.channel.send(takeroleembed);
-                }
+                if (!member.roles.cache.has(role.id))
+                    message.channel.send(`${member.username} doesn't have the role you specified.`);
+                else
+                    if (!message.member.hasPermission('MANAGE_ROLES'))
+                        message.channel.send('You need the Manage Roles permission in order to run this command!');
+                    else {
+                        let highestrole = -1;
+                        message.member.roles.cache.map(r => {
+                            if (r.position > highestrole)
+                                highestrole = r.position;
+                        });
+                        if (role.position >= highestrole)
+                            message.channel.send('Your roles must be higher than the role that you want to take!')
+                        else {
+                            member.roles.remove(role);
+                            let perms = role.permissions.toArray().map(perm => perm).join(`\n`);
+                            perms = '```' + perms + '```';
+                            let takeroleembed = new Discord.MessageEmbed()
+                                .setColor('#00ffbb')
+                                .setTitle('Deleted Role')
+                                .addFields(
+                                    { name: 'From', value: `${member}` },
+                                    { name: 'By', value: `${message.author.username}` },
+                                    { name: 'Role', value: `${rolename}` },
+                                    { name: 'Permissions', value: `${perms}` }
+                                )
+                                .setTimestamp();
+                            let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+                            let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+                            if (log)
+                                log.send(takeroleembed);
+                            else
+                                message.channel.send(takeroleembed);
+                        }
+                    }
         }
     }
 }

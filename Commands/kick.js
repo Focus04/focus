@@ -17,13 +17,13 @@ module.exports = {
         let reason = [];
         for (let i = 1; i < args.length; i++)
             reason = reason + args[i] + ' ';
-        if (!message.guild.me.hasPermission('KICK_MEMBERS'))
-            return message.channel.send('I require the `Kick Members` permission in order to perform this action!');
+        if (!message.guild.me.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable)
+            return message.channel.send('I require the `Kick Members` permission in order to perform this action!  In case I have them, make sure that my role is higher than the role of the person you want to kick!');
         if (!member || !args[1])
             message.channel.send(`Proper command usage: ${prefix}kick @[user] [reason]`);
         else
-            if (!message.member.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable)
-                message.channel.send(`It appears that you lack permissions to kick.  In case you have them, make sure that my role is higher than the role of the person you want to kick!`);
+            if (!message.member.hasPermission('KICK_MEMBERS'))
+                message.channel.send(`It appears that you lack permissions to kick.`);
             else {
                 if (member.id == message.author.id)
                     return message.channel.send(`I mean you could simply leave the server.`);
