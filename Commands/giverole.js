@@ -26,7 +26,7 @@ module.exports = {
                 message.channel.send(`Couldn't find any roles named ${rolename}`);
             else
                 if(member.roles.cache.has(role.id))
-                    message.channel.send(`${member.username} already has that role.`);
+                    message.channel.send(`${member.user.username} already has that role.`);
                 else{
                     let bothighestrole = -1;
                     message.guild.me.roles.cache.map(r => {

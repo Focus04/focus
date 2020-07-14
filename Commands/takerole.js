@@ -23,7 +23,7 @@ module.exports = {
         else {
             let role = member.roles.cache.find(role => role.name + ' ' === `${rolename}`);
             if (!role)
-                message.channel.send(`${member.username} doesn't have any roles named ${rolename}`);
+                message.channel.send(`${member.user.username} doesn't have any roles named ${rolename}`);
             else {
                 let bothighestrole = -1;
                 message.guild.me.roles.cache.map(r => {
