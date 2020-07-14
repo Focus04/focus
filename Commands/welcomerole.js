@@ -19,13 +19,30 @@ module.exports = {
             let welcomerole = message.guild.roles.cache.find(role => role.name === `${rolename}`);
             if (!welcomerole)
                 message.channel.send(`Couldn't find any roles named "${rolename}"`);
-            else
-                if (!message.member.hasPermission('MANAGE_ROLES'))
-                    message.channel.send('You lack permissions to run this command!');
+            else {
+                let bothighestrole = -1;
+                message.guild.me.roles.cache.map(r => {
+                    if (r.position > bothighestrole)
+                        bothighestrole = r.position;
+                })
+                if (role.position >= bothighestrole)
+                    return message.channel.send('My roles must be higher than the role that you want to give!');
+                let highestrole = -1;
+                message.member.roles.cache.map(r => {
+                    if (r.position > highestrole)
+                        highestrole = r.position;
+                });
+                if (role.position >= highestrole)
+                    message.channel.send('Your roles must be higher than the role that you want to give. In case they are, make sure that my role is higher than the role of the member you want to give a role to!');
                 else {
-                    await welcomeroles.set(`welcomerole_${message.guild.id}`, rolename);
-                    message.channel.send(`Welcome role successfully changed to ${rolename}`);
+                    if (!message.member.hasPermission('MANAGE_ROLES'))
+                        message.channel.send('You lack permissions to run this command!');
+                    else {
+                        await welcomeroles.set(`welcomerole_${message.guild.id}`, rolename);
+                        message.channel.send(`Welcome role successfully changed to ${rolename}`);
                 }
+                }
+            }
         }
     }
 }
