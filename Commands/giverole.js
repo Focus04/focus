@@ -16,8 +16,8 @@ module.exports = {
         let rolename = [];
         for (let i = 1; i < args.length; i++)
             rolename = rolename + args[i] + ' ';
-        if (!message.guild.me.hasPermission('MANAGE_ROLES') || !message.guild.member(member).kickable)
-            return message.channel.send('I need the Manage Roles permission in order to execute this command.  In case I have it, make sure that my role is higher than the role of the member you want to give a role to!');
+        if (!message.guild.me.hasPermission('MANAGE_ROLES'))
+            return message.channel.send('I need the Manage Roles permission in order to execute this command.');
         if (!args[1])
             message.channel.send(`Proper command usage: ${prefix}giverole @[member] [role]`);
         else {
@@ -27,9 +27,16 @@ module.exports = {
             else
                 if(member.roles.cache.has(role.id))
                     message.channel.send(`${member.username} already has that role.`);
-                else
-                    if (!message.member.hasPermission('MANAGE_ROLES'))
-                        message.channel.send('You need the Manage Roles permission in order to run this command!');
+                else{
+                    let bothighestrole = -1;
+                    message.guild.me.roles.cache.map(r => {
+                        if (r.position > bothighestrole)
+                            bothighestrole = r.position;
+                    })
+                    if (role.position >= bothighestrole)
+                        return message.channel.send('My roles must be higher than the role that you want to give!');
+                    if (!message.member.hasPermission('MANAGE_ROLES') || !message.guild.member(member).kickable)
+                        message.channel.send('You need the Manage Roles permission in order to run this command. In case you have it, make sure that my role is higher than the role of the member you want to give a role to!');
                     else {
                         let highestrole = -1;
                         message.member.roles.cache.map(r => {
@@ -60,6 +67,7 @@ module.exports = {
                                 message.channel.send(giveroleembed);
                         }
                     }
+                }
         }
     }
 }

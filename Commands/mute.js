@@ -20,15 +20,15 @@ module.exports = {
         let reason = [];
         let mins = args[1];
         let mutedrole = message.guild.roles.cache.find(r => r.name === 'Muted Member');
-        if (!message.guild.me.hasPermission('MANAGE_ROLES') || !message.guild.member(member).kickable)
-            return message.channel.send('I require the `Manage Roles` permission in order to perform this action.  In case I have it, make sure that my role is higher than the role of the person you want to mute!');
+        if (!message.guild.me.hasPermission('MANAGE_ROLES'))
+            return message.channel.send('I require the `Manage Roles` permission in order to perform this action.');
         for (let i = 2; i < args.length; i++)
             reason = reason + args[i] + ' ';
         if (!member || isNaN(mins) || !args[2])
             message.channel.send(`Proper command usage: ${prefix}mute @[user] [minutes] [reason]`);
         else
-            if (!message.member.hasPermission('KICK_MEMBERS'))
-                message.channel.send(`You need the Kick Members permission in order to run this command.`);
+            if (!message.member.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable)
+                message.channel.send(`You need the Kick Members permission in order to run this command.  In case you have it, make sure that my role is higher than the role of the person you want to mute!`);
             else {
                 if (member.id == message.author.id)
                     return message.channel.send(`You can't mute youself, smarty pants!`);
