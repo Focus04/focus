@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const ms = require('ms');
 const database = require('../database.json');
 const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
@@ -63,7 +62,6 @@ module.exports = {
         else {
             for (let i = 2; i < args.length; i++)
                 reason = reason + args[i] + ' ';
-            days = days + ' minutes';
             if (!member || !args[2])
                 message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) [reason]`);
             else
@@ -85,9 +83,9 @@ module.exports = {
                             { name: `Defendant's ID(required for the early unbanning process):`, value: `${member.id}` },
                             { name: `Issued by:`, value: `${author}` },
                             { name: `Reason:`, value: `${reason}` },
-                            { name: `Duration:`, value: `${days}` },
+                            { name: `Duration:`, value: `${days} days` },
                         )
-                        .setFooter(`You can use ${prefix}unban to unban ${member.username} earlier than ${days}.`)
+                        .setFooter(`You can use ${prefix}unban to unban ${member.username} earlier than ${days} days.`)
                         .setTimestamp();
                     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
                     let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
@@ -95,7 +93,7 @@ module.exports = {
                         await message.channel.send(banembed2);
                     else
                         await log.send(banembed2);
-                    await member.send(`${author} has banned you from ${message.guild.name} for ${reason}. Duration: ${days}.`);
+                    await member.send(`${author} has banned you from ${message.guild.name} for ${reason}. Duration: ${days} days.`);
                     await bns.set(`bans_${member.id}_${message.guild.id}`, bans);
                     message.guild.member(member).ban();
                     setTimeout(function () {
@@ -108,7 +106,7 @@ module.exports = {
                                 log.send(`${member} has been unbanned.`);
                             user.send(`You have been unbanned from ${message.guild.name}.`);
                         }
-                    }, ms(days))
+                    }, days * 86400000)
                 }
         }
     }

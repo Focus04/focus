@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const ms = require('ms');
 const database = require('../database.json');
 const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
@@ -32,7 +31,6 @@ module.exports = {
             else {
                 if (member.id == message.author.id)
                     return message.channel.send(`You can't mute youself, smarty pants!`);
-                mins = mins + ' minutes';
                 let mutes = await mts.get(`mutes_${member.id}_${message.guild.id}`);
                 if (!mutes)
                     mutes = 1;
@@ -67,9 +65,9 @@ module.exports = {
                             { name: `Defendant's name:`, value: `${member}` },
                             { name: `Issued by:`, value: `${author}` },
                             { name: `Reason:`, value: `${reason}` },
-                            { name: `Duration:`, value: `${mins}` },
+                            { name: `Duration:`, value: `${mins} minutes` },
                         )
-                        .setFooter(`You can use ${prefix}unmute to unmute the user earlier than ${mins}.`)
+                        .setFooter(`You can use ${prefix}unmute to unmute the user earlier than ${mins} minutes.`)
                         .setTimestamp();
                     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
                     let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
@@ -88,7 +86,7 @@ module.exports = {
                                 log.send(`${member} has been unmuted.`);
                             member.send(`You have been unmuted from ${message.guild.name}.`);
                         }
-                    }, ms(mins));
+                    }, mins * 60000);
                 }
             }
     }
