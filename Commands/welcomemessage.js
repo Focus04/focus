@@ -25,7 +25,7 @@ module.exports = {
             if (!welcomechannel)
                 message.channel.send(`You need to set a channel for welcome messages to be sent in. Use ${prefix}setwelcomechannel to setup one.`);
             else {
-                message.channel.send('Input a message. `[user]` will be replaced with a username.');
+                await message.channel.send('Input a message. `[user]` will be replaced with a username.');
                 client.on('message', async msg => {
                     if(msg.author.id == author) {
                         let welcomemsg = msg.content;
