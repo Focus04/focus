@@ -16,7 +16,6 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        let author = message.author.id;
         if (!message.member.hasPermission('MANAGE_GUILD'))
             message.channel.send('You require the Manage Server permission in order to run this command.');
         else {
@@ -25,14 +24,14 @@ module.exports = {
             if (!welcomechannel)
                 message.channel.send(`You need to set a channel for welcome messages to be sent in. Use ${prefix}setwelcomechannel to setup one.`);
             else {
-                message.channel.send('Input a message. `[user]` will be replaced with a username.');
+                await message.channel.send('Input a message. `[user]` will be replaced with a username.');
                 client.on('message', async msg => {
-                    if (msg.author.id == author) {
+                    if (msg.author.id == message.author.id) {
                         await welcomemessages.set(`welcomemessage_${msg.guild.id}`, msg.content);
                         await togglewelcomemsg.set(`togglewelcomemsg_${msg.guild.id}`, 1);
-                        let welcomemsg = '`' + msg.content + '`';
                         let logchname = await logchannels.get(`logchannel_${msg.guild.id}`);
-                        let log = msg.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+                        let log = await msg.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+                        let welcomemsg = '`' + msg.content + '`';
                         if (!log)
                             msg.channel.send(`Welcome message successfully changed to ${welcomemsg}`);
                         else
