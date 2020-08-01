@@ -4,6 +4,7 @@ const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const leavechannels = new Keyv(database.leavechannels);
 const leavemessages = new Keyv(database.leavemessages);
+const logchannels = new Keyv(database.logchannels);
 const toggleleavemsg = new Keyv(database.toggleleavemsg);
 module.exports = {
     name: 'leavemessage',
@@ -18,7 +19,7 @@ module.exports = {
         for (let i = 0; i < args.length; i++)
             msg = msg + args[i] + ' ';
         if(!args[0])
-            message.channel.send(`Proper command usage: ${prefix}leavemessage [message]`);
+            message.channel.send(`Proper command usage: ${prefix}leavemessage [message]. Use [user] to be replaced with a username.`);
         else
             if (!message.member.hasPermission('MANAGE_GUILD'))
                 message.channel.send('You require the Manage Server permission in order to run this command.');
@@ -30,7 +31,12 @@ module.exports = {
                 else {
                     await leavemessages.set(`leavemessage_${message.guild.id}`, msg);
                     await toggleleavemsg.set(`toggleleavemsg_${message.guild.id}`, 1);
-                    message.channel.send(`Leave message set to ${msg}.`);
+                    let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+                    let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+                    if(!log)
+                        message.channel.send(`Leave message successfully changed to ${'`' + msg + '`'}`);
+                    else
+                        log.send(`Leave message successfully changed to ${'`' + msg + '`'}`);
                 }
             }
     }

@@ -34,7 +34,7 @@ client.on('guildMemberAdd', async member => {
     let dm = await welcomedms.get(`welcomedm_${member.guild.id}`);
     let dmstate = await togglewelcomedm.get(`togglewelcomedm_${member.guild.id}`) || 1;
     if(dm && dmstate == 1)
-        member.send(dm);
+        member.send(dm.replace('[user]',`${member}`));
     let welcomerolename = await welcomeroles.get(`welcomerole_${member.guild.id}`);
     let welcomerole = member.guild.roles.cache.find(role => role.name === `${welcomerolename}`);
     if(welcomerole)
@@ -60,7 +60,7 @@ client.on('guildMemberRemove', async member => {
         if (!leavemessage)
             msg = `${member.user.username} has parted ways with us...`;
         else
-            msg = leavemessage;
+            msg = leavemessage.replace('[user]', `${member.user.username}`);
         leave.send(msg);
     }
 })
