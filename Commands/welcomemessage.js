@@ -28,10 +28,9 @@ module.exports = {
                 await message.channel.send('Input a message. `[user]` will be replaced with a username.');
                 client.on('message', async msg => {
                     if(msg.author.id == author) {
-                        let welcomemsg = msg.content;
-                        await welcomemessages.set(`welcomemessage_${msg.guild.id}`, welcomemsg);
+                        await welcomemessages.set(`welcomemessage_${msg.guild.id}`, msg.content);
                         await togglewelcomemsg.set(`togglewelcomemsg_${msg.guild.id}`, 1);
-                        welcomemsg = '`' + welcomemsg + '`';
+                        let welcomemsg = '`' + msg.content + '`';
                         let logchname = await logchannels.get(`logchannel_${msg.guild.id}`);
                         let log = msg.guild.channels.cache.find(logchname);
                         if(!log)
