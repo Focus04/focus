@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const client = new Discord.Client();
 const database = require('../database.json');
 const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
@@ -25,7 +26,7 @@ module.exports = {
                 message.channel.send(`You need to set a channel for welcome messages to be sent in. Use ${prefix}setwelcomechannel to setup one.`);
             else {
                 message.channel.send('Input a message. `[user]` will be replaced with a username.');
-                message.client.on('message', async msg => {
+                client.on('message', async msg => {
                     if(msg.author.id == author) {
                         let welcomemsg = msg.content
                         await welcomemessages.set(`welcomemessage_${msg.guild.id}`, welcomemsg);
