@@ -46,7 +46,7 @@ client.on('guildMemberAdd', async member => {
         if (!welcomemessage)
             msg = `Wish ${member} a pleasant stay!`;
         else
-            msg = `${welcomemessage} ${member}`;
+            msg = welcomemessage.replace('[user]', `${member}`);
         welcome.send(msg);
     }
 })
@@ -60,7 +60,7 @@ client.on('guildMemberRemove', async member => {
         if (!leavemessage)
             msg = `${member.user.username} has parted ways with us...`;
         else
-            msg = `${leavemessage} ${member.user.username}`;
+            msg = leavemessage;
         leave.send(msg);
     }
 })
