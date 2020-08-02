@@ -32,7 +32,7 @@ module.exports = {
                     if (r.position > highestrole)
                         highestrole = r.position;
                 });
-                if (role.position >= highestrole)
+                if (welcomerole.position >= highestrole)
                     message.channel.send('Your roles must be higher than the role that you want to give. In case they are, make sure that my role is higher than the role of the member you want to give a role to!');
                 else {
                     if (!message.member.hasPermission('MANAGE_ROLES'))
