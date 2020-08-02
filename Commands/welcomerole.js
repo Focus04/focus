@@ -25,7 +25,7 @@ module.exports = {
                     if (r.position > bothighestrole)
                         bothighestrole = r.position;
                 })
-                if (role.position >= bothighestrole)
+                if (welcomerole.position >= bothighestrole)
                     return message.channel.send('My roles must be higher than the role that you want to give!');
                 let highestrole = -1;
                 message.member.roles.cache.map(r => {
