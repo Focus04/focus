@@ -3,6 +3,7 @@ const database = require('../database.json');
 const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const welcomeroles = new Keyv(database.welcomeroles);
+const logchannels = new Keyv(database.logchannels);
 module.exports = {
     name: 'welcomerole',
     description: `Sets a role to be assigned to new users when they join the server.`,
@@ -39,7 +40,12 @@ module.exports = {
                         message.channel.send('You lack permissions to run this command!');
                     else {
                         await welcomeroles.set(`welcomerole_${message.guild.id}`, rolename);
-                        message.channel.send(`Welcome role successfully changed to ${rolename}`);
+                        let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+                        let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+                        if(!log)
+                            message.channel.send(`Welcome role successfully changed to ${'`' + rolename + '`'}`);
+                        else
+                            log.send(`Welcome role successfully changed to ${'`' + rolename + '`'}`);
                 }
                 }
             }
