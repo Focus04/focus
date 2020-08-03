@@ -32,8 +32,7 @@ module.exports = {
                 else {
                     if (member.id == message.author.id)
                         return message.channel.send(`You can't ban youself, smarty pants!`);
-                    let banneduser = [member.user.username, member.user.id];
-                    await bannedusers.set(`${message.guild.id}`, banneduser);
+                    await bannedusers.set(`${message.guild.id}_${member.user.username}`, member.user.id);
                     let bans = await bns.get(`bans_${member.id}_${message.guild.id}`);
                     if (!bans)
                         bans = 1;
