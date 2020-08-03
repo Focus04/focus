@@ -98,7 +98,7 @@ module.exports = {
                     await member.send(`${author} has banned you from ${message.guild.name} for ${reason}. Duration: ${days} days.`);
                     await bns.set(`bans_${member.id}_${message.guild.id}`, bans);
                     message.guild.member(member).ban();
-                    setTimeout(function () {
+                    setTimeout(async function () {
                         let baninfo = message.guild.fetchBan(user);
                         if (baninfo) {
                             await bannedusers.delete(`${message.guild.id}_${member.user.username}`);
