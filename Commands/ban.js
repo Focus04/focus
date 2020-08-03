@@ -4,6 +4,7 @@ const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const bns = new Keyv(database.bns);
 const logchannels = new Keyv(database.logchannels);
+const bannedusers = new Keyv(database.bannedusers);
 module.exports = {
     name: 'ban',
     description: `Restricts a user's access to the server.`,
@@ -31,6 +32,8 @@ module.exports = {
                 else {
                     if (member.id == message.author.id)
                         return message.channel.send(`You can't ban youself, smarty pants!`);
+                    let banneduser = [member.user.username, member.user.id];
+                    await bannedusers.set(`${message.guild.id}`, banneduser);
                     let bans = await bns.get(`bans_${member.id}_${message.guild.id}`);
                     if (!bans)
                         bans = 1;
@@ -41,12 +44,11 @@ module.exports = {
                         .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Ban Information`)
                         .addFields(
                             { name: `Defendant's name:`, value: `${member}` },
-                            { name: `Defendant's ID(required for the early unbanning process):`, value: `${member.id}` },
                             { name: `Issued by:`, value: `${author}` },
                             { name: `Reason:`, value: `${reason}` },
                             { name: `Duration:`, value: `Permanent` },
                         )
-                        .setFooter(`You can use ${prefix}unban to unban ${member} earlier.`)
+                        .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier.`)
                         .setTimestamp();
                     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
                     let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
@@ -70,6 +72,7 @@ module.exports = {
                 else {
                     if (member.id == message.author.id)
                         return message.channel.send(`You can't ban youself, smarty pants!`);
+                    await bannedusers.set(`${message.guild.id}_${member.user.username}`, member.user.id);
                     let bans = await bns.get(`bans_${member.id}_${message.guild.id}`);
                     if (!bans)
                         bans = 1;
@@ -80,12 +83,11 @@ module.exports = {
                         .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Ban Information`)
                         .addFields(
                             { name: `Defendant's name:`, value: `${member}` },
-                            { name: `Defendant's ID(required for the early unbanning process):`, value: `${member.id}` },
                             { name: `Issued by:`, value: `${author}` },
                             { name: `Reason:`, value: `${reason}` },
                             { name: `Duration:`, value: `${days} days` },
                         )
-                        .setFooter(`You can use ${prefix}unban to unban ${member.username} earlier than ${days} days.`)
+                        .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier than ${days} days.`)
                         .setTimestamp();
                     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
                     let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
@@ -99,6 +101,7 @@ module.exports = {
                     setTimeout(function () {
                         let baninfo = message.guild.fetchBan(user);
                         if (baninfo) {
+                            await bannedusers.delete(`${message.guild.id}_${member.user.username}`);
                             message.guild.members.unban(member.id);
                             if (!log)
                                 message.channel.send(`${member} has been unbanned.`);
