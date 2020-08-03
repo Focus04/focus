@@ -38,7 +38,7 @@ module.exports = {
                         bans = bans + 1;
                     const banembed1 = new Discord.MessageEmbed()
                         .setColor('#00ffbb')
-                        .setTitle('Ban Information')
+                        .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Ban Information`)
                         .addFields(
                             { name: `Defendant's name:`, value: `${member}` },
                             { name: `Defendant's ID(required for the early unbanning process):`, value: `${member.id}` },
@@ -77,7 +77,7 @@ module.exports = {
                         bans = bans + 1;
                     const banembed2 = new Discord.MessageEmbed()
                         .setColor('#00ffbb')
-                        .setTitle('Ban Information')
+                        .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Ban Information`)
                         .addFields(
                             { name: `Defendant's name:`, value: `${member}` },
                             { name: `Defendant's ID(required for the early unbanning process):`, value: `${member.id}` },

@@ -13,29 +13,17 @@ module.exports = {
         if (!prefix)
             prefix = '/';
         if (!args.length) {
-            let modemoji = message.client.emojis.cache.get('729353638132318318').toString();
-            let modcmds = '```' + `${prefix}report, ${prefix}ban, ${prefix}unban, ${prefix}kick, ${prefix}mute, ${prefix}unmute, ${prefix}warn, ${prefix}record, ${prefix}giverole, ${prefix}takerole, ${prefix}addnote, ${prefix}viewnotes, ${prefix}clear` + '```';
-            let infoemoji = message.client.emojis.cache.get('729353637985517568').toString();
-            let infocmds = '```' + `${prefix}help, ${prefix}serverinfo, ${prefix}userinfo, ${prefix}avatar` + '```';
-            let logemoji = message.client.emojis.cache.get('729353638056689735').toString();
-            let logcmds = '```' + `${prefix}setlogschanel, ${prefix}togglemsglogs` + '```';
-            let welcomeemoji = message.client.emojis.cache.get('729353638211878923').toString();
-            let welcomecmds = '```' + `${prefix}setwelcomechannel, ${prefix}welcomerole, ${prefix}welcomemessage, ${prefix}togglewelcomemsg, ${prefix}welcomedm, ${prefix}togglewelcomedm, ${prefix}setleavechannel, ${prefix}leavemessage, ${prefix}toggleleavemsg` + '```';
-            let funemoji = message.client.emojis.cache.get('729355859552895026').toString();
-            let funcmds = '```' + `${prefix}weather, ${prefix}define, ${prefix}dogfact, ${prefix}catfact, ${prefix}nasanews` + '```';
-            let debugemoji = message.client.emojis.cache.get('729353638736166932').toString();
-            let debugcmds = '```' + `${prefix}bugreport, ${prefix}setprefix, ${prefix}ping, ${prefix}invitelink, ${prefix}discordserver` + '```';
             const helpembed = new Discord.MessageEmbed()
                 .setColor('#00ffbb')
                 .setTitle('Commands')
                 .setDescription(`Pro tip: Type "${prefix}help [command]" for more detailed information about a specific command.`)
                 .addFields(
-                    { name: `${modemoji} Staff Commands`, value: `${modcmds}`, inline: true },
-                    { name: `${infoemoji} Info Commands`, value: `${infocmds}`, inline: true },
-                    { name: `${logemoji} Logging Commands`, value: `${logcmds}`, inline: true },
-                    { name: `${welcomeemoji} Welcome Comamnds`, value: `${welcomecmds}`, inline: true },
-                    { name: `${funemoji} Fun Commands`, value: `${funcmds}`, inline: true },
-                    { name: `${debugemoji} Debug Commands`, value: `${debugcmds}`, inline: true },
+                    { name: `${message.client.emojis.cache.get('729353638132318318').toString()} Staff Commands`, value: `${'```' + `${prefix}report, ${prefix}ban, ${prefix}unban, ${prefix}kick, ${prefix}mute, ${prefix}unmute, ${prefix}warn, ${prefix}record, ${prefix}giverole, ${prefix}takerole, ${prefix}addnote, ${prefix}viewnotes, ${prefix}clear` + '```'}`, inline: true },
+                    { name: `${message.client.emojis.cache.get('729353637985517568').toString()} Info Commands`, value: `${'```' + `${prefix}help, ${prefix}serverinfo, ${prefix}userinfo, ${prefix}avatar` + '```'}`, inline: true },
+                    { name: `${message.client.emojis.cache.get('729353638056689735').toString()} Logging Commands`, value: `${'```' + `${prefix}setlogschanel, ${prefix}togglemsglogs` + '```'}`, inline: true },
+                    { name: `${message.client.emojis.cache.get('729353638211878923').toString()} Welcome Comamnds`, value: `${'```' + `${prefix}setwelcomechannel, ${prefix}welcomerole, ${prefix}welcomemessage, ${prefix}togglewelcomemsg, ${prefix}welcomedm, ${prefix}togglewelcomedm, ${prefix}setleavechannel, ${prefix}leavemessage, ${prefix}toggleleavemsg` + '```'}`, inline: true },
+                    { name: `${message.client.emojis.cache.get('729355859552895026').toString()} Fun Commands`, value: `${'```' + `${prefix}weather, ${prefix}define, ${prefix}dogfact, ${prefix}catfact, ${prefix}nasanews` + '```'}`, inline: true },
+                    { name: `${message.client.emojis.cache.get('729353638736166932').toString()} Debug Commands`, value: `${'```' + `${prefix}bugreport, ${prefix}setprefix, ${prefix}ping, ${prefix}invitelink, ${prefix}discordserver` + '```'}`, inline: true },
                     { name: '`Useful Links`', value: '[Support Server](https://discord.gg/YvN7jUD), [Add me on your server](https://discordapp.com/oauth2/authorize?client_id=723094801175806024&scope=bot&permissions=268561494)' }
                 )
                 .setTimestamp();
