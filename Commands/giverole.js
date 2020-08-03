@@ -51,7 +51,7 @@ module.exports = {
                             perms = '```' + perms + '```';
                             let giveroleembed = new Discord.MessageEmbed()
                                 .setColor('#00ffbb')
-                                .setTitle('Given Role')
+                                .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Given Role`)
                                 .addFields(
                                     { name: 'To', value: `${member}` },
                                     { name: 'By', value: `${message.author.username}` },

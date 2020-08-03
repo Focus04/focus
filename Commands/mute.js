@@ -60,7 +60,7 @@ module.exports = {
                 else {
                     const muteembed = new Discord.MessageEmbed()
                         .setColor('#00ffbb')
-                        .setTitle('Mute Information')
+                        .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Mute Information`)
                         .addFields(
                             { name: `Defendant's name:`, value: `${member}` },
                             { name: `Issued by:`, value: `${author}` },

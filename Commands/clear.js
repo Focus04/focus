@@ -23,7 +23,7 @@ module.exports = {
                 });
                 let clearembed = new Discord.MessageEmbed()
                     .setColor('#00ffbb')
-                    .setTitle('Cleared Messages')
+                    .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Cleared Messages`)
                     .addFields(
                         { name: 'Cleared by:', value: `${message.author.username}` },
                         { name: 'Amount of Messages Deleted:', value: `${amount}` },

@@ -33,7 +33,7 @@ module.exports = {
                     warns = warns + 1;
                 const warnembed = new Discord.MessageEmbed()
                     .setColor('#00ffbb')
-                    .setTitle('Warning Information')
+                    .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Warn Information`)
                     .addFields(
                         { name: `Defendant's name:`, value: `${member}` },
                         { name: `Issued by:`, value: `${author}` },

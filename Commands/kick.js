@@ -35,7 +35,7 @@ module.exports = {
                     kicks = kicks + 1;
                 const kickembed = new Discord.MessageEmbed()
                     .setColor('#00ffbb')
-                    .setTitle('Kick Information')
+                    .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Kick Information`)
                     .addFields(
                         { name: `Defendant's name:`, value: `${member}` },
                         { name: `Issued by:`, value: `${author}` },

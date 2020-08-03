@@ -28,7 +28,7 @@ module.exports = {
             else {
                 let reportembed = new Discord.MessageEmbed()
                     .setColor('#00ffbb')
-                    .setTitle('Report')
+                    .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} New Report`)
                     .addFields(
                         { name: 'Submitted by:', value: `${message.author.username}` },
                         { name: 'Defendant:', value: `${member}` },

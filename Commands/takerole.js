@@ -48,7 +48,7 @@ module.exports = {
                         perms = '```' + perms + '```';
                         let takeroleembed = new Discord.MessageEmbed()
                             .setColor('#00ffbb')
-                            .setTitle('Deleted Role')
+                            .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Deleted Role`)
                             .addFields(
                                 { name: 'From', value: `${member}` },
                                 { name: 'By', value: `${message.author.username}` },
