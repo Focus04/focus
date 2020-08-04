@@ -25,7 +25,8 @@ module.exports = {
             if (!message.member.hasPermission('KICK_MEMBERS'))
                 message.channel.send('You need the Kick Members permission in order to run this command.');
             else {
-                let note = '```' + args.shift().join() + '```';
+                args.shift();
+                let note = '```' + args.join(' ') + '```';
                 let notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
                 if (!notes)
                     notes = note + `Added by ${message.author.username} on ${moment(message.createdTimestamp).format('LT')} ${moment(message.createdTimestamp).format('LL')}\n`;
