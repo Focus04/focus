@@ -60,8 +60,6 @@ module.exports = {
                 }
         }
         else {
-            for (let i = 2; i < args.length; i++)
-                reason = reason + args[i] + ' ';
             if (!member || !args[2])
                 message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) [reason]`);
             else
