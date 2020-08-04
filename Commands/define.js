@@ -12,7 +12,6 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-            term = term + args[i] + ' ';
         if (!args[0])
             message.channel.send(`Proper command usage: ${prefix}define [term]`);
         else {
