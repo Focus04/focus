@@ -15,9 +15,6 @@ module.exports = {
             prefix = '/';
         let member = message.mentions.users.first();
         let author = message.author.username;
-        let reason = [];
-        for (i = 1; i < args.length; i++)
-            reason = reason + args[i] + ' ';
         if (!member || !args[1])
             message.channel.send(`Proper command usage: ${prefix}warn @[user] [reason]`);
         else
@@ -26,6 +23,8 @@ module.exports = {
             else {
                 if (member.id == message.author.id)
                     return message.channel.send(`You can't warn youself, smarty pants!`);
+                args.shift();
+                let reason = '`' + args.join(' ') + '`';
                 let warns = await warnings.get(`warns_${member.id}_${message.guild.id}`);
                 if (!warns)
                     warns = 1;

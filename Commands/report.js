@@ -15,9 +15,6 @@ module.exports = {
         let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`);
         if(!member)
             return message.channel.send(`Couldn't find ${args[0]}`);
-        let report = [];
-        for (let i = 1; i < args.length; i++)
-            report = report + args[i] + ' ';
         if (!args[1])
             message.channel.send(`Proper command usage: ${prefix}report [username] [offense]`);
         else {
@@ -26,6 +23,8 @@ module.exports = {
             if (!log)
                 message.channel.send(`Looks like the server doesn't have any logs channel. Please ask a staff member to setup one using ${prefix}setlogschannel`);
             else {
+                args.shift();
+                let report = args.join(' ');
                 let reportembed = new Discord.MessageEmbed()
                     .setColor('#00ffbb')
                     .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} New Report`)

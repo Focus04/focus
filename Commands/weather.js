@@ -12,12 +12,10 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        let location = [];
-        for (let i = 0; i < args.length; i++)
-            location = location + args[i] + ' ';
         if (!args[0])
             message.channel.send(`Proper command usage: ${prefix}weather [location]`);
         else {
+            let location = args.join(' ');
             let data = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=099789c7e31a10fb1c573df7bd25baf2`)
                 .then(res => res.json());
             if (data.message === 'city not found')

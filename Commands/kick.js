@@ -14,9 +14,6 @@ module.exports = {
         if (!prefix)
             prefix = '/';
         let member = message.mentions.members.first();
-        let reason = [];
-        for (let i = 1; i < args.length; i++)
-            reason = reason + args[i] + ' ';
         if (!message.guild.me.hasPermission('KICK_MEMBERS'))
             return message.channel.send('I require the `Kick Members` permission in order to perform this action.');
         if (!member || !args[1])
@@ -27,6 +24,8 @@ module.exports = {
             else {
                 if (member.id == message.author.id)
                     return message.channel.send(`I mean you could simply leave the server.`);
+                args.shift();
+                let reason = '`' + args.join(' ') + '`';
                 let author = message.author.username;
                 let kicks = await kks.get(`kicks_${member.id}_${message.guild.id}`)
                 if (!kicks)
@@ -39,7 +38,7 @@ module.exports = {
                     .addFields(
                         { name: `Defendant's name:`, value: `${member}` },
                         { name: `Issued by:`, value: `${author}` },
-                        { name: `Reason:`, value: `${reason}` },
+                        { name: `Reason:`, value: `${reason}` }
                     )
                     .setTimestamp();
                 let logchname = await logchannels.get(`logchannel_${message.guild.id}`);

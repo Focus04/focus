@@ -12,12 +12,10 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        let term = [];
-        for (i = 0; i < args.length; i++)
-            term = term + args[i] + ' ';
         if (!args[0])
             message.channel.send(`Proper command usage: ${prefix}nasanews [term]`);
         else {
+            let term = args.join(' ');
             let data = await fetch(`https://images-api.nasa.gov/search?q=${term}`)
                 .then(res => res.json());
             if (!data.collection.items[0].data[0].description)

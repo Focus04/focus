@@ -16,13 +16,10 @@ module.exports = {
         let member = message.mentions.members.first();
         let user = message.mentions.users.first();
         let author = message.author.username;
-        let reason = [];
         let mins = args[1];
         let mutedrole = message.guild.roles.cache.find(r => r.name === 'Muted Member');
         if (!message.guild.me.hasPermission('MANAGE_ROLES'))
             return message.channel.send('I require the `Manage Roles` permission in order to perform this action.');
-        for (let i = 2; i < args.length; i++)
-            reason = reason + args[i] + ' ';
         if (!member || isNaN(mins) || !args[2])
             message.channel.send(`Proper command usage: ${prefix}mute @[user] [minutes] [reason]`);
         else
@@ -31,6 +28,8 @@ module.exports = {
             else {
                 if (member.id == message.author.id)
                     return message.channel.send(`You can't mute youself, smarty pants!`);
+                args.shift().shift();
+                let reason = '`' + args.join(' ') + '`';
                 let mutes = await mts.get(`mutes_${member.id}_${message.guild.id}`);
                 if (!mutes)
                     mutes = 1;

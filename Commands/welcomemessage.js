@@ -16,9 +16,6 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        let msg = [];
-        for (let i = 0; i < args.length; i++)
-            msg = msg + args[i] + ' ';
         if(!args[0])
             message.channel.send(`Proper command usage: ${prefix}welcomemessage [message]. Use [user] to be replaced with a username.`);
         else
@@ -30,6 +27,7 @@ module.exports = {
                 if (!welcomechannel)
                     message.channel.send(`You need to set a channel for welcome messages to be sent in. Use ${prefix}setwelcomechannel to setup one.`);
                 else {
+                    let msg = args.join(' ');
                     await welcomemessages.set(`welcomemessage_${message.guild.id}`, msg);
                     await togglewelcomemsg.set(`togglewelcomemsg_${message.guild.id}`, 1);
                     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
