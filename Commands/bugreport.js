@@ -12,9 +12,7 @@ module.exports = {
         if (!prefix)
             prefix = '/';
         let author = message.author.username;
-        let bug = [];
-        for (let i = 0; i < args.length; i++)
-            bug = bug + args[i] + ' ';
+        let bug = '```' + args.join(' ') + '```';
         if (!bug)
             message.channel.send(`Proper command usage: ${prefix}bugreport [bug]. Make sure that you include all the steps needed to reproduce the bug.`);
         else {

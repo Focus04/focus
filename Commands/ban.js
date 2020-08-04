@@ -17,13 +17,10 @@ module.exports = {
         let member = message.mentions.members.first();
         let user = message.mentions.users.first();
         let author = message.author.username;
-        let reason = [];
         let days = args[1];
         if (!message.guild.me.hasPermission('BAN_MEMBERS'))
             return message.channel.send('I require the `Ban Members` permission in order to perform this action.');
         if (isNaN(days)) {
-            for (let i = 1; i < args.length; i++)
-                reason = reason + args[i] + ' ';
             if (!member || !args[1])
                 message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) [reason]`);
             else
@@ -32,6 +29,8 @@ module.exports = {
                 else {
                     if (member.id == message.author.id)
                         return message.channel.send(`You can't ban youself, smarty pants!`);
+                    args.shift();
+                    let reason = '`' + args.join(' ') + '`';
                     await bannedusers.set(`${message.guild.id}_${member.user.username}`, member.user.id);
                     let bans = await bns.get(`bans_${member.id}_${message.guild.id}`);
                     if (!bans)
@@ -71,6 +70,8 @@ module.exports = {
                 else {
                     if (member.id == message.author.id)
                         return message.channel.send(`You can't ban youself, smarty pants!`);
+                    args.shift().shift();
+                    let reason = '`' + args.join(' ') + '`';
                     await bannedusers.set(`${message.guild.id}_${member.user.username}`, member.user.id);
                     let bans = await bns.get(`bans_${member.id}_${message.guild.id}`);
                     if (!bans)
