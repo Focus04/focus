@@ -28,7 +28,8 @@ module.exports = {
             else {
                 if (member.id == message.author.id)
                     return message.channel.send(`You can't mute youself, smarty pants!`);
-                args.shift().shift();
+                args.shift();
+                args.shift();
                 let reason = '`' + args.join(' ') + '`';
                 let mutes = await mts.get(`mutes_${member.id}_${message.guild.id}`);
                 if (!mutes)
