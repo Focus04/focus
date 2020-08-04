@@ -23,7 +23,7 @@ module.exports = {
             else {
                 let synonyms = '```';
                 data[0].meta.syns[0].map(syn => {
-                    synonyms = synonyms + syn + `\n`;
+                    synonyms = synonyms + syn + ' ';
                 })
                 synonyms = synonyms + '```';
                 let defineembed = new Discord.MessageEmbed()
