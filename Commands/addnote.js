@@ -19,21 +19,18 @@ module.exports = {
             message.channel.bulkDelete(1);
             return;
         }
-        let note = [];
-        for (let i = 1; i < args.length; i++)
-            note = note + args[i] + ' ';
-        note = '```' + note + '```';
         if (!args[1])
             message.channel.send(`Proper command usage: ${prefix}addnote [username] [note]`);
         else
             if (!message.member.hasPermission('KICK_MEMBERS'))
                 message.channel.send('You need the Kick Members permission in order to run this command.');
             else {
+                let note = '```' + args.shift().join(' ') + '```';
                 let notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
                 if (!notes)
-                    notes = note + ` Added by ${message.author.username} on ${moment(message.createdTimestamp).format('LT')} ${moment(message.createdTimestamp).format('LL')}` + `\n`;
+                    notes = note + `Added by ${message.author.username} on ${moment(message.createdTimestamp).format('LT')} ${moment(message.createdTimestamp).format('LL')}\n`;
                 else
-                    notes = notes + note + `Added by ${message.author.username} on ${moment(message.createdTimestamp).format('LT')} ${moment(message.createdTimestamp).format('LL')}` + `\n`;
+                    notes = notes + note + `Added by ${message.author.username} on ${moment(message.createdTimestamp).format('LT')} ${moment(message.createdTimestamp).format('LL')}\n`;
                 await nts.set(`notes_${member.id}_${message.guild.id}`, notes);
                 await message.author.send(`Note successfully added on ${member}'s account`);
                 message.channel.bulkDelete(1);
