@@ -16,16 +16,22 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        if(!args[0])
+        if(!args[0]) {
             message.channel.send(`Proper command usage: ${prefix}welcomemessage [message]. Use [user] to be replaced with a username.`);
+            message.react('❌');
+        }
         else
-            if (!message.member.hasPermission('MANAGE_GUILD'))
+            if (!message.member.hasPermission('MANAGE_GUILD')) {
                 message.channel.send('You require the Manage Server permission in order to run this command.');
+                message.react('❌');
+            }
             else {
                 let welcomechname = await welcomechannels.get(`welcomechannel_${message.guild.id}`);
                 let welcomechannel = await message.guild.channels.cache.find(ch => ch.name === `${welcomechname}`);
-                if (!welcomechannel)
+                if (!welcomechannel) {
                     message.channel.send(`You need to set a channel for welcome messages to be sent in. Use ${prefix}setwelcomechannel to setup one.`);
+                    message.react('❌');
+                }
                 else {
                     let msg = args.join(' ');
                     await welcomemessages.set(`welcomemessage_${message.guild.id}`, msg);

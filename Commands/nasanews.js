@@ -12,14 +12,18 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        if (!args[0])
+        if (!args[0]) {
             message.channel.send(`Proper command usage: ${prefix}nasanews [term]`);
+            message.react('❌');
+        }
         else {
             let term = args.join(' ');
             let data = await fetch(`https://images-api.nasa.gov/search?q=${term}`)
                 .then(res => res.json());
-            if (!data.collection.items[0].data[0].description)
+            if (!data.collection.items[0].data[0].description) {
                 message.channel.send(`Couldn't find any results for ${term}`);
+                message.react('❌');
+            }
             else {
                 let nasasearchembed = new Discord.MessageEmbed()
                     .setColor('#00ffbb')

@@ -11,11 +11,15 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        if (!args[0])
+        if (!args[0]) {
             message.channel.send(`Proper command usage: ${prefix}setprefix [prefix]`);
+            message.react('❌');
+        }
         else
-            if (!message.member.hasPermission('MANAGE_GUILD'))
+            if (!message.member.hasPermission('MANAGE_GUILD')) {
                 message.channel.send('You need the Manage Server permission in order to run this command.');
+                message.react('❌');
+            }
             else {
                 await prefixes.set(message.guild.id, args[0]);
                 message.channel.send(`Server prefix successfully changed to ${args[0]}.`);

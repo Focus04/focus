@@ -13,34 +13,46 @@ module.exports = {
         if (!prefix)
             prefix = '/';
         let member = message.mentions.members.first();
-        if (!message.guild.me.hasPermission('MANAGE_ROLES'))
-            return message.channel.send('I need the Manage Roles permission in order to execute this command.');
-        if (!args[1])
+        if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
+            message.channel.send('I need the Manage Roles permission in order to execute this command.');
+            return message.react('❌');
+        }
+        if (!args[1]) {
             message.channel.send(`Proper command usage: ${prefix}takerole @[member] [role]`);
+            message.react('❌');
+        }
         else {
             args.shift();
             let rolename = args.join(' ');
             let role = member.roles.cache.find(role => role.name === `${rolename}`);
-            if (!role)
+            if (!role) {
                 message.channel.send(`${member.user.username} doesn't have any roles named ${rolename}`);
+                message.react('❌')
+            }
             else {
                 let bothighestrole = -1;
                 message.guild.me.roles.cache.map(r => {
                     if (r.position > bothighestrole)
                         bothighestrole = r.position;
                 })
-                if (role.position >= bothighestrole)
-                    return message.channel.send('My roles must be higher than the role that you want to take!')
-                if (!message.member.hasPermission('MANAGE_ROLES') || !message.guild.member(member).kickable)
+                if (role.position >= bothighestrole) {
+                    message.channel.send('My roles must be higher than the role that you want to take!');
+                    return message.react('❌');
+                }
+                if (!message.member.hasPermission('MANAGE_ROLES') || !message.guild.member(member).kickable) {
                     message.channel.send('You need the Manage Roles permission in order to run this command. In case you have it, make sure that my role is higher than the role of the member you want to give a role to!');
+                    message.react('❌');
+                }
                 else {
                     let highestrole = -1;
                     message.member.roles.cache.map(r => {
                         if (r.position > highestrole)
                             highestrole = r.position;
                     });
-                    if (role.position >= highestrole)
+                    if (role.position >= highestrole) {
                         message.channel.send('Your roles must be higher than the role that you want to take.');
+                        message.react('❌');
+                    }
                     else {
                         member.roles.remove(role);
                         let perms = role.permissions.toArray().map(perm => perm).join(`\n`);

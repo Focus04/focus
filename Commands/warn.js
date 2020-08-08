@@ -15,14 +15,20 @@ module.exports = {
             prefix = '/';
         let member = message.mentions.users.first();
         let author = message.author.username;
-        if (!member || !args[1])
+        if (!member || !args[1]) {
             message.channel.send(`Proper command usage: ${prefix}warn @[user] [reason]`);
+            message.react('❌');
+        }
         else
-            if (!message.member.hasPermission('KICK_MEMBERS'))
+            if (!message.member.hasPermission('KICK_MEMBERS')) {
                 message.channel.send('You need the Kick Members permission in order to run this command.');
+                message.react('❌');
+            }
             else {
-                if (member.id == message.author.id)
-                    return message.channel.send(`You can't warn youself, smarty pants!`);
+                if (member.id == message.author.id) {
+                    message.channel.send(`You can't warn youself, smarty pants!`);
+                    return message.react('❌');
+                }
                 args.shift();
                 let reason = '`' + args.join(' ') + '`';
                 let warns = await warnings.get(`warns_${member.id}_${message.guild.id}`);

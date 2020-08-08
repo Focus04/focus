@@ -14,11 +14,15 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        if(!args[0])
+        if(!args[0]) {
             message.channel.send(`Proper command usage: ${prefix}welcomedm [message]. Use [user] to be replaced with a username.`);
+            message.react('❌');
+        }
         else
-            if (!message.member.hasPermission('MANAGE_GUILD'))
+            if (!message.member.hasPermission('MANAGE_GUILD')) {
                 message.channel.send('You require the Manage Server permission in order to run this command.');
+                message.react('❌');
+            }
             else {
                 let msg = args.join(' ');
                 await welcomedms.set(`welcomedm_${message.guild.id}`, msg);

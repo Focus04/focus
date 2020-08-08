@@ -13,13 +13,19 @@ module.exports = {
         if (!prefix)
             prefix = '/';
         let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`);
-        if (!member)
-            return message.channel.send(`Couldn't find ${args[0]}.`);
-        if (!member)
+        if (!member) {
+            message.channel.send(`Couldn't find ${args[0]}.`);
+            return message.react('❌');
+        }
+        if (!member) {
             message.channel.send(`Proper command usage: ${prefix}viewnotes [username]`);
+            message.react('❌');
+        }
         else
-            if (!message.member.hasPermission('KICK_MEMBERS'))
+            if (!message.member.hasPermission('KICK_MEMBERS')) {
                 message.channel.send('You need the Kick Members permission in order to run this command.');
+                message.react('❌');
+            }
             else {
                 let notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
                 message.channel.send('Check your inbox.');

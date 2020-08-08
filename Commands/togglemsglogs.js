@@ -13,13 +13,17 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        if (!message.member.hasPermission('MANAGE_GUILD'))
+        if (!message.member.hasPermission('MANAGE_GUILD')) {
             message.channel.send('You require the Manage Server permission in order to run this command.');
+            message.react('❌');
+        }
         else {
             let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
             let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-            if (!log)
+            if (!log) {
                 message.channel.send(`You need to set a channel for logs to be sent in. Use ${prefix}setlogschannel to setup one.`);
+                message.react('❌');
+            }
             else {
                 let logs = await msglogs.get(`msglogs_${message.guild.id}`);
                 let state;

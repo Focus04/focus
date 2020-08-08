@@ -16,11 +16,15 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        if (!member)
+        if (!member) {
             message.channel.send(`Proper command usage: ${prefix}record @[user]`);
+            message.react('❌');
+        }
         else
-            if (!message.member.hasPermission('KICK MEMBERS') || !message.guild.member(member).kickable)
+            if (!message.member.hasPermission('KICK MEMBERS') || !message.guild.member(member).kickable) {
                 message.channel.send('You need the Kick Members permission in order to run this command. In case you have it, make sure that my role is higher than the role of the person you want to check the record for!');
+                message.react('❌');
+            }
             else {
                 let warns = await warnings.get(`warns_${member.id}_${message.guild.id}`);
                 let kicks = await kks.get(`kicks_${member.id}_${message.guild.id}`);

@@ -13,15 +13,21 @@ module.exports = {
         if (!prefix)
             prefix = '/';
         let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`);
-        if(!member)
-            return message.channel.send(`Couldn't find ${args[0]}`);
-        if (!args[1])
+        if(!member) {
+            message.channel.send(`Couldn't find ${args[0]}`);
+            message.react('❌');
+        }
+        if (!args[1]) {
             message.channel.send(`Proper command usage: ${prefix}report [username] [offense]`);
+            message.react('❌');
+        }
         else {
             let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
             let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-            if (!log)
+            if (!log) {
                 message.channel.send(`Looks like the server doesn't have any logs channel. Please ask a staff member to setup one using ${prefix}setlogschannel`);
+                message.react('❌');
+            }
             else {
                 args.shift();
                 let report = args.join(' ');

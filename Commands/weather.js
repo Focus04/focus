@@ -12,14 +12,18 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        if (!args[0])
+        if (!args[0]) {
             message.channel.send(`Proper command usage: ${prefix}weather [location]`);
+            message.react('❌');
+        }
         else {
             let location = args.join(' ');
             let data = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=099789c7e31a10fb1c573df7bd25baf2`)
                 .then(res => res.json());
-            if (data.message === 'city not found')
+            if (data.message === 'city not found') {
                 message.channel.send(`Couldn't find any weather results for ${location}.`);
+                message.react('❌');
+            }
             else {
                 let icon;
                 if (data.weather[0].icon === '01d')
