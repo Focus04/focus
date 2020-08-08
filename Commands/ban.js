@@ -20,18 +20,24 @@ module.exports = {
         let days = args[1];
         if (!message.guild.me.hasPermission('BAN_MEMBERS')) {
             message.channel.send('I require the `Ban Members` permission in order to perform this action.');
-            message.react(':x:');
+            message.react('❌');
             return;
         }
         if (isNaN(days)) {
-            if (!member || !args[1])
+            if (!member || !args[1]) {
                 message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) [reason]`);
+                message.react('❌');
+            }
             else
-                if (!message.member.hasPermission('BAN_MEMBERS') || !message.guild.member(member).bannable)
+                if (!message.member.hasPermission('BAN_MEMBERS') || !message.guild.member(member).bannable) {
                     message.channel.send(`It appears that you lack permissions to ban. In case you have them, make sure that my role is higher than the role of the person you want to ban!`);
+                    message.react('❌');
+                }
                 else {
-                    if (member.id == message.author.id)
-                        return message.channel.send(`You can't ban youself, smarty pants!`);
+                    if (member.id == message.author.id) {
+                        message.channel.send(`You can't ban youself, smarty pants!`);
+                        message.react('❌');
+                    }
                     args.shift();
                     let reason = '`' + args.join(' ') + '`';
                     await bannedusers.set(`${message.guild.id}_${member.user.username}`, member.user.id);
@@ -62,15 +68,22 @@ module.exports = {
                     message.guild.member(member).ban();
                 }
         }
-        else {
-            if (!member || !args[2])
+        else 
+            if (!member || !args[2]) {
                 message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) [reason]`);
-            else
-                if (!message.member.hasPermission('BAN_MEMBERS') || !message.guild.member(member).bannable)
+                message.react('❌');
+            }
+            else 
+                if (!message.member.hasPermission('BAN_MEMBERS') || !message.guild.member(member).bannable) {
                     message.channel.send(`It appears that you lack permissions to ban. In case you have them, make sure that my role is higher than the role of the person you want to ban!`);
+                    message.react('❌');
+                }
                 else {
-                    if (member.id == message.author.id)
-                        return message.channel.send(`You can't ban youself, smarty pants!`);
+                    if (member.id == message.author.id) {
+                        message.channel.send(`You can't ban youself, smarty pants!`);
+                        message.react('❌');
+                        return;
+                    }
                     args.shift();
                     args.shift();
                     let reason = '`' + args.join(' ') + '`';
@@ -113,6 +126,5 @@ module.exports = {
                         }
                     }, days * 86400000)
                 }
-        }
     }
 }
