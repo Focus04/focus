@@ -13,17 +13,21 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`);
-        if(!member){
-            await message.author.send(`Couldn't find ${args[0]}.`);
-            message.channel.bulkDelete(1);
-            return;
-        }
-        if (!args[1])
+        if (!args[1]) {
             message.channel.send(`Proper command usage: ${prefix}addnote [username] [note]`);
-        else
-            if (!message.member.hasPermission('KICK_MEMBERS'))
-                message.channel.send('You need the Kick Members permission in order to run this command.');
+            message.react('❌');
+        }
+        else {
+            let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`);
+            if(!member){
+                await message.author.send(`Couldn't find ${args[0]}.`);
+                return message.channel.bulkDelete(1);
+            }
+            if (!message.member.hasPermission('KICK_MEMBERS')) {
+                await message.channel.send('You need the Kick Members permission in order to run this command.');
+                await message.react('❌');
+                message.channel.bulkDelete(1);
+            }
             else {
                 args.shift();
                 let note = '```' + args.join(' ') + '```';
@@ -36,5 +40,6 @@ module.exports = {
                 await message.author.send(`Note successfully added on ${member.user.username}'s account`);
                 message.channel.bulkDelete(1);
             }
+        }
     }
 }
