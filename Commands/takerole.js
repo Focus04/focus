@@ -40,7 +40,7 @@ module.exports = {
                     return message.react('❌');
                 }
                 if (!message.member.hasPermission('MANAGE_ROLES') || !message.guild.member(member).kickable) {
-                    message.channel.send('You need the Manage Roles permission in order to run this command. In case you have it, make sure that my role is higher than the role of the member you want to give a role to!');
+                    message.channel.send('You need the Manage Roles permission in order to run this command. In case you have it, make sure that my role is higher than the role of the member you want to take the role from!');
                     message.react('❌');
                 }
                 else {
