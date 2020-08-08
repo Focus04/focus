@@ -18,8 +18,11 @@ module.exports = {
         let user = message.mentions.users.first();
         let author = message.author.username;
         let days = args[1];
-        if (!message.guild.me.hasPermission('BAN_MEMBERS'))
-            return message.channel.send('I require the `Ban Members` permission in order to perform this action.');
+        if (!message.guild.me.hasPermission('BAN_MEMBERS')) {
+            message.channel.send('I require the `Ban Members` permission in order to perform this action.');
+            message.react(':x:');
+            return;
+        }
         if (isNaN(days)) {
             if (!member || !args[1])
                 message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) [reason]`);
