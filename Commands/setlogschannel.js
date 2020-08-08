@@ -29,6 +29,7 @@ module.exports = {
                 }
                 else {
                     await logchannels.set(`logchannel_${message.guild.id}`, args[0]);
+                    message.react('✔️');
                     message.channel.send(`All moderation actions will be logged in ${args[0]} from now on.`);
                 }
             }

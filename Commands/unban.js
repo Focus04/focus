@@ -42,6 +42,7 @@ module.exports = {
                     })
                     if (e == 0) {
                         await bannedusers.delete(`${message.guild.id}_${args[0]}`);
+                        message.react('✔️');
                         let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
                         let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
                         if (!log)

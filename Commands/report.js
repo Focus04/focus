@@ -40,6 +40,7 @@ module.exports = {
                         { name: 'Offense', value: `${report}` }
                     )
                     .setTimestamp();
+                message.react('✔️');
                 await log.send(reportembed);
                 await message.author.send(`${member} has been successfully reported to the server's staff.`);
                 message.channel.bulkDelete(1);

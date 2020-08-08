@@ -75,6 +75,7 @@ module.exports = {
                     )
                     .setThumbnail(`${icon}.png`)
                     .setTimestamp();
+                message.react('✔️');
                 message.channel.send(weatherembed);
             }
         }

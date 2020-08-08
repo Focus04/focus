@@ -29,6 +29,7 @@ module.exports = {
                 }
                 else {
                     await welcomechannels.set(`welcomechannel_${message.guild.id}`, args[0]);
+                    message.react('✔️');
                     message.channel.send(`All newcommers will be logged in ${args[0]} from now on.`);
                 }
             }

@@ -77,6 +77,7 @@ module.exports = {
                         )
                         .setFooter(`You can use ${prefix}unmute to unmute the user earlier than ${mins} minutes.`)
                         .setTimestamp();
+                    message.react('✔️');
                     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
                     let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
                     if (!log)

@@ -36,6 +36,7 @@ module.exports = {
                     state = 'off';
                 }
                 await msglogs.set(`msglogs_${message.guild.id}`, logs);
+                message.react('✔️');
                 message.channel.send(`Message logs are now set to ${state}.`);
             }
         }

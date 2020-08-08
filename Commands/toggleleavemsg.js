@@ -36,6 +36,7 @@ module.exports = {
                     state = 'off';
                 }
                 await toggleleave.set(`toggleleavemsg_${message.guild.id}`, logs);
+                message.react('✔️');
                 message.channel.send(`Leave messages are now set to ${state}.`);
             }
         }

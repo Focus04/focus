@@ -45,21 +45,21 @@ module.exports = {
                     message.channel.send('Your roles must be higher than the role that you want to give. In case they are, make sure that my role is higher than the role of the member you want to give a role to!');
                     message.react('❌');
                 }
-                else {
+                else
                     if (!message.member.hasPermission('MANAGE_ROLES')) {
                         message.channel.send('You lack permissions to run this command!');
                         message.react('❌');
                     }
                     else {
                         await welcomeroles.set(`welcomerole_${message.guild.id}`, rolename);
+                        message.react('✔️');
                         let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
                         let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
                         if(!log)
                             message.channel.send(`Welcome role successfully changed to ${'`' + rolename + '`'}`);
                         else
                             log.send(`Welcome role successfully changed to ${'`' + rolename + '`'}`);
-                }
-                }
+                    }
             }
         }
     }

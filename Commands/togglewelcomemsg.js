@@ -36,6 +36,7 @@ module.exports = {
                     state = 'off';
                 }
                 await togglewelcome.set(`togglewelcomemsg_${message.guild.id}`, logs);
+                message.react('✔️');
                 message.channel.send(`Welcome messages are now set to ${state}.`);
             }
         }

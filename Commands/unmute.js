@@ -35,6 +35,7 @@ module.exports = {
                 }
                 else {
                     member.roles.remove(mutedrole);
+                    message.react('✔️');
                     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
                     let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
                     if (!log)

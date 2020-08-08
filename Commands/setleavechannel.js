@@ -29,6 +29,7 @@ module.exports = {
                 }
                 else {
                     await leavechannels.set(`leavechannel_${message.guild.id}`, args[0]);
+                    message.react('✔️');
                     message.channel.send(`All leaving members will be logged in ${args[0]} from now on.`);
                 }
             }

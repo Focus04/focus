@@ -27,6 +27,7 @@ module.exports = {
                 let msg = args.join(' ');
                 await welcomedms.set(`welcomedm_${message.guild.id}`, msg);
                 await togglewelcomedm.set(`togglewelcomedm_${message.guild.id}`, 1);
+                message.react('✔️');
                 let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
                 let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
                 if(!log)

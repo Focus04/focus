@@ -35,6 +35,7 @@ module.exports = {
                 else {
                     await leavemessages.set(`leavemessage_${message.guild.id}`, msg);
                     await toggleleavemsg.set(`toggleleavemsg_${message.guild.id}`, 1);
+                    message.react('✔️');
                     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
                     let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
                     if(!log)
