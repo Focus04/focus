@@ -12,8 +12,10 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        if (!args[0])
+        if (!args[0]) {
             message.channel.send(`Proper command usage: ${prefix}define [term]`);
+            message.react('❌');
+        }
         else {
             let term = args.join(' ');
             let data = await fetch(`https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${term}?key=abef1297-7c98-456d-8682-4b605eb9c29b`)

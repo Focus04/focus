@@ -14,16 +14,24 @@ module.exports = {
         if (!prefix)
             prefix = '/';
         let member = message.mentions.members.first();
-        if (!message.guild.me.hasPermission('KICK_MEMBERS'))
-            return message.channel.send('I require the `Kick Members` permission in order to perform this action.');
-        if (!member || !args[1])
+        if (!message.guild.me.hasPermission('KICK_MEMBERS')) {
+            message.channel.send('I require the `Kick Members` permission in order to perform this action.');
+            return message.react('❌');
+        }
+        if (!member || !args[1]) {
             message.channel.send(`Proper command usage: ${prefix}kick @[user] [reason]`);
+            message.react('❌');
+        }
         else
-            if (!message.member.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable)
+            if (!message.member.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable) {
                 message.channel.send(`It appears that you lack permissions to kick. In case you have them, make sure that my role is higher than the role of the person you want to kick!`);
+                message.react('❌');
+            }
             else {
-                if (member.id == message.author.id)
-                    return message.channel.send(`I mean you could simply leave the server.`);
+                if (member.id == message.author.id) {
+                    message.channel.send(`I mean you could simply leave the server.`);
+                    return message.react('❌');
+                }
                 args.shift();
                 let reason = '`' + args.join(' ') + '`';
                 let author = message.author.username;

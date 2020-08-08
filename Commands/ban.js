@@ -20,8 +20,7 @@ module.exports = {
         let days = args[1];
         if (!message.guild.me.hasPermission('BAN_MEMBERS')) {
             message.channel.send('I require the `Ban Members` permission in order to perform this action.');
-            message.react('❌');
-            return;
+            return message.react('❌');
         }
         if (isNaN(days)) {
             if (!member || !args[1]) {
@@ -36,7 +35,7 @@ module.exports = {
                 else {
                     if (member.id == message.author.id) {
                         message.channel.send(`You can't ban youself, smarty pants!`);
-                        message.react('❌');
+                        return message.react('❌');
                     }
                     args.shift();
                     let reason = '`' + args.join(' ') + '`';
@@ -81,8 +80,7 @@ module.exports = {
                 else {
                     if (member.id == message.author.id) {
                         message.channel.send(`You can't ban youself, smarty pants!`);
-                        message.react('❌');
-                        return;
+                        return message.react('❌');
                     }
                     args.shift();
                     args.shift();
