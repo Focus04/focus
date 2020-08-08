@@ -12,16 +12,16 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`);
-        if (!member) {
-            message.channel.send(`Couldn't find ${args[0]}.`);
-            return message.react('❌');
-        }
-        if (!member) {
+        if (!args[0]) {
             message.channel.send(`Proper command usage: ${prefix}viewnotes [username]`);
             message.react('❌');
         }
-        else
+        else {
+            let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`);
+            if (!member) {
+                message.channel.send(`Couldn't find ${args[0]}.`);
+                return message.react('❌');
+            }
             if (!message.member.hasPermission('KICK_MEMBERS')) {
                 message.channel.send('You need the Kick Members permission in order to run this command.');
                 message.react('❌');
@@ -40,5 +40,6 @@ module.exports = {
                     message.author.send(viewnotesembed);
                 }
             }
+        }
     }
 }

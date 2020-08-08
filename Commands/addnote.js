@@ -24,9 +24,8 @@ module.exports = {
                 return message.channel.bulkDelete(1);
             }
             if (!message.member.hasPermission('KICK_MEMBERS')) {
-                await message.channel.send('You need the Kick Members permission in order to run this command.');
-                await message.react('❌');
-                message.channel.bulkDelete(1);
+                message.channel.send('You need the Kick Members permission in order to run this command.');
+                message.react('❌');
             }
             else {
                 args.shift();
