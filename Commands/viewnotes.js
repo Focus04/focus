@@ -16,7 +16,7 @@ module.exports = {
             message.channel.send(`Proper command usage: ${prefix}viewnotes [username]`);
             return message.react('❌');
         }
-        let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`);
+        let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`)  || message.mentions.members.first();
         if (!member) {
             message.channel.send(`Couldn't find ${args[0]}.`);
             return message.react('❌');
