@@ -23,7 +23,7 @@ module.exports = {
         }
         args.shift();
         let rolename = args.join(' ');
-        let role = member.roles.cache.find(role => role.name === `${rolename}`);
+        let role = member.roles.cache.find(role => role.name.toLowerCase().startsWith(rolename));
         if (!role) {
             message.channel.send(`${member.user.username} doesn't have any roles named ${rolename}`);
             return message.react('❌')
@@ -59,7 +59,7 @@ module.exports = {
             .addFields(
                 { name: 'From', value: `${member}` },
                 { name: 'By', value: `${message.author.username}` },
-                { name: 'Role', value: `${rolename}` },
+                { name: 'Role', value: `${role.name}` },
                 { name: 'Permissions', value: `${perms}` }
             )
             .setTimestamp();

@@ -63,7 +63,7 @@ module.exports = {
             .addFields(
                 { name: 'To', value: `${member}` },
                 { name: 'By', value: `${message.author.username}` },
-                { name: 'Role', value: `${rolename}` },
+                { name: 'Role', value: `${role.name}` },
                 { name: 'Permissions', value: `${perms}` }
             )
             .setTimestamp();
