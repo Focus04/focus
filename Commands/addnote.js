@@ -35,6 +35,6 @@ module.exports = {
             notes = notes + note + `Added by ${message.author.username} on ${moment(message.createdTimestamp).format('LL')}, at ${moment(message.createdTimestamp).format('LT')} GMT\n`;
         await nts.set(`notes_${member.id}_${message.guild.id}`, notes);
         await message.author.send(`Note successfully added on ${member.user.username}'s account`);
-         message.channel.bulkDelete(1);
+        message.channel.bulkDelete(1);
     }
 }
