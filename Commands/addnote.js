@@ -17,7 +17,7 @@ module.exports = {
             message.channel.send(`Proper command usage: ${prefix}addnote [username] [note]`);
             return message.react('❌');
         }
-        let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`);
+        let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`) || args[0];
         if(!member){
             await message.author.send(`Couldn't find ${args[0]}.`);
             return message.channel.bulkDelete(1);
