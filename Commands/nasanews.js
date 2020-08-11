@@ -14,26 +14,22 @@ module.exports = {
             prefix = '/';
         if (!args[0]) {
             message.channel.send(`Proper command usage: ${prefix}nasanews [term]`);
-            message.react('❌');
+            return message.react('❌');
         }
-        else {
-            let term = args.join(' ');
-            let data = await fetch(`https://images-api.nasa.gov/search?q=${term}`)
-                .then(res => res.json());
-            if (!data.collection.items[0].data[0].description) {
-                message.channel.send(`Couldn't find any results for ${term}`);
-                message.react('❌');
-            }
-            else {
-                let nasasearchembed = new Discord.MessageEmbed()
-                    .setColor('#00ffbb')
-                    .setTitle(data.collection.items[0].data[0].title)
-                    .setDescription(data.collection.items[0].data[0].description)
-                    .setImage(data.collection.items[0].links[0].href)
-                    .setTimestamp();
-                message.react('✔️');
-                message.channel.send(nasasearchembed);
-            }
+        let term = args.join(' ');
+        let data = await fetch(`https://images-api.nasa.gov/search?q=${term}`)
+            .then(res => res.json());
+        if (!data.collection.items[0].data[0].description) {
+            message.channel.send(`Couldn't find any results for ${term}`);
+            return message.react('❌');
         }
+        let nasasearchembed = new Discord.MessageEmbed()
+            .setColor('#00ffbb')
+            .setTitle(data.collection.items[0].data[0].title)
+            .setDescription(data.collection.items[0].data[0].description)
+            .setImage(data.collection.items[0].links[0].href)
+            .setTimestamp();
+        message.react('✔️');
+        message.channel.send(nasasearchembed);
     }
 }

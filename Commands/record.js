@@ -18,38 +18,35 @@ module.exports = {
             prefix = '/';
         if (!member) {
             message.channel.send(`Proper command usage: ${prefix}record @[user]`);
-            message.react('❌');
+            return message.react('❌');
         }
-        else
-            if (!message.member.hasPermission('KICK MEMBERS') || !message.guild.member(member).kickable) {
-                message.channel.send('You need the Kick Members permission in order to run this command. In case you have it, make sure that my role is higher than the role of the person you want to check the record for!');
-                message.react('❌');
-            }
-            else {
-                let warns = await warnings.get(`warns_${member.id}_${message.guild.id}`);
-                let kicks = await kks.get(`kicks_${member.id}_${message.guild.id}`);
-                let mutes = await mts.get(`mutes_${member.id}_${message.guild.id}`);
-                let bans = await bns.get(`bans_${member.id}_${message.guild.id}`);
-                if (!warns)
-                    warns = 0;
-                if (!kicks)
-                    kicks = 0;
-                if (!mutes)
-                    mutes = 0;
-                if (!bans)
-                    bans = 0;
-                const recordembed = new Discord.MessageEmbed()
-                    .setColor('#00ffbb')
-                    .setTitle(`${member.username}'s record`)
-                    .addFields(
-                        { name: 'Times warned', value: `${warns}` },
-                        { name: 'Times kicked', value: `${kicks}` },
-                        { name: 'Times muted', value: `${mutes}` },
-                        { name: 'Times banned', value: `${bans}` }
-                    )
-                    .setTimestamp();
-                message.react('✔️');
-                message.channel.send(recordembed);
-            }
+        if (!message.member.hasPermission('KICK MEMBERS') || !message.guild.member(member).kickable) {
+            message.channel.send('You need the Kick Members permission in order to run this command. In case you have it, make sure that my role is higher than the role of the person you want to check the record for!');
+            return message.react('❌');
+        }
+        let warns = await warnings.get(`warns_${member.id}_${message.guild.id}`);
+        let kicks = await kks.get(`kicks_${member.id}_${message.guild.id}`);
+        let mutes = await mts.get(`mutes_${member.id}_${message.guild.id}`);
+        let bans = await bns.get(`bans_${member.id}_${message.guild.id}`);
+        if (!warns)
+            warns = 0;
+        if (!kicks)
+            kicks = 0;
+        if (!mutes)
+            mutes = 0;
+        if (!bans)
+            bans = 0;
+        const recordembed = new Discord.MessageEmbed()
+            .setColor('#00ffbb')
+            .setTitle(`${member.username}'s record`)
+            .addFields(
+                { name: 'Times warned', value: `${warns}` },
+                { name: 'Times kicked', value: `${kicks}` },
+                { name: 'Times muted', value: `${mutes}` },
+                { name: 'Times banned', value: `${bans}` }
+            )
+            .setTimestamp();
+        message.react('✔️');
+        message.channel.send(recordembed);
     }
 }

@@ -13,17 +13,14 @@ module.exports = {
             prefix = '/';
         if (!args[0]) {
             message.channel.send(`Proper command usage: ${prefix}setprefix [prefix]`);
-            message.react('❌');
+            return message.react('❌');
         }
-        else
-            if (!message.member.hasPermission('MANAGE_GUILD')) {
-                message.channel.send('You need the Manage Server permission in order to run this command.');
-                message.react('❌');
-            }
-            else {
-                await prefixes.set(message.guild.id, args[0]);
-                message.react('✔️');
-                message.channel.send(`Server prefix successfully changed to ${args[0]}.`);
-            }
+        if (!message.member.hasPermission('MANAGE_GUILD')) {
+            message.channel.send('You need the Manage Server permission in order to run this command.');
+            return message.react('❌');
+        }
+        await prefixes.set(message.guild.id, args[0]);
+        message.react('✔️');
+        message.channel.send(`Server prefix successfully changed to ${args[0]}.`);
     }
 }

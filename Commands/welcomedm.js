@@ -14,26 +14,23 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        if(!args[0]) {
+        if (!args[0]) {
             message.channel.send(`Proper command usage: ${prefix}welcomedm [message]. Use [user] to be replaced with a username.`);
-            message.react('❌');
+            return message.react('❌');
         }
+        if (!message.member.hasPermission('MANAGE_GUILD')) {
+            message.channel.send('You require the Manage Server permission in order to run this command.');
+            return message.react('❌');
+        }
+        let msg = args.join(' ');
+        await welcomedms.set(`welcomedm_${message.guild.id}`, msg);
+        await togglewelcomedm.set(`togglewelcomedm_${message.guild.id}`, 1);
+        message.react('✔️');
+        let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+        let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+        if (!log)
+            message.channel.send(`Welcome DM successfully changed to ${'`' + msg + '`'}`);
         else
-            if (!message.member.hasPermission('MANAGE_GUILD')) {
-                message.channel.send('You require the Manage Server permission in order to run this command.');
-                message.react('❌');
-            }
-            else {
-                let msg = args.join(' ');
-                await welcomedms.set(`welcomedm_${message.guild.id}`, msg);
-                await togglewelcomedm.set(`togglewelcomedm_${message.guild.id}`, 1);
-                message.react('✔️');
-                let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-                let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-                if(!log)
-                    message.channel.send(`Welcome DM successfully changed to ${'`' + msg + '`'}`);
-                else
-                    log.send(`Welcome DM successfully changed to ${'`' + msg + '`'}`);
-            }
+            log.send(`Welcome DM successfully changed to ${'`' + msg + '`'}`);
     }
 }

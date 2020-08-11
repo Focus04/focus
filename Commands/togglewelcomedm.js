@@ -15,30 +15,25 @@ module.exports = {
             prefix = '/';
         if (!message.member.hasPermission('MANAGE_GUILD')) {
             message.channel.send('You require the Manage Server permission in order to run this command.');
-            message.react('❌');
+            return message.react('❌');
+        }
+        let welcomedm = await welcomedms.get(`welcomedm_${message.guild.id}`);
+        if (!welcomedm) {
+            message.channel.send(`You first need to set a welcome DM. Use ${prefix}welcomedm to setup one.`);
+            return message.react('❌');
+        }
+        let logs = await togglewelcomedm.get(`togglewelcomedm_${message.guild.id}`);
+        let state;
+        if (!logs || logs == 0) {
+            logs = 1;
+            state = 'on';
         }
         else {
-            let welcomedm = await welcomedms.get(`welcomedm_${message.guild.id}`);
-            if (!welcomedm) {
-                message.channel.send(`You first need to set a welcome DM. Use ${prefix}welcomedm to setup one.`);
-                message.react('❌');
-            }
-            else {
-                let logs = await togglewelcomedm.get(`togglewelcomedm_${message.guild.id}`);
-                let state;
-                if (!logs || logs == 0) {
-                    logs = 1;
-                    state = 'on';
-                }
-                else {
-                    logs = 0;
-                    state = 'off';
-                }
-                await togglewelcomedm.set(`togglewelcomedm_${message.guild.id}`, logs);
-                message.react('✔️');
-                message.channel.send(`Welcome DMs are now set to ${state}.`);
-            }
+            logs = 0;
+            state = 'off';
         }
-
+        await togglewelcomedm.set(`togglewelcomedm_${message.guild.id}`, logs);
+        message.react('✔️');
+        message.channel.send(`Welcome DMs are now set to ${state}.`);
     }
 }

@@ -21,6 +21,7 @@ for (const file of commandFiles) {
     const command = require(`./Commands/${file}`);
     client.commands.set(command.name, command);
 }
+
 client.on('ready', () => {
     console.log('Ready!');
     client.user.setActivity('your people.', { type: 'WATCHING' });
@@ -117,4 +118,5 @@ client.on('message', async message => {
         return message.reply('Nice attempt to slide into my DMs but no thanks! ;)');
     command.execute(message, args);
 })
+
 client.login(process.env.token);

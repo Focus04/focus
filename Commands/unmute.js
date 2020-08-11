@@ -21,29 +21,24 @@ module.exports = {
         }
         if (!member) {
             message.channel.send(`Proper command usage: ${prefix}unmute @[user]`);
-            message.react('❌');
+            return message.react('❌');
         }
+        if (!message.member.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable) {
+            message.channel.send(`It appears that you lack permissions to unmute.  In case you have them, make sure that my role is higher than the role of the person you want to unmute!`);
+            return message.react('❌');
+        }
+        if (!member.roles.cache.has(mutedrole.id)) {
+            message.channel.send(`${member} isn't muted!`);
+            return message.react('❌');
+        }
+        member.roles.remove(mutedrole);
+        message.react('✔️');
+        let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+        let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+        if (!log)
+            message.channel.send(`${args[0]} has been unmuted earlier.`);
         else
-            if (!message.member.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable){
-                message.channel.send(`It appears that you lack permissions to unmute.  In case you have them, make sure that my role is higher than the role of the person you want to unmute!`);
-                message.react('❌');
-            }
-            else {
-                if (!member.roles.cache.has(mutedrole.id)) {
-                    message.channel.send(`${member} isn't muted!`);
-                    message.react('❌');
-                }
-                else {
-                    member.roles.remove(mutedrole);
-                    message.react('✔️');
-                    let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-                    let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-                    if (!log)
-                        message.channel.send(`${args[0]} has been unmuted earlier.`);
-                    else
-                        log.send(`${args[0]} has been unmuted earlier.`);
-                    member.send(`${author} unmuted you earlier from ${message.guild.name}.`);
-                }
-            }
+            log.send(`${args[0]} has been unmuted earlier.`);
+        member.send(`${author} unmuted you earlier from ${message.guild.name}.`);
     }
 }

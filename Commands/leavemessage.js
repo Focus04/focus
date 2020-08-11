@@ -15,34 +15,29 @@ module.exports = {
         let prefix = await prefixes.get(message.guild.id);
         if (!prefix)
             prefix = '/';
-        if(!args[0]) {
+        if (!args[0]) {
             message.channel.send(`Proper command usage: ${prefix}leavemessage [message]. Use [user] to be replaced with a username.`);
-            message.react('❌');
+            return message.react('❌');
         }
+        if (!message.member.hasPermission('MANAGE_GUILD')) {
+            message.channel.send('You require the Manage Server permission in order to run this command.');
+            return message.react('❌');
+        }
+        let msg = args.join(' ');
+        let leavechname = await leavechannels.get(`leavechannel_${message.guild.id}`);
+        let leavechannel = await message.guild.channels.cache.find(ch => ch.name === `${leavechname}`);
+        if (!leavechannel) {
+            message.channel.send(`You need to set a channel for leave messages to be sent in. Use ${prefix}setleavechannel to setup one.`);
+            return message.react('❌');
+        }
+        await leavemessages.set(`leavemessage_${message.guild.id}`, msg);
+        await toggleleavemsg.set(`toggleleavemsg_${message.guild.id}`, 1);
+        message.react('✔️');
+        let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+        let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+        if (!log)
+            message.channel.send(`Leave message successfully changed to ${'`' + msg + '`'}`);
         else
-            if (!message.member.hasPermission('MANAGE_GUILD')) {
-                message.channel.send('You require the Manage Server permission in order to run this command.');
-                message.react('❌');
-            }
-            else {
-                let msg = args.join(' ');
-                let leavechname = await leavechannels.get(`leavechannel_${message.guild.id}`);
-                let leavechannel = await message.guild.channels.cache.find(ch => ch.name === `${leavechname}`);
-                if (!leavechannel) {
-                    message.channel.send(`You need to set a channel for leave messages to be sent in. Use ${prefix}setleavechannel to setup one.`);
-                    message.react('❌');
-                }
-                else {
-                    await leavemessages.set(`leavemessage_${message.guild.id}`, msg);
-                    await toggleleavemsg.set(`toggleleavemsg_${message.guild.id}`, 1);
-                    message.react('✔️');
-                    let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-                    let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-                    if(!log)
-                        message.channel.send(`Leave message successfully changed to ${'`' + msg + '`'}`);
-                    else
-                        log.send(`Leave message successfully changed to ${'`' + msg + '`'}`);
-                }
-            }
+            log.send(`Leave message successfully changed to ${'`' + msg + '`'}`);
     }
 }
