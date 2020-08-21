@@ -12,8 +12,6 @@ module.exports = {
             let badges = '```' + message.author.flags.toArray().join(', ') + '```';
             if (!badges)
                 badges = 'None';
-            else
-                badges = '```' + badges + '```';
             const userinfoembed1 = new Discord.MessageEmbed()
                 .setColor('#00ffbb')
                 .setTitle('User Information')
