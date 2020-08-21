@@ -14,7 +14,7 @@ module.exports = {
             message.channel.send(avatarembed);
         }
         else
-            message.mentions.users.map(user => {
+            message.mentions.users.forEach(user => {
                 const avatarembed2 = new Discord.MessageEmbed()
                     .setColor('#00ffbb')
                     .setTimestamp()

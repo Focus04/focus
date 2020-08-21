@@ -110,8 +110,7 @@ client.on('message', async message => {
     const args = message.content
         .slice(prefix.length)
         .split(/ +/);
-    const commandname = args.shift().toLowerCase();
-    const command = client.commands.get(commandname);
+    const command = client.commands.get(args.shift().toLowerCase());
     if (!command)
         return;
     if (command.guildOnly && message.channel.type !== 'text')
