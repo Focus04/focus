@@ -22,7 +22,7 @@ module.exports = {
             return message.react('❌');
         }
         args.shift();
-        let rolename = args.join(' ');
+        let rolename = args.join(' ').toLowerCase();
         let role = message.guild.roles.cache.find(role => role.name.toLowerCase().startsWith(rolename));
         if (!role) {
             message.channel.send(`Couldn't find any roles named ${rolename}`);

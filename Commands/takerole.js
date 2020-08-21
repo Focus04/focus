@@ -22,7 +22,7 @@ module.exports = {
             return message.react('❌');
         }
         args.shift();
-        let rolename = args.join(' ');
+        let rolename = args.join(' ').toLowerCase();
         let role = member.roles.cache.find(role => role.name.toLowerCase().startsWith(rolename));
         if (!role) {
             message.channel.send(`${member.user.username} doesn't have any roles named ${rolename}`);

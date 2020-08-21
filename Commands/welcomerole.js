@@ -11,7 +11,6 @@ module.exports = {
     guildOnly: true,
     async execute(message, args) {
         let prefix = await prefixes.get(`${message.guild.id}`);
-        let rolename = args.join(' ');
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
             message.channel.send('I need the Manage Roles permission in order to execute this command!');
             return message.react('❌');
@@ -20,7 +19,8 @@ module.exports = {
             message.channel.send(`Proper command usage: ${prefix}welcomerole [role]`);
             return message.react('❌');
         }
-        let welcomerole = message.guild.roles.cache.find(role => role.name.toLowerCase().startsWith(rolename));
+        let welcomerolename = args.join(' ').toLowerCase();
+        let welcomerole = message.guild.roles.cache.find(role => role.name.toLowerCase().startsWith(welcomerolename));
         if (!welcomerole) {
             message.channel.send(`Couldn't find any roles named "${rolename}"`);
             return message.react('❌');
