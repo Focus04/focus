@@ -17,10 +17,10 @@ const toggleleave = new Keyv(database.toggleleavemsg);
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./Commands');
-for (const file of commandFiles) {
+commandFiles.forEach (file => {
     const command = require(`./Commands/${file}`);
     client.commands.set(command.name, command);
-}
+});
 
 client.on('ready', () => {
     console.log('Ready!');
