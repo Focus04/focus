@@ -18,8 +18,8 @@ module.exports = {
         let author = message.author.username;
         let mins = args[1];
         let mutedrole = message.guild.roles.cache.find(r => r.name === 'Muted Member');
-        if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
-            message.channel.send('I require the `Manage Roles` permission in order to perform this action.');
+        if (!message.guild.me.hasPermission('MANAGE_ROLES') || !message.guild.me.hasPermission('MANAGE_CHANNELS')) {
+            message.channel.send('I require the `Manage Roles` and `Manage Channels` permissions in order to perform this action.');
             return message.react('❌');
         }
         if (!member || isNaN(mins) || !args[2]) {
