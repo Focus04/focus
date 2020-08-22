@@ -6,6 +6,7 @@ const warnings = new Keyv(database.warnings);
 const bns = new Keyv(database.bns);
 const kks = new Keyv(database.kks);
 const mts = new Keyv(database.mts);
+
 module.exports = {
     name: 'record',
     description: `Displays how many punishments a user has ever received on the server.`,

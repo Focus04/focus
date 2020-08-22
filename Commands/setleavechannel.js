@@ -3,6 +3,7 @@ const database = require('../database.json');
 const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const leavechannels = new Keyv(database.leavechannels);
+
 module.exports = {
     name: 'setleavechannel',
     description: `Sets a custom channel where leaving members will be logged.`,

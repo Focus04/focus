@@ -3,6 +3,7 @@ const fs = require('fs');
 const database = require('../database.json');
 const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
+
 module.exports = {
     name: 'help',
     description: 'Displays a list of all available commands along with their usage.',

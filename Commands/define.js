@@ -3,6 +3,7 @@ const database = require('../database.json');
 const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const fetch = require('node-fetch');
+
 module.exports = {
     name: 'define',
     description: `Looks up a term in the dictionary.`,

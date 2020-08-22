@@ -4,6 +4,7 @@ const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const kks = new Keyv(database.kks);
 const logchannels = new Keyv(database.logchannels);
+
 module.exports = {
     name: 'kick',
     description: `Kicks a certain user out of the server.`,

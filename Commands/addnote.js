@@ -4,6 +4,7 @@ const database = require('../database.json');
 const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const nts = new Keyv(database.notes);
+
 module.exports = {
     name: 'addnote',
     description: `Adds an admin note on someone's account. All staff members will be able to view this note.`,

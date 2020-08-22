@@ -15,6 +15,7 @@ const leavechannels = new Keyv(database.leavechannels);
 const leavemessages = new Keyv(database.leavemessages);
 const toggleleave = new Keyv(database.toggleleavemsg);
 const client = new Discord.Client();
+
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./Commands');
 commandFiles.forEach (file => {
@@ -26,9 +27,11 @@ client.on('ready', () => {
     console.log('Ready!');
     client.user.setActivity('your people.', { type: 'WATCHING' });
 })
+
 client.on('guildCreate', () => {
     client.user.setActivity('your people.', { type: 'WATCHING' });
 })
+
 client.on('guildMemberAdd', async member => {
     let welcomechname = await welcomechannels.get(`welcomechannel_${member.guild.id}`);
     let welcome = member.guild.channels.cache.find(ch => ch.name === welcomechname);
@@ -51,6 +54,7 @@ client.on('guildMemberAdd', async member => {
         welcome.send(msg);
     }
 })
+
 client.on('guildMemberRemove', async member => {
     let leavechname = await leavechannels.get(`leavechannel_${member.guild.id}`);
     let leave = member.guild.channels.cache.find(ch => ch.name === leavechname);
@@ -65,6 +69,7 @@ client.on('guildMemberRemove', async member => {
         leave.send(msg);
     }
 })
+
 client.on('messageDelete', async message => {
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
     let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
@@ -82,6 +87,7 @@ client.on('messageDelete', async message => {
         log.send(deleteembed);
     }
 })
+
 client.on('messageUpdate', async (oldmsg, newmsg) => {
     let logchname = await logchannels.get(`logchannel_${oldmsg.guild.id}`);
     let log = oldmsg.guild.channels.cache.find(ch => ch.name === `${logchname}`);
@@ -100,6 +106,7 @@ client.on('messageUpdate', async (oldmsg, newmsg) => {
         log.send(editembed);
     }
 })
+
 client.on('message', async message => {
     let prefix = "/";
     let customprefix = await prefixes.get(`${message.guild.id}`);

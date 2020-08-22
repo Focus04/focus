@@ -6,6 +6,7 @@ const leavechannels = new Keyv(database.leavechannels);
 const leavemessages = new Keyv(database.leavemessages);
 const logchannels = new Keyv(database.logchannels);
 const toggleleavemsg = new Keyv(database.toggleleavemsg);
+
 module.exports = {
     name: 'leavemessage',
     description: `Sets a custom good bye message for those leaving the server.`,

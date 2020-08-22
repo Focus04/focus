@@ -3,6 +3,7 @@ const database = require('../database.json');
 const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const fetch = require('node-fetch');
+
 module.exports = {
     name: 'nasanews',
     description: `Looks up an astronomy-related term on NASA's Website and returns a fact about it.`,

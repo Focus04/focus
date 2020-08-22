@@ -5,6 +5,7 @@ const prefixes = new Keyv(database.prefixes);
 const bns = new Keyv(database.bns);
 const logchannels = new Keyv(database.logchannels);
 const bannedusers = new Keyv(database.bannedusers);
+
 module.exports = {
     name: 'ban',
     description: `Restricts a user's access to the server.`,
@@ -35,6 +36,7 @@ module.exports = {
                 message.channel.send(`You can't ban youself, smarty pants!`);
                 return message.react('❌');
             }
+
             args.shift();
             let reason = '`' + args.join(' ') + '`';
             await bannedusers.set(`${message.guild.id}_${member.user.username}`, member.user.id);
@@ -78,6 +80,7 @@ module.exports = {
                 message.channel.send(`You can't ban youself, smarty pants!`);
                 return message.react('❌');
             }
+            
             args.shift();
             args.shift();
             let reason = '`' + args.join(' ') + '`';

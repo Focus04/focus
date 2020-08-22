@@ -4,6 +4,7 @@ const database = require('../database.json');
 const prefixes = new Keyv(database.prefixes);
 const logchannels = new Keyv(database.logchannels);
 const msglogs = new Keyv(database.msglogs);
+
 module.exports = {
     name: 'togglemsglogs',
     description: `Toggles message logs on/off.`,

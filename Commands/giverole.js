@@ -3,6 +3,7 @@ const database = require('../database.json');
 const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const logchannels = new Keyv(database.logchannels);
+
 module.exports = {
     name: 'giverole',
     description: `Adds a role to a user.`,
@@ -54,6 +55,7 @@ module.exports = {
             message.channel.send('Your roles must be higher than the role that you want to give. In case they are, make sure that my role is higher than the role of the member you want to give a role to!');
             return message.react('❌');
         }
+        
         member.roles.add(role);
         let perms = role.permissions.toArray().map(perm => perm).join(`\n`);
         perms = '```' + perms + '```';

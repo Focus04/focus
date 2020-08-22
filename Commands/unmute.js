@@ -3,6 +3,7 @@ const database = require('../database.json');
 const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const logchannels = new Keyv(database.logchannels);
+
 module.exports = {
     name: 'unmute',
     description: `Removes a user's muted status earlier.`,

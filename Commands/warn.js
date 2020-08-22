@@ -4,6 +4,7 @@ const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const warnings = new Keyv(database.warnings);
 const logchannels = new Keyv(database.logchannels);
+
 module.exports = {
     name: 'warn',
     description: `Sends a warning message to a user.`,

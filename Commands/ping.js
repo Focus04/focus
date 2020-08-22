@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+
 module.exports = {
     name: 'ping',
     description: `Displays the bot's current latency in ms.`,

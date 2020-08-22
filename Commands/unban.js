@@ -4,6 +4,7 @@ const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const logchannels = new Keyv(database.logchannels);
 const bannedusers = new Keyv(database.bannedusers);
+
 module.exports = {
     name: 'unban',
     description: `Removes a user's banned status earlier.`,

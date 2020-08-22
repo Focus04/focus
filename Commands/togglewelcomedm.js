@@ -4,6 +4,7 @@ const database = require('../database.json');
 const prefixes = new Keyv(database.prefixes);
 const welcomedms = new Keyv(database.welcomedms);
 const togglewelcomedm = new Keyv(database.togglewelcomedm);
+
 module.exports = {
     name: 'togglewelcomedm',
     description: `Toggles welcome DMs on/off.`,
