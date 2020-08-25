@@ -1,8 +1,7 @@
 const Discord = require('discord.js');
-const database = require('../database.json');
 const Keyv = require('keyv');
-const kks = new Keyv(database.kks);
-const logchannels = new Keyv(database.logchannels);
+const kks = new Keyv(process.env.kks);
+const logchannels = new Keyv(process.env.logchannels);
 
 module.exports = {
     name: 'kick',

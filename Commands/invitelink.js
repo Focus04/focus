@@ -1,5 +1,3 @@
-const Discord = require('discord.js');
-
 module.exports = {
     name: 'invitelink',
     description: 'Sends the invite link for the bot.',

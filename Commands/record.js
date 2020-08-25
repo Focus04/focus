@@ -1,10 +1,9 @@
 const Discord = require('discord.js');
-const database = require('../database.json');
 const Keyv = require('keyv');
-const warnings = new Keyv(database.warnings);
-const bns = new Keyv(database.bns);
-const kks = new Keyv(database.kks);
-const mts = new Keyv(database.mts);
+const warnings = new Keyv(process.env.warnings);
+const bns = new Keyv(process.env.bns);
+const kks = new Keyv(process.env.kks);
+const mts = new Keyv(process.env.mts);
 
 module.exports = {
     name: 'record',

@@ -1,11 +1,8 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
-const database = require('../database.json');
 const Keyv = require('keyv');
-const welcomechannels = new Keyv(database.welcomechannels);
-const welcomemessages = new Keyv(database.welcomemessages);
-const togglewelcomemsg = new Keyv(database.togglewelcomememsg);
-const logchannels = new Keyv(database.logchannels);
+const welcomechannels = new Keyv(process.env.welcomechannels);
+const welcomemessages = new Keyv(process.env.welcomemessages);
+const togglewelcomemsg = new Keyv(process.env.togglewelcomemsg);
+const logchannels = new Keyv(process.env.logchannels);
 
 module.exports = {
     name: 'welcomemessage',

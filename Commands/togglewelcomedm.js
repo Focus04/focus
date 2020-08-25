@@ -1,8 +1,6 @@
-const Discord = require('discord.js');
 const Keyv = require('keyv');
-const database = require('../database.json');
-const welcomedms = new Keyv(database.welcomedms);
-const togglewelcomedm = new Keyv(database.togglewelcomedm);
+const welcomedms = new Keyv(process.env.welcomedms);
+const togglewelcomedm = new Keyv(process.env.togglewelcomedm);
 
 module.exports = {
     name: 'togglewelcomedm',

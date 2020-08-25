@@ -1,4 +1,3 @@
-const Discord = require('discord.js');
 const moment = require('moment');
 const Keyv = require('keyv');
 const nts = new Keyv(process.env.notes);

@@ -1,7 +1,3 @@
-const Discord = require('discord.js');
-const database = require('../database.json');
-const Keyv = require('keyv');
-
 module.exports = {
     name: 'bugreport',
     description: `Submits a bug report directly to the bot's Discord server. Make sure that you include all the steps needed to reproduce the bug.`,

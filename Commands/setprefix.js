@@ -1,7 +1,5 @@
-const Discord = require('discord.js');
-const database = require('../database.json');
 const Keyv = require('keyv');
-const prefixes = new Keyv(database.prefixes);
+const prefixes = new Keyv(process.env.prefixes);
 
 module.exports = {
     name: 'setprefix',

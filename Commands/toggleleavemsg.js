@@ -1,8 +1,6 @@
-const Discord = require('discord.js');
 const Keyv = require('keyv');
-const database = require('../database.json');
-const leavechannels = new Keyv(database.leavechannels);
-const toggleleave = new Keyv(database.toggleleavemsg);
+const leavechannels = new Keyv(process.env.leavechannels);
+const toggleleave = new Keyv(process.env.toggleleave);
 
 module.exports = {
     name: 'toggleleavemsg',

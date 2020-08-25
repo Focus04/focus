@@ -1,8 +1,6 @@
-const Discord = require('discord.js');
 const Keyv = require('keyv');
-const database = require('../database.json');
-const logchannels = new Keyv(database.logchannels);
-const msglogs = new Keyv(database.msglogs);
+const logchannels = new Keyv(process.env.logchannels);
+const msglogs = new Keyv(process.env.msglogs);
 
 module.exports = {
     name: 'togglemsglogs',

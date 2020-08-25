@@ -1,8 +1,7 @@
 const Discord = require('discord.js');
-const database = require('../database.json');
 const Keyv = require('keyv');
-const mts = new Keyv(database.mts);
-const logchannels = new Keyv(database.logchannels);
+const mts = new Keyv(process.env.mts);
+const logchannels = new Keyv(process.env.logchannels);
 
 module.exports = {
     name: 'mute',

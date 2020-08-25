@@ -1,9 +1,8 @@
 const Discord = require('discord.js');
-const database = require('../database.json');
 const Keyv = require('keyv');
-const bns = new Keyv(database.bns);
-const logchannels = new Keyv(database.logchannels);
-const bannedusers = new Keyv(database.bannedusers);
+const bns = new Keyv(process.env.bns);
+const logchannels = new Keyv(process.env.logchannels);
+const bannedusers = new Keyv(process.env.bannedusers);
 
 module.exports = {
     name: 'ban',

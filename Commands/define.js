@@ -1,6 +1,4 @@
 const Discord = require('discord.js');
-const database = require('../database.json');
-const Keyv = require('keyv');
 const fetch = require('node-fetch');
 
 module.exports = {

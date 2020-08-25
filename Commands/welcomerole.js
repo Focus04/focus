@@ -1,8 +1,6 @@
-const Discord = require('discord.js');
-const database = require('../database.json');
 const Keyv = require('keyv');
-const welcomeroles = new Keyv(database.welcomeroles);
-const logchannels = new Keyv(database.logchannels);
+const welcomeroles = new Keyv(process.env.welcomeroles);
+const logchannels = new Keyv(process.env.logchannels);
 
 module.exports = {
     name: 'welcomerole',

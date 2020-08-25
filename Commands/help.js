@@ -1,7 +1,4 @@
 const Discord = require('discord.js');
-const fs = require('fs');
-const database = require('../database.json');
-const Keyv = require('keyv');
 
 module.exports = {
     name: 'help',
