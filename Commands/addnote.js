@@ -9,10 +9,7 @@ module.exports = {
     description: `Adds an admin note on someone's account. All staff members will be able to view this note.`,
     usage: 'addnote `username` `note`',
     guildOnly: true,
-    async execute(message, args) {
-        let prefix = await prefixes.get(message.guild.id);
-        if (!prefix)
-            prefix = '/';
+    async execute(message, args, prefix) {
         if (!args[1]) {
             message.channel.send(`Proper command usage: ${prefix}addnote [username] [note]`);
             return message.react('❌');

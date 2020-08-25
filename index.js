@@ -115,7 +115,7 @@ client.on('message', async message => {
         return;
     if (command.guildOnly && message.channel.type !== 'text')
         return message.reply('Nice attempt to slide into my DMs but no thanks! ;)');
-    command.execute(message, args);
+    command.execute(message, args, prefix);
 })
 
 client.login(process.env.token);
