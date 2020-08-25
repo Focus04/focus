@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const Keyv = require('keyv');
-const warnings = new Keyv(process.env.warnings);
+const warnings = new Keyv(process.env.wrns);
 const bns = new Keyv(process.env.bns);
 const kks = new Keyv(process.env.kks);
 const mts = new Keyv(process.env.mts);
