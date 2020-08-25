@@ -1,17 +1,13 @@
 const Discord = require('discord.js');
 const database = require('../database.json');
 const Keyv = require('keyv');
-const prefixes = new Keyv(database.prefixes);
 
 module.exports = {
     name: 'bugreport',
     description: `Submits a bug report directly to the bot's Discord server. Make sure that you include all the steps needed to reproduce the bug.`,
     usage: 'bugreport `bug`',
     guildOnly: true,
-    async execute(message, args) {
-        let prefix = await prefixes.get(message.guild.id);
-        if (!prefix)
-            prefix = '/';
+    execute(message, args, prefix) {
         let author = message.author.username;
         let bug = '```' + args.join(' ') + '```';
         if (!args[0]) {

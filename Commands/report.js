@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const database = require('../database.json');
 const Keyv = require('keyv');
-const prefixes = new Keyv(database.prefixes);
 const logchannels = new Keyv(database.logchannels);
 
 module.exports = {
@@ -9,10 +8,7 @@ module.exports = {
     description: `Submits a report to the staff's logs channel.`,
     usage: 'report `username` `offense`',
     guildOnly: true,
-    async execute(message, args) {
-        let prefix = await prefixes.get(message.guild.id);
-        if (!prefix)
-            prefix = '/';
+    async execute(message, args, prefix) {
         let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`) || message.mentions.members.first();
         if (!member) {
             message.channel.send(`Couldn't find ${args[0]}`);

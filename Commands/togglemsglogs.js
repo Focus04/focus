@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const Keyv = require('keyv');
 const database = require('../database.json');
-const prefixes = new Keyv(database.prefixes);
 const logchannels = new Keyv(database.logchannels);
 const msglogs = new Keyv(database.msglogs);
 
@@ -10,10 +9,7 @@ module.exports = {
     description: `Toggles message logs on/off.`,
     usage: 'togglemsglogs',
     guildOnly: true,
-    async execute(message) {
-        let prefix = await prefixes.get(message.guild.id);
-        if (!prefix)
-            prefix = '/';
+    async execute(message, prefix) {
         if (!message.member.hasPermission('MANAGE_GUILD')) {
             message.channel.send('You require the Manage Server permission in order to run this command.');
             return message.react('❌');

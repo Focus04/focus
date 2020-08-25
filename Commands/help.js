@@ -2,17 +2,13 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const database = require('../database.json');
 const Keyv = require('keyv');
-const prefixes = new Keyv(database.prefixes);
 
 module.exports = {
     name: 'help',
     description: 'Displays a list of all available commands along with their usage.',
     usage: 'help `(command)`',
     guildOnly: true,
-    async execute(message, args) {
-        let prefix = await prefixes.get(message.guild.id);
-        if (!prefix)
-            prefix = '/';
+    async execute(message, args, prefix) {
         if (!args.length) {
             const helpembed = new Discord.MessageEmbed()
                 .setColor('#00ffbb')

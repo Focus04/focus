@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const database = require('../database.json');
 const Keyv = require('keyv');
-const prefixes = new Keyv(database.prefixes);
 const warnings = new Keyv(database.warnings);
 const bns = new Keyv(database.bns);
 const kks = new Keyv(database.kks);
@@ -12,11 +11,8 @@ module.exports = {
     description: `Displays how many punishments a user has ever received on the server.`,
     usage: 'record @`user`',
     guildOnly: true,
-    async execute(message, args) {
+    async execute(message, prefix) {
         let member = message.mentions.users.first();
-        let prefix = await prefixes.get(message.guild.id);
-        if (!prefix)
-            prefix = '/';
         if (!member) {
             message.channel.send(`Proper command usage: ${prefix}record @[user]`);
             return message.react('❌');

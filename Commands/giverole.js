@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const database = require('../database.json');
 const Keyv = require('keyv');
-const prefixes = new Keyv(database.prefixes);
 const logchannels = new Keyv(database.logchannels);
 
 module.exports = {
@@ -9,10 +8,7 @@ module.exports = {
     description: `Adds a role to a user.`,
     usage: 'giverole @`member` `role`',
     guildOnly: true,
-    async execute(message, args) {
-        let prefix = await prefixes.get(`${message.guild.id}`);
-        if (!prefix)
-            prefix = '/';
+    async execute(message, args, prefix) {
         let member = message.mentions.members.first();
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
             message.channel.send('I need the Manage Roles permission in order to execute this command.');

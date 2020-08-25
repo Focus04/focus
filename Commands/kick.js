@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const database = require('../database.json');
 const Keyv = require('keyv');
-const prefixes = new Keyv(database.prefixes);
 const kks = new Keyv(database.kks);
 const logchannels = new Keyv(database.logchannels);
 
@@ -10,10 +9,7 @@ module.exports = {
     description: `Kicks a certain user out of the server.`,
     usage: 'kick @`user` `reason`',
     guildOnly: true,
-    async execute(message, args) {
-        let prefix = await prefixes.get(message.guild.id);
-        if (!prefix)
-            prefix = '/';
+    async execute(message, args, prefix) {
         let member = message.mentions.members.first();
         if (!message.guild.me.hasPermission('KICK_MEMBERS')) {
             message.channel.send('I require the `Kick Members` permission in order to perform this action.');

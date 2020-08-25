@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const database = require('../database.json');
 const Keyv = require('keyv');
-const prefixes = new Keyv(database.prefixes);
 const mts = new Keyv(database.mts);
 const logchannels = new Keyv(database.logchannels);
 
@@ -10,10 +9,7 @@ module.exports = {
     description: `Restricts a user from sending messages.`,
     usage: 'mute @`user` `minutes` `reason`',
     guildOnly: true,
-    async execute(message, args) {
-        let prefix = await prefixes.get(message.guild.id);
-        if (!prefix)
-            prefix = '/';
+    async execute(message, args, prefix) {
         let member = message.mentions.members.first();
         let user = message.mentions.users.first();
         let author = message.author.username;

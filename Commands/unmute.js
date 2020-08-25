@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const database = require('../database.json');
 const Keyv = require('keyv');
-const prefixes = new Keyv(database.prefixes);
 const logchannels = new Keyv(database.logchannels);
 
 module.exports = {
@@ -9,10 +8,7 @@ module.exports = {
     description: `Removes a user's muted status earlier.`,
     usage: 'mute @`user`',
     guildOnly: true,
-    async execute(message, args) {
-        let prefix = await prefixes.get(message.guild.id);
-        if (!prefix)
-            prefix = '/';
+    async execute(message, args, prefix) {
         let author = message.author.username;
         let member = message.mentions.members.first();
         let mutedrole = message.guild.roles.cache.find(r => r.name === 'Muted Member');

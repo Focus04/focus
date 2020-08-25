@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const Keyv = require('keyv');
 const database = require('../database.json');
-const prefixes = new Keyv(database.prefixes);
 const welcomechannels = new Keyv(database.welcomechannels);
 const togglewelcome = new Keyv(database.togglewelcomememsg);
 
@@ -10,10 +9,7 @@ module.exports = {
     description: `Toggles welcome messages on/off.`,
     usage: 'togglewelcomemsg',
     guildOnly: true,
-    async execute(message) {
-        let prefix = await prefixes.get(message.guild.id);
-        if (!prefix)
-            prefix = '/';
+    async execute(message, prefix) {
         if (!message.member.hasPermission('MANAGE_GUILD')) {
             message.channel.send('You require the Manage Server permission in order to run this command.');
             return message.react('❌');

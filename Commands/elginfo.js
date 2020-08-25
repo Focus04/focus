@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const moment = require('moment');
 const fetch = require('node-fetch');
 
 module.exports = {
@@ -10,7 +9,6 @@ module.exports = {
     async execute(message, args) {
         let data = await fetch('https://monitor.teamshrimp.com/api/fetch/all/87.98.132.123/7777/')
             .then(response => response.json());
-        let online;
         if (!data.online)
             return message.channel.send('eLg down your lives down.')
         let players = '```';

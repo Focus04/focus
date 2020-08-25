@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const database = require('../database.json');
 const Keyv = require('keyv');
-const prefixes = new Keyv(database.prefixes);
 const warnings = new Keyv(database.warnings);
 const logchannels = new Keyv(database.logchannels);
 
@@ -10,10 +9,7 @@ module.exports = {
     description: `Sends a warning message to a user.`,
     usage: 'warn @`user` `reason`',
     guildOnly: true,
-    async execute(message, args) {
-        let prefix = await prefixes.get(message.guild.id);
-        if (!prefix)
-            prefix = '/';
+    async execute(message, args, prefix) {
         let member = message.mentions.users.first();
         let author = message.author.username;
         if (!member || !args[1]) {

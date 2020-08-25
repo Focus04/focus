@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const database = require('../database.json');
 const Keyv = require('keyv');
-const prefixes = new Keyv(database.prefixes);
 const logchannels = new Keyv(database.logchannels);
 const bannedusers = new Keyv(database.bannedusers);
 
@@ -10,10 +9,7 @@ module.exports = {
     description: `Removes a user's banned status earlier.`,
     usage: 'unban `username`',
     guildOnly: true,
-    async execute(message, args) {
-        let prefix = await prefixes.get(message.guild.id);
-        if (!prefix)
-            prefix = '/';
+    async execute(message, args, prefix) {
         if (!message.guild.me.hasPermission('BAN_MEMBERS')) {
             message.channel.send('I require the Ban Members permission in order to perform this action!');
             return message.react('❌');

@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const database = require('../database.json');
 const Keyv = require('keyv');
-const prefixes = new Keyv(database.prefixes);
 const welcomechannels = new Keyv(database.welcomechannels);
 
 module.exports = {
@@ -9,10 +8,7 @@ module.exports = {
     description: `Sets a custom channel where newcommers will receive a welcome message.`,
     usage: 'setwelcomechannel `channel-name`',
     guildOnly: true,
-    async execute(message, args) {
-        let prefix = await prefixes.get(message.guild.id);
-        if (!prefix)
-            prefix = '/';
+    async execute(message, args, prefix) {
         if (!args[0]) {
             message.channel.send(`Proper command usage: ${prefix}setwelcomechannel [channel-name]`);
             return message.react('❌');

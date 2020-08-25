@@ -2,7 +2,6 @@ const Discord = require('discord.js');
 const moment = require('moment');
 const database = require('../database.json');
 const Keyv = require('keyv');
-const prefixes = new Keyv(database.prefixes);
 const nts = new Keyv(database.notes);
 
 module.exports = {
