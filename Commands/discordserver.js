@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+
 module.exports = {
     name: 'discordserver',
     description: `Sends an invite link to the bot's support server.`,

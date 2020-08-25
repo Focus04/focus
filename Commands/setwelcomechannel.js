@@ -3,6 +3,7 @@ const database = require('../database.json');
 const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const welcomechannels = new Keyv(database.welcomechannels);
+
 module.exports = {
     name: 'setwelcomechannel',
     description: `Sets a custom channel where newcommers will receive a welcome message.`,

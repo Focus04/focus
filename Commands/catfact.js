@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const fetch = require('node-fetch');
+
 module.exports = {
     name: 'catfact',
     description: `Same as dogfact, except it's for cats.`,

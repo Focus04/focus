@@ -3,6 +3,7 @@ const database = require('../database.json');
 const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const nts = new Keyv(database.notes);
+
 module.exports = {
     name: 'viewnotes',
     description: `Views all notes linked to an account.`,

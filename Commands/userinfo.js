@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const moment = require('moment');
+
 module.exports = {
     name: 'userinfo',
     description: `Displays information about a user's account account.`,

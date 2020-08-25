@@ -4,6 +4,7 @@ const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const welcomeroles = new Keyv(database.welcomeroles);
 const logchannels = new Keyv(database.logchannels);
+
 module.exports = {
     name: 'welcomerole',
     description: `Sets a role to be assigned to new users when they join the server.`,

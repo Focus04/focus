@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const database = require('../database.json');
 const Keyv = require('keyv');
 const logchannels = new Keyv(database.logchannels);
+
 module.exports = {
     name: 'clear',
     description: 'Bulk deletes a certain amount of messages.',

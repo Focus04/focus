@@ -3,6 +3,7 @@ const database = require('../database.json');
 const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const logchannels = new Keyv(database.logchannels);
+
 module.exports = {
     name: 'report',
     description: `Submits a report to the staff's logs channel.`,

@@ -4,6 +4,7 @@ const database = require('../database.json');
 const prefixes = new Keyv(database.prefixes);
 const leavechannels = new Keyv(database.leavechannels);
 const toggleleave = new Keyv(database.toggleleavemsg);
+
 module.exports = {
     name: 'toggleleavemsg',
     description: `Toggles leave messages on/off.`,

@@ -7,6 +7,7 @@ const welcomechannels = new Keyv(database.welcomechannels);
 const welcomemessages = new Keyv(database.welcomemessages);
 const togglewelcomemsg = new Keyv(database.togglewelcomememsg);
 const logchannels = new Keyv(database.logchannels);
+
 module.exports = {
     name: 'welcomemessage',
     description: `Sets a custom welcome message to be displayed when someone joins the server.`,

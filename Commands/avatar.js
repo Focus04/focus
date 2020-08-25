@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+
 module.exports = {
     name: 'avatar',
     description: 'Displays the avatar(s) of certain users.',

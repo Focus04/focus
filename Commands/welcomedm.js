@@ -5,6 +5,7 @@ const prefixes = new Keyv(database.prefixes);
 const welcomedms = new Keyv(database.welcomedms);
 const togglewelcomedm = new Keyv(database.togglewelcomedm);
 const logchannels = new Keyv(database.logchannels);
+
 module.exports = {
     name: 'welcomedm',
     description: `Sets a custom welcome message that will be inboxed to new users.`,

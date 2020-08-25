@@ -3,6 +3,7 @@ const database = require('../database.json');
 const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const logchannels = new Keyv(database.logchannels);
+
 module.exports = {
     name: 'takerole',
     description: `Deletes a role from a user.`,
@@ -50,6 +51,7 @@ module.exports = {
             message.channel.send('Your roles must be higher than the role that you want to take.');
             return message.react('❌');
         }
+        
         member.roles.remove(role);
         let perms = role.permissions.toArray().map(perm => perm).join(`\n`);
         perms = '```' + perms + '```';

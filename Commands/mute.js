@@ -4,6 +4,7 @@ const Keyv = require('keyv');
 const prefixes = new Keyv(database.prefixes);
 const mts = new Keyv(database.mts);
 const logchannels = new Keyv(database.logchannels);
+
 module.exports = {
     name: 'mute',
     description: `Restricts a user from sending messages.`,
