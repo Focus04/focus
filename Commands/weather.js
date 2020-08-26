@@ -12,7 +12,7 @@ module.exports = {
             return message.react('❌');
         }
         let location = args.join(' ');
-        let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=099789c7e31a10fb1c573df7bd25baf2`);
+        let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${process.env.weatherid}`);
         let data = await response.json();
         if (data.message === 'city not found') {
             message.channel.send(`Couldn't find any weather results for ${location}.`);
