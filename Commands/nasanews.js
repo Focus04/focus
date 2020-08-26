@@ -12,8 +12,8 @@ module.exports = {
             return message.react('❌');
         }
         let term = args.join(' ');
-        let data = await fetch(`https://images-api.nasa.gov/search?q=${term}`)
-            .then(res => res.json());
+        let response = await fetch(`https://images-api.nasa.gov/search?q=${term}`);
+        let data = await response.json();
         if (!data.collection.items[0].data[0].description) {
             message.channel.send(`Couldn't find any results for ${term}`);
             return message.react('❌');

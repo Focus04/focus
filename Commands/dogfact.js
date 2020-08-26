@@ -6,8 +6,8 @@ module.exports = {
     usage: 'dogfact',
     guildOnly: true,
     async execute(message) {
-        let data = await fetch('https://dog-api.kinduff.com/api/facts')
-            .then(res => res.json());
+        let response = await fetch('https://dog-api.kinduff.com/api/facts');
+        let data = await response.json();
         message.channel.send(data.facts[0]);
     }
 }
