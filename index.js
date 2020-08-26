@@ -38,11 +38,11 @@ const vars = {
     togglemsglogs: false,
 };
 
-client.on('ready', async function() {
+client.on('ready', () => {
     console.log('Ready!');
     client.user.setActivity('your people.', { type: 'WATCHING' });
     client.guilds.cache.forEach (guild => {
-        await svvars.set(guild.id, vars);
+        svvars.set(guild.id, vars);
     })
 })
 
