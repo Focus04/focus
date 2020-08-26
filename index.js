@@ -24,18 +24,18 @@ commandFiles.forEach (file => {
 });
 
 const vars = {
-    prefix = '',
-    welcomechannel = '',
-    leavechannel = '',
-    logchannel = '',
-    welcomemsg = '',
-    welcomedm = '',
-    welcomerole = '',
-    leavemsg = '',
-    togglewelcome = true,
-    toggleleave = true,
-    togglewelcomedm = true,
-    togglemsglogs = false,
+    prefix: "",
+    welcomechannel: "",
+    leavechannel: "",
+    logchannel: "",
+    welcomemsg: "",
+    welcomedm: "",
+    welcomerole: "",
+    leavemsg: "",
+    togglewelcome: true,
+    toggleleave: true,
+    togglewelcomedm: true,
+    togglemsglogs: false,
 };
 
 client.on('ready', async () => {
