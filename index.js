@@ -113,9 +113,7 @@ client.on('message', async message => {
         prefix = customprefix;
     if (!message.content.startsWith(prefix) || message.author.bot)
         return;
-    const args = message.content
-        .slice(prefix.length)
-        .split(/ +/);
+    const args = message.content.slice(prefix.length).split(/ +/);
     const command = client.commands.get(args.shift().toLowerCase());
     if (!command)
         return;
