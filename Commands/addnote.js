@@ -10,16 +10,16 @@ module.exports = {
     guildOnly: true,
     async execute(message, args, prefix) {
         if (!args[1]) {
-            message.channel.send(JSON.stringify(res.addnote.err1));
+            message.channel.send(`Proper command usage: ${prefix}addnote [username] [note]`);
             return message.react('❌');
         }
         let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`) || message.mentions.members.first();
         if(!member){
-            await message.author.send(JSON.stringify(res.addnote.err2));
+            await message.author.send(`Couldn't find ${args[0]}.`);
             return message.channel.bulkDelete(1);
         }
         if (!message.member.hasPermission('KICK_MEMBERS')) {
-            message.channel.send(JSON.stringify(res.addnote.err3));
+            message.channel.send('You need the Kick Members permission in order to run this command.');
             return message.react('❌');
         }
         args.shift();
