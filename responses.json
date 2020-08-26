@@ -1,0 +1,11 @@
+{
+    "addnote": {
+        "err1": "`Proper command usage: ${prefix}addnote [username] [note]`",
+        "err2": "`Couldn't find ${args[0]}.`",
+        "err3": "'You need the Kick Members permission in order to run this command.'"
+    },
+    "ban": {
+        "err1": "'I require the `Ban Members` permission in order to perform this action.'",
+        "err2": "`Proper command usage: ${prefix}ban @[user] (days) [reason]`."
+    }
+}
