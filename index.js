@@ -26,21 +26,21 @@ commandFiles.forEach (file => {
 client.on('ready', () => {
     console.log('Ready!');
     client.user.setActivity('your people.', { type: 'WATCHING' });
-    client.guilds.cache.forEach(guild => {
-        let db = svvars.get(guild.id);
-        db.prefix = prefixes.get(guild.id);
-        db.welcomechannel = welcomechannels.get(`welcomechannel_${guild.id}`);
-        db.leavechannel = leavechannels.get(`leavechannel_${guild.id}`);
-        db.logchannel = logchannels.get(`loghcannel_${guild.id}`);
-        db.welcomemsg = welcomemessages.get(`welcomemessage_${guild.id}`);
-        db.welcomedm = welcomedms.get(`welcomedm_${guild.id}`);
-        db.welcomerole = welcomeroles.get(`welcomerole_${guild.id}`);
-        db.leavemsg = leavemessages.get(`leavemessage_${guild.id}`);
+    client.guilds.cache.forEach(async guild => {
+        let db = await svvars.get(guild.id);
+        db.prefix = await prefixes.get(guild.id);
+        db.welcomechannel = await welcomechannels.get(`welcomechannel_${guild.id}`);
+        db.leavechannel = await leavechannels.get(`leavechannel_${guild.id}`);
+        db.logchannel = await logchannels.get(`loghcannel_${guild.id}`);
+        db.welcomemsg = await welcomemessages.get(`welcomemessage_${guild.id}`);
+        db.welcomedm = await welcomedms.get(`welcomedm_${guild.id}`);
+        db.welcomerole = await welcomeroles.get(`welcomerole_${guild.id}`);
+        db.leavemsg = await leavemessages.get(`leavemessage_${guild.id}`);
         db.togglewelcome = 1;
         db.toggleleave = 1;
         db.togglewelcomedm = 1;
         db.togglemsglogs = 1;
-        svvars.set(guild.id, db);
+        await svvars.set(guild.id, db);
     })
 })
 
