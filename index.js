@@ -1,6 +1,7 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const Keyv = require('keyv');
+const svvars = new Keyv(process.env.svvars);
 const prefixes = new Keyv(process.env.prefixes);
 const logchannels = new Keyv(process.env.logchannels);
 const msglogs = new Keyv(process.env.msglogs);
@@ -22,9 +23,27 @@ commandFiles.forEach (file => {
     client.commands.set(command.name, command);
 });
 
-client.on('ready', () => {
+const vars = {
+    prefix = '',
+    welcomechannel = '',
+    leavechannel = '',
+    logchannel = '',
+    welcomemsg = '',
+    welcomedm = '',
+    welcomerole = '',
+    leavemsg = '',
+    togglewelcome = true,
+    toggleleave = true,
+    togglewelcomedm = true,
+    togglemsglogs = false,
+};
+
+client.on('ready', async () => {
     console.log('Ready!');
     client.user.setActivity('your people.', { type: 'WATCHING' });
+    client.guilds.cache.forEach (guild => {
+        await svvars.set(guild.id, vars);
+    })
 })
 
 client.on('guildCreate', () => {
