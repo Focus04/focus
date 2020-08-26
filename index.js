@@ -76,7 +76,7 @@ client.on('messageDelete', async message => {
     if (log && msglog == 1 && !message.author.bot) {
         let deleteembed = new Discord.MessageEmbed()
             .setColor('#00ffbb')
-            .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Message Deleted`)
+            .setTitle(`${client.emojis.cache.find(emoji => emoji.name === 'pinned')} Message Deleted`)
             .addFields(
                 { name: 'Author:', value: `${message.author.username}` },
                 { name: 'Channel:', value: `${message.channel.name}` },
@@ -94,7 +94,7 @@ client.on('messageUpdate', async (oldmsg, newmsg) => {
     if (log && msglog == 1 && !oldmsg.author.bot) {
         let editembed = new Discord.MessageEmbed()
             .setColor('#00ffbb')
-            .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Message Edited`)
+            .setTitle(`${client.emojis.cache.find(emoji => emoji.name === 'pinned')} Message Edited`)
             .addFields(
                 { name: 'Author:', value: `${oldmsg.author.username}` },
                 { name: 'Channel:', value: `${oldmsg.channel.name}` },

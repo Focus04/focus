@@ -10,16 +10,16 @@ module.exports = {
     guildOnly: true,
     async execute(message, args, prefix) {
         if (!args[1]) {
-            message.channel.send(res.addnote.err1);
+            message.channel.send(JSON.stringify(res.addnote.err1));
             return message.react('❌');
         }
         let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`) || message.mentions.members.first();
         if(!member){
-            await message.author.send(res.addnote.err2);
+            await message.author.send(JSON.stringify(res.addnote.err2));
             return message.channel.bulkDelete(1);
         }
         if (!message.member.hasPermission('KICK_MEMBERS')) {
-            message.channel.send(res.addnote.err3);
+            message.channel.send(JSON.stringify(res.addnote.err3));
             return message.react('❌');
         }
         args.shift();
