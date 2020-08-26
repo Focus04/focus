@@ -38,7 +38,7 @@ const vars = {
     togglemsglogs: false,
 };
 
-client.on('ready', async () => {
+client.on('ready', async function() {
     console.log('Ready!');
     client.user.setActivity('your people.', { type: 'WATCHING' });
     client.guilds.cache.forEach (guild => {
