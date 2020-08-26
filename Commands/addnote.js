@@ -1,7 +1,6 @@
 const moment = require('moment');
 const Keyv = require('keyv');
 const nts = new Keyv(process.env.notes);
-const res = require('../responses.json');
 
 module.exports = {
     name: 'addnote',
