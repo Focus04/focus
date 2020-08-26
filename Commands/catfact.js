@@ -6,8 +6,8 @@ module.exports = {
     usage: 'catfact',
     guildOnly: true,
     async execute(message) {
-        let data = await fetch('https://catfact.ninja/facts?limit=1&max_length=140%27')
-            .then(res => res.json());
+        let response = await fetch('https://catfact.ninja/facts?limit=1&max_length=140%27');
+        let data = await response.json();
         message.channel.send(data.data[0].fact);
     }
 }
