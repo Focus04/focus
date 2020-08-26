@@ -23,31 +23,45 @@ commandFiles.forEach (file => {
     client.commands.set(command.name, command);
 });
 
-const vars = {
-    prefix: "",
-    welcomechannel: "",
-    leavechannel: "",
-    logchannel: "",
-    welcomemsg: "",
-    welcomedm: "",
-    welcomerole: "",
-    leavemsg: "",
-    togglewelcome: true,
-    toggleleave: true,
-    togglewelcomedm: true,
-    togglemsglogs: false,
-};
-
 client.on('ready', () => {
     console.log('Ready!');
     client.user.setActivity('your people.', { type: 'WATCHING' });
-    client.guilds.cache.forEach (guild => {
-        svvars.set(guild.id, vars);
+    client.guilds.forEach(guild => {
+        let db = svvars.get(guild.id);
+        db.prefix = prefixes.get(guild.id);
+        db.welcomechannel = welcomechannels.get(`welcomechannel_${guild.id}`);
+        db.leavechannel = leavechannels.get(`leavechannel_${guild.id}`);
+        db.logchannel = logchannels.get(`loghcannel_${guild.id}`);
+        db.welcomemsg = welcomemessages.get(`welcomemessage_${guild.id}`);
+        db.welcomedm = welcomedms.get(`welcomedm_${guild.id}`);
+        db.welcomerole = welcomeroles.get(`welcomerole_${guild.id}`);
+        db.leavemsg = leavemessages.get(`leavemessage_${guild.id}`);
+        db.togglewelcome = 1;
+        db.toggleleave = 1;
+        db.togglewelcomedm = 1;
+        db.togglemsglogs = 1;
+        svvars.set(guild.id, db);
     })
 })
 
-client.on('guildCreate', () => {
+client.on('guildCreate', async guild => {
     client.user.setActivity('your people.', { type: 'WATCHING' });
+    const vars = {
+        prefix: "",
+        welcomechannel: "",
+        leavechannel: "",
+        logchannel: "",
+        welcomemsg: "",
+        welcomedm: "",
+        welcomerole: "",
+        leavemsg: "",
+        togglewelcome: 1,
+        toggleleave: 1,
+        togglewelcomedm: 1,
+        togglemsglogs: 0
+    };
+    await svvars.set(guild.id, vars);
+    
 })
 
 client.on('guildMemberAdd', async member => {
