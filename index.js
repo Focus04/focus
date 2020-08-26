@@ -26,7 +26,7 @@ commandFiles.forEach (file => {
 client.on('ready', () => {
     console.log('Ready!');
     client.user.setActivity('your people.', { type: 'WATCHING' });
-    client.guilds.forEach(guild => {
+    client.guilds.cache.forEach(guild => {
         let db = svvars.get(guild.id);
         db.prefix = prefixes.get(guild.id);
         db.welcomechannel = welcomechannels.get(`welcomechannel_${guild.id}`);
