@@ -2,18 +2,6 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const Keyv = require('keyv');
 const svvars = new Keyv(process.env.svvars);
-const prefixes = new Keyv(process.env.prefixes);
-const logchannels = new Keyv(process.env.logchannels);
-const msglogs = new Keyv(process.env.msglogs);
-const welcomechannels = new Keyv(process.env.welcomechannels);
-const welcomeroles = new Keyv(process.env.welcomeroles);
-const welcomemessages = new Keyv(process.env.welcomemessages);
-const togglewelcome = new Keyv(process.env.togglewelcome);
-const welcomedms = new Keyv(process.env.welcomedms);
-const togglewelcomedm = new Keyv(process.env.togglewelcomedm)
-const leavechannels = new Keyv(process.env.leavechannels);
-const leavemessages = new Keyv(process.env.leavemessages);
-const toggleleave = new Keyv(process.env.toggleleave);
 const client = new Discord.Client();
 
 client.commands = new Discord.Collection();
@@ -26,22 +14,6 @@ commandFiles.forEach (file => {
 client.on('ready', () => {
     console.log('Ready!');
     client.user.setActivity('your people.', { type: 'WATCHING' });
-    client.guilds.cache.forEach(async guild => {
-        let db = await svvars.get(guild.id);
-        db.prefix = await prefixes.get(guild.id);
-        db.welcomechannel = await welcomechannels.get(`welcomechannel_${guild.id}`);
-        db.leavechannel = await leavechannels.get(`leavechannel_${guild.id}`);
-        db.logchannel = await logchannels.get(`loghcannel_${guild.id}`);
-        db.welcomemsg = await welcomemessages.get(`welcomemessage_${guild.id}`);
-        db.welcomedm = await welcomedms.get(`welcomedm_${guild.id}`);
-        db.welcomerole = await welcomeroles.get(`welcomerole_${guild.id}`);
-        db.leavemsg = await leavemessages.get(`leavemessage_${guild.id}`);
-        db.togglewelcome = 1;
-        db.toggleleave = 1;
-        db.togglewelcomedm = 1;
-        db.togglemsglogs = 1;
-        await svvars.set(guild.id, db);
-    })
 })
 
 client.on('guildCreate', async guild => {
@@ -65,20 +37,21 @@ client.on('guildCreate', async guild => {
 })
 
 client.on('guildMemberAdd', async member => {
-    let welcomechname = await welcomechannels.get(`welcomechannel_${member.guild.id}`);
+    let db = await svvars.get(member.guild.id);
+    let welcomechname = db.welcomechannel;
     let welcome = member.guild.channels.cache.find(ch => ch.name === welcomechname);
-    let dm = await welcomedms.get(`welcomedm_${member.guild.id}`);
-    let dmstate = await togglewelcomedm.get(`togglewelcomedm_${member.guild.id}`) || 1;
+    let dm = db.welcomedm;
+    let dmstate = db.togglewelcomedm;
     if (dm && dmstate == 1)
         member.send(dm.replace('[user]', `${member.user.username}`));
-    let welcomerolename = await welcomeroles.get(`welcomerole_${member.guild.id}`);
+    let welcomerolename = db.welcomerole;
     let welcomerole = member.guild.roles.cache.find(role => role.name === `${welcomerolename}`);
     if (welcomerole)
         member.roles.add(welcomerole);
-    let state = await togglewelcome.get(`togglewelcomemsg_${member.guild.id}`) || 1;
+    let state = db.togglewelcome;
     if (welcome && state == 1) {
         let msg;
-        let welcomemessage = await welcomemessages.get(`welcomemessage_${member.guild.id}`);
+        let welcomemessage = db.welcomemsg;
         if (!welcomemessage)
             msg = `Wish ${member} a pleasant stay!`;
         else
@@ -88,12 +61,13 @@ client.on('guildMemberAdd', async member => {
 })
 
 client.on('guildMemberRemove', async member => {
-    let leavechname = await leavechannels.get(`leavechannel_${member.guild.id}`);
+    let db = await svvars.get(member.guild.id);
+    let leavechname = db.leavechannel;
     let leave = member.guild.channels.cache.find(ch => ch.name === leavechname);
-    let state = await toggleleave.get(`toggleleavemsg_${member.guild.id}`) || 1;
+    let state = db.toggleleave;
     if (leave && state == 1) {
         let msg;
-        let leavemessage = await leavemessages.get(`leavemessage_${member.guild.id}`);
+        let leavemessage = db.leavemsg;
         if (!leavemessage)
             msg = `${member.user.username} has parted ways with us...`;
         else
@@ -103,9 +77,10 @@ client.on('guildMemberRemove', async member => {
 })
 
 client.on('messageDelete', async message => {
-    let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+    let db = await svvars.get(message.guild.id);
+    let logchname = db.logchannel;
     let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-    let msglog = await msglogs.get(`msglogs_${message.guild.id}`);
+    let msglog = db.togglemsglogs;
     if (log && msglog == 1 && !message.author.bot) {
         let deleteembed = new Discord.MessageEmbed()
             .setColor('#00ffbb')
@@ -121,9 +96,10 @@ client.on('messageDelete', async message => {
 })
 
 client.on('messageUpdate', async (oldmsg, newmsg) => {
-    let logchname = await logchannels.get(`logchannel_${oldmsg.guild.id}`);
+    let db = await svvars.get(oldmsg.guild.id);
+    let logchname = db.logchannel;
     let log = oldmsg.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-    let msglog = await msglogs.get(`msglogs_${oldmsg.guild.id}`);
+    let msglog = db.togglemsglogs;
     if (log && msglog == 1 && !oldmsg.author.bot) {
         let editembed = new Discord.MessageEmbed()
             .setColor('#00ffbb')
@@ -140,15 +116,14 @@ client.on('messageUpdate', async (oldmsg, newmsg) => {
 })
 
 client.on('message', async message => {
+    let db = await svvars.get(message.guild.id);
     let prefix = "/";
-    let customprefix = await prefixes.get(`${message.guild.id}`);
+    let customprefix = db.prefix;
     if (customprefix)
         prefix = customprefix;
     if (!message.content.startsWith(prefix) || message.author.bot)
         return;
-    const args = message.content
-        .slice(prefix.length)
-        .split(/ +/);
+    const args = message.content.slice(prefix.length).split(/ +/);
     const command = client.commands.get(args.shift().toLowerCase());
     if (!command)
         return;
