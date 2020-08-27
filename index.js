@@ -16,10 +16,11 @@ const toggleleave = new Keyv(process.env.toggleleave);
 const client = new Discord.Client();
 
 client.commands = new Discord.Collection();
-const commandFiles = fs.readdirSync('./Commands');
-commandFiles.forEach(file => {
-    const command = require(`./Commands/${file}`);
-    client.commands.set(command.name, command);
+fs.readdirSync('./Commands').forEach(folder => {
+    fs.readdirSync(`./Commands/${folder}`).forEach(file => {
+        const command = require(`./Commands/${folder}/${file}`);
+        client.commands.set(command.name, command);
+    });
 });
 
 client.on('ready', () => {
