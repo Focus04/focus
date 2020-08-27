@@ -1,4 +1,4 @@
-const keyv = require('keyv');
+const Keyv = require('keyv');
 const prefixes = new Keyv(process.env.prefixes);
 
 module.exports = async (client, message) => {
