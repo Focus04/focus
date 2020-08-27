@@ -11,7 +11,7 @@ fs.readdirSync('./Commands').forEach(folder => {
 });
 
 fs.readdirSync('./Events').forEach(folder => {
-    fs.readdirSync(`./Events/${folder}`).forEach(file =>{
+    fs.readdirSync(`./Events/${folder}`).forEach(file => {
         const event = require(`./Events/${folder}/${file}`);
         client.on(file.split('.')[0], event.bind(null, client));
     });
