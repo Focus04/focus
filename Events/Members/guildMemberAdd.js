@@ -6,7 +6,7 @@ const togglewelcome = new Keyv(process.env.togglewelcome);
 const welcomedms = new Keyv(process.env.welcomedms);
 const togglewelcomedm = new Keyv(process.env.togglewelcomedm);
 
-module.exports = async member => {
+module.exports = async (client, member) => {
     let welcomechname = await welcomechannels.get(`welcomechannel_${member.guild.id}`);
     let welcome = member.guild.channels.cache.find(ch => ch.name === welcomechname);
     let dm = await welcomedms.get(`welcomedm_${member.guild.id}`);

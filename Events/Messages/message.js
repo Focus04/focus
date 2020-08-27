@@ -1,7 +1,7 @@
 const Keyv = require('keyv');
 const prefixes = new Keyv(process.env.prefixes);
 
-module.exports = async (client, message) => {
+module.exports = async (client, client, message) => {
     let prefix = "/";
     let customprefix = await prefixes.get(`${message.guild.id}`);
     if (customprefix)
