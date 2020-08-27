@@ -1,3 +1,4 @@
+const Discord = require('discord.js');
 const Keyv = require('keyv');
 const logchannels = new Keyv(process.env.logchannels);
 const msglogs = new Keyv(process.env.msglogs);
