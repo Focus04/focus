@@ -2,7 +2,7 @@ const keyv = require('keyv');
 const logchannels = new Keyv(process.env.logchannels);
 const msglogs = new Keyv(process.env.msglogs);
 
-module.exports = (client, oldmsg, newmsg) => {
+module.exports = async (oldmsg, newmsg) => {
     let logchname = await logchannels.get(`logchannel_${oldmsg.guild.id}`);
     let log = oldmsg.guild.channels.cache.find(ch => ch.name === `${logchname}`);
     let msglog = await msglogs.get(`msglogs_${oldmsg.guild.id}`);

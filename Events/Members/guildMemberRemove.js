@@ -3,7 +3,7 @@ const leavechannels = new Keyv(process.env.leavechannels);
 const leavemessages = new Keyv(process.env.leavemessages);
 const toggleleave = new Keyv(process.env.toggleleave);
 
-module.exports = (client, member) => {
+module.exports = async member => {
     let leavechname = await leavechannels.get(`leavechannel_${member.guild.id}`);
     let leave = member.guild.channels.cache.find(ch => ch.name === leavechname);
     let state = await toggleleave.get(`toggleleavemsg_${member.guild.id}`) || 1;
