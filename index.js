@@ -9,7 +9,7 @@ const welcomeroles = new Keyv(process.env.welcomeroles);
 const welcomemessages = new Keyv(process.env.welcomemessages);
 const togglewelcome = new Keyv(process.env.togglewelcome);
 const welcomedms = new Keyv(process.env.welcomedms);
-const togglewelcomedm = new Keyv(process.env.togglewelcomedm)
+const togglewelcomedm = new Keyv(process.env.togglewelcomedm);
 const leavechannels = new Keyv(process.env.leavechannels);
 const leavemessages = new Keyv(process.env.leavemessages);
 const toggleleave = new Keyv(process.env.toggleleave);
@@ -26,7 +26,7 @@ fs.readdirSync('./Commands').forEach(folder => {
 fs.readdirSync('./Events').forEach(folder => {
     fs.readdirSync(`./Events/${folder}`).forEach(file =>{
         const event = require(`./Events/${folder}/${file}`);
-        client.on(event.name, event.bind(null, client));
+        client.on(event.split('.')[0], event.bind(null, client));
     });
 });
 
