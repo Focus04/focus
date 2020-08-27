@@ -23,10 +23,12 @@ fs.readdirSync('./Commands').forEach(folder => {
     });
 });
 
-client.on('ready', () => {
-    console.log('Ready!');
-    client.user.setActivity('your people.', { type: 'WATCHING' });
-})
+fs.readdirSync('./Events').forEach(folder => {
+    fs.readdirSync(`./Events/${folder}`).forEach(file =>{
+        const event = require(`./Events/${folder}/${file}`);
+    });
+});
+client.on(event.name, event);
 
 client.on('guildCreate', () => {
     client.user.setActivity('your people.', { type: 'WATCHING' });
