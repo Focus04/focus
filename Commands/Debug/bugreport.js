@@ -3,7 +3,7 @@ module.exports = {
     description: `Submits a bug report directly to the bot's Discord server. Make sure that you include all the steps needed to reproduce the bug.`,
     usage: 'bugreport `bug`',
     guildOnly: true,
-    execute(message, args, prefix) {
+    async execute(message, args, prefix) {
         let author = message.author.username;
         let bug = '```' + args.join(' ') + '```';
         if (!args[0]) {
