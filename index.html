@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;600&display=swap" rel="stylesheet">
+    <style type="text/css">
+        #page {
+            background-image: linear-gradient(to bottom right, LightCyan, LightSkyBlue);
+            font-family: 'Karla', sans-serif;
+            color: #4f4f4f;
+            margin: 0;
+        }
+        #menu-wrap {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1;
+        }
+        #toggler {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 5;
+            width: 40px;
+            height: 40px;
+            margin: 0.5em;
+            opacity: 0;
+            cursor: pointer;
+        }
+        #hamburger {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 4;
+            width: 20px;
+            height: 20px;
+            padding: 1rem;
+            background-color: rgb(59, 214, 198);
+            border-radius: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.7s;
+        }
+        #lines {
+            position: relative;
+            width: 100%;
+            height: 4px;
+            background-color: #4b4b4b;
+            border-radius: 1em;
+            opacity: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.4s;
+        }
+        #lines::before,
+        #lines::after {
+            content: "";
+            position: absolute;
+            top: -10px;
+            z-index: 1;
+            width: 100%;
+            height: 4px;
+            background-color: #4b4b4b;
+            border-radius: 1em;
+            opacity: 100%;
+        }
+        #lines::after {
+            top: 10px;
+        }
+        #toggler:hover+#hamburger {
+            background-color: #cccccc;
+        }
+        #toggler:checked,
+        #toggler:checked+#hamburger {
+            background-color: #cccccc;
+            position: fixed;
+        }
+        #toggler:checked+#hamburger #lines {
+            transform: rotate(135deg);
+        }
+        #toggler:checked+#hamburger #lines::before,
+        #toggler:checked+#hamburger #lines::after {
+            top: 0;
+            transform: rotate(90deg);
+        }
+        #toggler:checked:hover+#hamburger #lines {
+            transform: rotate(225deg);
+        }
+        #toggler:checked~#menu {
+            visibility: visible;
+        }
+        #toggler:checked~#menu #bubble {
+            transform: scale(1);
+            transition: 0.7s;
+        }
+        #toggler:checked~#menu #list-box {
+            opacity: 1;
+            transition: 0.4s;
+        }
+        #toggler:checked+#invite,
+        #toggler:checked+#server {
+            z-index: -1;
+        }
+        #menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 3;
+            width: 100%;
+            height: 100%;
+            visibility: hidden;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #bubble {
+            position: relative;
+            background-color: rgba(24, 39, 51, 0.85);
+            border-radius: 50%;
+            width: 200vw;
+            height: 200vw;
+            z-index: 3;
+            display: flex;
+            flex: none;
+            align-items: center;
+            justify-content: center;
+            transform: scale(0);
+            transition: 0.4s;
+        }
+        #list-box {
+            position: relative;
+            background-color: #cccccc;
+            border: 4px solid #2b2b2b;
+            border-radius: 1em;
+            text-align: center;
+            max-width: 90vw;
+            max-height: 90vw;
+            opacity: 0;
+            transition: 0.4s;
+        }
+        #list li {
+            list-style: none;
+            font-size: 1.5rem;
+            padding: 1rem;
+            margin-right: 40px;
+            transition: 0.4s;
+        }
+        #list li::after {
+            content: "";
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            background-color: #00ffff;
+            border-radius: 2em;
+            height: 5px;
+            width: 100%;
+            transform: scaleX(0);
+            transition: 0.4s;
+        }
+        #list li:hover {
+            transform: scale(1.1);
+        }
+        #list li:hover::after {
+            transform: scaleX(1);
+        }
+        #list a {
+            color: #4b4b4b;
+            text-decoration: none;
+        }
+        #title {
+            background-color: #3bd6c6;
+            line-height: 2em;
+            border-bottom: #bdbdbd solid 5px;
+            font-size: 2em;
+            font-weight: 700;
+            padding-left: 50px;
+        }
+        #slogan {
+            background-color: #bdbdbd;
+            width: 45%;
+            border-bottom-right-radius: 1em;
+            line-height: 2em;
+            font-weight: 600;
+            font-size: 1em;
+            padding-left: 50px;
+        }
+        #features,
+        #screens {
+            background-color: #bdbdbd;
+            margin: auto;
+            width: 40%;
+            line-height: 3em;
+            border-radius: 1em;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            color: #000000;
+            text-align: center;
+        }
+        .category {
+            background-color: #004c4c;
+            width: 80%;
+            border-radius: 0.5em;
+            border-left: 5px solid #00ffff;
+            margin: auto;
+            margin-bottom: 50px;
+            padding-bottom: 10px;
+            color: #cccccc;
+            transition: 0.3s;
+        }
+        .category:hover {
+            border-left: 15px solid #00ffff;
+        }
+        .catname {
+            background-color: #00ffff;
+            width: 50%;
+            margin: auto;
+            border-radius: 0 0 1em 1em;
+            line-height: 2em;
+            font-size: 1.1em;
+            text-align: center;
+            color: #555555;
+        }
+        #record,
+        #avatar,
+        #delete,
+        #weather,
+        #setprefix,
+        #bugreport {
+            position: relative;
+            width: 80%;
+            margin: auto;
+            z-index: 0;
+            margin-bottom: 50px;
+        }
+        #record img,
+        #avatar img,
+        #delete img,
+        #weather img,
+        #setprefix img,
+        #bugreport img {
+            width: 100%;
+            height: 100%;
+            border-radius: 1em;
+            transition: 0.5s ease;
+        }
+        #record::after,
+        #avatar::after,
+        #delete::after,
+        #weather::after,
+        #setprefix::after,
+        #bugreport::after {
+            content: "Track your members' all time punishments with /record!";
+            font-size: 1.1em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #004c4c;
+            opacity: 0;
+            border-radius: 1em;
+            color: #cccccc;
+            transition: 0.5s;
+        }
+        #avatar::after {
+            content: "View one or multiple people's avatar(s) with /avatar!";
+        }
+        #delete::after {
+            content: "Get logs whenever someone deletes/edits a message!";
+        }
+        #weather::after {
+            content: "Get real time weather information with /weather!";
+        }
+        #setprefix::after {
+            content: "Change your server's prefix with /setprefix!";
+        }
+        #bugreport::after {
+            content: "Submit a bug report directly to our support server!";
+        }
+        #record:hover img,
+        #avatar:hover img,
+        #delete:hover img,
+        #weather:hover img,
+        #setprefix:hover img,
+        #bugreport:hover img {
+            filter: blur(2px);
+        }
+        #record:hover::after,
+        #avatar:hover::after,
+        #delete:hover::after,
+        #weather:hover::after,
+        #setprefix:hover::after,
+        #bugreport:hover::after {
+            opacity: 0.85;
+        }
+        #bottom {
+            bottom: 0;
+            height: 5em;
+            background-color: #2b2b2b;
+            margin-top: 85px;
+        }
+        #buttons {
+            position: relative;
+            z-index: 0;
+            margin-top: 100px;
+            width: 65%;
+            margin: auto;
+            transition: 0.4s;
+        }
+        #buttons:hover {
+            transform: scale(1.1);
+        }
+        #invite,
+        #server {
+            background-color: #cccccc;
+            float: left;
+            width: 50%;
+            box-sizing: border-box;
+            color: #000000;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+        #invite {
+            border-right: 1px solid #4b4b4b;
+            border-radius: 1em 0 0 1em;
+        }
+        #server {
+            border-left: 1px solid #4b4b4b;
+            border-radius: 0 1em 1em 0;
+        }
+        #invite h2,
+        #server h2 {
+            transition: 0.8s;
+        }
+        #invite::before,
+        #server::before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            left: 0;
+            top: 0;
+            border-radius: 0 0 50% 50%;
+            width: 100%;
+            height: 0%;
+            background-color: #00ffff;
+            transition: 0.8s;
+        }
+        #invite:hover::before,
+        #server:hover::before {
+            height: 180%;
+        }
+        #invite:hover h2,
+        #server:hover h2 {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body id="page">
+    <div id="title">
+        Focus.
+        <div id="menu-wrap">
+            <input type="checkbox" id="toggler">
+            <div id="hamburger">
+                <div id="lines"></div>
+            </div>
+            <div id="menu">
+                <div id="bubble">
+                    <div id="list-box">
+                        <ul id="list">
+                            <li>
+                                <a href=#features>Bot Features</a>
+                            </li>
+                            <li>
+                                <a href=#screens>Screenshots</a>
+                            </li>
+                            <li>
+                                <a href="https://discordapp.com/oauth2/authorize?client_id=723094801175806024&scope=bot&permissions=268561494"
+                                    target="_blank">Invite Me</a>
+                            </li>
+                            <li>
+                                <a href="https://discord.gg/r4bsXez" target="_blank">Support Server</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="slogan">
+        Revamp your Discord server.
+    </div>
+    <div id="features">
+        <h2>Bot Features</h2>
+    </div>
+    <div class="category">
+        <div class="catname">
+            <img src="https://i.imgur.com/ncnSp4q.png?1">
+            Staff Commands
+        </div>
+        <ul>
+            <li>report - Submits a report to the staff's logs channel.</li>
+            <li>ban - Restricts a user's access to the server.</li>
+            <li>unban - Removes a user's banned status earlier.</li>
+            <li>kick - Kicks a certain user out of the server.</li>
+            <li>mute - Restricts a user from sending messages.</li>
+            <li>unmute - Removes a user's muted status earlier.</li>
+            <li>warn - Sends a warning message to a user.</li>
+            <li>record - Displays a member's punishment history.</li>
+            <li>giverole - Adds a role to a user.</li>
+            <li>takerole - Deletes a role from a user.</li>
+            <li>addnote - Adds an admin note on someone's account.</li>
+            <li>viewnotes - Views all notes linked to an account.</li>
+            <li>clear - Bulk deletes a certain amount of messages.</li>
+        </ul>
+    </div>
+    <div class="category">
+        <div class="catname">
+            <img src="https://i.imgur.com/l1rIZHR.png?1">
+            Info Commands
+        </div>
+        <ul>
+            <li>help - Displays a list of all available commands.</li>
+            <li>serverinfo - Displays information about the server.</li>
+            <li>userinfo - Outputs information about a user's account.</li>
+            <li>avatar - Displays the avatar(s) of certain users.</li>
+        </ul>
+    </div>
+    <div class="category">
+        <div class="catname">
+            <img src="https://i.imgur.com/tsV2yj8.png?1">
+            Logging Commands
+        </div>
+        <ul>
+            <li>setlogschannel - Sets a custom logging channel.</li>
+            <li>togglemsglogs - Toggles message logs on/off.</li>
+        </ul>
+    </div>
+    <div class="category">
+        <div class="catname">
+            <img src="https://i.imgur.com/mA19VqN.png?1">
+            Welcome Commands
+        </div>
+        <ul>
+            <li>setwelcomechannel - Sets a custom welcome channel.</li>
+            <li>welcomerole - Sets a role to be assigned to new users.</li>
+            <li>welcomemessage - Sets a custom welcome message.</li>
+            <li>welcomedm - Sets a custom welcome DM.</li>
+            <li>togglewelcomedm - Toggles welcome DMs on/off.</li>
+            <li>setleavechannel - Sets a custom leave channel.</li>
+            <li>leavemessage - Sets a custom goodbye message.</li>
+            <li>toggleleavemsg - Toggles leave messages on/off.</li>
+        </ul>
+    </div>
+    <div class="category">
+        <div class="catname">
+            <img src="https://i.imgur.com/JGHECHh.png?1">
+            Fun Commands
+        </div>
+        <ul>
+            <li>weather - Tells you information about the weather.</li>
+            <li>define - Looks up a term in the dictionary.</li>
+            <li>dogfact - Sends a lovely dog fact.</li>
+            <li>catfact - Same as dogfact, except it's for cats.</li>
+            <li>nasanews - Looks up a term on NASA's website.</li>
+        </ul>
+    </div>
+    <div class="category">
+        <div class="catname">
+            <img src="https://i.imgur.com/B3WMvaL.png?1">
+            Debug Commands
+        </div>
+        <ul>
+            <li>bugreport - Submits a bug report to the bot's server.</li>
+            <li>setprefix - Changes the "/" prefix to a custom one.</li>
+            <li>ping - Displays the bot's current latency in ms.</li>
+            <li>invitelink - Sends the invite link for the bot.</li>
+            <li>discordserver - Sends an invite link to the bot's server.</li>
+        </ul>
+    </div>
+    <div id="screens">
+        <h2>Screenshots</h2>
+    </div>
+    <div id="record">
+        <img src="https://i.imgur.com/rNCkY26.png">
+    </div>
+    <div id="avatar">
+        <img src="https://i.imgur.com/Nu1Nhld.png">
+    </div>
+    <div id="delete">
+        <img src="https://i.imgur.com/asLVabo.png">
+    </div>
+    <div id="weather">
+        <img src="https://i.imgur.com/aEtcF8a.png">
+    </div>
+    <div id="setprefix">
+        <img src="https://i.imgur.com/3mpZB4m.png">
+    </div>
+    <div id="bugreport">
+        <img src="https://i.imgur.com/YdW8cga.png">
+    </div>
+    <div id="buttons">
+        <a href="https://discordapp.com/oauth2/authorize?client_id=723094801175806024&scope=bot&permissions=268561494"
+            target="_blank">
+            <div id="invite">
+                <h2>Invite me</h2>
+            </div>
+        </a>
+        <a href="https://discord.gg/r4bsXez" target="_blank">
+            <div id="server">
+                <h2>Support server</h2>
+            </div>
+        </a>
+    </div>
+    <div id="bottom"></div>
+</body>
+
+</html>
