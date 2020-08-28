@@ -29,7 +29,7 @@ module.exports = {
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        await message.guild.members.unban(userid).catch(err => {
+        await message.guild.members.unban(userid).catch(async err => {
             console.error(err);
             let msg = await message.channel.send(`${args[0]} isn't banned.`);
             msg.delete({ timeout: 10000 });

@@ -24,7 +24,7 @@ module.exports = {
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        message.channel.bulkDelete(amount, true).catch(err => {
+        message.channel.bulkDelete(amount, true).catch(async err => {
             console.error(err);
             let msg = await message.channel.send(`Can't delete messages older than 2 weeks.`);
             msg.delete({ timeout: 10000 });
