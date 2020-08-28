@@ -9,17 +9,20 @@ module.exports = {
     guildOnly: true,
     async execute(message, args, prefix) {
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
-            message.channel.send('I need the Manage Roles permission in order to execute this command!');
+            let msg = await message.channel.send('I need the Manage Roles permission in order to execute this command!');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!args[0]) {
-            message.channel.send(`Proper command usage: ${prefix}welcomerole [role]`);
+            let msg = await message.channel.send(`Proper command usage: ${prefix}welcomerole [role]`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let welcomerolename = args.join(' ').toLowerCase();
         let welcomerole = message.guild.roles.cache.find(role => role.name.toLowerCase().startsWith(welcomerolename));
         if (!welcomerole) {
-            message.channel.send(`Couldn't find any roles named "${rolename}"`);
+            let msg = await message.channel.send(`Couldn't find any roles named "${rolename}"`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let bothighestrole = -1;
@@ -28,7 +31,8 @@ module.exports = {
                 bothighestrole = r.position;
         })
         if (welcomerole.position >= bothighestrole) {
-            message.channel.send('My roles must be higher than the role that you want to give!');
+            let msg = await message.channel.send('My roles must be higher than the role that you want to give!');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let highestrole = -1;
@@ -37,11 +41,13 @@ module.exports = {
                 highestrole = r.position;
         });
         if (welcomerole.position >= highestrole) {
-            message.channel.send('Your roles must be higher than the role that you want to give. In case they are, make sure that my role is higher than the role of the member you want to give a role to!');
+            let msg = await message.channel.send('Your roles must be higher than the role that you want to give. In case they are, make sure that my role is higher than the role of the member you want to give a role to!');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!message.member.hasPermission('MANAGE_ROLES')) {
-            message.channel.send('You lack permissions to run this command!');
+            let msg = await message.channel.send('You lack permissions to run this command!');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         await welcomeroles.set(`welcomerole_${message.guild.id}`, rolename);

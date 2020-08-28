@@ -13,11 +13,13 @@ module.exports = {
     async execute(message, prefix) {
         let member = message.mentions.users.first();
         if (!member) {
-            message.channel.send(`Proper command usage: ${prefix}record @[user]`);
+            let msg = await message.channel.send(`Proper command usage: ${prefix}record @[user]`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!message.member.hasPermission('KICK MEMBERS') || !message.guild.member(member).kickable) {
-            message.channel.send('You need the Kick Members permission in order to run this command. In case you have it, make sure that my role is higher than the role of the person you want to check the record for!');
+            let msg = await message.channel.send('You need the Kick Members permission in order to run this command. In case you have it, make sure that my role is higher than the role of the person you want to check the record for!');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let warns = await warnings.get(`warns_${member.id}_${message.guild.id}`);

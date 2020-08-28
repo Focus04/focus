@@ -9,21 +9,25 @@ module.exports = {
     guildOnly: true,
     async execute(message, args) {
         if (!message.guild.me.hasPermission('MANAGE_MESSAGES')) {
-            message.channel.send('I require the `Manage Messages` permission in order to perform this action!');
+            let msg = await message.channel.send('I require the `Manage Messages` permission in order to perform this action!');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!message.member.hasPermission('MANAGE_MESSAGES')) {
-            message.channel.send(`It appears that you don't have permission to clear messages.`);
+            let msg = await message.channel.send(`It appears that you don't have permission to clear messages.`);
+            msg.delete({ timeout: 10000 });
             return message.channel.react('❌');
         }
         const amount = parseInt(args[0]) + 1;
         if (isNaN(amount) || amount < 2 || amount > 100) {
-            message.channel.send(`You must enter a number higher than 0 and less than 100.`);
+            let msg = await message.channel.send(`You must enter a number higher than 0 and less than 100.`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         message.channel.bulkDelete(amount, true).catch(err => {
             console.error(err);
-            message.channel.send(`Can't delete messages older than 2 weeks.`);
+            let msg = await message.channel.send(`Can't delete messages older than 2 weeks.`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         });
         let clearembed = new Discord.MessageEmbed()

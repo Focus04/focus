@@ -11,19 +11,23 @@ module.exports = {
     async execute(message, args, prefix) {
         let member = message.mentions.members.first();
         if (!message.guild.me.hasPermission('KICK_MEMBERS')) {
-            message.channel.send('I require the `Kick Members` permission in order to perform this action.');
+            let msg = await message.channel.send('I require the `Kick Members` permission in order to perform this action.');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!member || !args[1]) {
-            message.channel.send(`Proper command usage: ${prefix}kick @[user] [reason]`);
+            let msg = await message.channel.send(`Proper command usage: ${prefix}kick @[user] [reason]`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!message.member.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable) {
-            message.channel.send(`It appears that you lack permissions to kick. In case you have them, make sure that my role is higher than the role of the person you want to kick!`);
+            let msg = await message.channel.send(`It appears that you lack permissions to kick. In case you have them, make sure that my role is higher than the role of the person you want to kick!`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (member.id == message.author.id) {
-            message.channel.send(`I mean you could simply leave the server.`);
+            let msg = await message.channel.send(`I mean you could simply leave the server.`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         args.shift();

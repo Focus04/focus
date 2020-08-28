@@ -12,15 +12,18 @@ module.exports = {
         let member = message.mentions.users.first();
         let author = message.author.username;
         if (!member || !args[1]) {
-            message.channel.send(`Proper command usage: ${prefix}warn @[user] [reason]`);
+            let msg = await message.channel.send(`Proper command usage: ${prefix}warn @[user] [reason]`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!message.member.hasPermission('KICK_MEMBERS')) {
-            message.channel.send('You need the Kick Members permission in order to run this command.');
+            let msg = await message.channel.send('You need the Kick Members permission in order to run this command.');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (member.id == message.author.id) {
-            message.channel.send(`You can't warn youself, smarty pants!`);
+            let msg = await message.channel.send(`You can't warn youself, smarty pants!`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         args.shift();

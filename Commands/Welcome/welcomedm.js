@@ -10,11 +10,13 @@ module.exports = {
     guildOnly: true,
     async execute(message, args, prefix) {
         if (!args[0]) {
-            message.channel.send(`Proper command usage: ${prefix}welcomedm [message]. Use [user] to be replaced with a username.`);
+            let msg = await message.channel.send(`Proper command usage: ${prefix}welcomedm [message]. Use [user] to be replaced with a username.`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!message.member.hasPermission('MANAGE_GUILD')) {
-            message.channel.send('You require the Manage Server permission in order to run this command.');
+            let msg = await message.channel.send('You require the Manage Server permission in order to run this command.');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let msg = args.join(' ');

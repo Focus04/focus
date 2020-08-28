@@ -9,16 +9,19 @@ module.exports = {
     guildOnly: true,
     async execute(message, args, prefix) {
         if (!args[0]) {
-            message.channel.send(`Proper command usage: ${prefix}viewnotes [username]`);
+            let msg = await message.channel.send(`Proper command usage: ${prefix}viewnotes [username]`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`)  || message.mentions.members.first();
         if (!member) {
-            message.channel.send(`Couldn't find ${args[0]}.`);
+            let msg = await message.channel.send(`Couldn't find ${args[0]}.`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!message.member.hasPermission('KICK_MEMBERS')) {
-            message.channel.send('You need the Kick Members permission in order to run this command.');
+            let msg = await message.channel.send('You need the Kick Members permission in order to run this command.');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let notes = await nts.get(`notes_${member.id}_${message.guild.id}`);

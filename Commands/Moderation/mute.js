@@ -15,19 +15,23 @@ module.exports = {
         let mins = args[1];
         let mutedrole = message.guild.roles.cache.find(r => r.name === 'Muted Member');
         if (!message.guild.me.hasPermission('MANAGE_ROLES') || !message.guild.me.hasPermission('MANAGE_CHANNELS')) {
-            message.channel.send('I require the `Manage Roles` and `Manage Channels` permissions in order to perform this action.');
+            let msg = await message.channel.send('I require the `Manage Roles` and `Manage Channels` permissions in order to perform this action.');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!member || isNaN(mins) || !args[2]) {
-            message.channel.send(`Proper command usage: ${prefix}mute @[user] [minutes] [reason]`);
+            let msg = await message.channel.send(`Proper command usage: ${prefix}mute @[user] [minutes] [reason]`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!message.member.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable) {
-            message.channel.send(`You need the Kick Members permission in order to run this command.  In case you have it, make sure that my role is higher than the role of the person you want to mute!`);
+            let msg = await message.channel.send(`You need the Kick Members permission in order to run this command.  In case you have it, make sure that my role is higher than the role of the person you want to mute!`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (member.id == message.author.id) {
-            message.channel.send(`You can't mute youself, smarty pants!`);
+            let msg = await message.channel.send(`You can't mute youself, smarty pants!`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         args.shift();

@@ -10,22 +10,26 @@ module.exports = {
     async execute(message, args, prefix) {
         let member = message.mentions.members.first();
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
-            message.channel.send('I need the Manage Roles permission in order to execute this command.');
+            let msg = await message.channel.send('I need the Manage Roles permission in order to execute this command.');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!args[1]) {
-            message.channel.send(`Proper command usage: ${prefix}giverole @[member] [role]`);
+            let msg = await message.channel.send(`Proper command usage: ${prefix}giverole @[member] [role]`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         args.shift();
         let rolename = args.join(' ').toLowerCase();
         let role = message.guild.roles.cache.find(role => role.name.toLowerCase().startsWith(rolename));
         if (!role) {
-            message.channel.send(`Couldn't find any roles named ${rolename}`);
+            let msg = await message.channel.send(`Couldn't find any roles named ${rolename}`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (member.roles.cache.has(role.id)) {
-            message.channel.send(`${member.user.username} already has that role.`);
+            let msg = await message.channel.send(`${member.user.username} already has that role.`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let bothighestrole = -1;
@@ -34,11 +38,13 @@ module.exports = {
                 bothighestrole = r.position;
         })
         if (role.position >= bothighestrole) {
-            message.channel.send('My roles must be higher than the role that you want to give!');
+            let msg = await message.channel.send('My roles must be higher than the role that you want to give!');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!message.member.hasPermission('MANAGE_ROLES') || !message.guild.member(member).kickable) {
-            message.channel.send('You need the Manage Roles permission in order to run this command. In case you have it, make sure that my role is higher than the role of the member you want to give a role to!');
+            let msg = await message.channel.send('You need the Manage Roles permission in order to run this command. In case you have it, make sure that my role is higher than the role of the member you want to give a role to!');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let highestrole = -1;
@@ -47,7 +53,8 @@ module.exports = {
                 highestrole = r.position;
         });
         if (role.position >= highestrole) {
-            message.channel.send('Your roles must be higher than the role that you want to give. In case they are, make sure that my role is higher than the role of the member you want to give a role to!');
+            let msg = await message.channel.send('Your roles must be higher than the role that you want to give. In case they are, make sure that my role is higher than the role of the member you want to give a role to!');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         

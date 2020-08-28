@@ -8,7 +8,8 @@ module.exports = {
     guildOnly: true,
     async execute(message, args, prefix) {
         if (!args[0]) {
-            message.channel.send(`Proper command usage: ${prefix}setprefix [prefix]`);
+            let msg = await message.channel.send(`Proper command usage: ${prefix}setprefix [prefix]`);
+            msg.delete({timeout: 10000});
             return message.react('❌');
         }
         if (!message.member.hasPermission('MANAGE_GUILD')) {

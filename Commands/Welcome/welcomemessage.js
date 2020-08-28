@@ -11,17 +11,20 @@ module.exports = {
     guildOnly: true,
     async execute(message, args, prefix) {
         if (!args[0]) {
-            message.channel.send(`Proper command usage: ${prefix}welcomemessage [message]. Use [user] to be replaced with a username.`);
+            let msg = await message.channel.send(`Proper command usage: ${prefix}welcomemessage [message]. Use [user] to be replaced with a username.`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!message.member.hasPermission('MANAGE_GUILD')) {
-            message.channel.send('You require the Manage Server permission in order to run this command.');
+            let msg = await message.channel.send('You require the Manage Server permission in order to run this command.');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let welcomechname = await welcomechannels.get(`welcomechannel_${message.guild.id}`);
         let welcomechannel = await message.guild.channels.cache.find(ch => ch.name === `${welcomechname}`);
         if (!welcomechannel) {
-            message.channel.send(`You need to set a channel for welcome messages to be sent in. Use ${prefix}setwelcomechannel to setup one.`);
+            let msg = await message.channel.send(`You need to set a channel for welcome messages to be sent in. Use ${prefix}setwelcomechannel to setup one.`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let msg = args.join(' ');

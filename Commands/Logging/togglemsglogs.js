@@ -9,13 +9,15 @@ module.exports = {
     guildOnly: true,
     async execute(message, prefix) {
         if (!message.member.hasPermission('MANAGE_GUILD')) {
-            message.channel.send('You require the Manage Server permission in order to run this command.');
+            let msg = await message.channel.send('You require the Manage Server permission in order to run this command.');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
         let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
         if (!log) {
-            message.channel.send(`You need to set a channel for logs to be sent in. Use ${prefix}setlogschannel to setup one.`);
+            let msg = await message.channel.send(`You need to set a channel for logs to be sent in. Use ${prefix}setlogschannel to setup one.`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let logs = await msglogs.get(`msglogs_${message.guild.id}`);

@@ -11,19 +11,23 @@ module.exports = {
         let member = message.mentions.members.first();
         let mutedrole = message.guild.roles.cache.find(r => r.name === 'Muted Member');
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
-            message.channel.send('I require the Manage Roles permission in order to perform this action!');
+            let msg = await message.channel.send('I require the Manage Roles permission in order to perform this action!');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!member) {
-            message.channel.send(`Proper command usage: ${prefix}unmute @[user]`);
+            let msg = await message.channel.send(`Proper command usage: ${prefix}unmute @[user]`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!message.member.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable) {
-            message.channel.send(`It appears that you lack permissions to unmute.  In case you have them, make sure that my role is higher than the role of the person you want to unmute!`);
+            let msg = await message.channel.send(`It appears that you lack permissions to unmute.  In case you have them, make sure that my role is higher than the role of the person you want to unmute!`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!member.roles.cache.has(mutedrole.id)) {
-            message.channel.send(`${member} isn't muted!`);
+            let msg = await message.channel.send(`${member} isn't muted!`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         member.roles.remove(mutedrole);

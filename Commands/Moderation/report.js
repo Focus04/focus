@@ -10,17 +10,20 @@ module.exports = {
     async execute(message, args, prefix) {
         let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`) || message.mentions.members.first();
         if (!member) {
-            message.channel.send(`Couldn't find ${args[0]}`);
+            let msg = await message.channel.send(`Couldn't find ${args[0]}`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!args[1]) {
-            message.channel.send(`Proper command usage: ${prefix}report [username] [offense]`);
+            let msg = await message.channel.send(`Proper command usage: ${prefix}report [username] [offense]`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
         let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
         if (!log) {
-            message.channel.send(`Looks like the server doesn't have any logs channel. Please ask a staff member to setup one using ${prefix}setlogschannel`);
+            let msg = await message.channel.send(`Looks like the server doesn't have any logs channel. Please ask a staff member to setup one using ${prefix}setlogschannel`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         args.shift();

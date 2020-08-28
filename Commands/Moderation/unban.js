@@ -9,25 +9,30 @@ module.exports = {
     guildOnly: true,
     async execute(message, args, prefix) {
         if (!message.guild.me.hasPermission('BAN_MEMBERS')) {
-            message.channel.send('I require the Ban Members permission in order to perform this action!');
+            let msg = await message.channel.send('I require the Ban Members permission in order to perform this action!');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!args[0]) {
-            message.channel.send(`Proper command usage: ${prefix}unban username`);
+            let msg = await message.channel.send(`Proper command usage: ${prefix}unban username`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (!message.member.hasPermission('BAN_MEMBERS')) {
-            message.channel.send(`It appears that you lack permissions to unban.`);
+            let msg = await message.channel.send(`It appears that you lack permissions to unban.`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let userid = await bannedusers.get(`${message.guild.id}_${args[0]}`);
         if (!userid) {
-            message.channel.send(`${args[0]} isn't banned.`);
+            let msg = await message.channel.send(`${args[0]} isn't banned.`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         await message.guild.members.unban(userid).catch(err => {
             console.error(err);
-            message.channel.send(`${args[0]} isn't banned.`);
+            let msg = await message.channel.send(`${args[0]} isn't banned.`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         })
         await bannedusers.delete(`${message.guild.id}_${args[0]}`);

@@ -9,13 +9,15 @@ module.exports = {
     guildOnly: true,
     async execute(message, prefix) {
         if (!message.member.hasPermission('MANAGE_GUILD')) {
-            message.channel.send('You require the Manage Server permission in order to run this command.');
+            let msg = await message.channel.send('You require the Manage Server permission in order to run this command.');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let welcomechname = await welcomechannels.get(`welcomechannel_${message.guild.id}`);
         let welcome = message.guild.channels.cache.find(ch => ch.name === `${welcomechname}`);
         if (!welcome) {
-            message.channel.send(`You first need to set a channel for messages to be sent in. Use ${prefix}setwelcomechannel to setup one.`);
+            let msg = await message.channel.send(`You first need to set a channel for messages to be sent in. Use ${prefix}setwelcomechannel to setup one.`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let logs = await togglewelcome.get(`togglewelcomemsg_${message.guild.id}`);

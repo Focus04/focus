@@ -8,14 +8,16 @@ module.exports = {
     guildOnly: true,
     async execute(message, args, prefix) {
         if (!args[0]) {
-            message.channel.send(`Proper command usage: ${prefix}weather [location]`);
+            let msg = await message.channel.send(`Proper command usage: ${prefix}weather [location]`);
+            msg.delete({timeout: 10000});
             return message.react('❌');
         }
         let location = args.join(' ');
         let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${process.env.weatherid}`);
         let data = await response.json();
         if (data.message === 'city not found') {
-            message.channel.send(`Couldn't find any weather results for ${location}.`);
+            let msg = await message.channel.send(`Couldn't find any weather results for ${location}.`);
+            msg.delete({timeout: 10000});
             return message.react('❌');
         }
         let icon;

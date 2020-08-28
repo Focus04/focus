@@ -15,20 +15,24 @@ module.exports = {
         let author = message.author.username;
         let days = args[1];
         if (!message.guild.me.hasPermission('BAN_MEMBERS')) {
-            message.channel.send('I require the `Ban Members` permission in order to perform this action.');
+            let msg = await message.channel.send('I require the `Ban Members` permission in order to perform this action.');
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         if (isNaN(days)) {
             if (!member || !args[1]) {
-                message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) [reason]`);
+                let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) [reason]`);
+                msg.delete({ timeout: 10000 });
                 return message.react('❌');
             }
             if (!message.member.hasPermission('BAN_MEMBERS') || !message.guild.member(member).bannable) {
-                message.channel.send(`It appears that you lack permissions to ban. In case you have them, make sure that my role is higher than the role of the person you want to ban!`);
+                let msg = await message.channel.send(`It appears that you lack permissions to ban. In case you have them, make sure that my role is higher than the role of the person you want to ban!`);
+                msg.delete({ timeout: 10000 });
                 return message.react('❌');
             }
             if (member.id == message.author.id) {
-                message.channel.send(`You can't ban youself, smarty pants!`);
+                let msg = await message.channel.send(`You can't ban youself, smarty pants!`);
+                msg.delete({ timeout: 10000 });
                 return message.react('❌');
             }
 
@@ -64,15 +68,18 @@ module.exports = {
         }
         else {
             if (!member || !args[2]) {
-                message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) [reason]`);
+                let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) [reason]`);
+                msg.delete({ timeout: 10000 });
                 return message.react('❌');
             }
             if (!message.member.hasPermission('BAN_MEMBERS') || !message.guild.member(member).bannable) {
-                message.channel.send(`It appears that you lack permissions to ban. In case you have them, make sure that my role is higher than the role of the person you want to ban!`);
+                let msg = await message.channel.send(`It appears that you lack permissions to ban. In case you have them, make sure that my role is higher than the role of the person you want to ban!`);
+                msg.delete({ timeout: 10000 });
                 return message.react('❌');
             }
             if (member.id == message.author.id) {
-                message.channel.send(`You can't ban youself, smarty pants!`);
+                let msg = await message.channel.send(`You can't ban youself, smarty pants!`);
+                msg.delete({ timeout: 10000 });
                 return message.react('❌');
             }
             
