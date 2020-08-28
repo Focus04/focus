@@ -37,8 +37,8 @@ module.exports = {
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        if (!message.member.hasPermission('MANAGE_ROLES') || !message.guild.member(member).kickable) {
-            let msg = await message.channel.send('You need the Manage Roles permission in order to run this command. In case you have it, make sure that my role is higher than the role of the member you want to take the role from!');
+        if (!message.member.hasPermission('MANAGE_ROLES')) {
+            let msg = await message.channel.send('You need the Manage Roles permission in order to run this command.');
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
