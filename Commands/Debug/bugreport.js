@@ -7,7 +7,8 @@ module.exports = {
         let author = message.author.username;
         let bug = '```' + args.join(' ') + '```';
         if (!args[0]) {
-            message.channel.send(`Proper command usage: ${prefix}bugreport [bug]. Make sure that you include all the steps needed to reproduce the bug.`).delete({timeout: 10000});
+            let msg = await message.channel.send(`Proper command usage: ${prefix}bugreport [bug]. Make sure that you include all the steps needed to reproduce the bug.`);
+            msg.delete({timeout: 10000});
             return message.react('❌');
         }
         message.client.channels.cache.get('725434669453279352').send(`__Bug reported by ${author}__\n\n${bug}`);
