@@ -13,7 +13,7 @@ module.exports = {
             return message.react('❌');
         }
         let term = args.join(' ');
-        let response = await fetch(`https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${term}?key=abef1297-7c98-456d-8682-4b605eb9c29b`)
+        let response = await fetch(`https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${term}?key=${process.env.dictionary}`);
         let data = await response.json();
         if (!data[0]) {
             let msg = await message.channel.send(`Couldn't find any results for ${term}`);
