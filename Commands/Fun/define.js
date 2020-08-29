@@ -20,6 +20,7 @@ module.exports = {
             msg.delete({timeout: 10000});
             return message.react('❌');
         }
+        let synonyms;
         if(data[0].meta.syns[0]) {
             let synonyms = '```';
             data[0].meta.syns[0].forEach(syn => {
