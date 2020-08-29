@@ -15,14 +15,14 @@ module.exports = {
         let term = args.join(' ');
         let response = await fetch(`https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${term}?key=${process.env.dictionary}`);
         let data = await response.json();
-        if (!data[0]) {
+        if (!data[0].meta) {
             let msg = await message.channel.send(`Couldn't find any results for ${term}`);
             msg.delete({timeout: 10000});
             return message.react('❌');
         }
-        if(data[0].meta) {
+        if(data[0].meta.syns[0]) {
             let synonyms = '```';
-            data[0].meta.syns[0].map(syn => {
+            data[0].meta.syns[0].forEach(syn => {
                 synonyms = synonyms + syn + ', ';
             })
             synonyms = synonyms + '```';
