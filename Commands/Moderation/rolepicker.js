@@ -29,9 +29,9 @@ module.exports = {
                 rolepicker.addField({ name: `${args[i]}`, value: `React with ${reaction}` });
                 i++;
             });
-            message.channel.send(rolepicker);
+            let picker = message.channel.send(rolepicker);
             message.reactions.forEach(reaction => {
-                message.react(reaction);
+                picker.react(reaction);
             });
         }, 60000);
     }
