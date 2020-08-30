@@ -5,6 +5,7 @@ module.exports = {
     guildOnly: true,
     async execute (message, args, prefix) {
         args.join(' ').split(', ');
+        console.log(args);
         let emojis = [];
         let roles = [];
         if(!args[1]) {
@@ -17,6 +18,5 @@ module.exports = {
             emojis.push(arg[0]);
             roles.push(arg[1]);
         });
-        console.log(args);
     }
 }
