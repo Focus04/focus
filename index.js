@@ -1,6 +1,6 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const client = new Discord.Client();
+const client = new Discord.Client({partials: ['MESSAGE']});
 
 client.commands = new Discord.Collection();
 fs.readdirSync('./Commands').forEach(folder => {
