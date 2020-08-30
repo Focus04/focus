@@ -1,6 +1,6 @@
 const { execute } = require("../Fun/define");
 
-moduke.exports = {
+module.exports = {
     name: 'reactionmenu',
     description: 'Creates a menu that automatically assigns roles to users that react to it.',
     usage: 'reactionmenu `emoji` `role` `emoji` `role` etc.',
