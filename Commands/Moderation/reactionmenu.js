@@ -1,21 +1,21 @@
 module.exports = {
     name: 'reactionmenu',
     description: 'Creates a menu that automatically assigns roles to users that react to it.',
-    usage: 'reactionmenu `emoji` `role` `emoji` `role` etc.',
+    usage: 'reactionmenu `emoji` `role`, `emoji` `role`, etc.',
     guildOnly: true,
     async execute (message, args, prefix) {
+        args.join(' ').split(/,\s+/);
         let emojis = [];
         let roles = [];
         if(!args[1]) {
-            let msg = await message.channel.send(`Proper command usage: ${prefix}reactionmenu [emoji] [role] [emoji] [role] etc.`);
+            let msg = await message.channel.send(`Proper command usage: ${prefix}reactionmenu [emoji] [role], [emoji] [role], etc.`);
             msg.delete({timeout: 10000});
             return message.react('❌');
         }
         args.forEach(arg => {
-            if(args.indexOf(arg) % 2 == 0)
-                emojis.push(arg);
-            else
-                roles.push(arg);
+            arg.split(' ');
+            emojis.push(arg[0]);
+            roles.push(arg[1]);
         });
         console.log(emojis);
     }
