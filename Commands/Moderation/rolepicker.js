@@ -16,8 +16,7 @@ module.exports = {
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        message.channel.send('Please react to your message with the emojis you would like to have as reactions within 1 min');
-        message.react('✔️');
+        let msg = message.channel.send('Please react to your message with the emojis you would like to have as reactions within 1 min');
         setTimeout(async function () {
             let rolepicker = new Discord.MessageEmbed()
                 .setColor('#00ffbb')
@@ -29,10 +28,12 @@ module.exports = {
                 rolepicker.addField({ name: `${args[i]}`, value: `React with ${reaction}` });
                 i++;
             });
-            let picker = message.channel.send(rolepicker);
-            message.reactions.forEach(reaction => {
+            let picker = await message.channel.send(rolepicker);
+            message.reactions.cache.forEach(reaction => {
                 picker.react(reaction);
             });
+            message.delete;
+            msg.delete;
         }, 60000);
     }
 }
