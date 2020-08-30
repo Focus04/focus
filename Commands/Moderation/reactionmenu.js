@@ -4,7 +4,7 @@ module.exports = {
     usage: 'reactionmenu `emoji` `role`, `emoji` `role`, etc.',
     guildOnly: true,
     async execute (message, args, prefix) {
-        args.join(' ').split(/,\s+/);
+        args.join(' ').split(', ');
         let emojis = [];
         let roles = [];
         if(!args[1]) {
