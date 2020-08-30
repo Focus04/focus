@@ -4,7 +4,8 @@ module.exports = {
     usage: 'reactionmenu `emoji` `role` `emoji` `role` etc.',
     guildOnly: true,
     async execute (message, args, prefix) {
-        let emojis, roles;
+        let emojis = [];
+        let roles = [];
         if(!args[1]) {
             let msg = await message.channel.send(`Proper command usage: ${prefix}reactionmenu [emoji] [role] [emoji] [role] etc.`);
             msg.delete({timeout: 10000});
