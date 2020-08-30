@@ -17,6 +17,6 @@ module.exports = {
             emojis.push(arg[0]);
             roles.push(arg[1]);
         });
-        console.log(emojis);
+        console.log(args);
     }
 }
