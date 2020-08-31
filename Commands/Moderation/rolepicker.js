@@ -3,11 +3,16 @@ const Discord = require("discord.js");
 module.exports = {
     name: 'rolepicker',
     description: 'Creates a menu that automatically assigns roles to users that react to it.',
-    usage: 'rolepicker `role` `role` `role` etc. (maximum 25)',
+    usage: 'rolepicker @`role` emoji @`role` emoji @`role` emoji etc. (maximum 25)',
     guildOnly: true,
     async execute(message, args, prefix) {
+        if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
+            let msg = await message.channel.send('I require the Manage Roles permission in order to execute this command.');
+            msg.delete({ timeout: 10000 });
+            return message.react('❌');
+        }
         if (!args[1] || args.length > 25) {
-            let msg = await message.channel.send(`Proper command usage: ${prefix}rolepicker [role] [role] [role] etc. (maximum 25)`);
+            let msg = await message.channel.send(`Proper command usage: ${prefix}rolepicker @[role] emoji @[role] emoji @[role] emoji etc. (maximum 25)`);
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
@@ -16,24 +21,21 @@ module.exports = {
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        let msg = message.channel.send('Please react to your message with the emojis you would like to have as reactions within 1 min');
-        setTimeout(async function () {
-            let rolepicker = new Discord.MessageEmbed()
-                .setColor('#00ffbb')
-                .setTitle('Role Picker')
-                .setDescription('React to assign yourself a role!')
-                .setTimestamp();
-            let i = 0;
-            message.reactions.cache.forEach(reaction => {
-                rolepicker.addField({ name: `${args[i]}`, value: `React with ${reaction}` });
-                i++;
-            });
-            let picker = await message.channel.send(rolepicker);
-            message.reactions.cache.forEach(reaction => {
-                picker.react(reaction);
-            });
-            message.delete;
-            msg.delete;
-        }, 60000);
+        let roles = [];
+        let emojis = [];
+        args.forEach(arg => {
+            if(args.indexOf(arg) % 2 == 0) {
+                if(!role.id) {
+                    let msg = await message.channel.send(`Invalid role ${arg}.`);
+                    msg.delete({timeout: 10000});
+                    return message.react('❌');
+                }
+                roles.push(arg);
+            }
+            else {
+                emojis.push(arg);
+            }
+        });
+        console.log(roles + '\n' + emojis);
     }
 }
