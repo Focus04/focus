@@ -24,13 +24,25 @@ module.exports = {
         let roles = [];
         let emojis = [];
         args.forEach(async arg => {
-            if(args.indexOf(arg) % 2 == 0) {
+            if (args.indexOf(arg) % 2 == 0) {
                 roles.push(arg);
             }
             else {
                 emojis.push(arg);
             }
         });
-        console.log(roles + '\n' + emojis);
+        let rolepicker = new Discord.MessageEmbed()
+            .setTitle('Role Picker')
+            .setDescription('React to assign yourself a role!')
+            .setTimestamp();
+        let i = 0;
+        roles.forEach(role => {
+            rolepicker.addField({ name: role, value: emojis[i] });
+            i++;
+        });
+        let menu = await message.chanel.send(rolepicker);
+        emojis.forEach(emoji => {
+            menu.react(emoji);
+        });
     }
 }
