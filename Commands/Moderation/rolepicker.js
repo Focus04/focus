@@ -31,6 +31,7 @@ module.exports = {
                 emojis.push(arg);
             }
         });
+        console.log(emojis + '\n' + roles);
         let rolepicker = new Discord.MessageEmbed()
             .setTitle('Role Picker')
             .setDescription('React to assign yourself a role!')
