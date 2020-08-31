@@ -23,7 +23,7 @@ module.exports = {
         }
         let roles = [];
         let emojis = [];
-        args.forEach(arg => {
+        args.forEach(async arg => {
             if(args.indexOf(arg) % 2 == 0) {
                 if(!role.id) {
                     let msg = await message.channel.send(`Invalid role ${arg}.`);
