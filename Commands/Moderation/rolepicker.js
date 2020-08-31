@@ -21,13 +21,10 @@ module.exports = {
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        let roles = [];
+        let roles = message.mentions.roles;
         let emojis = [];
         args.forEach(async arg => {
-            if (args.indexOf(arg) % 2 == 0) {
-                roles.push(arg);
-            }
-            else {
+            if (args.indexOf(arg) % 2 == 1) {
                 emojis.push(arg);
             }
         });
