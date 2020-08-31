@@ -40,7 +40,7 @@ module.exports = {
             rolepicker.addField({ name: role, value: emojis[i] });
             i++;
         });
-        let menu = await message.chanel.send(rolepicker);
+        let menu = await message.channel.send(rolepicker);
         emojis.forEach(emoji => {
             menu.react(emoji);
         });
