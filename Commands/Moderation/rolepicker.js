@@ -34,7 +34,7 @@ module.exports = {
             .setTimestamp();
         let i = 0;
         roles.forEach(role => {
-            rolepicker.addField({ role.name, emojis[i] });
+            rolepicker.addField(role.name, emojis[i]);
             i++;
         });
         let menu = await message.channel.send(rolepicker);
