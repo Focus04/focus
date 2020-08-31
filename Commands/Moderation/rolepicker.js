@@ -31,14 +31,13 @@ module.exports = {
                 emojis.push(arg);
             }
         });
-        console.log(emojis + '\n' + roles);
         let rolepicker = new Discord.MessageEmbed()
             .setTitle('Role Picker')
             .setDescription('React to assign yourself a role!')
             .setTimestamp();
         let i = 0;
         roles.forEach(role => {
-            rolepicker.addField({ name: role, value: emojis[i] });
+            rolepicker.addField({ name: role.name, value: emojis[i] });
             i++;
         });
         let menu = await message.channel.send(rolepicker);
