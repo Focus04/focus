@@ -36,7 +36,7 @@ module.exports = {
                 roles.push(role);
             }
             if (args.indexOf(arg) % 2 == 1 && arg.length == 1) {
-                console.log(arg);
+                console.log(arg, args.indexOf(arg), arg.length);
                 emojis.push(arg);
             }
         });
