@@ -10,7 +10,7 @@ module.exports = {
         let emojis = [];
         let err = 0;
         args.forEach(async arg => {
-            if (args.indexOf(arg) % 2 == 0 && arg.startsWith('<@&')) {
+            if (args.indexOf(arg) % 2 == 0 && arg.startsWith('<@&').endsWith('>')) {
                 let role = message.guild.roles.cache.get(arg.substring(3, 21));
                 let bothighestrole = -1;
                 message.guild.me.roles.cache.forEach(r => {
@@ -34,7 +34,7 @@ module.exports = {
                 }
                 roles.push(role);
             }
-            if (args.indexOf(arg) % 2 == 1 && !arg.startsWith('<@&'))
+            if (args.indexOf(arg) % 2 == 1 && arg.length == 1)
                 emojis.push(arg);
         });
         if (err == 1)
@@ -43,7 +43,7 @@ module.exports = {
             let msg = await message.channel.send('I require the Manage Roles permission in order to execute this command.');
             return msg.delete({ timeout: 10000 });
         }
-        if (!args[1] || roles.length != emojis.length || args.length > 25) {
+        if (!args[1] || roles.length != args / 2 || emojis.length != args / 2 || args.length > 25) {
             let msg = await message.channel.send(`Proper command usage: ${prefix}rolepicker @[role] emoji @[role] emoji @[role] emoji etc. (maximum 25)`);
             return msg.delete({ timeout: 10000 });
         }
