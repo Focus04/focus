@@ -10,8 +10,7 @@ module.exports = {
         let emojis = [];
         let err = 0;
         args.forEach(async arg => {
-            if (args.indexOf(arg) % 2 == 0 && arg.startsWith('<@&') && arg.endsWith('>')) {
-                console.log(arg);
+            if (args.indexOf(arg) % 2 == 0 && arg.startsWith('<@&') && arg.endsWith('>') && arg.length == 22) {
                 let role = message.guild.roles.cache.get(arg.substring(3, 21));
                 let bothighestrole = -1;
                 message.guild.me.roles.cache.forEach(r => {
@@ -35,14 +34,10 @@ module.exports = {
                 }
                 roles.push(role);
             }
-            if (args.indexOf(arg) % 2 == 1 && arg.length == 1) {
-                console.log(arg);
+            if (args.indexOf(arg) % 2 == 1 && !arg.startsWith('<@&')) {
                 emojis.push(arg);
             }
         });
-        args.forEach(a => {
-            console.log(a, a.length);
-        })
         if (err == 1)
             return;
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
