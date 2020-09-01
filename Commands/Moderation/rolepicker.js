@@ -19,7 +19,7 @@ module.exports = {
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        if (!args[1] || roles.size != emojis.length || args.length > 25) {
+        if (!args[1] || roles.length != emojis.length || args.length > 25) {
             let msg = await message.channel.send(`Proper command usage: ${prefix}rolepicker @[role] emoji @[role] emoji @[role] emoji etc. (maximum 25)`);
             msg.delete({ timeout: 10000 });
             return message.react('❌');
