@@ -6,12 +6,23 @@ module.exports = {
     usage: 'rolepicker @`role` emoji @`role` emoji @`role` emoji etc. (maximum 25)',
     guildOnly: true,
     async execute(message, args, prefix) {
+        let roles = message.mentions.roles;
+        let emojis = [];
+        args.forEach(async arg => {
+            if (args.indexOf(arg) % 2 == 1) {
+                roles.forEach(role => {
+                    if(arg === role)
+                        return;
+                });
+                emojis.push(arg);
+            }
+        });
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
             let msg = await message.channel.send('I require the Manage Roles permission in order to execute this command.');
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        if (!args[1] || args.length % 2 != 0 || args.length > 25) {
+        if (!args[1] || roles.length != emojis.length || args.length > 25) {
             let msg = await message.channel.send(`Proper command usage: ${prefix}rolepicker @[role] emoji @[role] emoji @[role] emoji etc. (maximum 25)`);
             msg.delete({ timeout: 10000 });
             return message.react('❌');
@@ -21,13 +32,6 @@ module.exports = {
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        let roles = message.mentions.roles;
-        let emojis = [];
-        args.forEach(async arg => {
-            if (args.indexOf(arg) % 2 == 1) {
-                emojis.push(arg);
-            }
-        });
         let rolepicker = new Discord.MessageEmbed()
             .setTitle('Role Picker')
             .setDescription('React to assign yourself a role!')
