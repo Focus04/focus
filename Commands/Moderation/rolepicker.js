@@ -10,7 +10,7 @@ module.exports = {
         let emojis = [];
         args.forEach(async arg => {
             if (args.indexOf(arg) % 2 == 0 && arg.startsWith('<@&'))
-                roles.push(arg);
+                roles.push(message.guild.roles.cache.get(arg.substring(3, 21)));
             if (args.indexOf(arg) % 2 == 1 && !arg.startsWith('<@&'))
                 emojis.push(arg);
         });
@@ -36,7 +36,7 @@ module.exports = {
             .setTimestamp();
         let i = 0;
         roles.forEach(role => {
-            rolepicker.addField(role, emojis[i]);
+            rolepicker.addField(role.name, emojis[i]);
             i++;
         });
         let menu = await message.channel.send(rolepicker);
