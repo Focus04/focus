@@ -16,7 +16,7 @@ module.exports = {
                     if (r.position > bothighestrole)
                         bothighestrole = r.position;
                 })
-                if (welcomerole.position >= bothighestrole) {
+                if (role.position >= bothighestrole) {
                     let msg = await message.channel.send(`Error at role ${role.name}. My roles must be higher than the role that you want to set.`);
                     return msg.delete({ timeout: 10000 });
                 }
@@ -25,7 +25,7 @@ module.exports = {
                     if (r.position > highestrole)
                         highestrole = r.position;
                 });
-                if (welcomerole.position >= highestrole) {
+                if (role.position >= highestrole) {
                     let msg = await message.channel.send(`Error at role ${role.name}. Your roles must be higher than the role that you want to set.`);
                     return msg.delete({ timeout: 10000 });
                 }
