@@ -36,11 +36,13 @@ module.exports = {
                 roles.push(role);
             }
             if (args.indexOf(arg) % 2 == 1 && arg.length == 1) {
-                console.log(arg, args.indexOf(arg), arg.length);
+                console.log(arg);
                 emojis.push(arg);
             }
         });
-        console.log(args);
+        args.forEach(a => {
+            console.log(a, a.length);
+        })
         if (err == 1)
             return;
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
