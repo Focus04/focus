@@ -46,7 +46,7 @@ module.exports = {
             let msg = await message.channel.send('I require the Manage Roles permission in order to execute this command.');
             return msg.delete({ timeout: 10000 });
         }
-        if (!args[1] || roles.length != args / 2 || emojis.length != args / 2 || args.length > 25) {
+        if (!args[1] || roles.length != args.length / 2 || emojis.length != args.length / 2 || args.length > 25) {
             let msg = await message.channel.send(`Proper command usage: ${prefix}rolepicker @[role] emoji @[role] emoji @[role] emoji etc. (maximum 25)`);
             return msg.delete({ timeout: 10000 });
         }
