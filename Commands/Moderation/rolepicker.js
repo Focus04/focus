@@ -6,11 +6,13 @@ module.exports = {
     usage: 'rolepicker @`role` emoji @`role` emoji @`role` emoji etc. (maximum 25)',
     guildOnly: true,
     async execute(message, args, prefix) {
-        let roles = message.mentions.roles;
+        let roles = [];
         let emojis = [];
         args.forEach(async arg => {
+            if (args.indexOf(arg) % 2 == 0 && arg.startsWith('<@&'))
+                roles.push(arg);
             if (args.indexOf(arg) % 2 == 1 && !arg.startsWith('<@&'))
-                emojis.unshift(arg);
+                emojis.push(arg);
         });
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
             let msg = await message.channel.send('I require the Manage Roles permission in order to execute this command.');
