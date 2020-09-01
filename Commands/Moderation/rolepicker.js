@@ -10,7 +10,7 @@ module.exports = {
         let emojis = [];
         args.forEach(async arg => {
             if (args.indexOf(arg) % 2 == 1 && !arg.startsWith('<@&'))
-                emojis.push(arg);
+                emojis.unshift(arg);
         });
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
             let msg = await message.channel.send('I require the Manage Roles permission in order to execute this command.');
