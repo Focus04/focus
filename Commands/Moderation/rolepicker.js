@@ -9,25 +9,42 @@ module.exports = {
         let roles = [];
         let emojis = [];
         args.forEach(async arg => {
-            if (args.indexOf(arg) % 2 == 0 && arg.startsWith('<@&'))
-                roles.push(message.guild.roles.cache.get(arg.substring(3, 21)));
+            if (args.indexOf(arg) % 2 == 0 && arg.startsWith('<@&')) {
+                let role = message.guild.roles.cache.get(arg.substring(3, 21));
+                let bothighestrole = -1;
+                message.guild.me.roles.cache.forEach(r => {
+                    if (r.position > bothighestrole)
+                        bothighestrole = r.position;
+                })
+                if (welcomerole.position >= bothighestrole) {
+                    let msg = await message.channel.send(`Error at role ${role.name}. My roles must be higher than the role that you want to set.`);
+                    return msg.delete({ timeout: 10000 });
+                }
+                let highestrole = -1;
+                message.member.roles.cache.forEach(r => {
+                    if (r.position > highestrole)
+                        highestrole = r.position;
+                });
+                if (welcomerole.position >= highestrole) {
+                    let msg = await message.channel.send(`Error at role ${role.name}. Your roles must be higher than the role that you want to set.`);
+                    return msg.delete({ timeout: 10000 });
+                }
+                roles.push(role);
+            }
             if (args.indexOf(arg) % 2 == 1 && !arg.startsWith('<@&'))
                 emojis.push(arg);
         });
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
             let msg = await message.channel.send('I require the Manage Roles permission in order to execute this command.');
-            msg.delete({ timeout: 10000 });
-            return message.react('❌');
+            return msg.delete({ timeout: 10000 });
         }
         if (!args[1] || roles.length != emojis.length || args.length > 25) {
             let msg = await message.channel.send(`Proper command usage: ${prefix}rolepicker @[role] emoji @[role] emoji @[role] emoji etc. (maximum 25)`);
-            msg.delete({ timeout: 10000 });
-            return message.react('❌');
+            return msg.delete({ timeout: 10000 });
         }
         if (!message.member.hasPermission('MANAGE_GUILD')) {
             let msg = await message.chanel.send('You require the Manage Server permission in order to run this command!');
-            msg.delete({ timeout: 10000 });
-            return message.react('❌');
+            return msg.delete({ timeout: 10000 });
         }
         let rolepicker = new Discord.MessageEmbed()
             .setColor('#00ffbb')
@@ -43,5 +60,6 @@ module.exports = {
         emojis.forEach(emoji => {
             menu.react(emoji);
         });
+        message.delete();
     }
 }
