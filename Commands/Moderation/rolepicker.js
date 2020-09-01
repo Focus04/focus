@@ -10,7 +10,7 @@ module.exports = {
         let emojis = [];
         let err = 0;
         args.forEach(async arg => {
-            if (args.indexOf(arg) % 2 == 0 && arg.startsWith('<@&').endsWith('>')) {
+            if (args.indexOf(arg) % 2 == 0 && arg.startsWith('<@&') && arg.endsWith('>')) {
                 let role = message.guild.roles.cache.get(arg.substring(3, 21));
                 let bothighestrole = -1;
                 message.guild.me.roles.cache.forEach(r => {
