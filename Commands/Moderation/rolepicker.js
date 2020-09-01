@@ -9,7 +9,7 @@ module.exports = {
         let roles = message.mentions.roles;
         let emojis = [];
         args.forEach(async arg => {
-            if (args.indexOf(arg) % 2 == 1 && !arg.startsWith('@'))
+            if (args.indexOf(arg) % 2 == 1 && !arg.startsWith('<@&'))
                 emojis.push(arg);
         });
         console.log(roles + '\n' + emojis);
