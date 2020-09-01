@@ -9,13 +9,8 @@ module.exports = {
         let roles = message.mentions.roles;
         let emojis = [];
         args.forEach(async arg => {
-            if (args.indexOf(arg) % 2 == 1) {
-                roles.forEach(role => {
-                    if(arg === role)
-                        return;
-                });
+            if (args.indexOf(arg) % 2 == 1 && !arg.startsWith('@'))
                 emojis.push(arg);
-            }
         });
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
             let msg = await message.channel.send('I require the Manage Roles permission in order to execute this command.');
@@ -33,6 +28,7 @@ module.exports = {
             return message.react('❌');
         }
         let rolepicker = new Discord.MessageEmbed()
+            .setColor('#00ffbb')
             .setTitle('Role Picker')
             .setDescription('React to assign yourself a role!')
             .setTimestamp();
