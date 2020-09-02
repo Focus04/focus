@@ -71,6 +71,7 @@ module.exports = {
             menu.react(emoji);
         });
         message.delete();
+        console.log(mappings);
         await rolepickers.set(`${message.guild.id}_${menu.id}`, mappings);
     }
 }
