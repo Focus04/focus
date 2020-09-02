@@ -1,4 +1,6 @@
 const Discord = require("discord.js");
+const Keyv = require('keyv');
+const rolepickers = new Keyv(process.env.rolepickers);
 
 module.exports = {
     name: 'rolepicker',
@@ -52,6 +54,7 @@ module.exports = {
             let msg = await message.chanel.send('You require the Manage Server permission in order to run this command!');
             return msg.delete({ timeout: 10000 });
         }
+        let mappings = new Map();
         let rolepicker = new Discord.MessageEmbed()
             .setColor('#00ffbb')
             .setTitle('Role Picker')
@@ -60,6 +63,7 @@ module.exports = {
         let i = 0;
         roles.forEach(role => {
             rolepicker.addField(role.name, emojis[i]);
+            mappings.set(emojis[i], role.id);
             i++;
         });
         let menu = await message.channel.send(rolepicker);
@@ -67,5 +71,6 @@ module.exports = {
             menu.react(emoji);
         });
         message.delete();
+        await rolepickers.set(`${message.guild.id}_${menu.id}`, mappings);
     }
 }
