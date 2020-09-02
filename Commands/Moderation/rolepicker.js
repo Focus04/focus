@@ -72,6 +72,6 @@ module.exports = {
         });
         message.delete();
         let object = Object.fromEntries(mappings);
-        await rolepickers.set(`${message.guild.id}_${menu.id}`, object);
+        await rolepickers.set(menu.id, object);
     }
 }
