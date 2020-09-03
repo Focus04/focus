@@ -12,6 +12,7 @@ module.exports = {
         let emojis = [];
         let err = 0;
         args.forEach(async arg => {
+            console.log(args);
             if (args.indexOf(arg) % 2 == 0 && arg.startsWith('<@&') && arg.endsWith('>') && arg.length == 22) {
                 let role = message.guild.roles.cache.get(arg.substring(3, 21));
                 let bothighestrole = -1;

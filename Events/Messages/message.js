@@ -2,11 +2,13 @@ const Keyv = require('keyv');
 const prefixes = new Keyv(process.env.prefixes);
 
 module.exports = async (client, message) => {
+    if(message.author.bot)
+        return;
     let prefix = "/";
     let customprefix = await prefixes.get(`${message.guild.id}`);
     if (customprefix)
         prefix = customprefix;
-    if (!message.content.startsWith(prefix) || message.author.bot)
+    if (!message.content.startsWith(prefix))
         return;
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = client.commands.get(args.shift().toLowerCase());
