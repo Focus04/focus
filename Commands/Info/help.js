@@ -10,7 +10,7 @@ module.exports = {
         if (!args.length) {
             let debugcmds = '';
             fs.readdirSync('./Commands/Debug').forEach(file => {
-                debugcmds += `${prefix}${file.slice(1, indexOf('.'))}, `;
+                debugcmds += `${prefix}${file.slice(1, lastIndexOf('.'))}, `;
             });
             let funcmds = '';
             fs.readdirSync('./Commands/Fun').forEach(file => {
