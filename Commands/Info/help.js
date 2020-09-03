@@ -13,23 +13,23 @@ module.exports = {
                 debugcmds += `${prefix}${file} `;
             });
             let funcmds;
-            fs.readdirSync('../Fun').forEach(file => {
+            fs.readdirSync('./Commands/Fun').forEach(file => {
                 funcmds += `${prefix}${file} `;
             });
             let infocmds;
-            fs.readdirSync('../Info').forEach(file => {
+            fs.readdirSync('./Commands/Info').forEach(file => {
                 infocmds += `${prefix}${file} `;
             });
             let loggingcmds;
-            fs.readdirSync('../Logging').forEach(file => {
+            fs.readdirSync('./Commands/Logging').forEach(file => {
                 loggingcmds += `${prefix}${file} `;
             });
             let staffcmds;
-            fs.readdirSync('../Moderation').forEach(file => {
+            fs.readdirSync('./Commands/Moderation').forEach(file => {
                 staffcmds += `${prefix}${file} `;
             });
             let welcomecmds;
-            fs.readdirSync('../Welcome').forEach(file => {
+            fs.readdirSync('./Commands/Welcome').forEach(file => {
                 welcomecmds += `${prefix}${file} `;
             });
             const helpembed = new Discord.MessageEmbed()
