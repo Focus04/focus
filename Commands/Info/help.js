@@ -10,27 +10,27 @@ module.exports = {
         if (!args.length) {
             let debugcmds = '';
             fs.readdirSync('./Commands/Debug').forEach(file => {
-                debugcmds += `${prefix}${file} `;
+                debugcmds += `${prefix}${file}, `;
             });
             let funcmds = '';
             fs.readdirSync('./Commands/Fun').forEach(file => {
-                funcmds += `${prefix}${file} `;
+                funcmds += `${prefix}${file}, `;
             });
             let infocmds = '';
             fs.readdirSync('./Commands/Info').forEach(file => {
-                infocmds += `${prefix}${file} `;
+                infocmds += `${prefix}${file}, `;
             });
             let loggingcmds = '';
             fs.readdirSync('./Commands/Logging').forEach(file => {
-                loggingcmds += `${prefix}${file} `;
+                loggingcmds += `${prefix}${file}, `;
             });
             let staffcmds = '';
             fs.readdirSync('./Commands/Moderation').forEach(file => {
-                staffcmds += `${prefix}${file} `;
+                staffcmds += `${prefix}${file}, `;
             });
             let welcomecmds = '';
             fs.readdirSync('./Commands/Welcome').forEach(file => {
-                welcomecmds += `${prefix}${file} `;
+                welcomecmds += `${prefix}${file}, `;
             });
             const helpembed = new Discord.MessageEmbed()
                 .setColor('#00ffbb')
