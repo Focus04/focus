@@ -67,7 +67,7 @@ module.exports = {
             .setTimestamp();
         let i = 0;
         roles.forEach(role => {
-            rolepicker.addField(role.name, message.guild.emojis.get(emojis[i]) || emojis[i]);
+            rolepicker.addField(role.name, message.guild.emojis.cache.get(emojis[i]) || emojis[i]);
             mappings.set(emojis[i], role.id);
             i++;
         });
