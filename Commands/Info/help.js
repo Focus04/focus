@@ -9,7 +9,7 @@ module.exports = {
     async execute(message, args, prefix) {
         if (!args.length) {
             let debugcmds;
-            fs.readdirSync('../Debug').forEach(file => {
+            fs.readdirSync('./Commands/Debug').forEach(file => {
                 debugcmds += `${prefix}${file} `;
             });
             let funcmds;
