@@ -9,7 +9,7 @@ module.exports = async (client, reaction, user) => {
         if (rolepicker.hasOwnProperty(reaction.emoji)) {
             let member = reaction.message.guild.members.cache.get(user.id);
             let role = member.roles.cache.get(rolepicker[reaction.emoji]);
-            if (member && role) {
+            if (member && role && !user.bot) {
                 member.roles.remove(role);
                 user.send(`Removed the role ${'`' + role.name + '`'}`);
             }

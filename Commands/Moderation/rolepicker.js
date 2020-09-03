@@ -11,8 +11,8 @@ module.exports = {
         let roles = [];
         let emojis = [];
         let err = 0;
+        let emoji;
         args.forEach(async arg => {
-            console.log(args);
             if (args.indexOf(arg) % 2 == 0 && arg.startsWith('<@&') && arg.endsWith('>') && arg.length == 22) {
                 let role = message.guild.roles.cache.get(arg.substring(3, 21));
                 let bothighestrole = -1;
@@ -38,7 +38,12 @@ module.exports = {
                 roles.push(role);
             }
             if (args.indexOf(arg) % 2 == 1 && !arg.startsWith('<@&')) {
-                emojis.push(arg);
+                if(arg.startsWith('<:'))
+                    emoji = arg.slice(-19, -1);
+                else
+                    emoji = arg;
+                emojis.push(emoji);
+                console.log(emoji);
             }
         });
         if (err == 1)
