@@ -8,27 +8,27 @@ module.exports = {
     guildOnly: true,
     async execute(message, args, prefix) {
         if (!args.length) {
-            let debugcmds;
+            let debugcmds = '';
             fs.readdirSync('./Commands/Debug').forEach(file => {
                 debugcmds += `${prefix}${file} `;
             });
-            let funcmds;
+            let funcmds = '';
             fs.readdirSync('./Commands/Fun').forEach(file => {
                 funcmds += `${prefix}${file} `;
             });
-            let infocmds;
+            let infocmds = '';
             fs.readdirSync('./Commands/Info').forEach(file => {
                 infocmds += `${prefix}${file} `;
             });
-            let loggingcmds;
+            let loggingcmds = '';
             fs.readdirSync('./Commands/Logging').forEach(file => {
                 loggingcmds += `${prefix}${file} `;
             });
-            let staffcmds;
+            let staffcmds = '';
             fs.readdirSync('./Commands/Moderation').forEach(file => {
                 staffcmds += `${prefix}${file} `;
             });
-            let welcomecmds;
+            let welcomecmds = '';
             fs.readdirSync('./Commands/Welcome').forEach(file => {
                 welcomecmds += `${prefix}${file} `;
             });
