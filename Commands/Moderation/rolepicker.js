@@ -66,13 +66,8 @@ module.exports = {
             .setDescription('React to assign yourself a role!')
             .setTimestamp();
         let i = 0;
-        let customemoji;
         roles.forEach(role => {
-            if(!isNaN(emojis[i]))
-                customemoji = message.guild.emojis.cache.get(emojis[i]);
-            else
-                customemoji = emojis[i];
-            rolepicker.addField(role.name, customemoji);
+            rolepicker.addField(role.name, message.guild.emojis.get(emojis[i]) || emojis[i]);
             mappings.set(emojis[i], role.id);
             i++;
         });

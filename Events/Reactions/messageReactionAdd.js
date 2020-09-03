@@ -6,8 +6,8 @@ module.exports = async (client, reaction, user) => {
     if(rolepicker) {
         if(reaction.message.partial)
             await reaction.message.fetch();
-        if(rolepicker.hasOwnProperty(reaction.emoji)) {
-            let role = reaction.message.guild.roles.cache.get(rolepicker[reaction.emoji]);
+        if(rolepicker.hasOwnProperty(reaction.emoji.id || reaction.emoji)) {
+            let role = reaction.message.guild.roles.cache.get(rolepicker[reaction.emoji.id || reaction.emoji]);
             let member = reaction.message.guild.members.cache.get(user.id);
             if(member && role && !user.bot) {
                 member.roles.add(role);
