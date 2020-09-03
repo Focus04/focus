@@ -38,8 +38,14 @@ module.exports = {
                 roles.push(role);
             }
             if (args.indexOf(arg) % 2 == 1 && !arg.startsWith('<@&')) {
-                if(arg.startsWith('<:'))
+                if (arg.startsWith('<:')) {
+                    let customemoji = message.client.emojis.cache.get(arg.slice(-19, -1));
+                    if (!customemoji) {
+                        let msg = await message.channel.send(`Error at emoji ${arg}. Make sure that this emoji shares a mutual server with me!`);
+                        return msg.delete({ timeout: 10000 });
+                    }
                     emoji = arg.slice(-19, -1);
+                }
                 else
                     emoji = arg;
                 emojis.push(emoji);
@@ -67,7 +73,7 @@ module.exports = {
             .setTimestamp();
         let i = 0;
         roles.forEach(role => {
-            rolepicker.addField(role.name, message.guild.emojis.cache.get(emojis[i]) || emojis[i]);
+            rolepicker.addField(role.name, message.client.emojis.cache.get(emojis[i]) || emojis[i]);
             mappings.set(emojis[i], role.id);
             i++;
         });
