@@ -37,12 +37,12 @@ module.exports = {
                 .setTitle('Commands')
                 .setDescription(`Pro tip: Type "${prefix}help [command]" for more detailed information about a specific command.`)
                 .addFields(
-                    { name: `${message.client.emojis.cache.get('729353638132318318').toString()} Staff Commands`, value: staffcmds },
-                    { name: `${message.client.emojis.cache.get('729353637985517568').toString()} Info Commands`, value: infocmds },
-                    { name: `${message.client.emojis.cache.get('729353638056689735').toString()} Logging Commands`, value: loggingcmds },
-                    { name: `${message.client.emojis.cache.get('729353638211878923').toString()} Welcome Comamnds`, value: welcomecmds },
-                    { name: `${message.client.emojis.cache.get('729355859552895026').toString()} Fun Commands`, value: funcmds },
-                    { name: `${message.client.emojis.cache.get('729353638736166932').toString()} Debug Commands`, value: debugcmds },
+                    { name: `${message.client.emojis.cache.get('729353638132318318').toString()} Staff Commands`, value: `${'```' + staffcmds + '```'}`, inline: true },
+                    { name: `${message.client.emojis.cache.get('729353637985517568').toString()} Info Commands`, value: `${'```' + infocmds + '```'}`, inline: true },
+                    { name: `${message.client.emojis.cache.get('729353638056689735').toString()} Logging Commands`, value: `${'```' + loggingcmds + '```'}`, inline: true },
+                    { name: `${message.client.emojis.cache.get('729353638211878923').toString()} Welcome Comamnds`, value: `${'```' + welcomecmds + '```'}`, inline: true },
+                    { name: `${message.client.emojis.cache.get('729355859552895026').toString()} Fun Commands`, value: `${'```' + funcmds + '```'}`, inline: true },
+                    { name: `${message.client.emojis.cache.get('729353638736166932').toString()} Debug Commands`, value: `${'```' + debugcmds + '```'}`, inline: true },
                     { name: '`Useful Links`', value: '[Support Server](https://discord.gg/YvN7jUD), [Add me on your server](https://discordapp.com/oauth2/authorize?client_id=723094801175806024&scope=bot&permissions=268561494)' }
                 )
                 .setTimestamp();
