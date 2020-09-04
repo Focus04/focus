@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'bugreport',
+    name: 'suggestion',
     description: `Submits a bug report directly to the bot's Discord server. Make sure that you include all the steps needed to reproduce the bug.`,
     usage: 'suggestion `suggestion`',
     guildOnly: true,
