@@ -7,13 +7,12 @@ module.exports = {
     usage: 'delrolepicker `messageID`',
     guildOnly: true,
     async execute(message, args, prefix) {
-        let menu = message.channel.messages.fetch(args[0]);
         if(!args[0]) {
             let msg = await message.channel.send(`Proper command usage: ${prefix}delrolepicker [messageID]`);
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        if(!menu) {
+        if (!message.channel.messages.fetch(args[0])) {
             let msg = await message.channel.send(`Couldn't find any rolepickers with the ID of ${args[0]}.`);
             msg.delete({ timeout: 10000 });
             return message.react('❌');
@@ -23,7 +22,7 @@ module.exports = {
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        menu.delete();
+        message.channel.messages.delete(args[0]);
         rolepickers.delete(args[0]);
         message.channel.send(`Successfully deleted a role picker.`);
         message.react('✔️');
