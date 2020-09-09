@@ -18,7 +18,7 @@ module.exports = {
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        if (message.guild.member.hasPermission('MANAGE_GUILD')) {
+        if (message.member.hasPermission('MANAGE_GUILD')) {
             let msg = await message.channel.send('You require the Manage Server permission in order to run this command!');
             msg.delete({ timeout: 10000 });
             return message.react('❌');
