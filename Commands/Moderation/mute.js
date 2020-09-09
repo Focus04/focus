@@ -62,7 +62,8 @@ module.exports = {
             });
         }
         if (member.roles.cache.has(mutedrole.id)) {
-            message.channel.send(`${user.username} is already muted!`);
+            let msg = await message.channel.send(`${user.username} is already muted!`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         const muteembed = new Discord.MessageEmbed()
