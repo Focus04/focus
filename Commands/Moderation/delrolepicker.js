@@ -24,7 +24,7 @@ module.exports = {
             return message.react('❌');
         }
         menu.delete();
-        rolepickers.delete(`${message.guild.id}_${args[0]}`);
+        rolepickers.delete(args[0]);
         message.channel.send(`Successfully deleted a role picker.`);
         message.react('✔️');
     }
