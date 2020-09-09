@@ -7,13 +7,13 @@ module.exports = {
     usage: 'delrolepicker `messageID`',
     guildOnly: true,
     async execute(message, args, prefix) {
-        let menu = await message.channel.messages.fetch(args[0]);
+        let menu = await message.channel.messages.fetch(args[0]).catch(error);
         if(!args[0]) {
             let msg = await message.channel.send(`Proper command usage: ${prefix}delrolepicker [messageID]`);
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        if (!menu) {
+        if (error) {
             let msg = await message.channel.send(`Couldn't find any rolepickers with the ID of ${args[0]}.`);
             msg.delete({ timeout: 10000 });
             return message.react('❌');
