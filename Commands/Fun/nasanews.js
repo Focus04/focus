@@ -26,7 +26,7 @@ module.exports = {
             .setDescription(data.collection.items[0].data[0].description)
             .setImage(data.collection.items[0].links[0].href.replace(' ', '%20'))
             .setTimestamp();
-        console.log(data.collection.items[0].links[0].href.replace(' ', '%20'));
+        console.log(data.collection.items[0].links[0].href.replaceAll(' ', '%20'));
         await message.channel.send(nasasearchembed);
         message.react('✔️');
     }
