@@ -24,7 +24,7 @@ module.exports = {
             .setColor('#00ffbb')
             .setTitle(data.collection.items[0].data[0].title)
             .setDescription(data.collection.items[0].data[0].description)
-            .setImage(data.collection.items[0].links[0].href.replace(' ', '%20'))
+            .setImage(data.collection.items[0].links[0].href.split(' ').join('%20'))
             .setTimestamp();
         console.log(data.collection.items[0].links[0].href.replaceAll(' ', '%20'));
         await message.channel.send(nasasearchembed);
