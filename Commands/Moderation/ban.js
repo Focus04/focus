@@ -14,8 +14,33 @@ module.exports = {
         let user = message.mentions.users.first();
         let author = message.author.username;
         let days = args[1];
+        let modhighestrole = -1;
+        message.member.roles.cache.forEach(r => {
+            if (r.position > modhighestrole)
+                modhighestrole = r.position;
+        });
+        let memberhighestrole = -1;
+        member.roles.cache.forEach(r => {
+            if (r.position > memberhighestrole)
+                memberhighestrole = r.position;
+        });
+        if (modhighestrole <= memberhighestrole) {
+            let msg = await message.channel.send('Your roles must be higher than the roles of the person you want to ban!');
+            msg.delete({ timeout: 10000 });
+            return message.react('❌');
+        }
         if (!message.guild.me.hasPermission('BAN_MEMBERS')) {
             let msg = await message.channel.send('I require the `Ban Members` permission in order to perform this action.');
+            msg.delete({ timeout: 10000 });
+            return message.react('❌');
+        }
+        if (!message.member.hasPermission('BAN_MEMBERS') || !message.guild.member(member).bannable) {
+            let msg = await message.channel.send(`It appears that you lack permissions to ban. In case you have them, make sure that my role is higher than the role of the person you want to ban!`);
+            msg.delete({ timeout: 10000 });
+            return message.react('❌');
+        }
+        if (member.id == message.author.id) {
+            let msg = await message.channel.send(`You can't ban youself, smarty pants!`);
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
@@ -25,17 +50,6 @@ module.exports = {
                 msg.delete({ timeout: 10000 });
                 return message.react('❌');
             }
-            if (!message.member.hasPermission('BAN_MEMBERS') || !message.guild.member(member).bannable) {
-                let msg = await message.channel.send(`It appears that you lack permissions to ban. In case you have them, make sure that my role is higher than the role of the person you want to ban!`);
-                msg.delete({ timeout: 10000 });
-                return message.react('❌');
-            }
-            if (member.id == message.author.id) {
-                let msg = await message.channel.send(`You can't ban youself, smarty pants!`);
-                msg.delete({ timeout: 10000 });
-                return message.react('❌');
-            }
-
             args.shift();
             let reason = '`' + args.join(' ') + '`';
             await bannedusers.set(`${message.guild.id}_${member.user.username}`, member.user.id);
@@ -72,17 +86,6 @@ module.exports = {
                 msg.delete({ timeout: 10000 });
                 return message.react('❌');
             }
-            if (!message.member.hasPermission('BAN_MEMBERS') || !message.guild.member(member).bannable) {
-                let msg = await message.channel.send(`It appears that you lack permissions to ban. In case you have them, make sure that my role is higher than the role of the person you want to ban!`);
-                msg.delete({ timeout: 10000 });
-                return message.react('❌');
-            }
-            if (member.id == message.author.id) {
-                let msg = await message.channel.send(`You can't ban youself, smarty pants!`);
-                msg.delete({ timeout: 10000 });
-                return message.react('❌');
-            }
-            
             args.shift();
             args.shift();
             let reason = '`' + args.join(' ') + '`';

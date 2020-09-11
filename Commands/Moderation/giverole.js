@@ -53,7 +53,7 @@ module.exports = {
                 highestrole = r.position;
         });
         if (role.position >= highestrole) {
-            let msg = await message.channel.send('Your roles must be higher than the role that you want to give. In case they are, make sure that my role is higher than the role of the member you want to give a role to!');
+            let msg = await message.channel.send('Your roles must be higher than the role that you want to give!');
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
