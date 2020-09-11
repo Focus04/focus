@@ -20,13 +20,28 @@ module.exports = {
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        if (!message.member.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable) {
-            let msg = await message.channel.send(`It appears that you lack permissions to kick. In case you have them, make sure that my role is higher than the role of the person you want to kick!`);
+        if (member.id == message.author.id) {
+            let msg = await message.channel.send(`I mean you could simply leave the server.`);
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        if (member.id == message.author.id) {
-            let msg = await message.channel.send(`I mean you could simply leave the server.`);
+        let modhighestrole = -1;
+        message.member.roles.cache.forEach(r => {
+            if (r.position > modhighestrole)
+                modhighestrole = r.position;
+        });
+        let memberhighestrole = -1;
+        member.roles.cache.forEach(r => {
+            if (r.position > memberhighestrole)
+                memberhighestrole = r.position;
+        });
+        if (modhighestrole <= memberhighestrole) {
+            let msg = await message.channel.send('Your roles must be higher than the roles of the person you want to kick!');
+            msg.delete({ timeout: 10000 });
+            return message.react('❌');
+        }
+        if (!message.member.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable) {
+            let msg = await message.channel.send(`It appears that you lack permissions to kick. In case you have them, make sure that my role is higher than the role of the person you want to kick!`);
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }

@@ -24,13 +24,28 @@ module.exports = {
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        if (!message.member.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable) {
-            let msg = await message.channel.send(`You need the Kick Members permission in order to run this command.  In case you have it, make sure that my role is higher than the role of the person you want to mute!`);
+        if (member.id == message.author.id) {
+            let msg = await message.channel.send(`You can't mute youself, smarty pants!`);
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        if (member.id == message.author.id) {
-            let msg = await message.channel.send(`You can't mute youself, smarty pants!`);
+        let modhighestrole = -1;
+        message.member.roles.cache.forEach(r => {
+            if (r.position > modhighestrole)
+                modhighestrole = r.position;
+        });
+        let memberhighestrole = -1;
+        member.roles.cache.forEach(r => {
+            if (r.position > memberhighestrole)
+                memberhighestrole = r.position;
+        });
+        if (modhighestrole <= memberhighestrole) {
+            let msg = await message.channel.send('Your roles must be higher than the roles of the person you want to mute!');
+            msg.delete({ timeout: 10000 });
+            return message.react('❌');
+        }
+        if (!message.member.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable) {
+            let msg = await message.channel.send(`You need the Kick Members permission in order to run this command.  In case you have it, make sure that my role is higher than the role of the person you want to mute!`);
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
