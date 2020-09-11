@@ -42,14 +42,14 @@ module.exports = {
                 { name: 'Reason:', value: `${reason}` }
             )
             .setTimestamp();
-        message.react('✔️');
         let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-        let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+        let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
         if (!log)
             message.channel.send(warnembed);
         else
             log.send(warnembed);
-        member.send(`${author} is warning you in ${message.guild.name} for ${reason}.`);
+        await member.send(`${author} is warning you in ${message.guild.name} for ${reason}.`);
         await warnings.set(`warns_${member.id}_${message.guild.id}`, warns);
+        message.react('✔️');
     }
 }

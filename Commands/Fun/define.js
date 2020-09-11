@@ -36,7 +36,7 @@ module.exports = {
                 { name: 'Synonyms', value: `${synonyms || 'N/A'}` }
             )
             .setTimestamp();
+        await message.channel.send(defineembed);
         message.react('✔️');
-        message.channel.send(defineembed);
     }
 }

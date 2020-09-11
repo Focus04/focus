@@ -11,7 +11,7 @@ module.exports = {
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        message.client.channels.cache.get('751455845270814721').send(`__Suggestion by ${author}__\n\n${suggestion}`);
+        await message.client.channels.cache.get('751455845270814721').send(`__Suggestion by ${author}__\n\n${suggestion}`);
         message.react('✔️');
         message.channel.send(`Your suggestion has been successfully submitted to our server and is now awaiting a review from the developer's side. You can join our Discord server anytime using this link: https://discord.gg/YvN7jUD`);
     }

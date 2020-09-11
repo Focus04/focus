@@ -31,13 +31,13 @@ module.exports = {
             return message.react('❌');
         }
         member.roles.remove(mutedrole);
-        message.react('✔️');
         let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-        let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+        let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
         if (!log)
             message.channel.send(`${args[0]} has been unmuted earlier.`);
         else
             log.send(`${args[0]} has been unmuted earlier.`);
-        member.send(`${author} unmuted you earlier from ${message.guild.name}.`);
+        await member.send(`${author} unmuted you earlier from ${message.guild.name}.`);
+        message.react('✔️');
     }
 }

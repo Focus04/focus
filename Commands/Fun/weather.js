@@ -90,7 +90,7 @@ module.exports = {
             )
             .setThumbnail(`${icon}.png`)
             .setTimestamp();
+        await message.channel.send(weatherembed);
         message.react('✔️');
-        message.channel.send(weatherembed);
     }
 }

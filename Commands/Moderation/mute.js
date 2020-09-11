@@ -66,6 +66,8 @@ module.exports = {
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
+        await mts.set(`mutes_${member.id}_${message.guild.id}`, mutes);
+        member.roles.add(mutedrole);
         const muteembed = new Discord.MessageEmbed()
             .setColor('#00ffbb')
             .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Mute Information`)
@@ -77,15 +79,13 @@ module.exports = {
             )
             .setFooter(`You can use ${prefix}unmute to unmute the user earlier than ${mins} minutes.`)
             .setTimestamp();
-        message.react('✔️');
         let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-        let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+        let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
         if (!log)
             await message.channel.send(muteembed);
         else
             await log.send(muteembed);
-        await mts.set(`mutes_${member.id}_${message.guild.id}`, mutes);
-        member.roles.add(mutedrole);
+        message.react('✔️');
         setTimeout(function () {
             if (member.roles.cache.has(mutedrole.id)) {
                 member.roles.remove(mutedrole);

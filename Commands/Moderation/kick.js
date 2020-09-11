@@ -47,15 +47,15 @@ module.exports = {
                 { name: `Reason:`, value: `${reason}` }
             )
             .setTimestamp();
-        message.react('✔️');
+        await member.send(`${author} kicked you from ${message.guild.name} for ${reason}.`);
         let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
         let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
         if (!log)
             await message.channel.send(kickembed);
         else
             await log.send(kickembed);
-        await member.send(`${author} kicked you from ${message.guild.name} for ${reason}.`);
         await kks.set(`kicks_${member.id}_${message.guild.id}`, kicks);
-        message.guild.member(member).kick();
+        await message.guild.member(member).kick();
+        message.react('✔️');
     }
 }

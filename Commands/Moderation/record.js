@@ -44,7 +44,7 @@ module.exports = {
                 { name: 'Times banned', value: `${bans}` }
             )
             .setTimestamp();
+        await message.channel.send(recordembed);
         message.react('✔️');
-        message.channel.send(recordembed);
     }
 }

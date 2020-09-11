@@ -71,12 +71,12 @@ module.exports = {
                 { name: 'Permissions', value: `${perms}` }
             )
             .setTimestamp();
-        message.react('✔️');
         let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-        let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+        let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
         if (log)
             log.send(giveroleembed);
         else
             message.channel.send(giveroleembed);
+        message.react('✔️');
     }
 }

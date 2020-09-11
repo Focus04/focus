@@ -55,7 +55,6 @@ module.exports = {
                 )
                 .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier.`)
                 .setTimestamp();
-            message.react('✔️');
             let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
             let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
             if (!log)
@@ -64,7 +63,8 @@ module.exports = {
                 await log.send(banembed1);
             await member.send(`${author} has permanently banned you from ${message.guild.name} for ${reason}.`);
             await bns.set(`bans_${member.id}_${message.guild.id}`, bans);
-            message.guild.member(member).ban();
+            await message.guild.member(member).ban();
+            message.react('✔️');
         }
         else {
             if (!member || !args[2]) {
@@ -103,7 +103,6 @@ module.exports = {
                 )
                 .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier than ${days} days.`)
                 .setTimestamp();
-            message.react('✔️');
             let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
             let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
             if (!log)
@@ -112,7 +111,8 @@ module.exports = {
                 await log.send(banembed2);
             await member.send(`${author} has banned you from ${message.guild.name} for ${reason}. Duration: ${days} days.`);
             await bns.set(`bans_${member.id}_${message.guild.id}`, bans);
-            message.guild.member(member).ban();
+            await message.guild.member(member).ban();
+            message.react('✔️');
             setTimeout(async function () {
                 let baninfo = message.guild.fetchBan(user);
                 if (baninfo) {

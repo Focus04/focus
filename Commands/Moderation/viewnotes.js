@@ -25,7 +25,7 @@ module.exports = {
             return message.react('❌');
         }
         let notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
-        message.channel.send('Check your inbox.');
+        await message.channel.send('Check your inbox.');
         if (!notes)
             message.author.send(`There are no notes linked to ${member.username}.`);
         else {
@@ -36,5 +36,6 @@ module.exports = {
                 .setTimestamp();
             message.author.send(viewnotesembed);
         }
+        message.react('✔️');
     }
 }

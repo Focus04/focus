@@ -36,12 +36,12 @@ module.exports = {
             return message.react('❌');
         })
         await bannedusers.delete(`${message.guild.id}_${args[0]}`);
-        message.react('✔️');
         let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-        let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+        let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
         if (!log)
             message.channel.send(`${args[0]} has been unbanned earlier.`);
         else
             log.send(`${args[0]} has been unbanned earlier.`);
+        message.react('✔️');
     }
 }
