@@ -9,7 +9,7 @@ module.exports = {
     usage: 'warn @`user` `reason`',
     guildOnly: true,
     async execute(message, args, prefix) {
-        let member = message.mentions.users.first();
+        let member = message.mentions.members.first();
         let author = message.author.username;
         if (!member || !args[1]) {
             let msg = await message.channel.send(`Proper command usage: ${prefix}warn @[user] [reason]`);
@@ -52,7 +52,7 @@ module.exports = {
             .setColor('#00ffbb')
             .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Warn Information`)
             .addFields(
-                { name: `Defendant's name:`, value: `${member}` },
+                { name: `Defendant's name:`, value: `${member.user.tag}` },
                 { name: `Issued by:`, value: `${author}` },
                 { name: 'Reason:', value: `${reason}` }
             )
@@ -63,8 +63,8 @@ module.exports = {
             message.channel.send(warnembed);
         else
             log.send(warnembed);
-        await member.send(`${author} is warning you in ${message.guild.name} for ${reason}.`);
-        await warnings.set(`warns_${member.id}_${message.guild.id}`, warns);
+        await member.user.send(`${author} is warning you in ${message.guild.name} for ${reason}.`);
+        await warnings.set(`warns_${member.user.id}_${message.guild.id}`, warns);
         message.react('✔️');
     }
 }
