@@ -62,7 +62,7 @@ module.exports = {
                 .setColor('#00ffbb')
                 .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Ban Information`)
                 .addFields(
-                    { name: `Defendant's name:`, value: `${member}` },
+                    { name: `Defendant's name:`, value: `${member.user.tag}` },
                     { name: `Issued by:`, value: `${author}` },
                     { name: `Reason:`, value: `${reason}` },
                     { name: `Duration:`, value: `Permanent` },
