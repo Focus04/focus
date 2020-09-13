@@ -1,6 +1,7 @@
 const Keyv = require('keyv');
 const leavechannels = new Keyv(process.env.leavechannels);
 const toggleleave = new Keyv(process.env.toggleleave);
+const logchannels = new Keyv(process.env.logchannels);
 
 module.exports = {
     name: 'toggleleavemsg',
@@ -31,7 +32,12 @@ module.exports = {
             state = 'off';
         }
         await toggleleave.set(`toggleleavemsg_${message.guild.id}`, logs);
+        let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+        let log = await message.guild.channels.cache.find(channel => channel.name === logchname);
+        if (!log)
+            message.channel.send(`Leave messages are now set to ${'`' + state + '`'}`);
+        else
+            log.send(`Leave messages are now set to ${'`' + state + '`'}`);
         message.react('✔️');
-        message.channel.send(`Leave messages are now set to ${state}.`);
     }
 }

@@ -1,6 +1,7 @@
 const Keyv = require('keyv');
 const welcomechannels = new Keyv(process.env.welcomechannels);
 const togglewelcome = new Keyv(process.env.togglewelcome);
+const logchannels = new Keyv(process.env.logchannels);
 
 module.exports = {
     name: 'togglewelcomemsg',
@@ -31,7 +32,12 @@ module.exports = {
             state = 'off';
         }
         await togglewelcome.set(`togglewelcomemsg_${message.guild.id}`, logs);
+        let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+        let log = await message.guild.channels.cache.find(channel => channel.name === logchname);
+        if (!log)
+            message.channel.send(`Welcome messages are now set to ${'`' + state + '`'}`);
+        else
+            log.send(`Welcome messages are now set to ${'`' + state + '`'}`);
         message.react('✔️');
-        message.channel.send(`Welcome messages are now set to ${state}.`);
     }
 }
