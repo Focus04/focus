@@ -21,13 +21,18 @@ module.exports = {
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        let logs = await toggleleave.get(`toggleleavemsg_${message.guild.id}`) || 1;
+        let logs = await toggleleave.get(`toggleleavemsg_${message.guild.id}`);
         let state;
-        if (logs == 0) {
-            logs = 1;
-            state = 'on';
-        }
-        else if (logs == 1) {
+        if (logs)
+            if (logs == 0) {
+                logs = 1;
+                state = 'on';
+            }
+            else if (logs == 1) {
+                logs = 0;
+                state = 'off';
+            }
+        else {
             logs = 0;
             state = 'off';
         }
@@ -35,9 +40,9 @@ module.exports = {
         let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
         let log = await message.guild.channels.cache.find(channel => channel.name === logchname);
         if (!log)
-            message.channel.send(`Leave messages are now set to ${'`' + state + '`'}`);
+            message.channel.send(`Welcome messages are now set to ${'`' + state + '`'}`);
         else
-            log.send(`Leave messages are now set to ${'`' + state + '`'}`);
+            message.channel.send(`Welcome messages are now set to ${'`' + state + '`'}`);
         message.react('✔️');
     }
 }
