@@ -21,9 +21,9 @@ module.exports = {
             msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
-        let logs = await toggleleave.get(`toggleleavemsg_${message.guild.id}`);
+        let logs = await toggleleave.get(`toggleleavemsg_${message.guild.id}`) || 1;
         let state;
-        if (!logs || logs == 0) {
+        if (logs == 0) {
             logs = 1;
             state = 'on';
         }
