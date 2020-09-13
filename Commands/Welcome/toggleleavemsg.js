@@ -27,7 +27,7 @@ module.exports = {
             logs = 1;
             state = 'on';
         }
-        else {
+        else if (logs == 1) {
             logs = 0;
             state = 'off';
         }
