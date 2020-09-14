@@ -1,7 +1,7 @@
 const Keyv = require('keyv');
 const leavechannels = new Keyv(process.env.leavechannels);
 const leavemessages = new Keyv(process.env.leavemessages);
-const toggleleave = new Keyv(process.env.toggleleave);
+const toggleleave = new Keyv(process.env.toggleleavemsg);
 
 module.exports = async (client, member) => {
     let leavechname = await leavechannels.get(`leavechannel_${member.guild.id}`);

@@ -2,7 +2,7 @@ const Keyv = require('keyv');
 const welcomechannels = new Keyv(process.env.welcomechannels);
 const welcomeroles = new Keyv(process.env.welcomeroles);
 const welcomemessages = new Keyv(process.env.welcomemessages);
-const togglewelcome = new Keyv(process.env.togglewelcome);
+const togglewelcome = new Keyv(process.env.togglewelcomemsg);
 const welcomedms = new Keyv(process.env.welcomedms);
 const togglewelcomedm = new Keyv(process.env.togglewelcomedm);
 

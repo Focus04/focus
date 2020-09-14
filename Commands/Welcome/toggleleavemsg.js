@@ -1,6 +1,6 @@
 const Keyv = require('keyv');
 const leavechannels = new Keyv(process.env.leavechannels);
-const toggleleave = new Keyv(process.env.toggleleave);
+const toggleleave = new Keyv(process.env.toggleleavemsg);
 const logchannels = new Keyv(process.env.logchannels);
 
 module.exports = {
@@ -23,15 +23,10 @@ module.exports = {
         }
         let logs = await toggleleave.get(`toggleleavemsg_${message.guild.id}`);
         let state;
-        if (logs)
-            if (logs == 0) {
-                logs = 1;
-                state = 'on';
-            }
-            else if (logs == 1) {
-                logs = 0;
-                state = 'off';
-            }
+        if (!logs || logs == 0) {
+            logs = 1;
+            state = 'on';
+        }
         else {
             logs = 0;
             state = 'off';
