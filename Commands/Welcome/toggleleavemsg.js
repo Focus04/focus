@@ -23,7 +23,7 @@ module.exports = {
         }
         let logs = await toggleleave.get(`toggleleavemsg_${message.guild.id}`);
         let state;
-        if (!logs || logs == 0) {
+        if (logs == 0) {
             logs = 1;
             state = 'on';
         }
@@ -31,7 +31,6 @@ module.exports = {
             logs = 0;
             state = 'off';
         }
-        console.log(logs);
         await toggleleave.set(`toggleleavemsg_${message.guild.id}`, logs);
         let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
         let log = await message.guild.channels.cache.find(channel => channel.name === logchname);

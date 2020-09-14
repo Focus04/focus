@@ -23,7 +23,7 @@ module.exports = {
         }
         let logs = await togglewelcome.get(`togglewelcomemsg_${message.guild.id}`);
         let state;
-        if (!logs || logs == 0) {
+        if (logs == 0) {
             logs = 1;
             state = 'on';
         }
