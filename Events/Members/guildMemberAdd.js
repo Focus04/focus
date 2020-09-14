@@ -11,7 +11,7 @@ module.exports = async (client, member) => {
     let welcome = member.guild.channels.cache.find(ch => ch.name === welcomechname);
     let dm = await welcomedms.get(`welcomedm_${member.guild.id}`);
     let dmstate = await togglewelcomedm.get(`togglewelcomedm_${member.guild.id}`);
-    if (!dmstate)
+    if (!dmstate && dmstate != 0)
         dmstate = 1;
     if (dm && dmstate == 1)
         member.send(dm.replace('[user]', `${member.user.username}`));
@@ -20,7 +20,7 @@ module.exports = async (client, member) => {
     if (welcomerole)
         member.roles.add(welcomerole);
     let state = await togglewelcome.get(`togglewelcomemsg_${member.guild.id}`);
-    if (!state)
+    if (!state && state != 0)
         state = 1;
     if (welcome && state == 1) {
         let msg;

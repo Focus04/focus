@@ -7,7 +7,7 @@ module.exports = async (client, member) => {
     let leavechname = await leavechannels.get(`leavechannel_${member.guild.id}`);
     let leave = member.guild.channels.cache.find(ch => ch.name === leavechname);
     let state = await toggleleave.get(`toggleleavemsg_${member.guild.id}`);
-    if (!state)
+    if (!state && state != 0)
         state = 1;
     if (leave && state == 1) {
         let msg;
