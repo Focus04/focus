@@ -18,6 +18,7 @@ module.exports = async (client, member) => {
     if (welcomerole)
         member.roles.add(welcomerole);
     let state = await togglewelcome.get(`togglewelcomemsg_${member.guild.id}`) || 1;
+    console.log(state);
     if (welcome && state == 1) {
         let msg;
         let welcomemessage = await welcomemessages.get(`welcomemessage_${member.guild.id}`);
