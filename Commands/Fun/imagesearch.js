@@ -15,12 +15,12 @@ module.exports = {
             return message.react('❌');
         }
         let term = args.join(' ');
-        let response = await fetch(`https://serpapi.com/search.json?engine=google&q=${term}&google_domain=google.com&ijn=0&tbm=isch&tbs=itp%3Aphotos%2Cisz%3Al`);
+        let response = await fetch(`https://app.zenserp.com/api/v2/search?apikey=${process.env.imagesearch}&q=${term}&tbm=isch&device=desktop&location=Manhattan,New%20York,United%20States`);
         let data = await response.json();
         let imagesearchembed = new Discord.MessageEmbed()
             .setColor('#00ffbb')
             .setTitle(term)
-            .setImage(data.images_results[0].original)
+            .setImage(data.image_results[0].sourceUrl)
             .setTimestamp();
         await message.channel.send(imagesearchembed);
         message.react('✔️');
