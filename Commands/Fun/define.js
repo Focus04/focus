@@ -9,7 +9,7 @@ module.exports = {
     async execute(message, args, prefix) {
         if (!args[0]) {
             let msg = await message.channel.send(`Proper command usage: ${prefix}define [term]`);
-            msg.delete({timeout: 10000});
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let term = args.join(' ');
@@ -17,11 +17,11 @@ module.exports = {
         let data = await response.json();
         if (!data[0].meta) {
             let msg = await message.channel.send(`Couldn't find any results for ${term}`);
-            msg.delete({timeout: 10000});
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let synonyms;
-        if(data[0].meta.syns[0]) {
+        if (data[0].meta.syns[0]) {
             let synonyms = '```';
             data[0].meta.syns[0].forEach(syn => {
                 synonyms = synonyms + syn + ', ';

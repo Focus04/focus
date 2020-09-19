@@ -8,8 +8,8 @@ module.exports = {
     guildOnly: true,
     async execute(message, args, prefix) {
         if (!args[0]) {
-            let msg  = await message.channel.send(`Proper command usage: ${prefix}nasanews [term]`);
-            msg.delete({timeout: 10000});
+            let msg = await message.channel.send(`Proper command usage: ${prefix}nasanews [term]`);
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let term = args.join(' ');
@@ -17,7 +17,7 @@ module.exports = {
         let data = await response.json();
         if (!data.collection.items[0].data[0].description) {
             let msg = await message.channel.send(`Couldn't find any results for ${term}`);
-            msg.delete({timeout: 10000});
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let nasasearchembed = new Discord.MessageEmbed()

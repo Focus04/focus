@@ -9,7 +9,7 @@ module.exports = {
     async execute(message, args, prefix) {
         if (!args[0]) {
             let msg = await message.channel.send(`Proper command usage: ${prefix}weather [location]`);
-            msg.delete({timeout: 10000});
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let location = args.join(' ');
@@ -17,65 +17,65 @@ module.exports = {
         let data = await response.json();
         if (data.message === 'city not found') {
             let msg = await message.channel.send(`Couldn't find any weather results for ${location}.`);
-            msg.delete({timeout: 10000});
+            msg.delete({ timeout: 10000 });
             return message.react('❌');
         }
         let icon;
-        switch(data.weather[0].icon) {
-            case('01d'):
+        switch (data.weather[0].icon) {
+            case ('01d'):
                 icon = 'https://imgur.com/IP2y4yk';
-            break;
-            case('01n'):
+                break;
+            case ('01n'):
                 icon = 'https://imgur.com/fJFxWCv';
-            break;
-            case('02d'):
+                break;
+            case ('02d'):
                 icon = 'https://imgur.com/3W0KIIH';
-            break;
-            case('02n'):
+                break;
+            case ('02n'):
                 icon = 'https://imgur.com/U1V15j7';
-            break;
-            case('03d'):
+                break;
+            case ('03d'):
                 icon = 'https://imgur.com/MZTJBDX';
-            break;
-            case('03n'):
+                break;
+            case ('03n'):
                 icon = 'https://imgur.com/mERm42d';
-            break;
-            case('04d'):
+                break;
+            case ('04d'):
                 icon = 'https://imgur.com/3UDtHKz';
-            break;
-            case('04n'):
+                break;
+            case ('04n'):
                 icon = 'https://imgur.com/04d9Csw';
-            break;
-            case('09d'):
+                break;
+            case ('09d'):
                 icon = 'https://imgur.com/pyowl9c';
-            break;
-            case('09n'):
+                break;
+            case ('09n'):
                 icon = 'https://imgur.com/8wCPSIV';
-            break;
-            case('10d'):
+                break;
+            case ('10d'):
                 icon = 'https://imgur.com/TPsczXq';
-            break;
-            case('10n'):
+                break;
+            case ('10n'):
                 icon = 'https://imgur.com/T8iMjEA';
-            break;
-            case('11d'):
+                break;
+            case ('11d'):
                 icon = 'https://imgur.com/sddu7KK';
-            break;
-            case('11n'):
+                break;
+            case ('11n'):
                 icon = 'https://imgur.com/6COrKvi';
-            break;
-            case('13d'):
+                break;
+            case ('13d'):
                 icon = 'https://imgur.com/a1SNLYo';
-            break;
-            case('13n'):
+                break;
+            case ('13n'):
                 icon = 'https://imgur.com/X1Yzfqi';
-            break;
-            case('50d'):
+                break;
+            case ('50d'):
                 icon = 'https://imgur.com/61ogWDF';
-            break;
-            case('50n'):
+                break;
+            case ('50n'):
                 icon = 'https://imgur.com/ObWRUTp';
-            break;
+                break;
         }
         let weatherembed = new Discord.MessageEmbed()
             .setColor('#00ffbb')
