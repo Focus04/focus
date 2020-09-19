@@ -15,7 +15,7 @@ module.exports = {
             return message.react('❌');
         }
         let term = args.join(' ');
-        let response = await fetch(`https://serpapi.com/playground?q=${term}&tbm=isch&ijn=0`);
+        let response = await fetch(`https://serpapi.com/search.json?engine=google&q=${term}&google_domain=google.com&ijn=0&tbm=isch&tbs=itp%3Aphotos%2Cisz%3Al`);
         let data = await response.json();
         let imagesearchembed = new Discord.MessageEmbed()
             .setColor('#00ffbb')
