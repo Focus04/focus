@@ -32,8 +32,7 @@ module.exports = {
     }
     
     message.guild.me.roles.cache.map(r => {
-      if (r.position > bothighestrole)
-        bothighestrole = r.position;
+      if (r.position > bothighestrole) bothighestrole = r.position;
     });
 
     if (welcomerole.position >= bothighestrole) {
@@ -43,8 +42,7 @@ module.exports = {
     }
     
     message.member.roles.cache.map(r => {
-      if (r.position > highestrole)
-        highestrole = r.position;
+      if (r.position > highestrole) highestrole = r.position;
     });
 
     if (welcomerole.position >= highestrole) {
@@ -62,10 +60,8 @@ module.exports = {
     await welcomeroles.set(`welcomerole_${message.guild.id}`, rolename);
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
     let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-    if (!log)
-      message.channel.send(`Welcome role successfully changed to ${'`' + welcomerole.name + '`'}`);
-    else
-      log.send(`Welcome role successfully changed to ${'`' + welcomerole.name + '`'}`);
+    if (!log) message.channel.send(`Welcome role successfully changed to ${'`' + welcomerole.name + '`'}`);
+    else log.send(`Welcome role successfully changed to ${'`' + welcomerole.name + '`'}`);
       
     message.react('✔️');
   }

@@ -18,8 +18,7 @@ module.exports = {
         let bothighestrole = -1;
         let highestrole = -1;
         message.guild.me.roles.cache.forEach(r => {
-          if (r.position > bothighestrole)
-            bothighestrole = r.position;
+          if (r.position > bothighestrole) bothighestrole = r.position;
         });
 
         if (role.position >= bothighestrole) {
@@ -29,8 +28,7 @@ module.exports = {
         }
 
         message.member.roles.cache.forEach(r => {
-          if (r.position > highestrole)
-            highestrole = r.position;
+          if (r.position > highestrole) highestrole = r.position;
         });
 
         if (role.position >= highestrole) {
@@ -51,8 +49,7 @@ module.exports = {
           }
 
           emoji = arg.slice(-19, -1);
-        } else
-          emoji = arg;
+        } else emoji = arg;
 
         emojis.push(emoji);
       }

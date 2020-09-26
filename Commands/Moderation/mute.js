@@ -35,13 +35,11 @@ module.exports = {
     }
 
     message.member.roles.cache.forEach(r => {
-      if (r.position > modhighestrole)
-        modhighestrole = r.position;
+      if (r.position > modhighestrole) modhighestrole = r.position;
     });
 
     member.roles.cache.forEach(r => {
-      if (r.position > memberhighestrole)
-        memberhighestrole = r.position;
+      if (r.position > memberhighestrole) memberhighestrole = r.position;
     });
 
     if (modhighestrole <= memberhighestrole) {
@@ -61,10 +59,8 @@ module.exports = {
     
     let reason = '`' + args.join(' ') + '`';
     let mutes = await mts.get(`mutes_${member.id}_${message.guild.id}`);
-    if (!mutes)
-      mutes = 1;
-    else
-      mutes = mutes + 1;
+    if (!mutes) mutes = 1;
+    else mutes = mutes + 1;
 
     member.send(`${author} has muted you from ${message.guild.name} for ${reason}. Duration: ${mins}.`);
     if (!mutedrole) {
@@ -108,19 +104,15 @@ module.exports = {
       .setTimestamp();
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
     let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-    if (!log)
-      await message.channel.send(muteembed);
-    else
-      await log.send(muteembed);
+    if (!log) await message.channel.send(muteembed);
+    else await log.send(muteembed);
 
     message.react('✔️');
     setTimeout(function () {
       if (member.roles.cache.has(mutedrole.id)) {
         member.roles.remove(mutedrole);
-        if (!log)
-          message.channel.send(`${member} has been unmuted.`);
-        else
-          log.send(`${member} has been unmuted.`);
+        if (!log) message.channel.send(`${member} has been unmuted.`);
+        else log.send(`${member} has been unmuted.`);
 
         member.send(`You have been unmuted from ${message.guild.name}.`);
       }

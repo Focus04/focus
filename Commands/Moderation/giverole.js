@@ -40,8 +40,7 @@ module.exports = {
     }
 
     message.guild.me.roles.cache.map(r => {
-      if (r.position > bothighestrole)
-        bothighestrole = r.position;
+      if (r.position > bothighestrole) bothighestrole = r.position;
     });
 
     if (role.position >= bothighestrole) {
@@ -57,8 +56,7 @@ module.exports = {
     }
     
     message.member.roles.cache.map(r => {
-      if (r.position > highestrole)
-        highestrole = r.position;
+      if (r.position > highestrole) highestrole = r.position;
     });
 
     if (role.position >= highestrole) {
@@ -82,10 +80,8 @@ module.exports = {
       .setTimestamp();
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
     let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-    if (log)
-      log.send(giveroleembed);
-    else
-      message.channel.send(giveroleembed);
+    if (log) log.send(giveroleembed);
+    else message.channel.send(giveroleembed);
 
     message.react('✔️');
   }

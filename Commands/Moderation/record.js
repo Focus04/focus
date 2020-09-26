@@ -28,17 +28,13 @@ module.exports = {
     let kicks = await kks.get(`kicks_${member.id}_${message.guild.id}`);
     let mutes = await mts.get(`mutes_${member.id}_${message.guild.id}`);
     let bans = await bns.get(`bans_${member.id}_${message.guild.id}`);
-    if (!warns)
-      warns = 0;
+    if (!warns) warns = 0;
 
-    if (!kicks)
-      kicks = 0;
+    if (!kicks) kicks = 0;
 
-    if (!mutes)
-      mutes = 0;
+    if (!mutes) mutes = 0;
 
-    if (!bans)
-      bans = 0;
+    if (!bans) bans = 0;
       
     const recordembed = new Discord.MessageEmbed()
       .setColor('#00ffbb')

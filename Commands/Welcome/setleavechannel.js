@@ -30,10 +30,8 @@ module.exports = {
     await leavechannels.set(`leavechannel_${message.guild.id}`, args[0]);
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
     let log = await message.guild.channels.cache.find(channel => channel.name === logchname);
-    if (!log)
-      message.channel.send(`All leaving members will be logged in ${'`' + args[0] + '`'} from now on.`);
-    else
-      log.send(`All leaving members will be logged in ${'`' + args[0] + '`'} from now on.`);
+    if (!log) message.channel.send(`All leaving members will be logged in ${'`' + args[0] + '`'} from now on.`);
+    else log.send(`All leaving members will be logged in ${'`' + args[0] + '`'} from now on.`);
       
     message.react('✔️');
   }

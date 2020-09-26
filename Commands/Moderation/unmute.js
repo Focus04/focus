@@ -37,10 +37,8 @@ module.exports = {
     member.roles.remove(mutedrole);
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
     let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-    if (!log)
-      message.channel.send(`${args[0]} has been unmuted earlier.`);
-    else
-      log.send(`${args[0]} has been unmuted earlier.`);
+    if (!log) message.channel.send(`${args[0]} has been unmuted earlier.`);
+    else log.send(`${args[0]} has been unmuted earlier.`);
       
     await member.send(`${author} unmuted you earlier from ${message.guild.name}.`);
     message.react('✔️');

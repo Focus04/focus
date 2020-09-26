@@ -35,10 +35,8 @@ module.exports = {
     await toggleleavemsg.set(`toggleleavemsg_${message.guild.id}`, 1);
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
     let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-    if (!log)
-      message.channel.send(`Leave message successfully changed to ${'`' + msg + '`'}`);
-    else
-      log.send(`Leave message successfully changed to ${'`' + msg + '`'}`);
+    if (!log) message.channel.send(`Leave message successfully changed to ${'`' + msg + '`'}`);
+    else log.send(`Leave message successfully changed to ${'`' + msg + '`'}`);
       
     message.react('✔️');
   }

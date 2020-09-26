@@ -31,13 +31,11 @@ module.exports = {
     }
 
     message.member.roles.cache.forEach(r => {
-      if (r.position > modhighestrole)
-        modhighestrole = r.position;
+      if (r.position > modhighestrole) modhighestrole = r.position;
     });
     
     member.roles.cache.forEach(r => {
-      if (r.position > memberhighestrole)
-        memberhighestrole = r.position;
+      if (r.position > memberhighestrole) memberhighestrole = r.position;
     });
 
     if (modhighestrole <= memberhighestrole) {
@@ -56,10 +54,8 @@ module.exports = {
     let reason = '`' + args.join(' ') + '`';
     let author = message.author.username;
     let kicks = await kks.get(`kicks_${member.id}_${message.guild.id}`)
-    if (!kicks)
-      kicks = 1;
-    else
-      kicks = kicks + 1;
+    if (!kicks) kicks = 1;
+    else kicks = kicks + 1;
 
     const kickembed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
@@ -73,10 +69,8 @@ module.exports = {
     await member.send(`${author} kicked you from ${message.guild.name} for ${reason}.`);
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
     let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-    if (!log)
-      await message.channel.send(kickembed);
-    else
-      await log.send(kickembed);
+    if (!log) await message.channel.send(kickembed);
+    else await log.send(kickembed);
 
     await kks.set(`kicks_${member.id}_${message.guild.id}`, kicks);
     await message.guild.member(member).kick();

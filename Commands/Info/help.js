@@ -17,23 +17,23 @@ module.exports = {
       fs.readdirSync('./Commands/Debug').forEach(file => {
         debugcmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `;
       });
-      
+
       fs.readdirSync('./Commands/Fun').forEach(file => {
         funcmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `;
       });
-      
+
       fs.readdirSync('./Commands/Info').forEach(file => {
         infocmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `;
       });
-      
+
       fs.readdirSync('./Commands/Logging').forEach(file => {
         loggingcmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `;
       });
-      
+
       fs.readdirSync('./Commands/Moderation').forEach(file => {
         staffcmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `;
       });
-      
+
       fs.readdirSync('./Commands/Welcome').forEach(file => {
         welcomecmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `;
       });
@@ -57,8 +57,11 @@ module.exports = {
       const { commands } = message.client;
       const name = args[0].toLowerCase();
       const command = commands.get(name);
-      if (!command)
-        message.channel.send(`Couldn't find ${args[0]} in my commands list.`);
+      if (!command) {
+        let msg = await message.channel.send(`Couldn't find ${args[0]} in my commands list.`);
+        msg.delete({ timeout: 10000 });
+        return message.react('❌');
+      }
       else {
         const commandembed = new Discord.MessageEmbed()
           .setColor('#00ffbb')

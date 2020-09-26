@@ -46,10 +46,8 @@ module.exports = {
       .setTimestamp();
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
     let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-    if (!log)
-      message.channel.send(clearembed);
-    else
-      log.send(clearembed);
+    if (!log) message.channel.send(clearembed);
+    else log.send(clearembed);
       
     message.react('✔️');
   }

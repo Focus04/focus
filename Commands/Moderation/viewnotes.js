@@ -29,8 +29,7 @@ module.exports = {
 
     let notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
     await message.channel.send('Check your inbox.');
-    if (!notes)
-      message.author.send(`There are no notes linked to ${member.username}.`);
+    if (!notes) message.author.send(`There are no notes linked to ${member.username}.`);
     else {
       let viewnotesembed = new Discord.MessageEmbed()
         .setColor('#00ffbb')

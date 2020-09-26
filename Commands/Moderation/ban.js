@@ -29,13 +29,11 @@ module.exports = {
     let modhighestrole = -1;
     let memberhighestrole = -1;
     message.member.roles.cache.forEach(r => {
-      if (r.position > modhighestrole)
-        modhighestrole = r.position;
+      if (r.position > modhighestrole) modhighestrole = r.position;
     });
 
     member.roles.cache.forEach(r => {
-      if (r.position > memberhighestrole)
-        memberhighestrole = r.position;
+      if (r.position > memberhighestrole) memberhighestrole = r.position;
     });
 
     if (modhighestrole <= memberhighestrole) {
@@ -61,10 +59,8 @@ module.exports = {
       let reason = '`' + args.join(' ') + '`';
       await bannedusers.set(`${message.guild.id}_${member.user.username}`, member.user.id);
       let bans = await bns.get(`bans_${member.id}_${message.guild.id}`);
-      if (!bans)
-        bans = 1;
-      else
-        bans = bans + 1;
+      if (!bans) bans = 1;
+      else bans = bans + 1;
 
       const banembed1 = new Discord.MessageEmbed()
         .setColor('#00ffbb')
@@ -79,10 +75,8 @@ module.exports = {
         .setTimestamp();
       let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
       let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-      if (!log)
-        await message.channel.send(banembed1);
-      else
-        await log.send(banembed1);
+      if (!log) await message.channel.send(banembed1);
+      else await log.send(banembed1);
 
       await member.send(`${author} has permanently banned you from ${message.guild.name} for ${reason}.`);
       await bns.set(`bans_${member.id}_${message.guild.id}`, bans);
@@ -101,10 +95,8 @@ module.exports = {
       let reason = '`' + args.join(' ') + '`';
       await bannedusers.set(`${message.guild.id}_${member.user.username}`, member.user.id);
       let bans = await bns.get(`bans_${member.id}_${message.guild.id}`);
-      if (!bans)
-        bans = 1;
-      else
-        bans = bans + 1;
+      if (!bans) bans = 1;
+      else bans = bans + 1;
 
       const banembed2 = new Discord.MessageEmbed()
         .setColor('#00ffbb')
@@ -119,10 +111,8 @@ module.exports = {
         .setTimestamp();
       let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
       let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-      if (!log)
-        await message.channel.send(banembed2);
-      else
-        await log.send(banembed2);
+      if (!log) await message.channel.send(banembed2);
+      else await log.send(banembed2);
 
       await member.send(`${author} has banned you from ${message.guild.name} for ${reason}. Duration: ${days} days.`);
       await bns.set(`bans_${member.id}_${message.guild.id}`, bans);
@@ -133,10 +123,8 @@ module.exports = {
         if (baninfo) {
           await bannedusers.delete(`${message.guild.id}_${member.user.username}`);
           message.guild.members.unban(member.id);
-          if (!log)
-            message.channel.send(`${member} has been unbanned.`);
-          else
-            log.send(`${member} has been unbanned.`);
+          if (!log) message.channel.send(`${member} has been unbanned.`);
+          else log.send(`${member} has been unbanned.`);
 
           user.send(`You have been unbanned from ${message.guild.name}.`);
         }

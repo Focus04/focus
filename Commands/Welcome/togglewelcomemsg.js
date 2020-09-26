@@ -37,10 +37,8 @@ module.exports = {
     await togglewelcome.set(`togglewelcomemsg_${message.guild.id}`, logs);
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
     let log = await message.guild.channels.cache.find(channel => channel.name === logchname);
-    if (!log)
-      message.channel.send(`Welcome messages are now set to ${'`' + state + '`'}`);
-    else
-      log.send(`Welcome messages are now set to ${'`' + state + '`'}`);
+    if (!log) message.channel.send(`Welcome messages are now set to ${'`' + state + '`'}`);
+    else log.send(`Welcome messages are now set to ${'`' + state + '`'}`);
     message.react('✔️');
   }
 }

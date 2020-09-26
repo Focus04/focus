@@ -26,13 +26,11 @@ module.exports = {
     let modhighestrole = -1;
     let memberhighestrole = -1;
     message.member.roles.cache.forEach(r => {
-      if (r.position > modhighestrole)
-        modhighestrole = r.position;
+      if (r.position > modhighestrole) modhighestrole = r.position;
     });
 
     member.roles.cache.forEach(r => {
-      if (r.position > memberhighestrole)
-        memberhighestrole = r.position;
+      if (r.position > memberhighestrole) memberhighestrole = r.position;
     });
 
     if (modhighestrole <= memberhighestrole) {
@@ -50,10 +48,8 @@ module.exports = {
     args.shift();
     let reason = '`' + args.join(' ') + '`';
     let warns = await warnings.get(`warns_${member.id}_${message.guild.id}`);
-    if (!warns)
-      warns = 1;
-    else
-      warns = warns + 1;
+    if (!warns) warns = 1;
+    else warns = warns + 1;
 
     const warnembed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
@@ -66,10 +62,8 @@ module.exports = {
       .setTimestamp();
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
     let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-    if (!log)
-      message.channel.send(warnembed);
-    else
-      log.send(warnembed);
+    if (!log) message.channel.send(warnembed);
+    else log.send(warnembed);
       
     await member.user.send(`${author} is warning you in ${message.guild.name} for ${reason}.`);
     await warnings.set(`warns_${member.user.id}_${message.guild.id}`, warns);
