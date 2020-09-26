@@ -10,7 +10,9 @@ module.exports = {
     if (!message.mentions.users.size) {
       let roles = '```' + message.member.roles.cache.map(role => role.name).join(`, `) + '```';
       let perms = '```' + message.member.permissions.toArray().join(`\n`) + '```';
-      let badges = '```' + message.author.flags.toArray().join(', ') || 'None' + '```';
+      let badges = '```' + message.author.flags.toArray().join(', ') + '```';
+      if(badges === '``````')
+        badges = '```None```';
 
       const userinfoembed1 = new Discord.MessageEmbed()
         .setColor('#00ffbb')
@@ -32,6 +34,8 @@ module.exports = {
         let roles = '```' + member.roles.cache.map(role => role.name).join(`, `) + '```';
         let perms = '```' + member.permissions.toArray().join(`\n`) + '```';
         let badges = '```' + member.user.flags.toArray().join(', ') || 'None' + '```';
+        if(badges === '``````')
+          badges = '```None```';
 
         const userinfoembed2 = new Discord.MessageEmbed()
           .setColor('#00ffbb')
