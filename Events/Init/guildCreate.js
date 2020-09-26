@@ -1,3 +1,3 @@
 module.exports = client => {
-    client.user.setActivity('your people.', { type: 'WATCHING' });
+  client.user.setActivity('your people.', { type: 'WATCHING' });
 }
