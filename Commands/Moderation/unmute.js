@@ -9,7 +9,7 @@ module.exports = {
   async execute(message, args, prefix) {
     let author = message.author.username;
     let member = message.mentions.members.first();
-    let mutedrole = message.guild.roles.cache.find(r => r.name === 'Muted Member');
+    let mutedrole = message.guild.roles.cache.find((r) => r.name === 'Muted Member');
     if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
       let msg = await message.channel.send('I require the Manage Roles permission in order to perform this action!');
       msg.delete({ timeout: 10000 });
@@ -36,7 +36,7 @@ module.exports = {
 
     member.roles.remove(mutedrole);
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+    let log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (!log) message.channel.send(`${args[0]} has been unmuted earlier.`);
     else log.send(`${args[0]} has been unmuted earlier.`);
       

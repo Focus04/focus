@@ -13,7 +13,7 @@ module.exports = {
     let user = message.mentions.users.first();
     let author = message.author.username;
     let mins = args[1];
-    let mutedrole = message.guild.roles.cache.find(r => r.name === 'Muted Member');
+    let mutedrole = message.guild.roles.cache.find((r) => r.name === 'Muted Member');
     let modhighestrole = -1;
     let memberhighestrole = -1;
     if (!message.guild.me.hasPermission('MANAGE_ROLES') || !message.guild.me.hasPermission('MANAGE_CHANNELS')) {
@@ -34,11 +34,11 @@ module.exports = {
       return message.react('❌');
     }
 
-    message.member.roles.cache.forEach(r => {
+    message.member.roles.cache.forEach((r) => {
       if (r.position > modhighestrole) modhighestrole = r.position;
     });
 
-    member.roles.cache.forEach(r => {
+    member.roles.cache.forEach((r) => {
       if (r.position > memberhighestrole) memberhighestrole = r.position;
     });
 
@@ -71,7 +71,7 @@ module.exports = {
         }
       });
 
-      mutedrole = await message.guild.roles.cache.find(r => r.name === 'Muted Member');
+      mutedrole = await message.guild.roles.cache.find((r) => r.name === 'Muted Member');
       message.guild.channels.cache.forEach(async (channel, id) => {
         await channel.updateOverwrite(mutedrole, {
           'SEND_MESSAGES': false,
@@ -93,7 +93,7 @@ module.exports = {
     member.roles.add(mutedrole);
     const muteembed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
-      .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Mute Information`)
+      .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Mute Information`)
       .addFields(
         { name: `Defendant's name:`, value: `${member.user.tag}` },
         { name: `Issued by:`, value: `${author}` },

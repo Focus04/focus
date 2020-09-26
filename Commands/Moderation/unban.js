@@ -33,7 +33,7 @@ module.exports = {
       return message.react('❌');
     }
 
-    await message.guild.members.unban(userid).catch(async err => {
+    await message.guild.members.unban(userid).catch(async (err) => {
       console.error(err);
       let msg = await message.channel.send(`${args[0]} isn't banned.`);
       msg.delete({ timeout: 10000 });
@@ -42,7 +42,7 @@ module.exports = {
 
     await bannedusers.delete(`${message.guild.id}_${args[0]}`);
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+    let log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (!log) message.channel.send(`${args[0]} has been unbanned earlier.`);
     else log.send(`${args[0]} has been unbanned earlier.`);
 

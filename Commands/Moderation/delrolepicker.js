@@ -8,7 +8,7 @@ module.exports = {
   guildOnly: true,
   async execute(message, args, prefix) {
     let error;
-    let menu = await message.channel.messages.fetch(args[0]).catch(err => error = err);
+    let menu = await message.channel.messages.fetch(args[0]).catch((err) => error = err);
     if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}delrolepicker [messageID]`);
       msg.delete({ timeout: 10000 });

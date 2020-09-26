@@ -20,7 +20,7 @@ module.exports = {
       return message.react('❌');
     }
 
-    let channel = message.guild.channels.cache.find(ch => ch.name === `${args[0]}`);
+    let channel = message.guild.channels.cache.find((ch) => ch.name === `${args[0]}`);
     if (!channel) {
       let msg = await message.channel.send(`Couldn't find ${args[0]}. Please make sure that I have access to that channel.`);
       msg.delete({ timeout: 10000 });
@@ -29,7 +29,7 @@ module.exports = {
 
     await leavechannels.set(`leavechannel_${message.guild.id}`, args[0]);
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find(channel => channel.name === logchname);
+    let log = await message.guild.channels.cache.find((channel) => channel.name === logchname);
     if (!log) message.channel.send(`All leaving members will be logged in ${'`' + args[0] + '`'} from now on.`);
     else log.send(`All leaving members will be logged in ${'`' + args[0] + '`'} from now on.`);
       

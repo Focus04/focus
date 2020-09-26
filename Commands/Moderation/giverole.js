@@ -25,7 +25,7 @@ module.exports = {
 
     args.shift();
     let rolename = args.join(' ').toLowerCase();
-    let role = message.guild.roles.cache.find(role => role.name.toLowerCase().startsWith(rolename));
+    let role = message.guild.roles.cache.find((role) => role.name.toLowerCase().startsWith(rolename));
 
     if (!role) {
       let msg = await message.channel.send(`Couldn't find any roles named ${rolename}`);
@@ -39,7 +39,7 @@ module.exports = {
       return message.react('❌');
     }
 
-    message.guild.me.roles.cache.map(r => {
+    message.guild.me.roles.cache.map((r) => {
       if (r.position > bothighestrole) bothighestrole = r.position;
     });
 
@@ -55,7 +55,7 @@ module.exports = {
       return message.react('❌');
     }
     
-    message.member.roles.cache.map(r => {
+    message.member.roles.cache.map((r) => {
       if (r.position > highestrole) highestrole = r.position;
     });
 
@@ -66,11 +66,11 @@ module.exports = {
     }
 
     member.roles.add(role);
-    let perms = role.permissions.toArray().map(perm => perm).join(`\n`);
+    let perms = role.permissions.toArray().map((perm) => perm).join(`\n`);
     perms = '```' + perms + '```';
     let giveroleembed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
-      .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Given Role`)
+      .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Given Role`)
       .addFields(
         { name: 'To', value: `${member}` },
         { name: 'By', value: `${message.author.username}` },
@@ -79,7 +79,7 @@ module.exports = {
       )
       .setTimestamp();
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+    let log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (log) log.send(giveroleembed);
     else message.channel.send(giveroleembed);
 

@@ -35,7 +35,7 @@ module.exports = {
 
     await togglewelcomedm.set(`togglewelcomedm_${message.guild.id}`, logs);
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find(channel => channel.name === logchname);
+    let log = await message.guild.channels.cache.find((channel) => channel.name === logchname);
     if (!log) message.channel.send(`Welcome DMs are now set to ${'`' + state + '`'}`);
     else log.send(`Welcome DMs are now set to ${'`' + state + '`'}`);
 

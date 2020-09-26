@@ -15,7 +15,7 @@ module.exports = {
     }
 
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+    let log = message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     let logs = await msglogs.get(`msglogs_${message.guild.id}`);
     let state;
     

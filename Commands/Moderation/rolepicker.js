@@ -12,12 +12,12 @@ module.exports = {
     let emojis = [];
     let err = 0;
     let emoji;
-    args.forEach(async arg => {
+    args.forEach(async (arg) => {
       if (args.indexOf(arg) % 2 == 0 && arg.startsWith('<@&') && arg.endsWith('>') && arg.length == 22) {
         let role = message.guild.roles.cache.get(arg.substring(3, 21));
         let bothighestrole = -1;
         let highestrole = -1;
-        message.guild.me.roles.cache.forEach(r => {
+        message.guild.me.roles.cache.forEach((r) => {
           if (r.position > bothighestrole) bothighestrole = r.position;
         });
 
@@ -27,7 +27,7 @@ module.exports = {
           return msg.delete({ timeout: 10000 });
         }
 
-        message.member.roles.cache.forEach(r => {
+        message.member.roles.cache.forEach((r) => {
           if (r.position > highestrole) highestrole = r.position;
         });
 
@@ -80,16 +80,14 @@ module.exports = {
       .setDescription('React to assign yourself a role!')
       .setTimestamp();
     let i = 0;
-    roles.forEach(role => {
+    roles.forEach((role) => {
       rolepicker.addField(role.name, message.client.emojis.cache.get(emojis[i]) || emojis[i]);
       mappings.set(emojis[i], role.id);
       i++;
     });
 
     let menu = await message.channel.send(rolepicker);
-    emojis.forEach(emoji => {
-      menu.react(emoji);
-    });
+    emojis.forEach((emoji) => menu.react(emoji));
 
     message.delete();
     let object = Object.fromEntries(mappings);

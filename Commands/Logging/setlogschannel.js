@@ -13,7 +13,7 @@ module.exports = {
       return message.react('❌');
     }
 
-    let channel = message.guild.channels.cache.find(ch => ch.name === `${args[0]}`);
+    let channel = message.guild.channels.cache.find((ch) => ch.name === `${args[0]}`);
     if (!channel) {
       let msg = await message.channel.send(`Couldn't find ${args[0]}. Please make sure that I have access to that channel.`);
       msg.delete({ timeout: 10000 });

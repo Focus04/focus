@@ -14,7 +14,7 @@ module.exports = {
       return message.react('❌');
     }
 
-    let member = message.guild.members.cache.find(user => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`) || message.mentions.members.first();
+    let member = message.guild.members.cache.find((user) => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`) || message.mentions.members.first();
     
     if (!member) {
       await message.author.send(`Couldn't find ${args[0]}.`);

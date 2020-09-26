@@ -28,7 +28,7 @@ module.exports = {
       return message.react('❌');
     }
 
-    message.channel.bulkDelete(amount, true).catch(async err => {
+    message.channel.bulkDelete(amount, true).catch(async (err) => {
       console.error(err);
       let msg = await message.channel.send(`Can't delete messages older than 2 weeks.`);
       msg.delete({ timeout: 10000 });
@@ -37,7 +37,7 @@ module.exports = {
 
     let clearembed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
-      .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Cleared Messages`)
+      .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Cleared Messages`)
       .addFields(
         { name: 'Cleared by:', value: `${message.author.username}` },
         { name: 'Amount of Messages Deleted:', value: `${amount}` },
@@ -45,7 +45,7 @@ module.exports = {
       )
       .setTimestamp();
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+    let log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (!log) message.channel.send(clearembed);
     else log.send(clearembed);
       

@@ -28,11 +28,11 @@ module.exports = {
 
     let modhighestrole = -1;
     let memberhighestrole = -1;
-    message.member.roles.cache.forEach(r => {
+    message.member.roles.cache.forEach((r) => {
       if (r.position > modhighestrole) modhighestrole = r.position;
     });
 
-    member.roles.cache.forEach(r => {
+    member.roles.cache.forEach((r) => {
       if (r.position > memberhighestrole) memberhighestrole = r.position;
     });
 
@@ -64,7 +64,7 @@ module.exports = {
 
       const banembed1 = new Discord.MessageEmbed()
         .setColor('#00ffbb')
-        .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Ban Information`)
+        .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Ban Information`)
         .addFields(
           { name: `Defendant's name:`, value: `${member.user.tag}` },
           { name: `Issued by:`, value: `${author}` },
@@ -74,7 +74,7 @@ module.exports = {
         .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier.`)
         .setTimestamp();
       let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-      let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+      let log = message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
       if (!log) await message.channel.send(banembed1);
       else await log.send(banembed1);
 
@@ -100,7 +100,7 @@ module.exports = {
 
       const banembed2 = new Discord.MessageEmbed()
         .setColor('#00ffbb')
-        .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Ban Information`)
+        .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Ban Information`)
         .addFields(
           { name: `Defendant's name:`, value: `${member}` },
           { name: `Issued by:`, value: `${author}` },
@@ -110,7 +110,7 @@ module.exports = {
         .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier than ${days} days.`)
         .setTimestamp();
       let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-      let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+      let log = message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
       if (!log) await message.channel.send(banembed2);
       else await log.send(banembed2);
 

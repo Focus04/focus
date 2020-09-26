@@ -21,7 +21,7 @@ module.exports = {
     }
 
     let welcomerolename = args.join(' ').toLowerCase();
-    let welcomerole = message.guild.roles.cache.find(role => role.name.toLowerCase().startsWith(welcomerolename));
+    let welcomerole = message.guild.roles.cache.find((role) => role.name.toLowerCase().startsWith(welcomerolename));
     let bothighestrole = -1;
     let highestrole = -1;
 
@@ -31,7 +31,7 @@ module.exports = {
       return message.react('❌');
     }
     
-    message.guild.me.roles.cache.map(r => {
+    message.guild.me.roles.cache.map((r) => {
       if (r.position > bothighestrole) bothighestrole = r.position;
     });
 
@@ -41,7 +41,7 @@ module.exports = {
       return message.react('❌');
     }
     
-    message.member.roles.cache.map(r => {
+    message.member.roles.cache.map((r) => {
       if (r.position > highestrole) highestrole = r.position;
     });
 
@@ -59,7 +59,7 @@ module.exports = {
 
     await welcomeroles.set(`welcomerole_${message.guild.id}`, rolename);
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+    let log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (!log) message.channel.send(`Welcome role successfully changed to ${'`' + welcomerole.name + '`'}`);
     else log.send(`Welcome role successfully changed to ${'`' + welcomerole.name + '`'}`);
       

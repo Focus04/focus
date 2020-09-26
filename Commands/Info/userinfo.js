@@ -8,7 +8,7 @@ module.exports = {
   guildOnly: true,
   execute(message) {
     if (!message.mentions.users.size) {
-      let roles = '```' + message.member.roles.cache.map(role => role.name).join(`, `) + '```';
+      let roles = '```' + message.member.roles.cache.map((role) => role.name).join(`, `) + '```';
       let perms = '```' + message.member.permissions.toArray().join(`\n`) + '```';
       let badges = '```' + message.author.flags.toArray().join(', ') + '```';
       if(badges === '``````') badges = '```None```';
@@ -29,8 +29,8 @@ module.exports = {
         .setTimestamp();
       message.channel.send(userinfoembed1);
     } else {
-      message.mentions.members.forEach(member => {
-        let roles = '```' + member.roles.cache.map(role => role.name).join(`, `) + '```';
+      message.mentions.members.forEach((member) => {
+        let roles = '```' + member.roles.cache.map((role) => role.name).join(`, `) + '```';
         let perms = '```' + member.permissions.toArray().join(`\n`) + '```';
         let badges = '```' + member.user.flags.toArray().join(', ') + '```';
         if(badges === '``````') badges = '```None```';

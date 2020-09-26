@@ -23,7 +23,7 @@ module.exports = {
 
     args.shift();
     let rolename = args.join(' ').toLowerCase();
-    let role = member.roles.cache.find(role => role.name.toLowerCase().startsWith(rolename));
+    let role = member.roles.cache.find((role) => role.name.toLowerCase().startsWith(rolename));
     if (!role) {
       let msg = await message.channel.send(`${member.user.username} doesn't have any roles named ${rolename}`);
       msg.delete({ timeout: 10000 });
@@ -32,7 +32,7 @@ module.exports = {
 
     let bothighestrole = -1;
     let highestrole = -1;
-    message.guild.me.roles.cache.map(r => {
+    message.guild.me.roles.cache.map((r) => {
       if (r.position > bothighestrole) bothighestrole = r.position;
     });
 
@@ -48,7 +48,7 @@ module.exports = {
       return message.react('❌');
     }
 
-    message.member.roles.cache.map(r => {
+    message.member.roles.cache.map((r) => {
       if (r.position > highestrole) highestrole = r.position;
     });
 
@@ -59,11 +59,11 @@ module.exports = {
     }
 
     member.roles.remove(role);
-    let perms = role.permissions.toArray().map(perm => perm).join(`\n`);
+    let perms = role.permissions.toArray().map((perm) => perm).join(`\n`);
     perms = '```' + perms + '```';
     let takeroleembed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
-      .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Deleted Role`)
+      .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Deleted Role`)
       .addFields(
         { name: 'From', value: `${member}` },
         { name: 'By', value: `${message.author.username}` },
@@ -72,7 +72,7 @@ module.exports = {
       )
       .setTimestamp();
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+    let log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (log) log.send(takeroleembed);
     else  message.channel.send(takeroleembed);
       

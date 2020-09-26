@@ -30,11 +30,11 @@ module.exports = {
       return message.react('❌');
     }
 
-    message.member.roles.cache.forEach(r => {
+    message.member.roles.cache.forEach((r) => {
       if (r.position > modhighestrole) modhighestrole = r.position;
     });
     
-    member.roles.cache.forEach(r => {
+    member.roles.cache.forEach((r) => {
       if (r.position > memberhighestrole) memberhighestrole = r.position;
     });
 
@@ -59,7 +59,7 @@ module.exports = {
 
     const kickembed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
-      .setTitle(`${message.client.emojis.cache.find(emoji => emoji.name === 'pinned')} Kick Information`)
+      .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Kick Information`)
       .addFields(
         { name: `Defendant's name:`, value: `${member.user.tag}` },
         { name: `Issued by:`, value: `${author}` },
@@ -68,7 +68,7 @@ module.exports = {
       .setTimestamp();
     await member.send(`${author} kicked you from ${message.guild.name} for ${reason}.`);
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+    let log = message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (!log) await message.channel.send(kickembed);
     else await log.send(kickembed);
 
