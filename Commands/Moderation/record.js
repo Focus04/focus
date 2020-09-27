@@ -11,7 +11,7 @@ module.exports = {
   usage: 'record @`user`',
   guildOnly: true,
   async execute(message, prefix) {
-    let member = message.mentions.users.first();
+    const member = message.mentions.users.first();
     if (!member) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}record @[user]`);
       msg.delete({ timeout: 10000 });
@@ -36,7 +36,7 @@ module.exports = {
 
     if (!bans) bans = 0;
       
-    const recordembed = new Discord.MessageEmbed()
+    const recordEmbed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
       .setTitle(`${member.username}'s record`)
       .addFields(
@@ -46,7 +46,7 @@ module.exports = {
         { name: 'Times banned', value: `${bans}` }
       )
       .setTimestamp();
-    await message.channel.send(recordembed);
+    await message.channel.send(recordEmbed);
     message.react('✔️');
   }
 }

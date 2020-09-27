@@ -13,9 +13,9 @@ module.exports = {
       return message.react('❌');
     }
 
-    let term = args.join(' ');
-    let response = await fetch(`https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${term}?key=${process.env.dictionary}`);
-    let data = await response.json();
+    const term = args.join(' ');
+    const response = await fetch(`https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${term}?key=${process.env.dictionary}`);
+    const data = await response.json();
     let synonyms;
 
     if (!data[0].meta) {
@@ -27,11 +27,10 @@ module.exports = {
     if (data[0].meta.syns[0]) {
       let synonyms = '```';
       data[0].meta.syns[0].forEach((syn) => synonyms = synonyms + syn + ', ');
-
       synonyms = synonyms + '```';
     }
 
-    let defineembed = new Discord.MessageEmbed()
+    let defineEmbed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
       .setTitle(`What does ${args[0]} mean?`)
       .addFields(
@@ -39,7 +38,7 @@ module.exports = {
         { name: 'Synonyms', value: `${synonyms || 'N/A'}` }
       )
       .setTimestamp();
-    await message.channel.send(defineembed);
+    await message.channel.send(defineEmbed);
     message.react('✔️');
   }
 }

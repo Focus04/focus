@@ -14,7 +14,7 @@ module.exports = {
       return message.react('❌');
     }
 
-    let member = message.guild.members.cache.find((user) => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`) || message.mentions.members.first();
+    const member = message.guild.members.cache.find((user) => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`) || message.mentions.members.first();
     
     if (!member) {
       await message.author.send(`Couldn't find ${args[0]}.`);
@@ -28,7 +28,7 @@ module.exports = {
     }
 
     args.shift();
-    let note = '```' + args.join(' ') + '```';
+    const note = '```' + args.join(' ') + '```';
     let notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
     if (!notes) notes = note + `Added by ${message.author.username} on ${moment(message.createdTimestamp).format('LL')}, at ${moment(message.createdTimestamp).format('LT')} GMT\n`;
     else notes = notes + note + `Added by ${message.author.username} on ${moment(message.createdTimestamp).format('LL')}, at ${moment(message.createdTimestamp).format('LT')} GMT\n`;

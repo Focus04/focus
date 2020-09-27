@@ -7,7 +7,7 @@ module.exports = {
   usage: 'serverinfo',
   guildOnly: true,
   execute(message) {
-    const serverinfoembed = new Discord.MessageEmbed()
+    const serverInfoEmbed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
       .setTitle('Server Information')
       .addFields(
@@ -23,6 +23,6 @@ module.exports = {
       )
       .setThumbnail(message.guild.iconURL({ dynamic: true }))
       .setTimestamp();
-    message.channel.send(serverinfoembed);
+    message.channel.send(serverInfoEmbed);
   }
 }

@@ -13,9 +13,9 @@ module.exports = {
       return message.react('❌');
     }
 
-    let term = args.join(' ');
-    let response = await fetch(`https://images-api.nasa.gov/search?q=${term}`);
-    let data = await response.json();
+    const term = args.join(' ');
+    const response = await fetch(`https://images-api.nasa.gov/search?q=${term}`);
+    const data = await response.json();
     
     if (!data.collection.items[0].data[0].description) {
       let msg = await message.channel.send(`Couldn't find any results for ${term}`);
@@ -23,13 +23,13 @@ module.exports = {
       return message.react('❌');
     }
 
-    let nasasearchembed = new Discord.MessageEmbed()
+    const nasaSearchEmbed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
       .setTitle(data.collection.items[0].data[0].title)
       .setDescription(data.collection.items[0].data[0].description)
       .setImage(data.collection.items[0].links[0].href.split(' ').join('%20'))
       .setTimestamp();
-    await message.channel.send(nasasearchembed);
+    await message.channel.send(nasaSearchEmbed);
     message.react('✔️');
   }
 }

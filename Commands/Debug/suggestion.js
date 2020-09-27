@@ -4,7 +4,7 @@ module.exports = {
   usage: 'suggestion `suggestion`',
   guildOnly: true,
   async execute(message, args, prefix) {
-    let author = message.author.tag;
+    const author = message.author.tag;
     let suggestion = '```' + args.join(' ') + '```';
     if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}suggestion [suggestion]. Please make it as descriptive as possible.`);

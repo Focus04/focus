@@ -8,7 +8,7 @@ module.exports = {
   usage: 'giverole @`member` `role`',
   guildOnly: true,
   async execute(message, args, prefix) {
-    let member = message.mentions.members.first();
+    const member = message.mentions.members.first();
     let bothighestrole = -1;
     let highestrole = -1;
     if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
@@ -24,11 +24,11 @@ module.exports = {
     }
 
     args.shift();
-    let rolename = args.join(' ').toLowerCase();
-    let role = message.guild.roles.cache.find((role) => role.name.toLowerCase().startsWith(rolename));
+    const roleName = args.join(' ').toLowerCase();
+    const role = message.guild.roles.cache.find((role) => role.name.toLowerCase().startsWith(roleName));
 
     if (!role) {
-      let msg = await message.channel.send(`Couldn't find any roles named ${rolename}`);
+      let msg = await message.channel.send(`Couldn't find any roles named ${roleName}`);
       msg.delete({ timeout: 10000 });
       return message.react('❌');
     }
@@ -68,7 +68,7 @@ module.exports = {
     member.roles.add(role);
     let perms = role.permissions.toArray().map((perm) => perm).join(`\n`);
     perms = '```' + perms + '```';
-    let giveroleembed = new Discord.MessageEmbed()
+    const giveRoleEmbed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
       .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Given Role`)
       .addFields(
@@ -78,10 +78,10 @@ module.exports = {
         { name: 'Permissions', value: `${perms}` }
       )
       .setTimestamp();
-    let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
-    if (log) log.send(giveroleembed);
-    else message.channel.send(giveroleembed);
+    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
+    if (log) log.send(giveRoleEmbed);
+    else message.channel.send(giveRoleEmbed);
 
     message.react('✔️');
   }

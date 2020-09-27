@@ -35,7 +35,7 @@ module.exports = {
       return message.react('❌');
     });
 
-    let clearembed = new Discord.MessageEmbed()
+    const clearEmbed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
       .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Cleared Messages`)
       .addFields(
@@ -44,10 +44,10 @@ module.exports = {
         { name: 'Channel:', value: `${message.channel.name}` }
       )
       .setTimestamp();
-    let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
-    if (!log) message.channel.send(clearembed);
-    else log.send(clearembed);
+    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
+    if (!log) message.channel.send(clearEmbed);
+    else log.send(clearEmbed);
       
     message.react('✔️');
   }

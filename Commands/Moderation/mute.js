@@ -9,11 +9,11 @@ module.exports = {
   usage: 'mute @`user` `minutes` `reason`',
   guildOnly: true,
   async execute(message, args, prefix) {
-    let member = message.mentions.members.first();
-    let user = message.mentions.users.first();
-    let author = message.author.username;
-    let mins = args[1];
-    let mutedrole = message.guild.roles.cache.find((r) => r.name === 'Muted Member');
+    const member = message.mentions.members.first();
+    const user = message.mentions.users.first();
+    const author = message.author.username;
+    const mins = args[1];
+    const mutedRole = message.guild.roles.cache.find((r) => r.name === 'Muted Member');
     let modhighestrole = -1;
     let memberhighestrole = -1;
     if (!message.guild.me.hasPermission('MANAGE_ROLES') || !message.guild.me.hasPermission('MANAGE_CHANNELS')) {
@@ -57,13 +57,13 @@ module.exports = {
     args.shift();
     args.shift();
     
-    let reason = '`' + args.join(' ') + '`';
+    const reason = '`' + args.join(' ') + '`';
     let mutes = await mts.get(`mutes_${member.id}_${message.guild.id}`);
     if (!mutes) mutes = 1;
     else mutes = mutes + 1;
 
     member.send(`${author} has muted you from ${message.guild.name} for ${reason}. Duration: ${mins}.`);
-    if (!mutedrole) {
+    if (!mutedRole) {
       await message.guild.roles.create({
         data: {
           name: 'Muted Member',
@@ -71,9 +71,9 @@ module.exports = {
         }
       });
 
-      mutedrole = await message.guild.roles.cache.find((r) => r.name === 'Muted Member');
+      const newMutedRole = await message.guild.roles.cache.find((r) => r.name === 'Muted Member');
       message.guild.channels.cache.forEach(async (channel, id) => {
-        await channel.updateOverwrite(mutedrole, {
+        await channel.updateOverwrite(newMutedRole, {
           'SEND_MESSAGES': false,
           'EMBED_LINKS': false,
           'ATTACH_FILES': false,
@@ -83,15 +83,15 @@ module.exports = {
       });
     }
 
-    if (member.roles.cache.has(mutedrole.id)) {
+    if (member.roles.cache.has(mutedRole.id)) {
       let msg = await message.channel.send(`${user.username} is already muted!`);
       msg.delete({ timeout: 10000 });
       return message.react('❌');
     }
 
     await mts.set(`mutes_${member.id}_${message.guild.id}`, mutes);
-    member.roles.add(mutedrole);
-    const muteembed = new Discord.MessageEmbed()
+    member.roles.add(mutedRole);
+    const muteEmbed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
       .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Mute Information`)
       .addFields(
@@ -102,15 +102,15 @@ module.exports = {
       )
       .setFooter(`You can use ${prefix}unmute to unmute the user earlier than ${mins} minutes.`)
       .setTimestamp();
-    let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
-    if (!log) await message.channel.send(muteembed);
-    else await log.send(muteembed);
+    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+    if (!log) await message.channel.send(muteEmbed);
+    else await log.send(muteEmbed);
 
     message.react('✔️');
     setTimeout(function () {
-      if (member.roles.cache.has(mutedrole.id)) {
-        member.roles.remove(mutedrole);
+      if (member.roles.cache.has(mutedRole.id)) {
+        member.roles.remove(mutedRole);
         if (!log) message.channel.send(`${member} has been unmuted.`);
         else log.send(`${member} has been unmuted.`);
 

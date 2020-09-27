@@ -9,7 +9,7 @@ module.exports = {
   usage: 'kick @`user` `reason`',
   guildOnly: true,
   async execute(message, args, prefix) {
-    let member = message.mentions.members.first();
+    const member = message.mentions.members.first();
     let modhighestrole = -1;
     let memberhighestrole = -1;
     if (!message.guild.me.hasPermission('KICK_MEMBERS')) {
@@ -51,13 +51,13 @@ module.exports = {
     }
 
     args.shift();
-    let reason = '`' + args.join(' ') + '`';
-    let author = message.author.username;
+    const reason = '`' + args.join(' ') + '`';
+    const author = message.author.username;
     let kicks = await kks.get(`kicks_${member.id}_${message.guild.id}`)
     if (!kicks) kicks = 1;
     else kicks = kicks + 1;
 
-    const kickembed = new Discord.MessageEmbed()
+    const kickEmbed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
       .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Kick Information`)
       .addFields(
@@ -67,10 +67,10 @@ module.exports = {
       )
       .setTimestamp();
     await member.send(`${author} kicked you from ${message.guild.name} for ${reason}.`);
-    let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
-    if (!log) await message.channel.send(kickembed);
-    else await log.send(kickembed);
+    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+    const log = message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
+    if (!log) await message.channel.send(kickEmbed);
+    else await log.send(kickEmbed);
 
     await kks.set(`kicks_${member.id}_${message.guild.id}`, kicks);
     await message.guild.member(member).kick();

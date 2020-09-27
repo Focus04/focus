@@ -26,7 +26,7 @@ module.exports = {
 
       fs.readdirSync('./Commands/Welcome').forEach((file) => welcomecmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
 
-      const helpembed = new Discord.MessageEmbed()
+      const helpEmbed = new Discord.MessageEmbed()
         .setColor('#00ffbb')
         .setTitle('Commands')
         .setDescription(`Pro tip: Type "${prefix}help [command]" for more detailed information about a specific command.`)
@@ -40,7 +40,7 @@ module.exports = {
           { name: '`Useful Links`', value: '[Support Server](https://discord.gg/YvN7jUD), [Add me on your server](https://discordapp.com/oauth2/authorize?client_id=723094801175806024&scope=bot&permissions=268561494)' }
         )
         .setTimestamp();
-      message.channel.send(helpembed);
+      message.channel.send(helpEmbed);
     } else {
       const { commands } = message.client;
       const name = args[0].toLowerCase();
@@ -51,7 +51,7 @@ module.exports = {
         return message.react('❌');
       }
       else {
-        const commandembed = new Discord.MessageEmbed()
+        const commandEmbed = new Discord.MessageEmbed()
           .setColor('#00ffbb')
           .setTitle(`${prefix}${command.name}`)
           .addFields(
@@ -59,7 +59,7 @@ module.exports = {
             { name: '`Command Usage:`', value: `${prefix}${command.usage}` },
           )
           .setTimestamp();
-        message.channel.send(commandembed);
+        message.channel.send(commandEmbed);
       }
     }
   }

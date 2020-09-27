@@ -8,12 +8,12 @@ module.exports = {
   guildOnly: true,
   execute(message) {
     if (!message.mentions.users.size) {
-      let roles = '```' + message.member.roles.cache.map((role) => role.name).join(`, `) + '```';
-      let perms = '```' + message.member.permissions.toArray().join(`\n`) + '```';
+      const roles = '```' + message.member.roles.cache.map((role) => role.name).join(`, `) + '```';
+      const perms = '```' + message.member.permissions.toArray().join(`\n`) + '```';
       let badges = '```' + message.author.flags.toArray().join(', ') + '```';
       if(badges === '``````') badges = '```None```';
 
-      const userinfoembed1 = new Discord.MessageEmbed()
+      const userInfoEmbed = new Discord.MessageEmbed()
         .setColor('#00ffbb')
         .setTitle('User Information')
         .addFields(
@@ -27,15 +27,15 @@ module.exports = {
         )
         .setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
         .setTimestamp();
-      message.channel.send(userinfoembed1);
+      message.channel.send(userInfoEmbed);
     } else {
       message.mentions.members.forEach((member) => {
-        let roles = '```' + member.roles.cache.map((role) => role.name).join(`, `) + '```';
-        let perms = '```' + member.permissions.toArray().join(`\n`) + '```';
+        const roles = '```' + member.roles.cache.map((role) => role.name).join(`, `) + '```';
+        const perms = '```' + member.permissions.toArray().join(`\n`) + '```';
         let badges = '```' + member.user.flags.toArray().join(', ') + '```';
         if(badges === '``````') badges = '```None```';
 
-        const userinfoembed2 = new Discord.MessageEmbed()
+        const userInfoEmbed = new Discord.MessageEmbed()
           .setColor('#00ffbb')
           .setTitle(`${member.user.username}'s User Information`)
           .addFields(
@@ -49,7 +49,7 @@ module.exports = {
           )
           .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
           .setTimestamp();
-        message.channel.send(userinfoembed2);
+        message.channel.send(userInfoEmbed);
       });
     }
   }

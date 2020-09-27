@@ -13,9 +13,9 @@ module.exports = {
       return message.react('❌');
     }
 
-    let location = args.join(' ');
-    let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${process.env.weatherid}`);
-    let data = await response.json();
+    const location = args.join(' ');
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${process.env.weatherid}`);
+    const data = await response.json();
     let icon;
 
     if (data.message === 'city not found') {
@@ -81,7 +81,7 @@ module.exports = {
         break;
     }
 
-    let weatherembed = new Discord.MessageEmbed()
+    const weatherEmbed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
       .setTitle(`Weather in ${data.name}, ${data.sys.country}`)
       .addFields(
@@ -94,7 +94,7 @@ module.exports = {
       )
       .setThumbnail(`${icon}.png`)
       .setTimestamp();
-    await message.channel.send(weatherembed);
+    await message.channel.send(weatherEmbed);
     message.react('✔️');
   }
 }

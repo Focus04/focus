@@ -7,20 +7,20 @@ module.exports = {
   guildOnly: true,
   execute(message) {
     if (!message.mentions.users.size) {
-      const avatarembed = new Discord.MessageEmbed()
+      const avatarEmbed = new Discord.MessageEmbed()
         .setColor('#00ffbb')
         .setTitle('Your avatar')
         .setImage(message.author.displayAvatarURL({ dynamic: true }))
         .setTimestamp();
-      message.channel.send(avatarembed);
+      message.channel.send(avatarEmbed);
     } else
       message.mentions.users.forEach((user) => {
-        const avatarembed2 = new Discord.MessageEmbed()
+        const avatarEmbed = new Discord.MessageEmbed()
           .setColor('#00ffbb')
           .setTimestamp()
           .setTitle(`${user.username}'s avatar`)
           .setImage(user.displayAvatarURL({ dynamic: true }));
-        message.channel.send(avatarembed2);
+        message.channel.send(avatarEmbed);
       });
   }
 }
