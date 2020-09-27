@@ -74,14 +74,14 @@ module.exports = {
     }
 
     let mappings = new Map();
-    let rolepicker = new Discord.MessageEmbed()
+    let rolePicker = new Discord.MessageEmbed()
       .setColor('#00ffbb')
       .setTitle('Role Picker')
       .setDescription('React to assign yourself a role!')
       .setTimestamp();
     let i = 0;
     roles.forEach((role) => {
-      rolepicker.addField(role.name, message.client.emojis.cache.get(emojis[i]) || emojis[i]);
+      rolePicker.addField(role.name, message.client.emojis.cache.get(emojis[i]) || emojis[i]);
       mappings.set(emojis[i], role.id);
       i++;
     });
@@ -90,7 +90,7 @@ module.exports = {
     emojis.forEach((emoji) => menu.react(emoji));
 
     message.delete();
-    let object = Object.fromEntries(mappings);
+    const object = Object.fromEntries(mappings);
     await rolepickers.set(menu.id, object);
   }
 }

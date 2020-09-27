@@ -22,8 +22,8 @@ module.exports = {
     }
 
     args.shift();
-    let rolename = args.join(' ').toLowerCase();
-    let role = member.roles.cache.find((role) => role.name.toLowerCase().startsWith(rolename));
+    const rolename = args.join(' ').toLowerCase();
+    const role = member.roles.cache.find((role) => role.name.toLowerCase().startsWith(rolename));
     if (!role) {
       let msg = await message.channel.send(`${member.user.username} doesn't have any roles named ${rolename}`);
       msg.delete({ timeout: 10000 });
@@ -61,7 +61,7 @@ module.exports = {
     member.roles.remove(role);
     let perms = role.permissions.toArray().map((perm) => perm).join(`\n`);
     perms = '```' + perms + '```';
-    let takeroleembed = new Discord.MessageEmbed()
+    const takeRoleEmbed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
       .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Deleted Role`)
       .addFields(
@@ -71,10 +71,10 @@ module.exports = {
         { name: 'Permissions', value: `${perms}` }
       )
       .setTimestamp();
-    let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
-    if (log) log.send(takeroleembed);
-    else  message.channel.send(takeroleembed);
+    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
+    if (log) log.send(takeRoleEmbed);
+    else  message.channel.send(takeRoleEmbed);
       
     message.react('✔️');
   }

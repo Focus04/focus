@@ -13,7 +13,7 @@ module.exports = {
     const user = message.mentions.users.first();
     const author = message.author.username;
     const mins = args[1];
-    const mutedRole = message.guild.roles.cache.find((r) => r.name === 'Muted Member');
+    let mutedRole = message.guild.roles.cache.find((r) => r.name === 'Muted Member');
     let modhighestrole = -1;
     let memberhighestrole = -1;
     if (!message.guild.me.hasPermission('MANAGE_ROLES') || !message.guild.me.hasPermission('MANAGE_CHANNELS')) {
@@ -81,6 +81,8 @@ module.exports = {
           'SPEAK': false
         });
       });
+
+      mutedRole = newMutedRole;
     }
 
     if (member.roles.cache.has(mutedRole.id)) {
