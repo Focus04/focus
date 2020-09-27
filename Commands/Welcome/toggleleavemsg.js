@@ -15,8 +15,8 @@ module.exports = {
       return message.react('❌');
     }
 
-    let leavechname = await leavechannels.get(`leavechannel_${message.guild.id}`);
-    let leave = message.guild.channels.cache.find((ch) => ch.name === `${leavechname}`);
+    const leavechname = await leavechannels.get(`leavechannel_${message.guild.id}`);
+    const leave = message.guild.channels.cache.find((ch) => ch.name === `${leavechname}`);
     let logs = await toggleleave.get(`toggleleavemsg_${message.guild.id}`);
     let state;
     
@@ -35,8 +35,8 @@ module.exports = {
     }
 
     await toggleleave.set(`toggleleavemsg_${message.guild.id}`, logs);
-    let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find((channel) => channel.name === logchname);
+    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((channel) => channel.name === logchname);
     if (!log) message.channel.send(`Leave messages are now set to ${'`' + state + '`'}`);
     else log.send(`Leave messages are now set to ${'`' + state + '`'}`);
 

@@ -15,8 +15,8 @@ module.exports = {
       return message.react('❌');
     }
 
-    let welcomechname = await welcomechannels.get(`welcomechannel_${message.guild.id}`);
-    let welcome = message.guild.channels.cache.find((ch) => ch.name === `${welcomechname}`);
+    const welcomechname = await welcomechannels.get(`welcomechannel_${message.guild.id}`);
+    const welcome = message.guild.channels.cache.find((ch) => ch.name === `${welcomechname}`);
     let logs = await togglewelcome.get(`togglewelcomemsg_${message.guild.id}`);
     let state;
     
@@ -35,8 +35,8 @@ module.exports = {
     }
 
     await togglewelcome.set(`togglewelcomemsg_${message.guild.id}`, logs);
-    let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find((channel) => channel.name === logchname);
+    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((channel) => channel.name === logchname);
     if (!log) message.channel.send(`Welcome messages are now set to ${'`' + state + '`'}`);
     else log.send(`Welcome messages are now set to ${'`' + state + '`'}`);
     message.react('✔️');

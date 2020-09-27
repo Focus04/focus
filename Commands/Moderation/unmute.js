@@ -7,9 +7,9 @@ module.exports = {
   usage: 'mute @`user`',
   guildOnly: true,
   async execute(message, args, prefix) {
-    let author = message.author.username;
-    let member = message.mentions.members.first();
-    let mutedrole = message.guild.roles.cache.find((r) => r.name === 'Muted Member');
+    const author = message.author.username;
+    const member = message.mentions.members.first();
+    const mutedRole = message.guild.roles.cache.find((r) => r.name === 'Muted Member');
     if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
       let msg = await message.channel.send('I require the Manage Roles permission in order to perform this action!');
       msg.delete({ timeout: 10000 });
@@ -28,15 +28,15 @@ module.exports = {
       return message.react('❌');
     }
 
-    if (!member.roles.cache.has(mutedrole.id)) {
+    if (!member.roles.cache.has(mutedRole.id)) {
       let msg = await message.channel.send(`${member} isn't muted!`);
       msg.delete({ timeout: 10000 });
       return message.react('❌');
     }
 
-    member.roles.remove(mutedrole);
-    let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
+    member.roles.remove(mutedRole);
+    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (!log) message.channel.send(`${args[0]} has been unmuted earlier.`);
     else log.send(`${args[0]} has been unmuted earlier.`);
       

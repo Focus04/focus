@@ -20,12 +20,12 @@ module.exports = {
       return message.react('❌');
     }
 
-    let welcomerolename = args.join(' ').toLowerCase();
-    let welcomerole = message.guild.roles.cache.find((role) => role.name.toLowerCase().startsWith(welcomerolename));
+    const welcomeRoleName = args.join(' ').toLowerCase();
+    const welcomeRole = message.guild.roles.cache.find((role) => role.name.toLowerCase().startsWith(welcomeRoleName));
     let bothighestrole = -1;
     let highestrole = -1;
 
-    if (!welcomerole) {
+    if (!welcomeRole) {
       let msg = await message.channel.send(`Couldn't find any roles named "${rolename}"`);
       msg.delete({ timeout: 10000 });
       return message.react('❌');
@@ -35,7 +35,7 @@ module.exports = {
       if (r.position > bothighestrole) bothighestrole = r.position;
     });
 
-    if (welcomerole.position >= bothighestrole) {
+    if (welcomeR.position >= bothighestrole) {
       let msg = await message.channel.send('My roles must be higher than the role that you want to set.');
       msg.delete({ timeout: 10000 });
       return message.react('❌');
@@ -45,7 +45,7 @@ module.exports = {
       if (r.position > highestrole) highestrole = r.position;
     });
 
-    if (welcomerole.position >= highestrole) {
+    if (welcomeRole.position >= highestrole) {
       let msg = await message.channel.send('Your roles must be higher than the role that you want to set.');
       msg.delete({ timeout: 10000 });
       return message.react('❌');
@@ -60,8 +60,8 @@ module.exports = {
     await welcomeroles.set(`welcomerole_${message.guild.id}`, rolename);
     let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
     let log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
-    if (!log) message.channel.send(`Welcome role successfully changed to ${'`' + welcomerole.name + '`'}`);
-    else log.send(`Welcome role successfully changed to ${'`' + welcomerole.name + '`'}`);
+    if (!log) message.channel.send(`Welcome role successfully changed to ${'`' + welcomeRole.name + '`'}`);
+    else log.send(`Welcome role successfully changed to ${'`' + welcomeRole.name + '`'}`);
       
     message.react('✔️');
   }

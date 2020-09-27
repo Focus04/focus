@@ -8,7 +8,7 @@ module.exports = {
   usage: 'takerole @`member` `role`',
   guildOnly: true,
   async execute(message, args, prefix) {
-    let member = message.mentions.members.first();
+    const member = message.mentions.members.first();
     if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
       let msg = await message.channel.send('I need the Manage Roles permission in order to execute this command.');
       msg.delete({ timeout: 10000 });

@@ -14,7 +14,7 @@ module.exports = {
       return message.react('❌');
     }
 
-    let member = message.guild.members.cache.find((user) => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`) || message.mentions.members.first();
+    const member = message.guild.members.cache.find((user) => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`) || message.mentions.members.first();
     if (!member) {
       let msg = await message.channel.send(`Couldn't find ${args[0]}.`);
       msg.delete({ timeout: 10000 });
@@ -27,16 +27,16 @@ module.exports = {
       return message.react('❌');
     }
 
-    let notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
+    const notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
     await message.channel.send('Check your inbox.');
     if (!notes) message.author.send(`There are no notes linked to ${member.username}.`);
     else {
-      let viewnotesembed = new Discord.MessageEmbed()
+      const viewNotesEmbed = new Discord.MessageEmbed()
         .setColor('#00ffbb')
         .setTitle(`${member.user.username}'s notes`)
         .setDescription(notes)
         .setTimestamp();
-      message.author.send(viewnotesembed);
+      message.author.send(viewNotesEmbed);
     }
     
     message.react('✔️');

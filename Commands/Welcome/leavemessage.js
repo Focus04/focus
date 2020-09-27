@@ -22,9 +22,9 @@ module.exports = {
       return message.react('❌');
     }
 
-    let msg = args.join(' ');
-    let leavechname = await leavechannels.get(`leavechannel_${message.guild.id}`);
-    let leavechannel = await message.guild.channels.cache.find((ch) => ch.name === `${leavechname}`);
+    const msg = args.join(' ');
+    const leavechname = await leavechannels.get(`leavechannel_${message.guild.id}`);
+    const leavechannel = await message.guild.channels.cache.find((ch) => ch.name === `${leavechname}`);
     if (!leavechannel) {
       let msg = await message.channel.send(`You need to set a channel for leave messages to be sent in. Use ${prefix}setleavechannel to setup one.`);
       msg.delete({ timeout: 10000 });
@@ -33,8 +33,8 @@ module.exports = {
 
     await leavemessages.set(`leavemessage_${message.guild.id}`, msg);
     await toggleleavemsg.set(`toggleleavemsg_${message.guild.id}`, 1);
-    let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
+    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (!log) message.channel.send(`Leave message successfully changed to ${'`' + msg + '`'}`);
     else log.send(`Leave message successfully changed to ${'`' + msg + '`'}`);
       

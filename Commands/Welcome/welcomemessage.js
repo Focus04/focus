@@ -22,19 +22,19 @@ module.exports = {
       return message.react('❌');
     }
 
-    let welcomechname = await welcomechannels.get(`welcomechannel_${message.guild.id}`);
-    let welcomechannel = await message.guild.channels.cache.find((ch) => ch.name === `${welcomechname}`);
+    const welcomechname = await welcomechannels.get(`welcomechannel_${message.guild.id}`);
+    const welcomechannel = await message.guild.channels.cache.find((ch) => ch.name === `${welcomechname}`);
     if (!welcomechannel) {
       let msg = await message.channel.send(`You need to set a channel for welcome messages to be sent in. Use ${prefix}setwelcomechannel to setup one.`);
       msg.delete({ timeout: 10000 });
       return message.react('❌');
     }
 
-    let msg = args.join(' ');
+    const msg = args.join(' ');
     await welcomemessages.set(`welcomemessage_${message.guild.id}`, msg);
     await togglewelcomemsg.set(`togglewelcomemsg_${message.guild.id}`, 1);
-    let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
+    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (!log) message.channel.send(`Welcome message successfully changed to ${'`' + msg + '`'}`);
     else log.send(`Welcome message successfully changed to ${'`' + msg + '`'}`);
       

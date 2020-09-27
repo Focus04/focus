@@ -9,8 +9,8 @@ module.exports = {
   usage: 'warn @`user` `reason`',
   guildOnly: true,
   async execute(message, args, prefix) {
-    let member = message.mentions.members.first();
-    let author = message.author.username;
+    const member = message.mentions.members.first();
+    const author = message.author.username;
     if (!member || !args[1]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}warn @[user] [reason]`);
       msg.delete({ timeout: 10000 });
@@ -46,12 +46,12 @@ module.exports = {
     }
 
     args.shift();
-    let reason = '`' + args.join(' ') + '`';
+    const reason = '`' + args.join(' ') + '`';
     let warns = await warnings.get(`warns_${member.id}_${message.guild.id}`);
     if (!warns) warns = 1;
     else warns = warns + 1;
 
-    const warnembed = new Discord.MessageEmbed()
+    const warnEmbed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
       .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Warn Information`)
       .addFields(
@@ -60,10 +60,10 @@ module.exports = {
         { name: 'Reason:', value: `${reason}` }
       )
       .setTimestamp();
-    let logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
-    if (!log) message.channel.send(warnembed);
-    else log.send(warnembed);
+    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
+    if (!log) message.channel.send(warnEmbed);
+    else log.send(warnEmbed);
       
     await member.user.send(`${author} is warning you in ${message.guild.name} for ${reason}.`);
     await warnings.set(`warns_${member.user.id}_${message.guild.id}`, warns);
