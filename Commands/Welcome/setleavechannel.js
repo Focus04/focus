@@ -32,7 +32,6 @@ module.exports = {
     const log = await message.guild.channels.cache.find((channel) => channel.name === logchname);
     if (!log) message.channel.send(`All leaving members will be logged in ${'`' + args[0] + '`'} from now on.`);
     else log.send(`All leaving members will be logged in ${'`' + args[0] + '`'} from now on.`);
-      
     message.react('✔️');
   }
 }

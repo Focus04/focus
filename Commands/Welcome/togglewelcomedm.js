@@ -38,7 +38,6 @@ module.exports = {
     const log = await message.guild.channels.cache.find((channel) => channel.name === logchname);
     if (!log) message.channel.send(`Welcome DMs are now set to ${'`' + state + '`'}`);
     else log.send(`Welcome DMs are now set to ${'`' + state + '`'}`);
-
     message.react('✔️');
   }
 }

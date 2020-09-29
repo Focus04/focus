@@ -45,7 +45,6 @@ module.exports = {
     const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (!log) message.channel.send(`${args[0]} has been unbanned earlier.`);
     else log.send(`${args[0]} has been unbanned earlier.`);
-
     message.react('✔️');
   }
 }

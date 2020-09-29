@@ -38,7 +38,6 @@ module.exports = {
         .setTimestamp();
       message.author.send(viewNotesEmbed);
     }
-    
     message.react('✔️');
   }
 }

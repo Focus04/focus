@@ -28,11 +28,9 @@ module.exports = {
     message.member.roles.cache.forEach((r) => {
       if (r.position > modhighestrole) modhighestrole = r.position;
     });
-
     member.roles.cache.forEach((r) => {
       if (r.position > memberhighestrole) memberhighestrole = r.position;
     });
-
     if (modhighestrole <= memberhighestrole) {
       let msg = await message.channel.send('Your roles must be higher than the roles of the person you want to ban!');
       msg.delete({ timeout: 10000 });
@@ -64,7 +62,6 @@ module.exports = {
     const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (!log) message.channel.send(warnEmbed);
     else log.send(warnEmbed);
-      
     await member.user.send(`${author} is warning you in ${message.guild.name} for ${reason}.`);
     await warnings.set(`warns_${member.user.id}_${message.guild.id}`, warns);
     message.react('✔️');

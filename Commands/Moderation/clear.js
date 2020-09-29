@@ -48,7 +48,6 @@ module.exports = {
     const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (!log) message.channel.send(clearEmbed);
     else log.send(clearEmbed);
-      
     message.react('✔️');
   }
 }

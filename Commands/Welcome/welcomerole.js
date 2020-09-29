@@ -62,7 +62,6 @@ module.exports = {
     let log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (!log) message.channel.send(`Welcome role successfully changed to ${'`' + welcomeRole.name + '`'}`);
     else log.send(`Welcome role successfully changed to ${'`' + welcomeRole.name + '`'}`);
-      
     message.react('✔️');
   }
 }

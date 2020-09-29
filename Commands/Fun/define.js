@@ -30,7 +30,7 @@ module.exports = {
       synonyms = synonyms + '```';
     }
 
-    let defineEmbed = new Discord.MessageEmbed()
+    const defineEmbed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
       .setTitle(`What does ${args[0]} mean?`)
       .addFields(

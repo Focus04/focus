@@ -12,7 +12,6 @@ module.exports = {
       const perms = '```' + message.member.permissions.toArray().join(`\n`) + '```';
       let badges = '```' + message.author.flags.toArray().join(', ') + '```';
       if(badges === '``````') badges = '```None```';
-
       const userInfoEmbed = new Discord.MessageEmbed()
         .setColor('#00ffbb')
         .setTitle('User Information')
@@ -34,7 +33,6 @@ module.exports = {
         const perms = '```' + member.permissions.toArray().join(`\n`) + '```';
         let badges = '```' + member.user.flags.toArray().join(', ') + '```';
         if(badges === '``````') badges = '```None```';
-
         const userInfoEmbed = new Discord.MessageEmbed()
           .setColor('#00ffbb')
           .setTitle(`${member.user.username}'s User Information`)

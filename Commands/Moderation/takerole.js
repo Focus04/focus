@@ -35,7 +35,6 @@ module.exports = {
     message.guild.me.roles.cache.map((r) => {
       if (r.position > bothighestrole) bothighestrole = r.position;
     });
-
     if (role.position >= bothighestrole) {
       let msg = await message.channel.send('My roles must be higher than the role that you want to take!');
       msg.delete({ timeout: 10000 });
@@ -51,7 +50,6 @@ module.exports = {
     message.member.roles.cache.map((r) => {
       if (r.position > highestrole) highestrole = r.position;
     });
-
     if (role.position >= highestrole) {
       let msg = await message.channel.send('Your roles must be higher than the role that you want to take.');
       msg.delete({ timeout: 10000 });
@@ -75,7 +73,6 @@ module.exports = {
     const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (log) log.send(takeRoleEmbed);
     else  message.channel.send(takeRoleEmbed);
-      
     message.react('✔️');
   }
 }

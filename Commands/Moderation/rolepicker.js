@@ -20,7 +20,6 @@ module.exports = {
         message.guild.me.roles.cache.forEach((r) => {
           if (r.position > bothighestrole) bothighestrole = r.position;
         });
-
         if (role.position >= bothighestrole) {
           err = 1;
           let msg = await message.channel.send(`Error at role ${'`' + role.name + '`'}. My roles must be higher than the role that you want to set.`);
@@ -30,7 +29,6 @@ module.exports = {
         message.member.roles.cache.forEach((r) => {
           if (r.position > highestrole) highestrole = r.position;
         });
-
         if (role.position >= highestrole) {
           err = 1;
           let msg = await message.channel.send(`Error at role ${'`' + role.name + '`'}. Your roles must be higher than the role that you want to set.`);

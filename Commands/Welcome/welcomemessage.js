@@ -37,7 +37,6 @@ module.exports = {
     const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (!log) message.channel.send(`Welcome message successfully changed to ${'`' + msg + '`'}`);
     else log.send(`Welcome message successfully changed to ${'`' + msg + '`'}`);
-      
     message.react('✔️');
   }
 }

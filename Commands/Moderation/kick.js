@@ -33,11 +33,9 @@ module.exports = {
     message.member.roles.cache.forEach((r) => {
       if (r.position > modhighestrole) modhighestrole = r.position;
     });
-    
     member.roles.cache.forEach((r) => {
       if (r.position > memberhighestrole) memberhighestrole = r.position;
     });
-
     if (modhighestrole <= memberhighestrole) {
       let msg = await message.channel.send('Your roles must be higher than the roles of the person you want to kick!');
       msg.delete({ timeout: 10000 });
@@ -71,7 +69,6 @@ module.exports = {
     const log = message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (!log) await message.channel.send(kickEmbed);
     else await log.send(kickEmbed);
-
     await kks.set(`kicks_${member.id}_${message.guild.id}`, kicks);
     await message.guild.member(member).kick();
     message.react('✔️');

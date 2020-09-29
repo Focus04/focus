@@ -37,11 +37,9 @@ module.exports = {
     message.member.roles.cache.forEach((r) => {
       if (r.position > modhighestrole) modhighestrole = r.position;
     });
-
     member.roles.cache.forEach((r) => {
       if (r.position > memberhighestrole) memberhighestrole = r.position;
     });
-
     if (modhighestrole <= memberhighestrole) {
       let msg = await message.channel.send('Your roles must be higher than the roles of the person you want to mute!');
       msg.delete({ timeout: 10000 });
@@ -56,7 +54,6 @@ module.exports = {
 
     args.shift();
     args.shift();
-    
     const reason = '`' + args.join(' ') + '`';
     let mutes = await mts.get(`mutes_${member.id}_${message.guild.id}`);
     if (!mutes) mutes = 1;
@@ -81,7 +78,6 @@ module.exports = {
           'SPEAK': false
         });
       });
-
       mutedRole = newMutedRole;
     }
 
@@ -108,14 +104,12 @@ module.exports = {
     const log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
     if (!log) await message.channel.send(muteEmbed);
     else await log.send(muteEmbed);
-
     message.react('✔️');
     setTimeout(function () {
       if (member.roles.cache.has(mutedRole.id)) {
         member.roles.remove(mutedRole);
         if (!log) message.channel.send(`${member} has been unmuted.`);
         else log.send(`${member} has been unmuted.`);
-
         member.send(`You have been unmuted from ${message.guild.name}.`);
       }
     }, mins * 60000);
