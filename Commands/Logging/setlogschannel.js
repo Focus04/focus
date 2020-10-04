@@ -1,5 +1,5 @@
 const Keyv = require('keyv');
-const logchannels = new Keyv(process.env.logchannels);
+const logChannels = new Keyv(process.env.logChannels);
 
 module.exports = {
   name: 'setlogschannel',
@@ -26,7 +26,7 @@ module.exports = {
       return message.react('❌');
     }
 
-    await logchannels.set(`logchannel_${message.guild.id}`, args[0]);
+    await logChannels.set(`logchannel_${message.guild.id}`, args[0]);
     message.react('✔️');
     message.channel.send(`All moderation actions will be logged in ${args[0]} from now on.`);
   }

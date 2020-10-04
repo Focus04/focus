@@ -1,8 +1,8 @@
 const Keyv = require('keyv');
-const welcomechannels = new Keyv(process.env.welcomechannels);
-const welcomemessages = new Keyv(process.env.welcomemessages);
-const togglewelcomemsg = new Keyv(process.env.togglewelcomemsg);
-const logchannels = new Keyv(process.env.logchannels);
+const welcomeChannels = new Keyv(process.env.welcomeChannels);
+const welcomeMessages = new Keyv(process.env.welcomeMessages);
+const toggleWelcomeMsg = new Keyv(process.env.toggleWelcomeMsg);
+const logChannels = new Keyv(process.env.logChannels);
 
 module.exports = {
   name: 'welcomemessage',
@@ -22,19 +22,19 @@ module.exports = {
       return message.react('❌');
     }
 
-    const welcomechname = await welcomechannels.get(`welcomechannel_${message.guild.id}`);
-    const welcomechannel = await message.guild.channels.cache.find((ch) => ch.name === `${welcomechname}`);
-    if (!welcomechannel) {
+    const welcomeChName = await welcomeChannels.get(`welcomechannel_${message.guild.id}`);
+    const welcomeChannel = await message.guild.channels.cache.find((ch) => ch.name === `${welcomeChName}`);
+    if (!welcomeChannel) {
       let msg = await message.channel.send(`You need to set a channel for welcome messages to be sent in. Use ${prefix}setwelcomechannel to setup one.`);
       msg.delete({ timeout: 10000 });
       return message.react('❌');
     }
 
     const msg = args.join(' ');
-    await welcomemessages.set(`welcomemessage_${message.guild.id}`, msg);
-    await togglewelcomemsg.set(`togglewelcomemsg_${message.guild.id}`, 1);
-    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
+    await welcomeMessages.set(`welcomemessage_${message.guild.id}`, msg);
+    await toggleWelcomeMsg.set(`togglewelcomemsg_${message.guild.id}`, 1);
+    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
     if (!log) message.channel.send(`Welcome message successfully changed to ${'`' + msg + '`'}`);
     else log.send(`Welcome message successfully changed to ${'`' + msg + '`'}`);
     message.react('✔️');

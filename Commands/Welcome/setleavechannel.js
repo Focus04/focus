@@ -1,6 +1,6 @@
 const Keyv = require('keyv');
-const leavechannels = new Keyv(process.env.leavechannels);
-const logchannels = new Keyv(process.env.logchannels);
+const leaveChannels = new Keyv(process.env.leaveChannels);
+const logChannels = new Keyv(process.env.logChannels);
 
 module.exports = {
   name: 'setleavechannel',
@@ -27,9 +27,9 @@ module.exports = {
       return message.react('❌');
     }
 
-    await leavechannels.set(`leavechannel_${message.guild.id}`, args[0]);
-    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    const log = await message.guild.channels.cache.find((channel) => channel.name === logchname);
+    await leaveChannels.set(`leavechannel_${message.guild.id}`, args[0]);
+    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((channel) => channel.name === logChName);
     if (!log) message.channel.send(`All leaving members will be logged in ${'`' + args[0] + '`'} from now on.`);
     else log.send(`All leaving members will be logged in ${'`' + args[0] + '`'} from now on.`);
     message.react('✔️');

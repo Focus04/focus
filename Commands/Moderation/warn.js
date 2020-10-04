@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const Keyv = require('keyv');
 const warnings = new Keyv(process.env.wrns);
-const logchannels = new Keyv(process.env.logchannels);
+const logChannels = new Keyv(process.env.logChannels);
 
 module.exports = {
   name: 'warn',
@@ -23,15 +23,15 @@ module.exports = {
       return message.react('❌');
     }
 
-    let modhighestrole = -1;
-    let memberhighestrole = -1;
+    let modHighestRole = -1;
+    let memberHighestRole = -1;
     message.member.roles.cache.forEach((r) => {
-      if (r.position > modhighestrole) modhighestrole = r.position;
+      if (r.position > modHighestRole) modHighestRole = r.position;
     });
     member.roles.cache.forEach((r) => {
-      if (r.position > memberhighestrole) memberhighestrole = r.position;
+      if (r.position > memberHighestRole) memberHighestRole = r.position;
     });
-    if (modhighestrole <= memberhighestrole) {
+    if (modHighestRole <= memberHighestRole) {
       let msg = await message.channel.send('Your roles must be higher than the roles of the person you want to ban!');
       msg.delete({ timeout: 10000 });
       return message.react('❌');
@@ -58,8 +58,8 @@ module.exports = {
         { name: 'Reason:', value: `${reason}` }
       )
       .setTimestamp();
-    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
+    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
     if (!log) message.channel.send(warnEmbed);
     else log.send(warnEmbed);
     await member.user.send(`${author} is warning you in ${message.guild.name} for ${reason}.`);

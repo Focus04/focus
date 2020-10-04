@@ -1,12 +1,12 @@
 const Keyv = require('keyv');
-const welcomedms = new Keyv(process.env.welcomedms);
-const togglewelcomedm = new Keyv(process.env.togglewelcomedm);
-const logchannels = new Keyv(process.env.logchannels);
+const welcomeDms = new Keyv(process.env.welcomeDms);
+const toggleWelcomeDm = new Keyv(process.env.toggleWelcomeDm);
+const logChannels = new Keyv(process.env.logChannels);
 
 module.exports = {
   name: 'togglewelcomedm',
   description: `Toggles welcome DMs on/off.`,
-  usage: 'togglewelcomedm',
+  usage: 'toggleWelcomedm',
   guildOnly: true,
   async execute(message, prefix) {
     if (!message.member.hasPermission('MANAGE_GUILD')) {
@@ -15,12 +15,12 @@ module.exports = {
       return message.react('❌');
     }
 
-    const welcomedm = await welcomedms.get(`welcomedm_${message.guild.id}`);
-    let logs = await togglewelcomedm.get(`togglewelcomedm_${message.guild.id}`);
+    const welcomeDm = await welcomeDms.get(`welcomedm_${message.guild.id}`);
+    let logs = await toggleWelcomeDm.get(`togglewelcomedm_${message.guild.id}`);
     let state;
 
-    if (!welcomedm) {
-      let msg = await message.channel.send(`You first need to set a welcome DM. Use ${prefix}welcomedm to setup one.`);
+    if (!welcomeDm) {
+      let msg = await message.channel.send(`You first need to set a welcome DM. Use ${prefix}welcomeDm to setup one.`);
       msg.delete({ timeout: 10000 });
       return message.react('❌');
     }
@@ -33,9 +33,9 @@ module.exports = {
       state = 'off';
     }
 
-    await togglewelcomedm.set(`togglewelcomedm_${message.guild.id}`, logs);
-    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    const log = await message.guild.channels.cache.find((channel) => channel.name === logchname);
+    await toggleWelcomeDm.set(`togglewelcomedm_${message.guild.id}`, logs);
+    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((channel) => channel.name === logChName);
     if (!log) message.channel.send(`Welcome DMs are now set to ${'`' + state + '`'}`);
     else log.send(`Welcome DMs are now set to ${'`' + state + '`'}`);
     message.react('✔️');

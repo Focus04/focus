@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const Keyv = require('keyv');
-const logchannels = new Keyv(process.env.logchannels);
+const logChannels = new Keyv(process.env.logChannels);
 
 module.exports = {
   name: 'report',
@@ -19,8 +19,8 @@ module.exports = {
       return msg.delete({ timeout: 10000 });
     }
 
-    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    const log = message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
+    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
+    const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
     
     if (!log) {
       let msg = await message.channel.send(`Looks like the server doesn't have any logs channel. Please ask a staff member to setup one using ${prefix}setlogschannel`);

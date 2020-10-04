@@ -1,19 +1,19 @@
 const Keyv = require('keyv');
-const leavechannels = new Keyv(process.env.leavechannels);
-const leavemessages = new Keyv(process.env.leavemessages);
-const toggleleave = new Keyv(process.env.toggleleavemsg);
+const leaveChannels = new Keyv(process.env.leaveChannels);
+const leaveMessages = new Keyv(process.env.leaveMessages);
+const toggleLeave = new Keyv(process.env.toggleLeaveMsg);
 
 module.exports = async (client, member) => {
-  const leavechname = await leavechannels.get(`leavechannel_${member.guild.id}`);
-  const leave = member.guild.channels.cache.find((ch) => ch.name === leavechname);
-  let state = await toggleleave.get(`toggleleavemsg_${member.guild.id}`);
+  const leaveChName = await leaveChannels.get(`leavechannel_${member.guild.id}`);
+  const leave = member.guild.channels.cache.find((ch) => ch.name === leaveChName);
+  let state = await toggleLeave.get(`toggleleavemsg_${member.guild.id}`);
   if (!state && state != 0) state = 1;
 
   if (leave && state == 1) {
     let msg;
-    let leavemessage = await leavemessages.get(`leavemessage_${member.guild.id}`);
-    if (!leavemessage) msg = `${member.user.username} has parted ways with us...`;
-    else msg = leavemessage.replace('[user]', `${member.user.username}`);
+    let leaveMessage = await leaveMessages.get(`leavemessage_${member.guild.id}`);
+    if (!leaveMessage) msg = `${member.user.username} has parted ways with us...`;
+    else msg = leaveMessage.replace('[user]', `${member.user.username}`);
 
     leave.send(msg);
   }

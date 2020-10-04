@@ -1,13 +1,13 @@
 const Discord = require('discord.js');
 const Keyv = require('keyv');
-const logchannels = new Keyv(process.env.logchannels);
-const msglogs = new Keyv(process.env.msglogs);
+const logChannels = new Keyv(process.env.logChannels);
+const msgLogs = new Keyv(process.env.msgLogs);
 
 module.exports = async (client, oldmsg, newmsg) => {
-  const logchname = await logchannels.get(`logchannel_${oldmsg.guild.id}`);
-  const log = oldmsg.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
-  const msglog = await msglogs.get(`msglogs_${oldmsg.guild.id}`);
-  if (log && msglog == 1 && !oldmsg.author.bot && oldmsg.content.length <= 1024 && newmsg.content.length <= 1024) {
+  const logChName = await logChannels.get(`logchannel_${oldmsg.guild.id}`);
+  const log = oldmsg.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
+  const msgLog = await msgLogs.get(`msglogs_${oldmsg.guild.id}`);
+  if (log && msgLog == 1 && !oldmsg.author.bot && oldmsg.content.length <= 1024 && newmsg.content.length <= 1024) {
     const editEmbed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
       .setTitle(`${oldmsg.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Message Edited`)

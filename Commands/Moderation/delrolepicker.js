@@ -1,5 +1,5 @@
 const Keyv = require('keyv');
-const rolepickers = new Keyv(process.env.rolepickers);
+const rolePickers = new Keyv(process.env.rolePickers);
 
 module.exports = {
   name: 'delrolepicker',
@@ -16,7 +16,7 @@ module.exports = {
     }
 
     if (error) {
-      let msg = await message.channel.send(`Couldn't find any rolepickers with the ID of ${args[0]}.`);
+      let msg = await message.channel.send(`Couldn't find any rolePickers with the ID of ${args[0]}.`);
       msg.delete({ timeout: 10000 });
       return message.react('❌');
     }
@@ -28,7 +28,7 @@ module.exports = {
     }
     
     await message.channel.messages.delete(menu);
-    await rolepickers.delete(args[0]);
+    await rolePickers.delete(args[0]);
     message.channel.send(`Successfully deleted a role picker.`);
     message.react('✔️');
   }

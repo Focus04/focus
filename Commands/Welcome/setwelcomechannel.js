@@ -1,6 +1,6 @@
 const Keyv = require('keyv');
-const welcomechannels = new Keyv(process.env.welcomechannels);
-const logchannels = new Keyv(process.env.logchannels);
+const welcomeChannels = new Keyv(process.env.welcomeChannels);
+const logChannels = new Keyv(process.env.logChannels);
 
 module.exports = {
   name: 'setwelcomechannel',
@@ -27,9 +27,9 @@ module.exports = {
       return message.react('❌');
     }
 
-    await welcomechannels.set(`welcomechannel_${message.guild.id}`, args[0]);
-    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    const log = await message.guild.channels.cache.find((channel) => channel.name === logchname);
+    await welcomeChannels.set(`welcomechannel_${message.guild.id}`, args[0]);
+    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((channel) => channel.name === logChName);
     if (!log) message.channel.send(`All new members will be logged in ${'`' + args[0] + '`'} from now on.`);
     else log.send(`All new members will be logged in ${'`' + args[0] + '`'} from now on.`);
     message.react('✔️');

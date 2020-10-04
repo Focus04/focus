@@ -1,0 +1,14 @@
+{
+  "defaultPrefix": "/",
+  "reactionSuccess": "✔️",
+  "reactionError": "❌",
+  "staffEmojiId": "729353638132318318",
+  "infoEmojiId": "729353637985517568",
+  "loggingEmojiId": "729353638056689735",
+  "welcomeEmojiId": "729353638211878923",
+  "funEmojiId": "729355859552895026",
+  "debugEmojiId": "729353638736166932",
+  "pinEmojiId": "740970153696690247",
+  "suggestionChId": "751455845270814721",
+  "bugChId": "725434669453279352"
+}

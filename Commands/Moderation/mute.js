@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const Keyv = require('keyv');
 const mts = new Keyv(process.env.mts);
-const logchannels = new Keyv(process.env.logchannels);
+const logChannels = new Keyv(process.env.logChannels);
 
 module.exports = {
   name: 'mute',
@@ -14,8 +14,8 @@ module.exports = {
     const author = message.author.username;
     const mins = args[1];
     let mutedRole = message.guild.roles.cache.find((r) => r.name === 'Muted Member');
-    let modhighestrole = -1;
-    let memberhighestrole = -1;
+    let modHighestRole = -1;
+    let memberHighestRole = -1;
     if (!message.guild.me.hasPermission('MANAGE_ROLES') || !message.guild.me.hasPermission('MANAGE_CHANNELS')) {
       let msg = await message.channel.send('I require the `Manage Roles` and `Manage Channels` permissions in order to perform this action.');
       msg.delete({ timeout: 10000 });
@@ -35,12 +35,12 @@ module.exports = {
     }
 
     message.member.roles.cache.forEach((r) => {
-      if (r.position > modhighestrole) modhighestrole = r.position;
+      if (r.position > modHighestRole) modHighestRole = r.position;
     });
     member.roles.cache.forEach((r) => {
-      if (r.position > memberhighestrole) memberhighestrole = r.position;
+      if (r.position > memberHighestRole) memberHighestRole = r.position;
     });
-    if (modhighestrole <= memberhighestrole) {
+    if (modHighestRole <= memberHighestRole) {
       let msg = await message.channel.send('Your roles must be higher than the roles of the person you want to mute!');
       msg.delete({ timeout: 10000 });
       return message.react('❌');
@@ -100,8 +100,8 @@ module.exports = {
       )
       .setFooter(`You can use ${prefix}unmute to unmute the user earlier than ${mins} minutes.`)
       .setTimestamp();
-    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    const log = await message.guild.channels.cache.find(ch => ch.name === `${logchname}`);
+    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find(ch => ch.name === `${logChName}`);
     if (!log) await message.channel.send(muteEmbed);
     else await log.send(muteEmbed);
     message.react('✔️');

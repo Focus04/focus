@@ -1,5 +1,5 @@
 const Keyv = require('keyv');
-const logchannels = new Keyv(process.env.logchannels);
+const logChannels = new Keyv(process.env.logChannels);
 
 module.exports = {
   name: 'unmute',
@@ -35,8 +35,8 @@ module.exports = {
     }
 
     member.roles.remove(mutedRole);
-    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
+    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
     if (!log) message.channel.send(`${args[0]} has been unmuted earlier.`);
     else log.send(`${args[0]} has been unmuted earlier.`);
     await member.send(`${author} unmuted you earlier from ${message.guild.name}.`);

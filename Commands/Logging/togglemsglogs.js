@@ -1,6 +1,6 @@
 const Keyv = require('keyv');
-const logchannels = new Keyv(process.env.logchannels);
-const msglogs = new Keyv(process.env.msglogs);
+const logChannels = new Keyv(process.env.logChannels);
+const msgLogs = new Keyv(process.env.msgLogs);
 
 module.exports = {
   name: 'togglemsglogs',
@@ -14,9 +14,9 @@ module.exports = {
       return message.react('❌');
     }
 
-    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    const log = message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
-    let logs = await msglogs.get(`msglogs_${message.guild.id}`);
+    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
+    const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
+    let logs = await msgLogs.get(`msglogs_${message.guild.id}`);
     let state;
     
     if (!log) {
@@ -33,7 +33,7 @@ module.exports = {
       state = 'off';
     }
 
-    await msglogs.set(`msglogs_${message.guild.id}`, logs);
+    await msgLogs.set(`msglogs_${message.guild.id}`, logs);
     message.react('✔️');
     message.channel.send(`Message logs are now set to ${state}.`);
   }

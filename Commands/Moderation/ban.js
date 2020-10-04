@@ -1,8 +1,8 @@
 const Discord = require('discord.js');
 const Keyv = require('keyv');
 const bns = new Keyv(process.env.bns);
-const logchannels = new Keyv(process.env.logchannels);
-const bannedusers = new Keyv(process.env.bannedusers);
+const logChannels = new Keyv(process.env.logChannels);
+const bannedUsers = new Keyv(process.env.bannedUsers);
 
 module.exports = {
   name: 'ban',
@@ -26,15 +26,15 @@ module.exports = {
       return message.react('❌');
     }
 
-    let modhighestrole = -1;
-    let memberhighestrole = -1;
+    let modHighestRole = -1;
+    let memberHighestRole = -1;
     message.member.roles.cache.forEach((r) => {
-      if (r.position > modhighestrole) modhighestrole = r.position;
+      if (r.position > modHighestRole) modHighestRole = r.position;
     });
     member.roles.cache.forEach((r) => {
-      if (r.position > memberhighestrole) memberhighestrole = r.position;
+      if (r.position > memberHighestRole) memberHighestRole = r.position;
     });
-    if (modhighestrole <= memberhighestrole) {
+    if (modHighestRole <= memberHighestRole) {
       let msg = await message.channel.send('Your roles must be higher than the roles of the person you want to ban!');
       msg.delete({ timeout: 10000 });
       return message.react('❌');
@@ -55,7 +55,7 @@ module.exports = {
 
       args.shift();
       const reason = '`' + args.join(' ') + '`';
-      await bannedusers.set(`${message.guild.id}_${member.user.username}`, member.user.id);
+      await bannedUsers.set(`${message.guild.id}_${member.user.username}`, member.user.id);
       let bans = await bns.get(`bans_${member.id}_${message.guild.id}`);
       if (!bans) bans = 1;
       else bans = bans + 1;
@@ -71,8 +71,8 @@ module.exports = {
         )
         .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier.`)
         .setTimestamp();
-      const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-      const log = message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
+      const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
+      const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
       if (!log) await message.channel.send(banembed1);
       else await log.send(banEmbed);
       await member.send(`${author} has permanently banned you from ${message.guild.name} for ${reason}.`);
@@ -89,7 +89,7 @@ module.exports = {
       args.shift();
       args.shift();
       const reason = '`' + args.join(' ') + '`';
-      await bannedusers.set(`${message.guild.id}_${member.user.username}`, member.user.id);
+      await bannedUsers.set(`${message.guild.id}_${member.user.username}`, member.user.id);
       let bans = await bns.get(`bans_${member.id}_${message.guild.id}`);
       if (!bans) bans = 1;
       else bans = bans + 1;
@@ -105,8 +105,8 @@ module.exports = {
         )
         .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier than ${days} days.`)
         .setTimestamp();
-      const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-      const log = message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
+      const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
+      const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
       if (!log) await message.channel.send(banEmbed);
       else await log.send(banEmbed);
       await member.send(`${author} has banned you from ${message.guild.name} for ${reason}. Duration: ${days} days.`);
@@ -116,7 +116,7 @@ module.exports = {
       setTimeout(async function () {
         const banInfo = message.guild.fetchBan(user);
         if (banInfo) {
-          await bannedusers.delete(`${message.guild.id}_${member.user.username}`);
+          await bannedUsers.delete(`${message.guild.id}_${member.user.username}`);
           message.guild.members.unban(member.id);
           if (!log) message.channel.send(`${member} has been unbanned.`);
           else log.send(`${member} has been unbanned.`);

@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const Keyv = require('keyv');
-const logchannels = new Keyv(process.env.logchannels);
+const logChannels = new Keyv(process.env.logChannels);
 
 module.exports = {
   name: 'giverole',
@@ -9,8 +9,8 @@ module.exports = {
   guildOnly: true,
   async execute(message, args, prefix) {
     const member = message.mentions.members.first();
-    let bothighestrole = -1;
-    let highestrole = -1;
+    let botHighestRole = -1;
+    let highestRole = -1;
     if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
       let msg = await message.channel.send('I need the Manage Roles permission in order to execute this command.');
       msg.delete({ timeout: 10000 });
@@ -40,9 +40,9 @@ module.exports = {
     }
 
     message.guild.me.roles.cache.map((r) => {
-      if (r.position > bothighestrole) bothighestrole = r.position;
+      if (r.position > botHighestRole) botHighestRole = r.position;
     });
-    if (role.position >= bothighestrole) {
+    if (role.position >= botHighestRole) {
       let msg = await message.channel.send('My roles must be higher than the role that you want to give!');
       msg.delete({ timeout: 10000 });
       return message.react('❌');
@@ -55,9 +55,9 @@ module.exports = {
     }
     
     message.member.roles.cache.map((r) => {
-      if (r.position > highestrole) highestrole = r.position;
+      if (r.position > highestRole) highestRole = r.position;
     });
-    if (role.position >= highestrole) {
+    if (role.position >= highestRole) {
       let msg = await message.channel.send('Your roles must be higher than the role that you want to give!');
       msg.delete({ timeout: 10000 });
       return message.react('❌');
@@ -76,8 +76,8 @@ module.exports = {
         { name: 'Permissions', value: `${perms}` }
       )
       .setTimestamp();
-    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
+    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
     if (log) log.send(giveRoleEmbed);
     else message.channel.send(giveRoleEmbed);
     message.react('✔️');

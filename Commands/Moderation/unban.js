@@ -1,6 +1,6 @@
 const Keyv = require('keyv');
-const logchannels = new Keyv(process.env.logchannels);
-const bannedusers = new Keyv(process.env.bannedusers);
+const logChannels = new Keyv(process.env.logChannels);
+const bannedUsers = new Keyv(process.env.bannedUsers);
 
 module.exports = {
   name: 'unban',
@@ -26,7 +26,7 @@ module.exports = {
       return message.react('❌');
     }
 
-    const userId = await bannedusers.get(`${message.guild.id}_${args[0]}`);
+    const userId = await bannedUsers.get(`${message.guild.id}_${args[0]}`);
     if (!userId) {
       let msg = await message.channel.send(`${args[0]} isn't banned.`);
       msg.delete({ timeout: 10000 });
@@ -40,9 +40,9 @@ module.exports = {
       return message.react('❌');
     });
 
-    await bannedusers.delete(`${message.guild.id}_${args[0]}`);
-    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
+    await bannedUsers.delete(`${message.guild.id}_${args[0]}`);
+    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
     if (!log) message.channel.send(`${args[0]} has been unbanned earlier.`);
     else log.send(`${args[0]} has been unbanned earlier.`);
     message.react('✔️');

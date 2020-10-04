@@ -1,6 +1,6 @@
 const Keyv = require('keyv');
 const welcomedms = new Keyv(process.env.welcomedms);
-const togglewelcomedm = new Keyv(process.env.togglewelcomedm);
+const togglewelcomedm = new Keyv(process.env.toggleWelcomeDm);
 const logchannels = new Keyv(process.env.logchannels);
 
 module.exports = {

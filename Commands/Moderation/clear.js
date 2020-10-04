@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const Keyv = require('keyv');
-const logchannels = new Keyv(process.env.logchannels);
+const logChannels = new Keyv(process.env.logChannels);
 
 module.exports = {
   name: 'clear',
@@ -44,8 +44,8 @@ module.exports = {
         { name: 'Channel:', value: `${message.channel.name}` }
       )
       .setTimestamp();
-    const logchname = await logchannels.get(`logchannel_${message.guild.id}`);
-    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
+    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
+    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
     if (!log) message.channel.send(clearEmbed);
     else log.send(clearEmbed);
     message.react('✔️');

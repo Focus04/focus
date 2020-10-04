@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const Keyv = require('keyv');
-const rolepickers = new Keyv(process.env.rolepickers);
+const rolePickers = new Keyv(process.env.rolePickers);
 
 module.exports = {
   name: 'rolepicker',
@@ -15,21 +15,21 @@ module.exports = {
     args.forEach(async (arg) => {
       if (args.indexOf(arg) % 2 == 0 && arg.startsWith('<@&') && arg.endsWith('>') && arg.length == 22) {
         let role = message.guild.roles.cache.get(arg.substring(3, 21));
-        let bothighestrole = -1;
-        let highestrole = -1;
+        let botHighestRole = -1;
+        let highestRole = -1;
         message.guild.me.roles.cache.forEach((r) => {
-          if (r.position > bothighestrole) bothighestrole = r.position;
+          if (r.position > botHighestRole) botHighestRole = r.position;
         });
-        if (role.position >= bothighestrole) {
+        if (role.position >= botHighestRole) {
           err = 1;
           let msg = await message.channel.send(`Error at role ${'`' + role.name + '`'}. My roles must be higher than the role that you want to set.`);
           return msg.delete({ timeout: 10000 });
         }
 
         message.member.roles.cache.forEach((r) => {
-          if (r.position > highestrole) highestrole = r.position;
+          if (r.position > highestRole) highestRole = r.position;
         });
-        if (role.position >= highestrole) {
+        if (role.position >= highestRole) {
           err = 1;
           let msg = await message.channel.send(`Error at role ${'`' + role.name + '`'}. Your roles must be higher than the role that you want to set.`);
           return msg.delete({ timeout: 10000 });
@@ -40,8 +40,8 @@ module.exports = {
 
       if (args.indexOf(arg) % 2 == 1 && !arg.startsWith('<@&')) {
         if (arg.startsWith('<:')) {
-          let customemoji = message.client.emojis.cache.get(arg.slice(-19, -1));
-          if (!customemoji) {
+          let customEmoji = message.client.emojis.cache.get(arg.slice(-19, -1));
+          if (!customEmoji) {
             let msg = await message.channel.send(`Error at emoji ${arg}. Make sure that this emoji shares a mutual server with me!`);
             return msg.delete({ timeout: 10000 });
           }
@@ -84,11 +84,11 @@ module.exports = {
       i++;
     });
 
-    let menu = await message.channel.send(rolepicker);
+    let menu = await message.channel.send(rolePicker);
     emojis.forEach((emoji) => menu.react(emoji));
 
     message.delete();
     const object = Object.fromEntries(mappings);
-    await rolepickers.set(menu.id, object);
+    await rolePickers.set(menu.id, object);
   }
 }
