@@ -1,7 +1,7 @@
-import moment from 'moment';
-import Keyv from 'keyv';
+const moment = require('moment');
+const Keyv = require('keyv');
 const nts = new Keyv(process.env.notes);
-import { deletionTimeout } from '../../config.json';
+const { deletionTimeout } = require('../../config.json');
 
 module.exports = {
   name: 'addnote',

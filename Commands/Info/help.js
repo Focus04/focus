@@ -32,7 +32,7 @@ module.exports = {
           { name: `${message.client.emojis.cache.get(welcomeEmojiId).toString()} Welcome Comamnds`, value: `${'```' + welcomeCmds + '```'}`, inline: true },
           { name: `${message.client.emojis.cache.get(funEmojiId).toString()} Fun Commands`, value: `${'```' + funCmds + '```'}`, inline: true },
           { name: `${message.client.emojis.cache.get(debugEmojiId).toString()} Debug Commands`, value: `${'```' + debugCmds + '```'}`, inline: true },
-          { name: '`Useful Links`', value: `[Support Server](${discordInviteLink}), [Add me on your server](${botInviteLink}), [Vote me on top.gg!](${topgg}), [Website](${website}), [Code](${github})` }
+          { name: '`Useful Links`', value: `[Support Server](${discordInviteLink}), [Add me on your server](${botInviteLink}), [Vote!](${topgg}), [Website](${website}), [Code](${github})` }
         )
         .setTimestamp();
       message.channel.send(helpEmbed);

@@ -1,9 +1,9 @@
-import Keyv from 'keyv';
+const Keyv = require('keyv');
 const welcomeChannels = new Keyv(process.env.welcomeChannels);
 const welcomeMessages = new Keyv(process.env.welcomeMessages);
 const toggleWelcomeMsg = new Keyv(process.env.toggleWelcomeMsg);
 const logChannels = new Keyv(process.env.logChannels);
-import { deletionTimeout, reactionError, reactionSuccess } from '../../config.json';
+const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 
 module.exports = {
   name: 'welcomemessage',

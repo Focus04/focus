@@ -1,7 +1,7 @@
-import Discord from 'discord.js';
-import Keyv from 'keyv';
+const Discord = require('discord.js');
+const Keyv = require('keyv');
 const logChannels = new Keyv(process.env.logChannels);
-import { deletionTimeout, pinEmojiId } from '../../config.json';
+const { deletionTimeout, pinEmojiId }  = require('../../config.json');
 
 module.exports = {
   name: 'report',

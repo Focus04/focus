@@ -1,7 +1,7 @@
-import Discord from 'discord.js';
-import Keyv from 'keyv';
+const Discord =require('discord.js');
+const Keyv = require('keyv');
 const nts = new Keyv(process.env.notes);
-import { deletionTimeout, reactionError, reactionSuccess } from '../../config.json';
+const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 
 module.exports = {
   name: 'viewnotes',

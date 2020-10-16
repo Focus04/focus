@@ -1,8 +1,8 @@
-import Keyv from 'keyv';
+const Keyv = require('keyv');
 const leaveChannels = new Keyv(process.env.leaveChannels);
 const leaveMessages = new Keyv(process.env.leaveMessages);
 const toggleLeave = new Keyv(process.env.toggleLeaveMsg);
-import { defaultLeaveMsg } from '../../config.json';
+const { defaultLeaveMsg } = require('../../config.json');
 
 module.exports = async (client, member) => {
   const leaveChName = await leaveChannels.get(`leavechannel_${member.guild.id}`);

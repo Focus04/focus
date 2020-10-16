@@ -1,11 +1,11 @@
-import Keyv from 'keyv';
+const Keyv = require('keyv');
 const welcomeChannels = new Keyv(process.env.welcomeChannels);
 const welcomeRoles = new Keyv(process.env.welcomeRoles);
 const welcomeMessages = new Keyv(process.env.welcomeMessages);
 const toggleWelcome = new Keyv(process.env.toggleWelcomeMsg);
 const welcomeDms = new Keyv(process.env.welcomeDms);
 const toggleWelcomeDm = new Keyv(process.env.toggleWelcomeDm);
-import { deafultWelcomeMsg } from '../../config.json';
+const { deafultWelcomeMsg } = require('../../config.json');
 
 module.exports = async (client, member) => {
   const welcomeChName = await welcomeChannels.get(`welcomechannel_${member.guild.id}`);

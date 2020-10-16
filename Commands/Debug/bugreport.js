@@ -1,4 +1,4 @@
-import { deletionTimeout, reactionError, bugChId, reactionSuccess, discordInviteLink } from '../../config.json';
+const { deletionTimeout, reactionError, bugChId, reactionSuccess, discordInviteLink } = require('../../config.json');
 
 module.exports = {
   name: 'bugreport',

@@ -1,4 +1,4 @@
-import { botInviteLink } from '../../config.json';
+const { botInviteLink } = require('../../config.json');
 
 module.exports = {
   name: 'invitelink',

@@ -1,7 +1,7 @@
-import Discord from 'discord.js';
-import Keyv from 'keyv';
+const Discord = require('discord.js');
+const Keyv = require('keyv');
 const rolePickers = new Keyv(process.env.rolePickers);
-import { deletionTimeout } from '../../config.json';
+const { deletionTimeout } = require('../../config.json');
 
 module.exports = {
   name: 'rolepicker',

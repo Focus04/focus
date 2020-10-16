@@ -1,10 +1,10 @@
-import Discord from 'discord.js';
-import Keyv from 'keyv';
+const Discord = require('discord.js');
+const Keyv = require('keyv');
 const warnings = new Keyv(process.env.wrns);
 const bns = new Keyv(process.env.bns);
 const kks = new Keyv(process.env.kks);
 const mts = new Keyv(process.env.mts);
-import { deletionTimeout, reactionError, reactionSuccess } from '../../config.json';
+const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 
 module.exports = {
   name: 'record',

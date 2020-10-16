@@ -1,6 +1,6 @@
-import Discord from 'discord.js';
-const fetch = require('node-fetch');
-import { deletionTimeout, reactionError, reactionSuccess } from '../../config.json';
+const Discord = require('discord.js');
+const fetch = require('node-fetch')
+const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 
 module.exports = {
   name: 'define',

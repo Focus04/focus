@@ -1,6 +1,6 @@
-import Keyv from 'keyv';
+const Keyv = require('keyv');
 const rolePickers = new Keyv(process.env.rolePickers);
-import { deletionTimeout, reactionError, reactionSuccess } from '../../config.json';
+const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 
 module.exports = {
   name: 'delrolepicker',

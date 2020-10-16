@@ -1,4 +1,4 @@
-import { discordInviteLink } from '../../config.json';
+const { discordInviteLink } = require('../../config.json');
 
 module.exports = {
   name: 'discordserver',

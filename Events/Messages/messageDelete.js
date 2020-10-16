@@ -1,8 +1,8 @@
-import Discord from 'discord.js';
-import Keyv from 'keyv';
+const Discord = require('discord.js');
+const Keyv = require('keyv');
 const logChannels = new Keyv(process.env.logChannels);
 const msglogs = new Keyv(process.env.msgLogs);
-import { pinEmojiId } from '../../config.json';
+const { pinEmojiId } = require('../../config.json');
 
 module.exports = async (client, message) => {
   const logChName = await logChannels.get(`logchannel_${message.guild.id}`);

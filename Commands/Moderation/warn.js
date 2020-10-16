@@ -1,8 +1,8 @@
-import Discord from 'discord.js';
-import Keyv from 'keyv';
+const Discord = require('discord.js');
+const Keyv = require('keyv');
 const warnings = new Keyv(process.env.wrns);
 const logChannels = new Keyv(process.env.logChannels);
-import { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } from '../../config.json';
+const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
 
 module.exports = {
   name: 'warn',

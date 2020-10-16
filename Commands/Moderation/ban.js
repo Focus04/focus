@@ -1,9 +1,9 @@
-import Discord from 'discord.js';
-import Keyv from 'keyv';
+const Discord = require('discord.js');
+const Keyv = require('keyv');
 const bns = new Keyv(process.env.bns);
 const logChannels = new Keyv(process.env.logChannels);
 const bannedUsers = new Keyv(process.env.bannedUsers);
-import { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } from '../../config.json';
+const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
 
 module.exports = {
   name: 'ban',

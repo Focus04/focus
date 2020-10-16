@@ -1,6 +1,6 @@
-import Keyv from 'keyv';
+const Keyv = require('keyv');
 const prefixes = new Keyv(process.env.prefixes);
-import { defaultPrefix, deletionTimeout, reactionError } from '../../config.json';
+const { defaultPrefix, deletionTimeout, reactionError } = require('../../config.json');
 
 module.exports = async (client, message) => {
   let prefix = await prefixes.get(`${message.guild.id}`) || defaultPrefix;

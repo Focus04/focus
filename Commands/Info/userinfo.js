@@ -1,5 +1,5 @@
-import Discord from 'discord.js';
-import moment from 'moment';
+const Discord = require('discord.js');
+const moment = require('moment');
 
 module.exports = {
   name: 'userinfo',
