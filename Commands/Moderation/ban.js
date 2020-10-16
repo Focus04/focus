@@ -1,14 +1,16 @@
-const Discord = require('discord.js');
-const Keyv = require('keyv');
+import Discord from 'discord.js';
+import Keyv from 'keyv';
 const bns = new Keyv(process.env.bns);
 const logChannels = new Keyv(process.env.logChannels);
 const bannedUsers = new Keyv(process.env.bannedUsers);
+import { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } from '../../config.json';
 
 module.exports = {
   name: 'ban',
   description: `Restricts a user's access to the server.`,
   usage: 'ban @`user` `(days)` `reason`',
-  guildOnly: true,
+  requiredPerms: 'BAN_MEMBERS',
+  permError: 'It appears that you lack permissions to ban.',
   async execute(message, args, prefix) {
     const member = message.mentions.members.first();
     const user = message.mentions.users.first();
@@ -16,14 +18,14 @@ module.exports = {
     const days = args[1];
     if (!message.guild.me.hasPermission('BAN_MEMBERS')) {
       let msg = await message.channel.send('I require the `Ban Members` permission in order to perform this action.');
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     if (member.id == message.author.id) {
       let msg = await message.channel.send(`You can't ban youself, smarty pants!`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     let modHighestRole = -1;
@@ -36,21 +38,21 @@ module.exports = {
     });
     if (modHighestRole <= memberHighestRole) {
       let msg = await message.channel.send('Your roles must be higher than the roles of the person you want to ban!');
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
-    if (!message.member.hasPermission('BAN_MEMBERS') || !message.guild.member(member).bannable) {
-      let msg = await message.channel.send(`It appears that you lack permissions to ban. In case you have them, make sure that my role is higher than the role of the person you want to ban!`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+    if (!message.guild.member(member).bannable) {
+      let msg = await message.channel.send(`Make sure that my role is higher than the roles of the person you want to ban!`);
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     if (isNaN(days)) {
       if (!member || !args[1]) {
         let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) [reason]`);
-        msg.delete({ timeout: 10000 });
-        return message.react('❌');
+        msg.delete({ timeout: deletionTimeout });
+        return message.react(reactionError);
       }
 
       args.shift();
@@ -62,7 +64,7 @@ module.exports = {
 
       const banEmbed = new Discord.MessageEmbed()
         .setColor('#00ffbb')
-        .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Ban Information`)
+        .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Ban Information`)
         .addFields(
           { name: `Defendant's name:`, value: `${member.user.tag}` },
           { name: `Issued by:`, value: `${author}` },
@@ -78,12 +80,12 @@ module.exports = {
       await member.send(`${author} has permanently banned you from ${message.guild.name} for ${reason}.`);
       await bns.set(`bans_${member.id}_${message.guild.id}`, bans);
       await message.guild.member(member).ban();
-      message.react('✔️');
+      message.react(reactionSuccess);
     } else {
       if (!member || !args[2]) {
         let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) [reason]`);
-        msg.delete({ timeout: 10000 });
-        return message.react('❌');
+        msg.delete({ timeout: deletionTimeout });
+        return message.react(reactionError);
       }
 
       args.shift();
@@ -96,7 +98,7 @@ module.exports = {
 
       const banEmbed = new Discord.MessageEmbed()
         .setColor('#00ffbb')
-        .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Ban Information`)
+        .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Ban Information`)
         .addFields(
           { name: `Defendant's name:`, value: `${member}` },
           { name: `Issued by:`, value: `${author}` },
@@ -112,7 +114,7 @@ module.exports = {
       await member.send(`${author} has banned you from ${message.guild.name} for ${reason}. Duration: ${days} days.`);
       await bns.set(`bans_${member.id}_${message.guild.id}`, bans);
       await message.guild.member(member).ban();
-      message.react('✔️');
+      message.react(reactionSuccess);
       setTimeout(async function () {
         const banInfo = message.guild.fetchBan(user);
         if (banInfo) {

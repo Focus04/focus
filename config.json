@@ -2,6 +2,7 @@
   "defaultPrefix": "/",
   "reactionSuccess": "✔️",
   "reactionError": "❌",
+  "deletionTimeout": 10000,
   "staffEmojiId": "729353638132318318",
   "infoEmojiId": "729353637985517568",
   "loggingEmojiId": "729353638056689735",
@@ -10,5 +11,12 @@
   "debugEmojiId": "729353638736166932",
   "pinEmojiId": "740970153696690247",
   "suggestionChId": "751455845270814721",
-  "bugChId": "725434669453279352"
+  "bugChId": "725434669453279352",
+  "deafultWelcomeMsg": "Wish [member] a pleasant stay!",
+  "defaultLeaveMsg": "[user] has parted ways with us...",
+  "botInviteLink": "https://discordapp.com/oauth2/authorize?client_id=723094801175806024&scope=bot&permissions=268561494",
+  "discordInviteLink": "https://discord.gg/r4bsXez",
+  "topgg": "https://top.gg/bot/723094801175806024",
+  "website": "https://focus04.github.io/Focus",
+  "github": "https://github.com/Focus04/Focus-Discord"
 }

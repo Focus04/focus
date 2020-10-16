@@ -1,10 +1,9 @@
-const Discord = require('discord.js');
+import Discord from 'discord.js';
 
 module.exports = {
   name: 'avatar',
   description: 'Displays the avatar(s) of certain users.',
   usage: 'avatar `(@user(s))`',
-  guildOnly: true,
   execute(message) {
     if (!message.mentions.users.size) {
       const avatarEmbed = new Discord.MessageEmbed()

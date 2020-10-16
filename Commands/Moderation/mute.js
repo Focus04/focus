@@ -1,13 +1,15 @@
-const Discord = require('discord.js');
-const Keyv = require('keyv');
+import Discord from 'discord.js';
+import Keyv from 'keyv';
 const mts = new Keyv(process.env.mts);
 const logChannels = new Keyv(process.env.logChannels);
+import { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } from '../../config.json';
 
 module.exports = {
   name: 'mute',
   description: `Restricts a user from sending messages.`,
   usage: 'mute @`user` `minutes` `reason`',
-  guildOnly: true,
+  requiredPerms: 'KICK_MEMBERS',
+  permError: 'You require the Kick Members permission in order to run this command.',
   async execute(message, args, prefix) {
     const member = message.mentions.members.first();
     const user = message.mentions.users.first();
@@ -18,20 +20,20 @@ module.exports = {
     let memberHighestRole = -1;
     if (!message.guild.me.hasPermission('MANAGE_ROLES') || !message.guild.me.hasPermission('MANAGE_CHANNELS')) {
       let msg = await message.channel.send('I require the `Manage Roles` and `Manage Channels` permissions in order to perform this action.');
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     if (!member || isNaN(mins) || !args[2]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}mute @[user] [minutes] [reason]`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     if (member.id == message.author.id) {
       let msg = await message.channel.send(`You can't mute youself, smarty pants!`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     message.member.roles.cache.forEach((r) => {
@@ -42,14 +44,8 @@ module.exports = {
     });
     if (modHighestRole <= memberHighestRole) {
       let msg = await message.channel.send('Your roles must be higher than the roles of the person you want to mute!');
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
-    }
-
-    if (!message.member.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable) {
-      let msg = await message.channel.send(`You need the Kick Members permission in order to run this command.  In case you have it, make sure that my role is higher than the role of the person you want to mute!`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     args.shift();
@@ -83,15 +79,15 @@ module.exports = {
 
     if (member.roles.cache.has(mutedRole.id)) {
       let msg = await message.channel.send(`${user.username} is already muted!`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     await mts.set(`mutes_${member.id}_${message.guild.id}`, mutes);
     member.roles.add(mutedRole);
     const muteEmbed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
-      .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Mute Information`)
+      .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Mute Information`)
       .addFields(
         { name: `Defendant's name:`, value: `${member.user.tag}` },
         { name: `Issued by:`, value: `${author}` },
@@ -104,7 +100,7 @@ module.exports = {
     const log = await message.guild.channels.cache.find(ch => ch.name === `${logChName}`);
     if (!log) await message.channel.send(muteEmbed);
     else await log.send(muteEmbed);
-    message.react('✔️');
+    message.react(reactionSuccess);
     setTimeout(function () {
       if (member.roles.cache.has(mutedRole.id)) {
         member.roles.remove(mutedRole);

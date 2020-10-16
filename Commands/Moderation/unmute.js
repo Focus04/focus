@@ -1,37 +1,33 @@
-const Keyv = require('keyv');
+import Keyv from 'keyv';
 const logChannels = new Keyv(process.env.logChannels);
+import { deletionTimeout, reactionError, reactionSuccess } from '../../config.json';
 
 module.exports = {
   name: 'unmute',
   description: `Removes a user's muted status earlier.`,
   usage: 'mute @`user`',
-  guildOnly: true,
+  requiredPerms: 'KICK_MEMBERS',
+  permError: 'You require the Kick Members permission in order to run this command.',
   async execute(message, args, prefix) {
     const author = message.author.username;
     const member = message.mentions.members.first();
     const mutedRole = message.guild.roles.cache.find((r) => r.name === 'Muted Member');
     if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
       let msg = await message.channel.send('I require the Manage Roles permission in order to perform this action!');
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     if (!member) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}unmute @[user]`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
-    }
-
-    if (!message.member.hasPermission('KICK_MEMBERS') || !message.guild.member(member).kickable) {
-      let msg = await message.channel.send(`It appears that you lack permissions to unmute.  In case you have them, make sure that my role is higher than the role of the person you want to unmute!`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     if (!member.roles.cache.has(mutedRole.id)) {
       let msg = await message.channel.send(`${member} isn't muted!`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     member.roles.remove(mutedRole);
@@ -40,6 +36,6 @@ module.exports = {
     if (!log) message.channel.send(`${args[0]} has been unmuted earlier.`);
     else log.send(`${args[0]} has been unmuted earlier.`);
     await member.send(`${author} unmuted you earlier from ${message.guild.name}.`);
-    message.react('✔️');
+    message.react(reactionSuccess);
   }
 }

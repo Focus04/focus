@@ -1,7 +1,8 @@
-const Keyv = require('keyv');
+import Keyv from 'keyv';
 const leaveChannels = new Keyv(process.env.leaveChannels);
 const leaveMessages = new Keyv(process.env.leaveMessages);
 const toggleLeave = new Keyv(process.env.toggleLeaveMsg);
+import { defaultLeaveMsg } from '../../config.json';
 
 module.exports = async (client, member) => {
   const leaveChName = await leaveChannels.get(`leavechannel_${member.guild.id}`);
@@ -12,8 +13,8 @@ module.exports = async (client, member) => {
   if (leave && state == 1) {
     let msg;
     let leaveMessage = await leaveMessages.get(`leavemessage_${member.guild.id}`);
-    if (!leaveMessage) msg = `${member.user.username} has parted ways with us...`;
-    else msg = leaveMessage.replace('[user]', `${member.user.username}`);
+    if (!leaveMessage) msg = defaultLeaveMsg.replace('[user]', member.user.username);
+    else msg = leaveMessage.replace('[user]', member.user.username);
 
     leave.send(msg);
   }

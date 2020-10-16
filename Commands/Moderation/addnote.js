@@ -1,17 +1,18 @@
-const moment = require('moment');
-const Keyv = require('keyv');
+import moment from 'moment';
+import Keyv from 'keyv';
 const nts = new Keyv(process.env.notes);
+import { deletionTimeout } from '../../config.json';
 
 module.exports = {
   name: 'addnote',
   description: `Adds an admin note on someone's account. All staff members will be able to view this note.`,
   usage: 'addnote `username` `note`',
-  guildOnly: true,
+  requiredPerms: 'KICK_MEMBERS',
+  permError: 'You require the Kick Members permission in order to run this command.',
   async execute(message, args, prefix) {
     if (!args[1]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}addnote [username] [note]`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      return msg.delete({ timeout: deletionTimeout });
     }
 
     const member = message.guild.members.cache.find((user) => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`) || message.mentions.members.first();
@@ -19,12 +20,6 @@ module.exports = {
     if (!member) {
       await message.author.send(`Couldn't find ${args[0]}.`);
       return message.delete();
-    }
-
-    if (!message.member.hasPermission('KICK_MEMBERS')) {
-      let msg = await message.channel.send('You need the Kick Members permission in order to run this command.');
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
     }
 
     args.shift();

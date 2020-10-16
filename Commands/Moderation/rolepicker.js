@@ -1,12 +1,14 @@
-const Discord = require("discord.js");
-const Keyv = require('keyv');
+import Discord from 'discord.js';
+import Keyv from 'keyv';
 const rolePickers = new Keyv(process.env.rolePickers);
+import { deletionTimeout } from '../../config.json';
 
 module.exports = {
   name: 'rolepicker',
   description: 'Creates a menu that automatically assigns roles to users that react to it.',
   usage: 'rolepicker @`role` emoji @`role` emoji @`role` emoji etc. (maximum 25)',
-  guildOnly: true,
+  requiredPerms: 'MANAGE_GUILD',
+  permError: 'You require the Manage Server permission in order to run this command.',
   async execute(message, args, prefix) {
     let roles = [];
     let emojis = [];
@@ -23,7 +25,7 @@ module.exports = {
         if (role.position >= botHighestRole) {
           err = 1;
           let msg = await message.channel.send(`Error at role ${'`' + role.name + '`'}. My roles must be higher than the role that you want to set.`);
-          return msg.delete({ timeout: 10000 });
+          return msg.delete({ timeout: deletionTimeout });
         }
 
         message.member.roles.cache.forEach((r) => {
@@ -32,7 +34,7 @@ module.exports = {
         if (role.position >= highestRole) {
           err = 1;
           let msg = await message.channel.send(`Error at role ${'`' + role.name + '`'}. Your roles must be higher than the role that you want to set.`);
-          return msg.delete({ timeout: 10000 });
+          return msg.delete({ timeout: deletionTimeout });
         }
 
         roles.push(role);
@@ -43,7 +45,7 @@ module.exports = {
           let customEmoji = message.client.emojis.cache.get(arg.slice(-19, -1));
           if (!customEmoji) {
             let msg = await message.channel.send(`Error at emoji ${arg}. Make sure that this emoji shares a mutual server with me!`);
-            return msg.delete({ timeout: 10000 });
+            return msg.delete({ timeout: deletionTimeout });
           }
 
           emoji = arg.slice(-19, -1);
@@ -58,17 +60,12 @@ module.exports = {
 
     if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
       let msg = await message.channel.send('I require the Manage Roles permission in order to execute this command.');
-      return msg.delete({ timeout: 10000 });
+      return msg.delete({ timeout: deletionTimeout });
     }
 
     if (!args[1] || roles.length != args.length / 2 || emojis.length != args.length / 2 || args.length > 50) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}rolepicker @[role] emoji @[role] emoji @[role] emoji etc. (maximum 25)`);
-      return msg.delete({ timeout: 10000 });
-    }
-
-    if (!message.member.hasPermission('MANAGE_GUILD')) {
-      let msg = await message.chanel.send('You require the Manage Server permission in order to run this command!');
-      return msg.delete({ timeout: 10000 });
+      return msg.delete({ timeout: deletionTimeout });
     }
 
     let mappings = new Map();

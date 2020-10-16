@@ -1,16 +1,16 @@
-const Discord = require('discord.js');
-const fetch = require('node-fetch');
+import Discord from 'discord.js';
+import fetch from 'node-fetch';
+import { deletionTimeout, reactionError, reactionSuccess } from '../../config.json';
 
 module.exports = {
   name: 'nasanews',
   description: `Looks up an astronomy-related term on NASA's Website and returns a fact about it.`,
   usage: 'nasanews `term`',
-  guildOnly: true,
   async execute(message, args, prefix) {
     if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}nasanews [term]`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     const term = args.join(' ');
@@ -19,8 +19,8 @@ module.exports = {
     
     if (!data.collection.items[0].data[0].description) {
       let msg = await message.channel.send(`Couldn't find any results for ${term}`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     const nasaSearchEmbed = new Discord.MessageEmbed()
@@ -30,6 +30,6 @@ module.exports = {
       .setImage(data.collection.items[0].links[0].href.split(' ').join('%20'))
       .setTimestamp();
     await message.channel.send(nasaSearchEmbed);
-    message.react('✔️');
+    message.react(reactionSuccess);
   }
 }

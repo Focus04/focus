@@ -1,10 +1,11 @@
-const Keyv = require('keyv');
+import Keyv from 'keyv';
 const welcomeChannels = new Keyv(process.env.welcomeChannels);
 const welcomeRoles = new Keyv(process.env.welcomeRoles);
 const welcomeMessages = new Keyv(process.env.welcomeMessages);
 const toggleWelcome = new Keyv(process.env.toggleWelcomeMsg);
 const welcomeDms = new Keyv(process.env.welcomeDms);
 const toggleWelcomeDm = new Keyv(process.env.toggleWelcomeDm);
+import { deafultWelcomeMsg } from '../../config.json';
 
 module.exports = async (client, member) => {
   const welcomeChName = await welcomeChannels.get(`welcomechannel_${member.guild.id}`);
@@ -13,7 +14,7 @@ module.exports = async (client, member) => {
   let dmState = await toggleWelcomeDm.get(`togglewelcomedm_${member.guild.id}`);
   if (!dmState && dmState != 0) dmState = 1;
 
-  if (dm && dmState == 1) member.send(dm.replace('[user]', `${member.user.username}`));
+  if (dm && dmState == 1) member.send(dm.replace('[user]', member.user.username));
 
   const welcomeRoleName = await welcomeRoles.get(`welcomerole_${member.guild.id}`);
   const welcomeRole = member.guild.roles.cache.find((role) => role.name === `${welcomeRoleName}`);
@@ -25,8 +26,8 @@ module.exports = async (client, member) => {
   if (welcome && state == 1) {
     let msg;
     let welcomeMessage = await welcomeMessages.get(`welcomemessage_${member.guild.id}`);
-    if (!welcomeMessage) msg = `Wish ${member} a pleasant stay!`;
-    else msg = welcomeMessage.replace('[user]', `${member}`);
+    if (!welcomeMessage) msg = deafultWelcomeMsg.replace('[member]', member);
+    else msg = welcomeMessage.replace('[user]', member);
 
     welcome.send(msg);
   }

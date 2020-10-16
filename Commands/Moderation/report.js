@@ -1,6 +1,7 @@
-const Discord = require('discord.js');
-const Keyv = require('keyv');
+import Discord from 'discord.js';
+import Keyv from 'keyv';
 const logChannels = new Keyv(process.env.logChannels);
+import { deletionTimeout, pinEmojiId } from '../../config.json';
 
 module.exports = {
   name: 'report',
@@ -11,12 +12,12 @@ module.exports = {
     const member = message.guild.members.cache.find((user) => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`) || message.mentions.members.first();
     if (!member) {
       let msg = await message.channel.send(`Couldn't find ${args[0]}`);
-      return msg.delete({ timeout: 10000 });
+      return msg.delete({ timeout: deletionTimeout });
     }
 
     if (!args[1]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}report [username] [offense]`);
-      return msg.delete({ timeout: 10000 });
+      return msg.delete({ timeout: deletionTimeout });
     }
 
     const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
@@ -24,14 +25,14 @@ module.exports = {
     
     if (!log) {
       let msg = await message.channel.send(`Looks like the server doesn't have any logs channel. Please ask a staff member to setup one using ${prefix}setlogschannel`);
-      return msg.delete({ timeout: 10000 });
+      return msg.delete({ timeout: deletionTimeout });
     }
 
     args.shift();
     const report = args.join(' ');
     const reportEmbed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
-      .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} New Report`)
+      .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} New Report`)
       .addFields(
         { name: 'Submitted by:', value: `${message.author.username}` },
         { name: 'Defendant:', value: `${member}` },

@@ -1,23 +1,25 @@
-const Keyv = require('keyv');
+import Keyv from 'keyv';
 const welcomeRoles = new Keyv(process.env.welcomeRoles);
 const logChannels = new Keyv(process.env.logChannels);
+import { deletionTimeout, reactionError, reactionSuccess } from '../../config.json';
 
 module.exports = {
   name: 'welcomerole',
   description: `Sets a role to be assigned to new users when they join the server.`,
   usage: 'welcomerole `role`',
-  guildOnly: true,
+  requiredPerms: 'MANAGE_ROLES',
+  permError: 'You require the Manage Roles permission in order to run this command.',
   async execute(message, args, prefix) {
     if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
       let msg = await message.channel.send('I need the Manage Roles permission in order to execute this command!');
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}welcomerole [role]`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     const welcomeRoleName = args.join(' ').toLowerCase();
@@ -27,8 +29,8 @@ module.exports = {
 
     if (!welcomeRole) {
       let msg = await message.channel.send(`Couldn't find any roles named "${rolename}"`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
     
     message.guild.me.roles.cache.map((r) => {
@@ -37,8 +39,8 @@ module.exports = {
 
     if (welcomeR.position >= botHighestRole) {
       let msg = await message.channel.send('My roles must be higher than the role that you want to set.');
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
     
     message.member.roles.cache.map((r) => {
@@ -47,14 +49,8 @@ module.exports = {
 
     if (welcomeRole.position >= highestRole) {
       let msg = await message.channel.send('Your roles must be higher than the role that you want to set.');
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
-    }
-
-    if (!message.member.hasPermission('MANAGE_ROLES')) {
-      let msg = await message.channel.send('You lack permissions to run this command!');
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     await welcomeRoles.set(`welcomerole_${message.guild.id}`, rolename);
@@ -62,6 +58,6 @@ module.exports = {
     let log = await message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
     if (!log) message.channel.send(`Welcome role successfully changed to ${'`' + welcomeRole.name + '`'}`);
     else log.send(`Welcome role successfully changed to ${'`' + welcomeRole.name + '`'}`);
-    message.react('✔️');
+    message.react(reactionSuccess);
   }
 }

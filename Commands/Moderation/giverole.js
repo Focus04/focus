@@ -1,26 +1,28 @@
-const Discord = require('discord.js');
-const Keyv = require('keyv');
+import Discord from 'discord.js';
+import Keyv from 'keyv';
 const logChannels = new Keyv(process.env.logChannels);
+import { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } from '../../config.json';
 
 module.exports = {
   name: 'giverole',
   description: `Adds a role to a user.`,
   usage: 'giverole @`member` `role`',
-  guildOnly: true,
+  requiredPerms: 'MANAGE_ROLES',
+  permError: 'You require the Manage Roles permission in order to run this command.',
   async execute(message, args, prefix) {
     const member = message.mentions.members.first();
     let botHighestRole = -1;
     let highestRole = -1;
     if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
       let msg = await message.channel.send('I need the Manage Roles permission in order to execute this command.');
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     if (!args[1]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}giverole @[member] [role]`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     args.shift();
@@ -29,14 +31,14 @@ module.exports = {
 
     if (!role) {
       let msg = await message.channel.send(`Couldn't find any roles named ${roleName}`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     if (member.roles.cache.has(role.id)) {
       let msg = await message.channel.send(`${member.user.username} already has that role.`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     message.guild.me.roles.cache.map((r) => {
@@ -44,14 +46,8 @@ module.exports = {
     });
     if (role.position >= botHighestRole) {
       let msg = await message.channel.send('My roles must be higher than the role that you want to give!');
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
-    }
-
-    if (!message.member.hasPermission('MANAGE_ROLES')) {
-      let msg = await message.channel.send('You need the Manage Roles permission in order to run this command.');
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
     
     message.member.roles.cache.map((r) => {
@@ -59,8 +55,8 @@ module.exports = {
     });
     if (role.position >= highestRole) {
       let msg = await message.channel.send('Your roles must be higher than the role that you want to give!');
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     member.roles.add(role);
@@ -68,7 +64,7 @@ module.exports = {
     perms = '```' + perms + '```';
     const giveRoleEmbed = new Discord.MessageEmbed()
       .setColor('#00ffbb')
-      .setTitle(`${message.client.emojis.cache.find((emoji) => emoji.name === 'pinned')} Given Role`)
+      .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Given Role`)
       .addFields(
         { name: 'To', value: `${member}` },
         { name: 'By', value: `${message.author.username}` },
@@ -80,6 +76,6 @@ module.exports = {
     const log = await message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
     if (log) log.send(giveRoleEmbed);
     else message.channel.send(giveRoleEmbed);
-    message.react('✔️');
+    message.react(reactionSuccess);
   }
 }

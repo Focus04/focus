@@ -1,10 +1,10 @@
-const Keyv = require('keyv');
+import Keyv from 'keyv';
 const prefixes = new Keyv(process.env.prefixes);
+import { defaultPrefix, deletionTimeout, reactionError } from '../../config.json';
 
 module.exports = async (client, message) => {
+  let prefix = await prefixes.get(`${message.guild.id}`) || defaultPrefix;
   if (message.author.bot || message.channel.type !== 'text') return;
-
-  let prefix = await prefixes.get(`${message.guild.id}`) || '/';
 
   if (!message.content.startsWith(prefix)) return;
 
@@ -12,6 +12,12 @@ module.exports = async (client, message) => {
   const command = client.commands.get(args.shift().toLowerCase());
 
   if (!command) return;
+
+  if (command.requiredPerms && !message.member.hasPermission(command.requiredPerms)) {
+    let msg = await message.channel.send(command.permError);
+    msg.delete({ timeout: deletionTimeout });
+    return message.react(reactionError);
+  }
 
   command.execute(message, args, prefix);
 }

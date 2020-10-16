@@ -1,20 +1,16 @@
-const Keyv = require('keyv');
+import Keyv from 'keyv';
 const leaveChannels = new Keyv(process.env.leaveChannels);
 const toggleLeave = new Keyv(process.env.toggleLeaveMsg);
 const logChannels = new Keyv(process.env.logChannels);
+import { deletionTimeout, reactionError, reactionSuccess } from '../../config.json';
 
 module.exports = {
   name: 'toggleleavemsg',
   description: `Toggles leave messages on/off.`,
   usage: 'toggleleavemsg',
-  guildOnly: true,
+  requiredPerms: 'MANAGE_GUILD',
+  permError: 'You require the Manage Server permission in order to run this command.',
   async execute(message, prefix) {
-    if (!message.member.hasPermission('MANAGE_GUILD')) {
-      let msg = await message.channel.send('You require the Manage Server permission in order to run this command.');
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
-    }
-
     const leaveChName = await leaveChannels.get(`leavechannel_${message.guild.id}`);
     const leave = message.guild.channels.cache.find((ch) => ch.name === `${leaveChName}`);
     let logs = await toggleLeave.get(`toggleleavemsg_${message.guild.id}`);
@@ -22,8 +18,8 @@ module.exports = {
     
     if (!leave) {
       let msg = await message.channel.send(`You first need to set a channel for messages to be sent in. Use ${prefix}setleavechannel to setup one.`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     if (logs == 0) {
@@ -39,6 +35,6 @@ module.exports = {
     const log = await message.guild.channels.cache.find((channel) => channel.name === logChName);
     if (!log) message.channel.send(`Leave messages are now set to ${'`' + state + '`'}`);
     else log.send(`Leave messages are now set to ${'`' + state + '`'}`);
-    message.react('✔️');
+    message.react(reactionSuccess);
   }
 }

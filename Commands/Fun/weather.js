@@ -1,16 +1,16 @@
-const Discord = require('discord.js');
-const fetch = require('node-fetch');
+import Discord from 'discord.js';
+import fetch from 'node-fetch';
+import { deletionTimeout, reactionError, reactionSuccess } from '../../config.json';
 
 module.exports = {
   name: 'weather',
   description: `Tells you information about the weather in a given location.`,
   usage: 'weather `location`',
-  guildOnly: true,
   async execute(message, args, prefix) {
     if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}weather [location]`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     const location = args.join(' ');
@@ -20,8 +20,8 @@ module.exports = {
 
     if (data.message === 'city not found') {
       let msg = await message.channel.send(`Couldn't find any weather results for ${location}.`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     switch (data.weather[0].icon) {
@@ -95,6 +95,6 @@ module.exports = {
       .setThumbnail(`${icon}.png`)
       .setTimestamp();
     await message.channel.send(weatherEmbed);
-    message.react('✔️');
+    message.react(reactionSuccess);
   }
 }

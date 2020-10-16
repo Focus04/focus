@@ -1,24 +1,20 @@
-const Keyv = require('keyv');
+import Keyv from 'keyv';
 const welcomedms = new Keyv(process.env.welcomedms);
 const togglewelcomedm = new Keyv(process.env.toggleWelcomeDm);
 const logchannels = new Keyv(process.env.logchannels);
+import { deletionTimeout, reactionError, reactionSuccess } from '../../config.json';
 
 module.exports = {
   name: 'welcomedm',
   description: `Sets a custom welcome message that will be inboxed to new users.`,
   usage: 'welcomedm `message`',
-  guildOnly: true,
+  requiredPerms: 'MANAGE_GUILD',
+  permError: 'You require the Manage Server permission in order to run this command.',
   async execute(message, args, prefix) {
     if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}welcomedm [message]. Use [user] to be replaced with a username.`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
-    }
-
-    if (!message.member.hasPermission('MANAGE_GUILD')) {
-      let msg = await message.channel.send('You require the Manage Server permission in order to run this command.');
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     const msg = args.join(' ');
@@ -28,6 +24,6 @@ module.exports = {
     const log = await message.guild.channels.cache.find((ch) => ch.name === `${logchname}`);
     if (!log) message.channel.send(`Welcome DM successfully changed to ${'`' + msg + '`'}`);
     else log.send(`Welcome DM successfully changed to ${'`' + msg + '`'}`);
-    message.react('✔️');
+    message.react(reactionSuccess);
   }
 }

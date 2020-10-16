@@ -1,27 +1,23 @@
-const Discord = require('discord.js');
-const Keyv = require('keyv');
+import Discord from 'discord.js';
+import Keyv from 'keyv';
 const warnings = new Keyv(process.env.wrns);
 const bns = new Keyv(process.env.bns);
 const kks = new Keyv(process.env.kks);
 const mts = new Keyv(process.env.mts);
+import { deletionTimeout, reactionError, reactionSuccess } from '../../config.json';
 
 module.exports = {
   name: 'record',
   description: `Displays how many punishments a user has ever received on the server.`,
   usage: 'record @`user`',
-  guildOnly: true,
+  requiredPerms: 'KICK_MEMBERS',
+  permError: 'You require the Kick Members permission in order to run this command.',
   async execute(message, prefix) {
     const member = message.mentions.users.first();
     if (!member) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}record @[user]`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
-    }
-
-    if (!message.member.hasPermission('KICK MEMBERS') || !message.guild.member(member).kickable) {
-      let msg = await message.channel.send('You need the Kick Members permission in order to run this command. In case you have it, make sure that my role is higher than the role of the person you want to check the record for!');
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     let warns = await warnings.get(`warns_${member.id}_${message.guild.id}`);
@@ -44,6 +40,6 @@ module.exports = {
       )
       .setTimestamp();
     await message.channel.send(recordEmbed);
-    message.react('✔️');
+    message.react(reactionSuccess);
   }
 }

@@ -1,16 +1,16 @@
-const Discord = require('discord.js');
+import Discord from 'discord.js';
 const fetch = require('node-fetch');
+import { deletionTimeout, reactionError, reactionSuccess } from '../../config.json';
 
 module.exports = {
   name: 'define',
   description: `Looks up a term in the dictionary.`,
   usage: 'define `term`',
-  guildOnly: true,
   async execute(message, args, prefix) {
     if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}define [term]`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     const term = args.join(' ');
@@ -20,8 +20,8 @@ module.exports = {
 
     if (!data[0].meta) {
       let msg = await message.channel.send(`Couldn't find any results for ${term}`);
-      msg.delete({ timeout: 10000 });
-      return message.react('❌');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
     }
 
     if (data[0].meta.syns[0]) {
@@ -39,6 +39,6 @@ module.exports = {
       )
       .setTimestamp();
     await message.channel.send(defineEmbed);
-    message.react('✔️');
+    message.react(reactionSuccess);
   }
 }

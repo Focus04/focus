@@ -1,11 +1,10 @@
-const Discord = require('discord.js');
-const moment = require('moment');
+import Discord from 'discord.js';
+import moment from 'moment';
 
 module.exports = {
   name: 'serverinfo',
   description: `Displays information about the server you're in.`,
   usage: 'serverinfo',
-  guildOnly: true,
   execute(message) {
     const serverInfoEmbed = new Discord.MessageEmbed()
       .setColor('#00ffbb')

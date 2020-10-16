@@ -1,4 +1,4 @@
-const Keyv = require('keyv');
+import Keyv from 'keyv';
 const rolePickers = new Keyv(process.env.rolePickers);
 
 module.exports = async (client, reaction, user) => {

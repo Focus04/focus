@@ -1,11 +1,11 @@
 const Discord = require('discord.js');
 const fs = require('fs');
+const { staffEmojiId, infoEmojiId, loggingEmojiId, welcomeEmojiId, funEmojiId, debugEmojiId, discordInviteLink, botInviteLink, topgg, website, github, deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 
 module.exports = {
   name: 'help',
   description: 'Displays a list of all available commands along with their usage.',
   usage: 'help `(command)`',
-  guildOnly: true,
   async execute(message, args, prefix) {
     if (!args.length) {
       let debugCmds = '';
@@ -26,13 +26,13 @@ module.exports = {
         .setTitle('Commands')
         .setDescription(`Pro tip: Type "${prefix}help [command]" for more detailed information about a specific command.`)
         .addFields(
-          { name: `${message.client.emojis.cache.get('729353638132318318').toString()} Staff Commands`, value: `${'```' + staffCmds + '```'}`, inline: true },
-          { name: `${message.client.emojis.cache.get('729353637985517568').toString()} Info Commands`, value: `${'```' + infoCmds + '```'}`, inline: true },
-          { name: `${message.client.emojis.cache.get('729353638056689735').toString()} Logging Commands`, value: `${'```' + loggingCmds + '```'}`, inline: true },
-          { name: `${message.client.emojis.cache.get('729353638211878923').toString()} Welcome Comamnds`, value: `${'```' + welcomeCmds + '```'}`, inline: true },
-          { name: `${message.client.emojis.cache.get('729355859552895026').toString()} Fun Commands`, value: `${'```' + funCmds + '```'}`, inline: true },
-          { name: `${message.client.emojis.cache.get('729353638736166932').toString()} Debug Commands`, value: `${'```' + debugCmds + '```'}`, inline: true },
-          { name: '`Useful Links`', value: '[Support Server](https://discord.gg/YvN7jUD), [Add me on your server](https://discordapp.com/oauth2/authorize?client_id=723094801175806024&scope=bot&permissions=268561494)' }
+          { name: `${message.client.emojis.cache.get(staffEmojiId).toString()} Staff Commands`, value: `${'```' + staffCmds + '```'}`, inline: true },
+          { name: `${message.client.emojis.cache.get(infoEmojiId).toString()} Info Commands`, value: `${'```' + infoCmds + '```'}`, inline: true },
+          { name: `${message.client.emojis.cache.get(loggingEmojiId).toString()} Logging Commands`, value: `${'```' + loggingCmds + '```'}`, inline: true },
+          { name: `${message.client.emojis.cache.get(welcomeEmojiId).toString()} Welcome Comamnds`, value: `${'```' + welcomeCmds + '```'}`, inline: true },
+          { name: `${message.client.emojis.cache.get(funEmojiId).toString()} Fun Commands`, value: `${'```' + funCmds + '```'}`, inline: true },
+          { name: `${message.client.emojis.cache.get(debugEmojiId).toString()} Debug Commands`, value: `${'```' + debugCmds + '```'}`, inline: true },
+          { name: '`Useful Links`', value: `[Support Server](${discordInviteLink}), [Add me on your server](${botInviteLink}), [Vote me on top.gg!](${topgg}), [Website](${website}), [Code](${github})` }
         )
         .setTimestamp();
       message.channel.send(helpEmbed);
@@ -42,10 +42,9 @@ module.exports = {
       const command = commands.get(name);
       if (!command) {
         let msg = await message.channel.send(`Couldn't find ${args[0]} in my commands list.`);
-        msg.delete({ timeout: 10000 });
-        return message.react('❌');
-      }
-      else {
+        msg.delete({ timeout: deletionTimeout });
+        return message.react(reactionError);
+      } else {
         const commandEmbed = new Discord.MessageEmbed()
           .setColor('#00ffbb')
           .setTitle(`${prefix}${command.name}`)
@@ -54,7 +53,8 @@ module.exports = {
             { name: '`Command Usage:`', value: `${prefix}${command.usage}` },
           )
           .setTimestamp();
-        message.channel.send(commandEmbed);
+        await message.channel.send(commandEmbed);
+        message.react(reactionSuccess);
       }
     }
   }

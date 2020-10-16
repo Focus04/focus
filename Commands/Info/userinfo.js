@@ -1,11 +1,10 @@
-const Discord = require('discord.js');
-const moment = require('moment');
+import Discord from 'discord.js';
+import moment from 'moment';
 
 module.exports = {
   name: 'userinfo',
   description: `Displays information about a user's account account.`,
   usage: 'userinfo `(@user(s))`',
-  guildOnly: true,
   execute(message) {
     if (!message.mentions.users.size) {
       const roles = '```' + message.member.roles.cache.map((role) => role.name).join(`, `) + '```';
