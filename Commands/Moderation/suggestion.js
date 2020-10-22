@@ -27,14 +27,13 @@ module.exports = {
     let error;
     let state;
     const suggestionMessage = await suggestionChannel.messages.fetch(args[1]).catch((err) => error = err);
-    console.log(suggestionMessage);
-    const oldSuggestionEmbed = suggestionMessage.embeds[0];
     if (error) {
       let msg = await message.channel.send(`Couldn't find any suggestions with the id of ${'`' + args[0] + '`'}`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
     }
 
+    const oldSuggestionEmbed = suggestionMessage.embeds[0];
     if(args[0].toLowerCase() === 'accept') {
       const newSuggestionEmbed = new Discord.MessageEmbed()
         .setColor(suggestionAccepted.color)
