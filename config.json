@@ -18,5 +18,22 @@
   "discordInviteLink": "https://discord.gg/r4bsXez",
   "topgg": "https://top.gg/bot/723094801175806024",
   "website": "https://focus04.github.io/Focus",
-  "github": "https://github.com/Focus04/Focus-Discord"
+  "github": "https://github.com/Focus04/Focus-Discord",
+  "suggestionPending": {
+    "color": "#ffff00",
+    "statusTitle": "Suggestion Pending",
+    "status": "This suggestion is currently awaiting review, please be patient."
+  },
+  "suggestionAccepted": {
+    "color": "#008000",
+    "statusTitle": "Suggestion Accepted",
+    "status": "This suggestion has been accepted and is soon to be implemented!"
+  },
+  "suggestionDeclined": {
+    "color": "#ff0000",
+    "statusTitle": "Suggestion Declined",
+    "status": "Thanks for your interest, but we currently don't need this feature."
+  },
+  "suggestionApprove": "👍",
+  "suggestionDecline": "👎"
 }

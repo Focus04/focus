@@ -1,8 +1,24 @@
+const Discord = require('discord.js');
 const Keyv = require('keyv');
 const prefixes = new Keyv(process.env.prefixes);
-const { defaultPrefix, deletionTimeout, reactionError } = require('../../config.json');
+const suggestionChannels = new Keyv(process.env.suggestionChannels);
+const { defaultPrefix, deletionTimeout, reactionError, suggestionPending, suggestionApprove, suggestionDecline } = require('../../config.json');
 
 module.exports = async (client, message) => {
+  const suggestionChannelName = await suggestionChannels.get(message.guild.id);
+  const channel = message.guild.channels.cache.find(ch => ch.name === suggestionChannelName);
+  if (channel && message.channel.id === channel.id && !message.author.bot) {
+    const suggestionEmbed = new Discord.MessageEmbed()
+      .setColor(suggestionPending.color)
+      .setTitle(`Suggestion by ${message.author.tag}`)
+      .setDescription('```' + message.content + '```')
+      .addField(suggestionPending.statusTitle, suggestionPending.status);
+    const suggestion = await message.channel.send(suggestionEmbed);
+    await suggestion.react(suggestionApprove);
+    await suggestion.react(suggestionDecline);
+    return message.delete();
+  }
+
   let prefix = await prefixes.get(`${message.guild.id}`) || defaultPrefix;
   if (message.author.bot || message.channel.type !== 'text') return;
 
