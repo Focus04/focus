@@ -6,7 +6,7 @@ module.exports = {
   name: 'suggestionchannel',
   description: 'Sets a channel for suggestions to be sent in.',
   usage: 'suggestionchannel `channel-name`',
-  requiredPerms: 'MANAGE_SERVER',
+  requiredPerms: 'MANAGE_GUILD',
   permError: 'You require the Manage Server permission in order to run this command.',
   async execute(message, args, prefix) {
     if (!args[0]) {
