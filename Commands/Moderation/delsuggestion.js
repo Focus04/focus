@@ -9,7 +9,7 @@ module.exports = {
   requiredPerms: 'MANAGE_GUILD',
   permError: 'You require the Manage Server permission in order to run this command.',
   async execute(message, args, prefix) {
-    if(args[0]) {
+    if(!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}delsuggestion [messageID]`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
