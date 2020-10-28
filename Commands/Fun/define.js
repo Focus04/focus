@@ -38,7 +38,7 @@ module.exports = {
       .setTitle(`What does ${args[0]} mean?`)
       .addFields(
         { name: 'Definition', value: '```' + definition + '```' },
-        { name: 'Example', value: '```' + example + '```' }
+        { name: 'Example', value: '```' + example || 'N/A' + '```' }
       )
       .setTimestamp();
     await message.channel.send(defineEmbed);
