@@ -26,8 +26,8 @@ module.exports = {
     await welcomeChannels.set(`welcomechannel_${message.guild.id}`, channel.name);
     const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
     const log = await message.guild.channels.cache.find((channel) => channel.name === logChName);
-    if (!log) message.channel.send(`All new members will be logged in ${'`' + args[0] + '`'} from now on.`);
-    else log.send(`All new members will be logged in ${'`' + args[0] + '`'} from now on.`);
+    if (!log) message.channel.send(`All new members will be logged in ${args[0]} from now on.`);
+    else log.send(`All new members will be logged in ${args[0]} from now on.`);
     message.react(reactionSuccess);
   }
 }
