@@ -1,7 +1,7 @@
 const Keyv = require('keyv');
 const welcomeRoles = new Keyv(process.env.welcomeRoles);
 const logChannels = new Keyv(process.env.logChannels);
-const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
+const { deletionTimeout, reactionError, reactionSuccess } = require('../../../config.json');
 
 module.exports = {
   name: 'welcomerole',
