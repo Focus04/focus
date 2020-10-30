@@ -10,7 +10,7 @@ module.exports = async (client, message) => {
   if (channel && message.channel.id === channel.id && !message.author.bot) {
     const suggestionEmbed = new Discord.MessageEmbed()
       .setColor(suggestionPending.color)
-      .setTitle(`Suggestion by ${message.member}`)
+      .setTitle(`Suggestion by ${message.author.tag}`)
       .setDescription('```' + message.content + '```')
       .addField(suggestionPending.statusTitle, suggestionPending.status);
     const suggestion = await message.channel.send(suggestionEmbed);
