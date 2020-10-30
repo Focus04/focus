@@ -14,12 +14,12 @@ module.exports = {
       let loggingCmds = '';
       let staffCmds = '';
       let welcomeCmds = '';
-      fs.readdirSync('./commands/Debug').forEach((file) => debugCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
-      fs.readdirSync('./commands/Fun').forEach((file) => funCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
-      fs.readdirSync('./commands/Info').forEach((file) => infoCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
-      fs.readdirSync('./commands/Logging').forEach((file) => loggingCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
-      fs.readdirSync('./commands/Moderation').forEach((file) => staffCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
-      fs.readdirSync('./commands/Welcome').forEach((file) => welcomeCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
+      fs.readdirSync('./src/commands/Debug').forEach((file) => debugCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
+      fs.readdirSync('./src/commands/Fun').forEach((file) => funCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
+      fs.readdirSync('./src/commands/Info').forEach((file) => infoCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
+      fs.readdirSync('./src/commands/Logging').forEach((file) => loggingCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
+      fs.readdirSync('./src/commands/Moderation').forEach((file) => staffCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
+      fs.readdirSync('./src/commands/Welcome').forEach((file) => welcomeCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
 
       const helpEmbed = new Discord.MessageEmbed()
         .setColor('#00ffbb')
