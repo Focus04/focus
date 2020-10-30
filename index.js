@@ -5,16 +5,16 @@ const DBL = require('dblapi.js');
 const dbl = new DBL(process.env.dblToken, client);
 
 client.commands = new Discord.Collection();
-fs.readdirSync('./src/commands').forEach(folder => {
-  fs.readdirSync(`./src/commands/${folder}`).forEach(file => {
-    const command = require(`./src/commands/${folder}/${file}`);
+fs.readdirSync('./Commands').forEach(folder => {
+  fs.readdirSync(`./Commands/${folder}`).forEach(file => {
+    const command = require(`./Commands/${folder}/${file}`);
     client.commands.set(command.name, command);
   });
 });
 
-fs.readdirSync('./src/events').forEach(folder => {
-  fs.readdirSync(`./src/events/${folder}`).forEach(file => {
-    const event = require(`./src/events/${folder}/${file}`);
+fs.readdirSync('./Events').forEach(folder => {
+  fs.readdirSync(`./Events/${folder}`).forEach(file => {
+    const event = require(`./Events/${folder}/${file}`);
     client.on(file.split('.')[0], event.bind(null, client));
   });
 });
