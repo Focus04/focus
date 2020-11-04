@@ -37,7 +37,7 @@ module.exports = {
       if (r.position > botHighestRole) botHighestRole = r.position;
     });
 
-    if (welcomeR.position >= botHighestRole) {
+    if (welcomeRole.position >= botHighestRole) {
       let msg = await message.channel.send('My roles must be higher than the role that you want to set.');
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
