@@ -53,7 +53,7 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    await welcomeRoles.set(`welcomerole_${message.guild.id}`, roleName);
+    await welcomeRoles.set(`welcomerole_${message.guild.id}`, welcomeRoleName);
     let logChName = await logChannels.get(`logchannel_${message.guild.id}`);
     let log = await message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
     if (!log) message.channel.send(`Welcome role successfully changed to ${'`' + welcomeRole.name + '`'}`);
