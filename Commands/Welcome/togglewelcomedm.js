@@ -16,7 +16,7 @@ module.exports = {
     let state;
 
     if (!welcomeDm) {
-      let msg = await message.channel.send(`You first need to set a welcome DM. Use ${prefix}welcomeDm to setup one.`);
+      let msg = await message.channel.send(`You first need to set a welcome DM. Use ${prefix}welcomedm to setup one.`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
     }
