@@ -32,7 +32,7 @@ module.exports = {
       else id = notes.length - 1;
     }
     const note = '```' + `[${id}] ${args.join()}` + '```' + `Added by ${message.author.username} on ${moment(message.createdTimestamp).format('LL')}, at ${moment(message.createdTimestamp).format('LT')} GMT\n`;
-    notes.push(`[${id.toString()}] ${note}`);
+    notes.push(note);
     await nts.set(`notes_${member.id}_${message.guild.id}`, notes);
     await message.author.send(`Note successfully added on ${member.user.username}'s account`);
     message.delete();
