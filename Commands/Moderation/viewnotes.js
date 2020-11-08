@@ -27,7 +27,7 @@ module.exports = {
     let content = '';
     notes.forEach((note) => content += note);
     await message.channel.send('Check your inbox.');
-    if (!notes[0]) message.author.send(`There are no notes linked to ${member.username}.`);
+    if (!notes[0]) message.author.send(`There are no notes linked to ${member.user.username}.`);
     else {
       const viewNotesEmbed = new Discord.MessageEmbed()
         .setColor('#00ffbb')
