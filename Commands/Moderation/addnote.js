@@ -23,7 +23,6 @@ module.exports = {
     }
 
     args.shift();
-    const note = '```' + args.join(' ') + `Added by ${message.author.username} on ${moment(message.createdTimestamp).format('LL')}, at ${moment(message.createdTimestamp).format('LT')} GMT\n` + '```';
     let notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
     if (!notes) notes = [];
     let id;
@@ -32,6 +31,7 @@ module.exports = {
       if (notes.length == 1) id = 1;
       else id = notes.length - 1;
     }
+    const note = '```' + `[${id}] ${args.join()}` + '```' + `Added by ${message.author.username} on ${moment(message.createdTimestamp).format('LL')}, at ${moment(message.createdTimestamp).format('LT')} GMT\n`;
     notes.push(`[${id.toString()}] ${note}`);
     await nts.set(`notes_${member.id}_${message.guild.id}`, notes);
     await message.author.send(`Note successfully added on ${member.user.username}'s account`);

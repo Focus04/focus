@@ -5,6 +5,7 @@ const suggestionChannels = new Keyv(process.env.suggestionChannels);
 const { defaultPrefix, deletionTimeout, reactionError, suggestionPending, suggestionApprove, suggestionDecline } = require('../../config.json');
 
 module.exports = async (client, message) => {
+  if (message.author.bot || message.channel.type !== 'text') return;
   const suggestionChannelName = await suggestionChannels.get(message.guild.id);
   const channel = message.guild.channels.cache.find(ch => ch.name === suggestionChannelName);
   if (channel && message.channel.id === channel.id && !message.author.bot) {
@@ -20,7 +21,6 @@ module.exports = async (client, message) => {
   }
 
   let prefix = await prefixes.get(`${message.guild.id}`) || defaultPrefix;
-  if (message.author.bot || message.channel.type !== 'text') return;
 
   if (!message.content.startsWith(prefix)) return;
 
