@@ -24,13 +24,15 @@ module.exports = {
     }
 
     const notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
+    const content = '';
+    notes.forEach((note) => content += note);
     await message.channel.send('Check your inbox.');
     if (!notes) message.author.send(`There are no notes linked to ${member.username}.`);
     else {
       const viewNotesEmbed = new Discord.MessageEmbed()
         .setColor('#00ffbb')
         .setTitle(`${member.user.username}'s notes`)
-        .setDescription(notes)
+        .setDescription(content)
         .setTimestamp();
       message.author.send(viewNotesEmbed);
     }
