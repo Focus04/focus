@@ -11,7 +11,7 @@ module.exports = {
   async execute(message, args, prefix) {
     if (!args[1]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}delnote [username] [noteID]`);
-      return msg.delete({ timout: deletionTimeout });
+      return msg.delete({ timeout: deletionTimeout });
     }
 
     const member = message.guild.members.cache.find((user) => user.user.username === args[0] || user.nickname === args[0]) || message.mentions.members.first();
