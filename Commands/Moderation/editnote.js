@@ -22,7 +22,7 @@ module.exports = {
       return message.delete();
     }
 
-    const notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
+    let notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
 
     if (parseInt(args[1]) > notes.length || parseInt(args[1]) < 1) {
       await message.author.send(`Couldn't find any notes with the ID of ${args[1]}`);
