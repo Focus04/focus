@@ -1,6 +1,7 @@
 const Keyv = require('keyv');
 const nts = new Keyv(process.env.notes);
 const { deletionTimeout } = require('../../config.json');
+const moment = require('moment');
 
 module.exports = {
   name: 'editnote',
