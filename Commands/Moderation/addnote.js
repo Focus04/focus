@@ -26,7 +26,7 @@ module.exports = {
     const note = '```' + args.join(' ') + `Added by ${message.author.username} on ${moment(message.createdTimestamp).format('LL')}, at ${moment(message.createdTimestamp).format('LT')} GMT\n` + '```';
     let notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
     if (!notes) notes = [];
-    const id;
+    let id;
     if (!notes.length) id = 0;
     else {
       if (notes.length == 1) id = 1;
