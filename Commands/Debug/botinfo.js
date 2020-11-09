@@ -37,15 +37,15 @@ module.exports = {
     if(!welcomeDm) welcomeDm = 'N/A';
 
     let welcomeMessageState = await toggleWelcomeMsg.get(`togglewelcomemsg_${message.guild.id}`);
-    if (!welcomeMessageState && welcomeMessageState != 0) welcomeMessageState = 'enabled';
+    if (welcomeMessageState == 1) welcomeMessageState = 'enabled';
     else welcomeMessageState = 'disabled';
 
     let welcomeDmState = await toggleWelcomeDm.get(`togglewelcomedm_${message.guild.id}`);
-    if(!welcomeDmState && welcomeDmState != 0) welcomeDmState = 'enabled';
+    if(welcomeDmState == 1) welcomeDmState = 'enabled';
     else welcomeDmState = 'disabled';
 
     let leaveMessageState = await toggleLeaveMsg.get(`toggleleavemsg_${message.guild.id}`);
-    if(!leaveMessageState && leaveMessageState != 0) leaveMessageState = 'enabled';
+    if(leaveMessageState == 1) leaveMessageState = 'enabled';
     else leaveMessageState = 'disabled';
 
     const botSettingsEmbed = new Discord.MessageEmbed()
