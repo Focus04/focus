@@ -18,33 +18,33 @@ module.exports = {
   requiredPerms: 'KICK_MEMBERS',
   permError: 'You require the Kick Members permission in order to run this command.',
   async execute(message, args, prefix) {
-    const logChannel = await logChannels.get(`logchannel_${message.guild.id}`);
+    let logChannel = await logChannels.get(`logchannel_${message.guild.id}`);
     if(!logChannel) logChannel = 'N/A';
 
-    const welcomeChannel = await welcomeChannels.get(`welcomechannel_${message.guild.id}`);
+    let welcomeChannel = await welcomeChannels.get(`welcomechannel_${message.guild.id}`);
     if(!welcomeChannel) welcomeChannel = 'N/A';
 
-    const leaveChannel = await leaveChannels.get(`leavechannel_${message.guild.id}`);
+    let leaveChannel = await leaveChannels.get(`leavechannel_${message.guild.id}`);
     if(!leaveChannel) leaveChannel = 'N/A';
 
-    const welcomeMessage = await welcomeMessages.get(`welcomemessage_${message.guild.id}`);
+    let welcomeMessage = await welcomeMessages.get(`welcomemessage_${message.guild.id}`);
     if(!welcomeMessage) welcomeMessage = deafultWelcomeMsg;
 
-    const leaveMessage = await leaveMessages.get(`leavemessage_${message.guild.id}`);
+    let leaveMessage = await leaveMessages.get(`leavemessage_${message.guild.id}`);
     if(!leaveMessage) leaveMessage = defaultLeaveMsg;
 
-    const welcomeDm = await welcomeDms.get(`welocmedm_${message.guild.id}`);
+    let welcomeDm = await welcomeDms.get(`welocmedm_${message.guild.id}`);
     if(!welcomeDm) welcomeDm = 'N/A';
 
-    const welcomeMessageState = await toggleWelcomeMsg.get(`togglewelcomemsg_${message.guild.id}`);
+    let welcomeMessageState = await toggleWelcomeMsg.get(`togglewelcomemsg_${message.guild.id}`);
     if (!welcomeMessageState && welcomeMessageState != 0) welcomeMessageState = 'enabled';
     else welcomeMessageState = 'disabled';
 
-    const welcomeDmState = await toggleWelcomeDm.get(`togglewelcomedm_${message.guild.id}`);
+    let welcomeDmState = await toggleWelcomeDm.get(`togglewelcomedm_${message.guild.id}`);
     if(!welcomeDmState && welcomeDmState != 0) welcomeDmState = 'enabled';
     else welcomeDmState = 'disabled';
 
-    const leaveMessageState = await toggleLeaveMsg.get(`toggleleavemsg_${message.guild.id}`);
+    let leaveMessageState = await toggleLeaveMsg.get(`toggleleavemsg_${message.guild.id}`);
     if(!leaveMessageState && leaveMessageState != 0) leaveMessageState = 'enabled';
     else leaveMessageState = 'disabled';
 
