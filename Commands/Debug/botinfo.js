@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const Keyv = require('keyv');
 const suggestionChannels = new Keyv(process.env.suggestionChannels);
 const logChannels = new Keyv(process.env.logChannels);
+const msgLogs = new Keyv(process.env.msgLogs);
 const welcomeChannels = new Keyv(process.env.welcomeChannels);
 const leaveChannels = new Keyv(process.env.leaveChannels);
 const welcomeMessages = new Keyv(process.env.welcomeMessages);
@@ -25,6 +26,10 @@ module.exports = {
 
     let logChannel = await logChannels.get(`logchannel_${message.guild.id}`);
     if (!logChannel) logChannel = 'N/A';
+
+    let logChannelState = await msgLogs.get(`msglogs_${message.guild.id}`);
+    if (logChannelState == 1) logChannelState = 'enabled';
+    else logChannelState = 'disabled';
 
     let welcomeChannel = await welcomeChannels.get(`welcomechannel_${message.guild.id}`);
     if (!welcomeChannel) welcomeChannel = 'N/A';
