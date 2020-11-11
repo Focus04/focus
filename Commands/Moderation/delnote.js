@@ -10,7 +10,7 @@ module.exports = {
   permError: 'You require the Kick Members permission in order to run this command.',
   async execute(message, args, prefix) {
     const member = message.mentions.members.first();
-    if (args[1] || !member || isNaN(args[1])) {
+    if (!args[1] || !member || isNaN(args[1])) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}delnote @[user] [noteID]`);
       return msg.delete({ timeout: deletionTimeout });
     }
