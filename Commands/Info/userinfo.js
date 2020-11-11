@@ -39,7 +39,7 @@ module.exports = {
         }
       });
       if (err == 1) return message.react(reactionError);
-      args.forEach((member) => {
+      args.forEach(async (member) => {
         const roles = '```' + member.roles.cache.map((role) => role.name).join(`, `) + '```';
         const perms = '```' + member.permissions.toArray().join(`\n`) + '```';
         let badges = '```' + member.user.flags.toArray().join(', ') + '```';

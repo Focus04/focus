@@ -25,7 +25,7 @@ module.exports = {
         }
       });
       if(err == 1) return message.react(reactionError);
-      args.forEach((member) => {
+      args.forEach(async (member) => {
         const avatarEmbed = new Discord.MessageEmbed()
           .setColor('#00ffbb')
           .setTimestamp()
