@@ -7,7 +7,7 @@ module.exports = {
   description: `Displays information about a user's account account.`,
   usage: 'userinfo `(user(s))`',
   async execute(message, args) {
-    if (!message.mentions.users.size) {
+    if (!args[0]) {
       const roles = '```' + message.member.roles.cache.map((role) => role.name).join(`, `) + '```';
       const perms = '```' + message.member.permissions.toArray().join(`\n`) + '```';
       let badges = '```' + message.author.flags.toArray().join(', ') + '```';
@@ -30,7 +30,7 @@ module.exports = {
       message.react(reactionSuccess);
     } else {
       let err;
-      args.map(async (arg) => {
+      args.forEach(async (arg) => {
         arg = message.guild.members.cache.find((member) => member.user.username === arg || member.nickname === arg);
         if(!arg) {
           let msg = await message.channel.send(`Couldn't find ${arg}`);
