@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const DBL = require('dblapi.js');
 const client = new Discord.Client({ 
   ws: {
-    intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS', 'GUILD_PRESENCES']
+    intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS']
   },
   partials: ['MESSAGE', 'REACTION'] 
 });
