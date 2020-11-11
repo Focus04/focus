@@ -11,7 +11,7 @@ module.exports = {
   permError: 'You require the Kick Members permission in order to run this command.',
   async execute(message, args, prefix) {
     const member = message.mentions.members.first();
-    if (!member || !args[1]) {
+    if (!member || !args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}viewnotes @[user]`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
