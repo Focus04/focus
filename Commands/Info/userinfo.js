@@ -29,14 +29,16 @@ module.exports = {
       await message.channel.send(userInfoEmbed);
       message.react(reactionSuccess);
     } else {
-      let err;
+      let err = 0;
+      let i = 0;
       args.forEach(async (arg) => {
         arg = message.guild.members.cache.find((member) => member.user.username === arg || member.nickname === arg);
         if(!arg) {
-          let msg = await message.channel.send(`Couldn't find ${arg}`);
+          let msg = await message.channel.send(`Couldn't find ${args[i]}`);
           msg.delete({ timeout: deletionTimeout });
           err = 1;
         }
+        i++;
       });
       if (err == 1) return message.react(reactionError);
       args.forEach(async (member) => {
