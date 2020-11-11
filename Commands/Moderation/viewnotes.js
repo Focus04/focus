@@ -6,17 +6,17 @@ const { deletionTimeout, reactionError, reactionSuccess } = require('../../confi
 module.exports = {
   name: 'viewnotes',
   description: `Views all notes linked to an account.`,
-  usage: 'viewnotes `username`',
+  usage: 'viewnotes @`user`',
   requiredPerms: 'KICK_MEMBERS',
   permError: 'You require the Kick Members permission in order to run this command.',
   async execute(message, args, prefix) {
     if (!args[0]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}viewnotes [username]`);
+      let msg = await message.channel.send(`Proper command usage: ${prefix}viewnotes @[user]`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
     }
 
-    const member = message.guild.members.cache.find((user) => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`) || message.mentions.members.first();
+    const member = message.mentions.members.first();
     if (!member) {
       let msg = await message.channel.send(`Couldn't find ${args[0]}.`);
       msg.delete({ timeout: deletionTimeout });

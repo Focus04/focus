@@ -5,16 +5,16 @@ const { deletionTimeout } = require('../../config.json');
 module.exports = {
   name: 'delnote',
   description: 'Deletes a note from a user.',
-  usage: 'delnote `username` `noteID`',
+  usage: 'delnote @`user` `noteID`',
   requiredPerms: 'KICK_MEMBERS',
   permError: 'You require the Kick Members permission in order to run this command.',
   async execute(message, args, prefix) {
     if (!args[1]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}delnote [username] [noteID]`);
+      let msg = await message.channel.send(`Proper command usage: ${prefix}delnote @[user] [noteID]`);
       return msg.delete({ timeout: deletionTimeout });
     }
 
-    const member = message.guild.members.cache.find((user) => user.user.username === args[0] || user.nickname === args[0]) || message.mentions.members.first();
+    const member = message.mentions.members.first();
 
     if (!member) {
       await message.author.send(`Couldn't find ${args[0]}`);

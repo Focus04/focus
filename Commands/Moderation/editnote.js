@@ -6,16 +6,16 @@ const moment = require('moment');
 module.exports = {
   name: 'editnote',
   description: 'Edits a note from a user.',
-  usage: 'editnote `username` `noteID` `new content`',
+  usage: 'editnote @`user` `noteID` `new content`',
   requiredPerms: 'KICK_MEMBERS',
   permError: 'You require the Kick Members permission in order to run this command.',
   async execute(message, args, prefix) {
     if (!args[2]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}editnote [username] [noteID] [new content]`);
+      let msg = await message.channel.send(`Proper command usage: ${prefix}editnote @[user] [noteID] [new content]`);
       return msg.delete({ timeout: deletionTimeout });
     }
 
-    const member = message.guild.members.cache.find((user) => user.user.username === args[0] || user.nickname === args[0]) || message.mentions.members.first();
+    const member = message.mentions.members.first();
 
     if (!member) {
       await message.author.send(`Couldn't find ${args[0]}`);

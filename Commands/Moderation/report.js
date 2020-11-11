@@ -6,17 +6,17 @@ const { deletionTimeout, pinEmojiId }  = require('../../config.json');
 module.exports = {
   name: 'report',
   description: `Submits a report to the staff's logs channel.`,
-  usage: 'report `username` `offense`',
+  usage: 'report @`user` `offense`',
   guildOnly: true,
   async execute(message, args, prefix) {
-    const member = message.guild.members.cache.find((user) => user.user.username === `${args[0]}` || user.nickname === `${args[0]}`) || message.mentions.members.first();
+    const member = message.mentions.members.first();
     if (!member) {
       let msg = await message.channel.send(`Couldn't find ${args[0]}`);
       return msg.delete({ timeout: deletionTimeout });
     }
 
     if (!args[1]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}report [username] [offense]`);
+      let msg = await message.channel.send(`Proper command usage: ${prefix}report @[user] [offense]`);
       return msg.delete({ timeout: deletionTimeout });
     }
 
