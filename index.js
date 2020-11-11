@@ -1,13 +1,13 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const DBL = require('dblapi.js');
-const dbl = new DBL(process.env.dblToken, client);
 const client = new Discord.Client({ 
   ws: {
     intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS']
   },
   partials: ['MESSAGE', 'REACTION'] 
 });
+const dbl = new DBL(process.env.dblToken, client);
 
 client.commands = new Discord.Collection();
 fs.readdirSync('./Commands').forEach(folder => {
