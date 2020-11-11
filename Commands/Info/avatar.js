@@ -17,7 +17,7 @@ module.exports = {
     } else {
       let err = 0;
       let i = 0;
-      args.map(async (arg) => {
+      await args.map(async (arg) => {
         message.guild.members.cache.find((member) => member.user.username === arg || member.nickname === arg);
         if (!arg) {
           err = 1;
