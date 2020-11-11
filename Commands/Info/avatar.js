@@ -15,29 +15,20 @@ module.exports = {
       await message.channel.send(avatarEmbed);
       message.react(reactionSuccess);
     } else {
-      let err = 0;
-      let i = 0;
-      args.forEach(async (arg) => {
-        arg = message.guild.members.cache.find((member) => member.user.username === arg || member.nickname === arg);
-        if (!arg) {
-          err = 1;
-          let msg = await message.channel.send(`Couldn't find ${args[i]}`);
-          msg.delete({ timeout: deletionTimeout });
-        }
-        i++;
-      });
-      console.log(err);
-      console.log(args);
-      if (err == 1) return message.react(reactionError);
-      args.forEach(async (member) => {
-        const avatarEmbed = new Discord.MessageEmbed()
-          .setColor('#00ffbb')
-          .setTimestamp()
-          .setTitle(`${member.user.username}'s avatar`)
-          .setImage(member.user.displayAvatarURL({ dynamic: true }));
-        await message.channel.send(avatarEmbed);
-        message.react(reactionSuccess);
-      });
+      const member = message.guild.members.cache.find((m) => m.user.username === args[0] || m.nickname === args[0]) || message.mentions.members.first();
+      if(!member) {
+        let msg = await message.channel.send(`Couldn't find ${args[0]}`);
+        msg.delete({ timeout: deletionTimeout });
+        return message.react(reactionError);
+      }
+      
+      const avatarEmbed = new Discord.MessageEmbed()
+        .setColor('#00ffbb')
+        .setTimestamp()
+        .setTitle(`${member.user.username}'s avatar`)
+        .setImage(member.user.displayAvatarURL({ dynamic: true }));
+      await message.channel.send(avatarEmbed);
+      message.react(reactionSuccess);
     }
   }
 }
