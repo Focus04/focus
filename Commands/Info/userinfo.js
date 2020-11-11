@@ -32,11 +32,11 @@ module.exports = {
       let err = 0;
       let i = 0;
       args.forEach(async (arg) => {
-        arg = await message.guild.members.cache.find((member) => member.user.username === arg || member.nickname === arg);
-        if(!arg) {
+        arg = message.guild.members.cache.find((member) => member.user.username === arg || member.nickname === arg);
+        if (!arg) {
+          err = 1;
           let msg = await message.channel.send(`Couldn't find ${args[i]}`);
           msg.delete({ timeout: deletionTimeout });
-          err = 1;
         }
         i++;
       });
