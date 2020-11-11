@@ -19,14 +19,15 @@ module.exports = {
       let i = 0;
       args.forEach(async (arg) => {
         arg = await message.guild.members.cache.find((member) => member.user.username === arg || member.nickname === arg);
-        if(!arg) {
+        if (!arg) {
           let msg = await message.channel.send(`Couldn't find ${args[i]}`);
           msg.delete({ timeout: deletionTimeout });
           err = 1;
         }
         i++;
       });
-      if(err == 1) return message.react(reactionError);
+      console.log(err);
+      if (err == 1) return message.react(reactionError);
       args.forEach(async (member) => {
         const avatarEmbed = new Discord.MessageEmbed()
           .setColor('#00ffbb')
