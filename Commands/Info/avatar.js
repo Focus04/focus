@@ -17,8 +17,8 @@ module.exports = {
     } else {
       let err = 0;
       let i = 0;
-      args.forEach(async (arg) => {
-        arg = message.guild.members.cache.find((member) => member.user.username === arg || member.nickname === arg);
+      args.map(async (arg) => {
+        message.guild.members.cache.find((member) => member.user.username === arg || member.nickname === arg);
         if (!arg) {
           err = 1;
           let msg = await message.channel.send(`Couldn't find ${args[i]}`);
@@ -27,6 +27,7 @@ module.exports = {
         i++;
       });
       console.log(err);
+      console.log(args);
       if (err == 1) return message.react(reactionError);
       args.forEach(async (member) => {
         const avatarEmbed = new Discord.MessageEmbed()
