@@ -10,16 +10,10 @@ module.exports = {
   requiredPerms: 'KICK_MEMBERS',
   permError: 'You require the Kick Members permission in order to run this command.',
   async execute(message, args, prefix) {
-    if (!args[1]) {
+    const member = message.mentions.members.first();
+    if (!args[1] || !member) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}addnote @[user] [note]`);
       return msg.delete({ timeout: deletionTimeout });
-    }
-
-    const member = message.mentions.members.first();
-    
-    if (!member) {
-      await message.author.send(`Couldn't find ${args[0]}.`);
-      return message.delete();
     }
 
     args.shift();

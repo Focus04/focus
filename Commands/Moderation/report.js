@@ -10,12 +10,7 @@ module.exports = {
   guildOnly: true,
   async execute(message, args, prefix) {
     const member = message.mentions.members.first();
-    if (!member) {
-      let msg = await message.channel.send(`Couldn't find ${args[0]}`);
-      return msg.delete({ timeout: deletionTimeout });
-    }
-
-    if (!args[1]) {
+    if (!args[1] || !member) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}report @[user] [offense]`);
       return msg.delete({ timeout: deletionTimeout });
     }
