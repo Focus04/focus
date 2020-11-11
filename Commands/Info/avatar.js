@@ -17,8 +17,8 @@ module.exports = {
     } else {
       let err = 0;
       let i = 0;
-      await args.map(async (arg) => {
-        message.guild.members.cache.find((member) => member.user.username === arg || member.nickname === arg);
+      args.forEach(async (arg) => {
+        arg = message.guild.members.cache.find((member) => member.user.username === arg || member.nickname === arg);
         if (!arg) {
           err = 1;
           let msg = await message.channel.send(`Couldn't find ${args[i]}`);
