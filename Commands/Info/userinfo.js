@@ -30,7 +30,7 @@ module.exports = {
       message.react(reactionSuccess);
     } else {
       let err;
-      args.map((arg) => {
+      args.map(async (arg) => {
         arg = message.guild.members.cache.find((member) => member.user.username === arg || member.nickname === arg);
         if(!arg) {
           let msg = await message.channel.send(`Couldn't find ${arg}`);
