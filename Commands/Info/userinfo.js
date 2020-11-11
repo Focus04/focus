@@ -1,11 +1,12 @@
 const Discord = require('discord.js');
 const moment = require('moment');
+const {reactionError, reactionSuccess, deletionTimeout } = require('../../config.json');
 
 module.exports = {
   name: 'userinfo',
   description: `Displays information about a user's account account.`,
-  usage: 'userinfo `(@user(s))`',
-  execute(message) {
+  usage: 'userinfo `(user(s))`',
+  async execute(message, args) {
     if (!message.mentions.users.size) {
       const roles = '```' + message.member.roles.cache.map((role) => role.name).join(`, `) + '```';
       const perms = '```' + message.member.permissions.toArray().join(`\n`) + '```';
@@ -25,9 +26,20 @@ module.exports = {
         )
         .setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
         .setTimestamp();
-      message.channel.send(userInfoEmbed);
+      await message.channel.send(userInfoEmbed);
+      message.react(reactionSuccess);
     } else {
-      message.mentions.members.forEach((member) => {
+      let err;
+      args.map((arg) => {
+        arg = message.guild.members.cache.find((member) => member.user.username === arg || member.nickname === arg);
+        if(!arg) {
+          let msg = await message.channel.send(`Couldn't find ${arg}`);
+          msg.delete({ timeout: deletionTimeout });
+          err = 1;
+        }
+      });
+      if (err == 1) return message.react(reactionError);
+      args.forEach((member) => {
         const roles = '```' + member.roles.cache.map((role) => role.name).join(`, `) + '```';
         const perms = '```' + member.permissions.toArray().join(`\n`) + '```';
         let badges = '```' + member.user.flags.toArray().join(', ') + '```';
@@ -46,7 +58,8 @@ module.exports = {
           )
           .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
           .setTimestamp();
-        message.channel.send(userInfoEmbed);
+        await message.channel.send(userInfoEmbed);
+        message.react(reactionSuccess);
       });
     }
   }
