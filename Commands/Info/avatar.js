@@ -20,7 +20,7 @@ module.exports = {
       args.forEach(async (arg) => {
         arg = await message.guild.members.cache.find((member) => member.user.username === arg || member.nickname === arg);
         if(!arg) {
-          let msg = await message.channel.send(`Couldn't find ${args[1]}`);
+          let msg = await message.channel.send(`Couldn't find ${args[i]}`);
           msg.delete({ timeout: deletionTimeout });
           err = 1;
         }
