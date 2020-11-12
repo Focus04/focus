@@ -3,7 +3,6 @@ const Discord = require('discord.js');
 const DBL = require('dblapi.js');
 const client = new Discord.Client({ partials: ['MESSAGE', 'REACTION'] });
 const dbl = new DBL(process.env.dblToken, client);
-require('dotenv').config();
 
 client.commands = new Discord.Collection();
 fs.readdirSync('./Commands').forEach(folder => {
