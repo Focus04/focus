@@ -22,7 +22,7 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    if (member.id == message.author.id) {
+    if (member.user.id == message.author.id) {
       let msg = await message.channel.send(`You can't ban youself, smarty pants!`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
