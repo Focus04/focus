@@ -75,7 +75,7 @@ module.exports = {
         .setTimestamp();
       const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
       const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
-      if (!log) await message.channel.send(banembed1);
+      if (!log) await message.channel.send(banEmbed);
       else await log.send(banEmbed);
       await member.send(`${author} has permanently banned you from ${message.guild.name} for ${reason}.`);
       await bns.set(`bans_${member.id}_${message.guild.id}`, bans);
