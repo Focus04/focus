@@ -22,6 +22,12 @@ module.exports = {
       return message.react(reactionError);
     }
 
+    if (!member.user) {
+      let msg = await message.channel.send(`Couldn't find ${args[0]}`);
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
+    }
+
     if (user.id == message.author.id) {
       let msg = await message.channel.send(`You can't ban youself, smarty pants!`);
       msg.delete({ timeout: deletionTimeout });
@@ -48,15 +54,14 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    if (isNaN(days)) {
-      if (!member || !args[1]) {
-        let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) [reason]`);
+    if (isNaN(days) || !days) {
+      if (!member) {
+        let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) (reason)`);
         msg.delete({ timeout: deletionTimeout });
         return message.react(reactionError);
       }
 
       args.shift();
-      const reason = '`' + args.join(' ') + '`';
       await bannedUsers.set(`${message.guild.id}_${member.user.username}`, member.user.id);
       let bans = await bns.get(`bans_${member.id}_${message.guild.id}`);
       if (!bans) bans = 1;
@@ -68,29 +73,35 @@ module.exports = {
         .addFields(
           { name: `Defendant's name:`, value: `${member.user.tag}` },
           { name: `Issued by:`, value: `${author}` },
-          { name: `Reason:`, value: `${reason}` },
-          { name: `Duration:`, value: `Permanent` },
+          { name: `Duration:`, value: `Permanent` }
         )
         .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier.`)
         .setTimestamp();
+      const msg = `${author} has permanently banned you from ${message.guild.name}.`;
+      if (args) {
+        const reason = '`' + args.join(' ') + '`';
+        banEmbed.addField('Reason', reason);
+        msg += ` Reason: ${reason}.`;
+      }
       const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
       const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
       if (!log) await message.channel.send(banEmbed);
       else await log.send(banEmbed);
-      await member.send(`${author} has permanently banned you from ${message.guild.name} for ${reason}.`);
+      await member.send(msg);
       await bns.set(`bans_${member.id}_${message.guild.id}`, bans);
       await message.guild.member(member).ban();
       message.react(reactionSuccess);
-    } else {
+    }
+
+    if (!isNaN(days)) {
       if (!member || !args[2]) {
-        let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) [reason]`);
+        let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) (reason)`);
         msg.delete({ timeout: deletionTimeout });
         return message.react(reactionError);
       }
 
       args.shift();
       args.shift();
-      const reason = '`' + args.join(' ') + '`';
       await bannedUsers.set(`${message.guild.id}_${member.user.username}`, member.user.id);
       let bans = await bns.get(`bans_${member.id}_${message.guild.id}`);
       if (!bans) bans = 1;
@@ -102,16 +113,21 @@ module.exports = {
         .addFields(
           { name: `Defendant's name:`, value: `${member}` },
           { name: `Issued by:`, value: `${author}` },
-          { name: `Reason:`, value: `${reason}` },
-          { name: `Duration:`, value: `${days} days` },
+          { name: `Duration:`, value: `${days} days` }
         )
         .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier than ${days} days.`)
         .setTimestamp();
+      const msg = `${author} has permanently banned you from ${message.guild.name}. Duration: ${days} days.`;
+      if (args) {
+        const reason = '`' + args.join(' ') + '`';
+        banEmbed.addField('Reason', reason);
+        msg += ` Reason: ${reason}`;
+      }
       const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
       const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
       if (!log) await message.channel.send(banEmbed);
       else await log.send(banEmbed);
-      await member.send(`${author} has banned you from ${message.guild.name} for ${reason}. Duration: ${days} days.`);
+      await member.send(msg);
       await bns.set(`bans_${member.id}_${message.guild.id}`, bans);
       await message.guild.member(member).ban();
       message.react(reactionSuccess);
