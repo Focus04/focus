@@ -8,7 +8,7 @@ const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require(
 module.exports = {
   name: 'ban',
   description: `Restricts a user's access to the server.`,
-  usage: 'ban @`user` `(days)` `reason`',
+  usage: 'ban @`user` `(days)` `(reason)`',
   requiredPerms: 'BAN_MEMBERS',
   permError: 'It appears that you lack permissions to ban.',
   async execute(message, args, prefix) {
@@ -77,7 +77,7 @@ module.exports = {
         )
         .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier.`)
         .setTimestamp();
-      const msg = `${author} has permanently banned you from ${message.guild.name}.`;
+      let msg = `${author} has permanently banned you from ${message.guild.name}.`;
       if (args) {
         const reason = '`' + args.join(' ') + '`';
         banEmbed.addField('Reason', reason);
@@ -117,7 +117,7 @@ module.exports = {
         )
         .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier than ${days} days.`)
         .setTimestamp();
-      const msg = `${author} has permanently banned you from ${message.guild.name}. Duration: ${days} days.`;
+      let msg = `${author} has permanently banned you from ${message.guild.name}. Duration: ${days} days.`;
       if (args) {
         const reason = '`' + args.join(' ') + '`';
         banEmbed.addField('Reason', reason);
