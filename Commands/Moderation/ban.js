@@ -22,7 +22,7 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    if (!member.user) {
+    if (!member) {
       let msg = await message.channel.send(`Couldn't find ${args[0]}`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
@@ -78,7 +78,7 @@ module.exports = {
         .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier.`)
         .setTimestamp();
       let msg = `${author} has permanently banned you from ${message.guild.name}.`;
-      if (args) {
+      if (args === '``') {
         const reason = '`' + args.join(' ') + '`';
         banEmbed.addField('Reason', reason);
         msg += ` Reason: ${reason}.`;
@@ -118,7 +118,7 @@ module.exports = {
         .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier than ${days} days.`)
         .setTimestamp();
       let msg = `${author} has permanently banned you from ${message.guild.name}. Duration: ${days} days.`;
-      if (args) {
+      if (args === '``') {
         const reason = '`' + args.join(' ') + '`';
         banEmbed.addField('Reason', reason);
         msg += ` Reason: ${reason}`;
