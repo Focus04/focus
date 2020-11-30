@@ -94,7 +94,7 @@ module.exports = {
     }
 
     if (!isNaN(days)) {
-      if (!member || !args[2]) {
+      if (!member) {
         let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) (reason)`);
         msg.delete({ timeout: deletionTimeout });
         return message.react(reactionError);
