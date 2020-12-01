@@ -5,7 +5,7 @@ module.exports = {
   description: 'Sets a timer for a reminder.',
   usage: 'remindme `days` `text`',
   async execute (message, args, prefix) {
-    if (args[1] || isNaN(args[0])) {
+    if (!args[1] || isNaN(args[0])) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}remindme [days] [text]`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
