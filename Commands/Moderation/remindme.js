@@ -8,7 +8,7 @@ module.exports = {
     if (args[1] || isNaN(args[0])) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}remindme [days] [text]`);
       msg.delete({ timeout: deletionTimeout });
-      message.react(reactionError);
+      return message.react(reactionError);
     }
 
     const days = args[0];
