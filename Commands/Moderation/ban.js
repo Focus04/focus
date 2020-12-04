@@ -61,6 +61,12 @@ module.exports = {
         return message.react(reactionError);
       }
 
+      if (days <= 0) {
+        let msg = await message.channel.send('Days must be a positive number.');
+        msg.delete({ timeout: deletionTimeout });
+        return message.react(reactionError);
+      }
+
       args.shift();
       let BanInfo = {};
       BanInfo.userID = member.user.id;

@@ -1,5 +1,6 @@
 const Keyv= require('keyv');
 const bannedUsers = new Keyv(process.env.bannedUsers);
+const reminders = new Keyv(process.env.reminders);
 const logChannels = new Keyv(process.env.logChannels);
 
 module.exports = (client) => {
@@ -11,20 +12,29 @@ module.exports = (client) => {
       const logChName = await logChannels.get(`logchannel_${guild.id}`);
       const log = guild.channels.cache.find((ch) => ch.name === `${logChName}`);
       if (bannedUsersArr) {
-        let i = 0;
         bannedUsersArr.forEach((user) => {
-          if (user.unbanDate <= Date.now()) {
+          if (user.unbanDate && user.unbanDate <= Date.now()) {
             const banInfo = guild.fetchBan(user.userID);
             if (banInfo) {
-              bannedUsersArr.splice(i, 1);
+              bannedUsersArr.splice(bannedUsersArr.indexOf(user), 1);
               guild.members.unban(user.userID);
               if (log) log.send(`${user.username} has been unbanned.`);
             }
           }
-          i++;
         });
+        bannedUsers.set(guild.id, bannedUsersArr);
       }
-      if (bannedUsersArr) bannedUsers.set(guild.id, bannedUsersArr);
+      
+      let remindersArr = await reminders.get(guild.id);
+      if (remindersArr) {
+        remindersArr.forEach((reminder) => {
+          if (reminder.date <= Date.now()) {
+            reminder.user.send(`⏰ Time to ${reminder.text}`);
+            remindersArr.splice(remindersArr.indexOf(reminder), 1);
+          }
+        });
+        reminders.set(guild.id, remindersArr);
+      }
     });
-  }, 60000)
+  }, 60000);
 }

@@ -1,6 +1,6 @@
 {
   "name": "focus",
-  "version": "7.9.1",
+  "version": "10.1.5",
   "description": "Focus' Professional Discord moderation bot.",
   "main": "index.js",
   "scripts": {
