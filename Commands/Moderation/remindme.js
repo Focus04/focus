@@ -16,7 +16,7 @@ module.exports = {
     const days = args[0];
     args.shift();
     let Reminder = {};
-    Reminder.user = message.author;
+    Reminder.userID = message.author.id;
     Reminder.text = '`' + args.join(' ') + '`';
     Reminder.date = Date.now() + days * 86400000;
     let remindersArr = await reminders.get(message.guild.id);

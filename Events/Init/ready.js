@@ -24,12 +24,13 @@ module.exports = (client) => {
         });
         bannedUsers.set(guild.id, bannedUsersArr);
       }
-      
+
       let remindersArr = await reminders.get(guild.id);
       if (remindersArr) {
-        remindersArr.forEach((reminder) => {
+        remindersArr.forEach(async (reminder) => {
           if (reminder.date <= Date.now()) {
-            reminder.user.send(`⏰ Time to ${reminder.text}`);
+            const member = await guild.members.fetch(reminder.userID);
+            member.user.send(`⏰ Time to ${reminder.text}`);
             remindersArr.splice(remindersArr.indexOf(reminder), 1);
           }
         });
