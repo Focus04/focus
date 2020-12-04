@@ -1,5 +1,6 @@
 const Keyv = require('keyv');
 const logChannels = new Keyv(process.env.logChannels);
+const mutedMembers = new Keyv(process.env.mutedMembers);
 const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 
 module.exports = {
@@ -24,12 +25,16 @@ module.exports = {
       return message.react(reactionError);
     }
 
+    let mutedMembersArr = await mutedMembers.get(message.guild.id);
+    let mutedMember = mutedMembersArr.find((arrElement) => arrElement.userID === member.user.id);
+    mutedMembersArr.splice(mutedMembersArr.indexOf(mutedMember), 1);
     if (!member.roles.cache.has(mutedRole.id)) {
       let msg = await message.channel.send(`${member} isn't muted!`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
     }
 
+    mutedMembers.set(message.guild.id, mutedMembersArr);
     member.roles.remove(mutedRole);
     const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
     const log = await message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);

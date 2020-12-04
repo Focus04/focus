@@ -40,7 +40,7 @@ module.exports = (client) => {
         let mutedMembersArr = await mutedMembers.get(guild.id);
         if (mutedMembersArr) {
           mutedMembersArr.forEach(async (arrElement) => {
-            if(member.unmuteDate <= Date.now()) {
+            if(arrElement.unmuteDate <= Date.now()) {
               const member = await guild.members.fetch(arrElement.userID);
               const mutedRole = guild.roles.cache.find((role) => role.name === 'Muted Member');
               if (member.roles.cache.has(mutedRole.id)) {
