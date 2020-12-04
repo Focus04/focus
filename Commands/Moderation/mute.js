@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const Keyv = require('keyv');
 const mts = new Keyv(process.env.mts);
 const logChannels = new Keyv(process.env.logChannels);
+const mutedMembers = new Keyv(process.env.mutedMembers);
 const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
 
 module.exports = {
@@ -102,18 +103,17 @@ module.exports = {
       )
       .setFooter(`You can use ${prefix}unmute to unmute the user earlier than ${mins} minutes.`)
       .setTimestamp();
+    let MuteInfo = {};
+    MuteInfo.userID = member.user.id;
+    MuteInfo.unmuteDate = Date.now() + mins * 60000;
+    let mutedMembersArr = await mutedMembers.get(message.guild.id);
+    if (!mutedMembersArr) mutedMembersArr = [];
+    mutedMembersArr.push(MuteInfo);
+    mutedMembers.set(message.guild.id, mutedMembersArr);
     const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
     const log = await message.guild.channels.cache.find(ch => ch.name === `${logChName}`);
     if (!log) await message.channel.send(muteEmbed);
     else await log.send(muteEmbed);
     message.react(reactionSuccess);
-    setTimeout(function () {
-      if (member.roles.cache.has(mutedRole.id)) {
-        member.roles.remove(mutedRole);
-        if (!log) message.channel.send(`${member} has been unmuted.`);
-        else log.send(`${member} has been unmuted.`);
-        member.send(`You have been unmuted from ${message.guild.name}.`);
-      }
-    }, mins * 60000);
   }
 }

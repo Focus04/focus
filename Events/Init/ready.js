@@ -2,6 +2,7 @@ const Keyv= require('keyv');
 const bannedUsers = new Keyv(process.env.bannedUsers);
 const reminders = new Keyv(process.env.reminders);
 const logChannels = new Keyv(process.env.logChannels);
+const mutedMembers = new Keyv(process.env.mutedMembers);
 
 module.exports = (client) => {
   console.log('I am live!');
@@ -35,6 +36,23 @@ module.exports = (client) => {
           }
         });
         reminders.set(guild.id, remindersArr);
+
+        let mutedMembersArr = await mutedMembers.get(guild.id);
+        if (mutedMembersArr) {
+          mutedMembersArr.forEach(async (arrElement) => {
+            if(member.unmuteDate <= Date.now()) {
+              const member = await guild.members.fetch(arrElement.userID);
+              const mutedRole = guild.roles.cache.find((role) => role.name === 'Muted Member');
+              if (member.roles.cache.has(mutedRole.id)) {
+                member.roles.remove(mutedRole);
+                if (log) log.send(`${member} has been unmuted.`);
+                member.send(`You have been unmuted from ${guild.name}.`);
+              }
+              mutedMembersArr.splice(mutedMembersArr.indexOf(arrElement), 1);
+            }
+          });
+          await mutedMembers.set(guild.id, mutedMembersArr);
+        }
       }
     });
   }, 60000);

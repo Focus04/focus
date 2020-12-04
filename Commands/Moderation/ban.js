@@ -128,7 +128,6 @@ module.exports = {
         )
         .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier than ${days} days.`)
         .setTimestamp();
-      let msg = `${author} has permanently banned you from ${message.guild.name}. Duration: ${days} days.`;
       let BanInfo = {};
       BanInfo.userID = member.user.id;
       BanInfo.username = member.user.username;
@@ -137,6 +136,7 @@ module.exports = {
       if (!bannedUsersArr) bannedUsersArr = [];
       bannedUsersArr.push(BanInfo);
       await bannedUsers.set(message.guild.id, bannedUsersArr);
+      let msg = `${author} has permanently banned you from ${message.guild.name}. Duration: ${days} days.`;
       if (args.length > 0) {
         const reason = '`' + args.join(' ') + '`';
         banEmbed.addField('Reason', reason);
