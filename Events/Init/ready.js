@@ -13,7 +13,7 @@ module.exports = (client) => {
       if (bannedUsersArr) {
         let i = 0;
         bannedUsersArr.forEach((user) => {
-          if (user.unbanDate >= Date.now()) {
+          if (user.unbanDate <= Date.now()) {
             const banInfo = guild.fetchBan(user.userID);
             if (banInfo) {
               bannedUsersArr.splice(i, 1);
