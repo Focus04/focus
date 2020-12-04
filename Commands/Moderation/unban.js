@@ -22,21 +22,23 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    const userId = await bannedUsers.get(`${message.guild.id}_${args[0]}`);
-    if (!userId) {
+    const bannedUsersArr = await bannedUsers.get(message.guild.id);
+    const bannedUser = bannedUsersArr.find((user) => user.username === args[0]);
+    if (!bannedUser) {
       let msg = await message.channel.send(`${args[0]} isn't banned.`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
     }
 
-    await message.guild.members.unban(userId).catch(async (err) => {
+    await message.guild.members.unban(bannedUser.userID).catch(async (err) => {
       console.error(err);
       let msg = await message.channel.send(`${args[0]} isn't banned.`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
     });
 
-    await bannedUsers.delete(`${message.guild.id}_${args[0]}`);
+    bannedUsersArr.splice(bannedUsersArr.indexOf(bannedUser), 1);
+    await bannedUsers.set(message.guild.id, bannedUsersArr);
     const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
     const log = await message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
     if (!log) message.channel.send(`${args[0]} has been unbanned earlier.`);
