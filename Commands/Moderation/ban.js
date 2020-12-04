@@ -61,12 +61,6 @@ module.exports = {
         return message.react(reactionError);
       }
 
-      if (days <= 0) {
-        let msg = await message.channel.send('Days must be a positive number.');
-        msg.delete({ timeout: deletionTimeout });
-        return message.react(reactionError);
-      }
-
       args.shift();
       let BanInfo = {};
       BanInfo.userID = member.user.id;
@@ -108,6 +102,12 @@ module.exports = {
     if (!isNaN(days)) {
       if (!member) {
         let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) (reason)`);
+        msg.delete({ timeout: deletionTimeout });
+        return message.react(reactionError);
+      }
+
+      if (days <= 0) {
+        let msg = await message.channel.send('Days must be a positive number.');
         msg.delete({ timeout: deletionTimeout });
         return message.react(reactionError);
       }

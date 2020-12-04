@@ -40,7 +40,6 @@ class SnowflakeUtil {
       );
     }
     if (INCREMENT >= 4095) INCREMENT = 0;
-    // eslint-disable-next-line max-len
     const BINARY = `${(timestamp - EPOCH).toString(2).padStart(42, '0')}0000100000${(INCREMENT++)
       .toString(2)
       .padStart(12, '0')}`;
@@ -79,6 +78,15 @@ class SnowflakeUtil {
       enumerable: true,
     });
     return res;
+  }
+
+  /**
+   * Discord's epoch value (2015-01-01T00:00:00.000Z).
+   * @type {number}
+   * @readonly
+   */
+  static get EPOCH() {
+    return EPOCH;
   }
 }
 

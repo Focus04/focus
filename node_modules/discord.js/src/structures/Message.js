@@ -235,13 +235,18 @@ class Message extends Base {
   }
 
   /**
-   * Updates the message.
+   * Updates the message and returns the old message.
    * @param {Object} data Raw Discord message update data
+   * @returns {Message}
    * @private
    */
   patch(data) {
     const clone = this._clone();
-    this._edits.unshift(clone);
+    const { messageEditHistoryMaxSize } = this.client.options;
+    if (messageEditHistoryMaxSize !== 0) {
+      const editsLimit = messageEditHistoryMaxSize === -1 ? Infinity : messageEditHistoryMaxSize;
+      if (this._edits.unshift(clone) > editsLimit) this._edits.pop();
+    }
 
     if ('edited_timestamp' in data) this.editedTimestamp = new Date(data.edited_timestamp).getTime();
     if ('content' in data) this.content = data.content;
@@ -268,6 +273,8 @@ class Message extends Base {
     );
 
     this.flags = new MessageFlags('flags' in data ? data.flags : 0).freeze();
+
+    return clone;
   }
 
   /**
@@ -419,6 +426,23 @@ class Message extends Base {
   }
 
   /**
+   * Whether the message is crosspostable by the client user
+   * @type {boolean}
+   * @readonly
+   */
+  get crosspostable() {
+    return (
+      this.channel.type === 'news' &&
+      !this.flags.has(MessageFlags.FLAGS.CROSSPOSTED) &&
+      this.type === 'DEFAULT' &&
+      this.channel.viewable &&
+      this.channel.permissionsFor(this.client.user).has(Permissions.FLAGS.SEND_MESSAGES) &&
+      (this.author.id === this.client.user.id ||
+        this.channel.permissionsFor(this.client.user).has(Permissions.FLAGS.MANAGE_MESSAGES))
+    );
+  }
+
+  /**
    * Options that can be passed into editMessage.
    * @typedef {Object} MessageEditOptions
    * @property {string} [content] Content to be edited
@@ -446,6 +470,22 @@ class Message extends Base {
       clone._patch(d);
       return clone;
     });
+  }
+
+  /**
+   * Publishes a message in an announcement channel to all channels following it.
+   * @returns {Promise<Message>}
+   * @example
+   * // Crosspost a message
+   * if (message.channel.type === 'news') {
+   *   message.crosspost()
+   *     .then(() => console.log('Crossposted message'))
+   *     .catch(console.error);
+   * }
+   */
+  async crosspost() {
+    await this.client.api.channels(this.channel.id).messages(this.id).crosspost.post();
+    return this;
   }
 
   /**
@@ -534,7 +574,7 @@ class Message extends Base {
    *   .catch(console.error);
    */
   delete(options = {}) {
-    if (typeof options !== 'object') throw new TypeError('INVALID_TYPE', 'options', 'object', true);
+    if (typeof options !== 'object') return Promise.reject(new TypeError('INVALID_TYPE', 'options', 'object', true));
     const { timeout = 0, reason } = options;
     if (timeout <= 0) {
       return this.channel.messages.delete(this.id, reason).then(() => this);

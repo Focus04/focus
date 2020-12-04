@@ -14,6 +14,12 @@ module.exports = {
     }
 
     const days = args[0];
+    if (days <= 0) { 
+      let msg = await message.channel.send('Days must be a positive number.');
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
+    }
+
     args.shift();
     let Reminder = {};
     Reminder.userID = message.author.id;
