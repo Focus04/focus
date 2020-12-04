@@ -62,7 +62,13 @@ module.exports = {
       }
 
       args.shift();
-      await bannedUsers.set(`${message.guild.id}_${member.user.username}`, member.user.id);
+      let BanInfo = {};
+      BanInfo.userID = member.user.id;
+      BanInfo.username = member.user.username;
+      let bannedUsersArr = await bannedUsers.get(message.guild.id);
+      if (!bannedUsersArr) bannedUsersArr = [];
+      bannedUsersArr.push(BanInfo);
+      await bannedUsers.set(message.guild.id, bannedUsersArr);
       let bans = await bns.get(`bans_${member.id}_${message.guild.id}`);
       if (!bans) bans = 1;
       else bans = bans + 1;
@@ -102,7 +108,6 @@ module.exports = {
 
       args.shift();
       args.shift();
-      await bannedUsers.set(`${message.guild.id}_${member.user.username}`, member.user.id);
       let bans = await bns.get(`bans_${member.id}_${message.guild.id}`);
       if (!bans) bans = 1;
       else bans = bans + 1;
@@ -118,6 +123,14 @@ module.exports = {
         .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier than ${days} days.`)
         .setTimestamp();
       let msg = `${author} has permanently banned you from ${message.guild.name}. Duration: ${days} days.`;
+      let BanInfo = {};
+      BanInfo.userID = member.user.id;
+      BanInfo.username = member.user.username;
+      BanInfo.unbanDate = Date.now() + days * 86400000;
+      let bannedUsersArr = await bannedUsers.get(message.guild.id);
+      if (!bannedUsersArr) bannedUsersArr = [];
+      bannedUsersArr.push(BanInfo);
+      await bannedUsers.set(message.guild.id, bannedUsersArr);
       if (args.length > 0) {
         const reason = '`' + args.join(' ') + '`';
         banEmbed.addField('Reason', reason);
