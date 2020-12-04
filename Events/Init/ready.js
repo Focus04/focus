@@ -2,11 +2,11 @@ const Keyv= require('keyv');
 const bannedUsers = new Keyv(process.env.bannedUsers);
 const logChannels = new Keyv(process.env.logChannels);
 
-module.exports = async (client) => {
+module.exports = (client) => {
   console.log('I am live!');
   client.user.setActivity('your people.', { type: 'WATCHING' });
   setInterval(() => {
-    client.guilds.cache.forEach((guild) => {
+    client.guilds.cache.forEach(async (guild) => {
       let bannedUsersArr = await bannedUsers.get(guild.id);
       const logChName = await logChannels.get(`logchannel_${guild.id}`);
       const log = guild.channels.cache.find((ch) => ch.name === `${logChName}`);
@@ -16,7 +16,7 @@ module.exports = async (client) => {
           if (user.unbanDate >= Date.now()) {
             const banInfo = guild.fetchBan(user.userID);
             if (banInfo) {
-              await bannedUsersArr.splice(i, 1);
+              bannedUsersArr.splice(i, 1);
               guild.members.unban(user.userID);
               if (log) log.send(`${user.username} has been unbanned.`);
             }

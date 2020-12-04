@@ -144,17 +144,6 @@ module.exports = {
       await bns.set(`bans_${member.id}_${message.guild.id}`, bans);
       await message.guild.member(member).ban();
       message.react(reactionSuccess);
-      setTimeout(async function () {
-        const banInfo = message.guild.fetchBan(user);
-        if (banInfo) {
-          await bannedUsers.delete(`${message.guild.id}_${member.user.username}`);
-          message.guild.members.unban(member.id);
-          if (!log) message.channel.send(`${member} has been unbanned.`);
-          else log.send(`${member} has been unbanned.`);
-
-          user.send(`You have been unbanned from ${message.guild.name}.`);
-        }
-      }, days * 86400000)
     }
   }
 }
