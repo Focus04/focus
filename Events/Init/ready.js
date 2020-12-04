@@ -24,7 +24,7 @@ module.exports = (client) => {
           i++;
         });
       }
-      bannedUsers.set(guild.id, bannedUsersArr);
+      if (bannedUsersArr) bannedUsers.set(guild.id, bannedUsersArr);
     });
   }, 60000)
 }
