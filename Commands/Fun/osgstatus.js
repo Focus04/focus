@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const fetch = require('node-fetch');
-const { deletionTimeout, reactionError, reactionSuccess } = require('../config.json');
+const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 
 module.exports = {
   name: 'elginfo',
