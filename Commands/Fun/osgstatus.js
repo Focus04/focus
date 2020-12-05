@@ -8,6 +8,7 @@ module.exports = {
   usage: 'osgstatus',
   guildOnly: true,
   async execute(message) {
+    if (message.guild.id !== '783743580119236709') return;
     const response = await fetch('https://monitor.teamshrimp.com/api/fetch/all/178.63.13.143/16705/')
     const data = await response.json();
     if (!data.online) {
