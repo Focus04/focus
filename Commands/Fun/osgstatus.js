@@ -3,11 +3,11 @@ const fetch = require('node-fetch');
 const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 
 module.exports = {
-  name: 'elginfo',
-  description: `Tells you information about your favourite SA-MP community!.`,
-  usage: 'elginfo',
+  name: 'osgstatus',
+  description: `Tells you live information about your favourite SA-MP community!`,
+  usage: 'osgstatus',
   guildOnly: true,
-  async execute(message, args) {
+  async execute(message) {
     const response = await fetch('https://monitor.teamshrimp.com/api/fetch/all/178.63.13.143/16705/')
     const data = await response.json();
     if (!data.online) {
