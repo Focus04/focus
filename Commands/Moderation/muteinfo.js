@@ -31,7 +31,7 @@ module.exports = {
       .addFields(
         { name: `Defendant's name:`, value: member.user.tag },
         { name: `Issued by:`, value: mutedMember.author },
-        { name: `Duration:`, value: Math.floor((mutedMember.unmuteDate - Date.now()) / 60000) + 1}
+        { name: `Minutes Remaining:`, value: Math.floor((mutedMember.unmuteDate - Date.now()) / 60000) + 1}
       )
       .setTimestamp();
     if (mutedMember.reason) muteInfoEmbed.addField('Reason', mutedMember.reason);
