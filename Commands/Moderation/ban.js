@@ -74,7 +74,7 @@ module.exports = {
           { name: `Issued by:`, value: `${author}` },
           { name: `Duration:`, value: `Permanent` }
         )
-        .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier.`)
+        .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier or ${prefix}baninfo ${member.user.username} to view information about his ban.`)
         .setTimestamp();
       let msg = `${author} has permanently banned you from ${message.guild.name}.`;
       let BanInfo = {};

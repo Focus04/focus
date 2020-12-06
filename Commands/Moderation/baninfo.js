@@ -32,7 +32,7 @@ module.exports = {
         { name: `Issued by:`, value: bannedUser.author}
       )
       .setTimestamp();
-    if (bannedUser.reason) banInfoEmbed.addField('Reason:', '`' + bannedUser.reason + '`');
+    if (bannedUser.reason) banInfoEmbed.addField('Reason:', bannedUser.reason);
     if (bannedUser.unbanDate) banInfoEmbed.addField('Days Remaining:', Math.floor((bannedUser.unbanDate - Date.now()) / 86400000) + 1);
     await message.channel.send(banInfoEmbed);
     message.react(reactionSuccess);

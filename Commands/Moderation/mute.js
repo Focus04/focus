@@ -99,18 +99,20 @@ module.exports = {
         { name: `Issued by:`, value: `${author}` },
         { name: `Duration:`, value: `${mins} minutes` },
       )
-      .setFooter(`You can use ${prefix}unmute to unmute the user earlier than ${mins} minutes.`)
+      .setFooter(`You can use ${prefix}unmute to unmute the user earlier than ${mins} minutes and ${prefix}muteinfo to view information about his mute.`)
       .setTimestamp();
+    let MuteInfo = {};
+    MuteInfo.userID = member.user.id;
+    MuteInfo.unmuteDate = Date.now() + mins * 60000;
+    MuteInfo.author = author;
     let msg = `${ author } has muted you from ${ message.guild.name }. Duration: ${mins} minutes.`;
     if (args.length > 0) {
       const reason = '`' + args.join(' ') + '`';
       muteEmbed.addField('Reason', reason);
-      msg += ` Reason: ${reason}.`
+      msg += ` Reason: ${reason}.`;
+      MuteInfo.reason = reason;
     }
     member.send(msg);
-    let MuteInfo = {};
-    MuteInfo.userID = member.user.id;
-    MuteInfo.unmuteDate = Date.now() + mins * 60000;
     let mutedMembersArr = await mutedMembers.get(message.guild.id);
     if (!mutedMembersArr) mutedMembersArr = [];
     mutedMembersArr.push(MuteInfo);
