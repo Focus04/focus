@@ -65,6 +65,7 @@ module.exports = {
       let BanInfo = {};
       BanInfo.userID = member.user.id;
       BanInfo.username = member.user.username;
+      BanInfo.author = author;
       let bannedUsersArr = await bannedUsers.get(message.guild.id);
       if (!bannedUsersArr) bannedUsersArr = [];
       bannedUsersArr.push(BanInfo);
@@ -88,6 +89,7 @@ module.exports = {
         const reason = '`' + args.join(' ') + '`';
         banEmbed.addField('Reason', reason);
         msg += ` Reason: ${reason}.`;
+        BanInfo.reason = reason;
       }
       const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
       const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
@@ -126,12 +128,13 @@ module.exports = {
           { name: `Issued by:`, value: `${author}` },
           { name: `Duration:`, value: `${days} days` }
         )
-        .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier than ${days} days.`)
+        .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier than ${days} days or ${prefix}baninfo ${member.user.username} to view information about his ban.`)
         .setTimestamp();
       let BanInfo = {};
       BanInfo.userID = member.user.id;
       BanInfo.username = member.user.username;
       BanInfo.unbanDate = Date.now() + days * 86400000;
+      BanInfo.author = author;
       let bannedUsersArr = await bannedUsers.get(message.guild.id);
       if (!bannedUsersArr) bannedUsersArr = [];
       bannedUsersArr.push(BanInfo);
@@ -141,6 +144,7 @@ module.exports = {
         const reason = '`' + args.join(' ') + '`';
         banEmbed.addField('Reason', reason);
         msg += ` Reason: ${reason}`;
+        BanInfo.reason = reason;
       }
       const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
       const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
