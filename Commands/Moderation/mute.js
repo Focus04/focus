@@ -8,7 +8,7 @@ const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require(
 module.exports = {
   name: 'mute',
   description: `Restricts a user from sending messages.`,
-  usage: 'mute @`user` `minutes` `reason`',
+  usage: 'mute @`user` `minutes` `(reason)`',
   requiredPerms: 'KICK_MEMBERS',
   permError: 'You require the Kick Members permission in order to run this command.',
   async execute(message, args, prefix) {
@@ -25,8 +25,8 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    if (!member || isNaN(mins) || !args[2]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}mute @[user] [minutes] [reason]`);
+    if (!member || isNaN(mins) || !args[1]) {
+      let msg = await message.channel.send(`Proper command usage: ${prefix}mute @[user] [minutes] (reason)`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
     }
@@ -62,7 +62,6 @@ module.exports = {
     if (!mutes) mutes = 1;
     else mutes = mutes + 1;
 
-    member.send(`${author} has muted you from ${message.guild.name} for ${reason}. Duration: ${mins}.`);
     if (!mutedRole) {
       await message.guild.roles.create({
         data: {
@@ -98,11 +97,17 @@ module.exports = {
       .addFields(
         { name: `Defendant's name:`, value: `${member.user.tag}` },
         { name: `Issued by:`, value: `${author}` },
-        { name: `Reason:`, value: `${reason}` },
         { name: `Duration:`, value: `${mins} minutes` },
       )
       .setFooter(`You can use ${prefix}unmute to unmute the user earlier than ${mins} minutes.`)
       .setTimestamp();
+    let msg = `${ author } has muted you from ${ message.guild.name }. Duration: ${mins} minutes.`;
+    if (args.length > 0) {
+      const reason = '`' + args.join(' ') + '`';
+      muteEmbed.addField('Reason', reason);
+      msg += ` Reason: ${reason}.`
+    }
+    member.send(msg);
     let MuteInfo = {};
     MuteInfo.userID = member.user.id;
     MuteInfo.unmuteDate = Date.now() + mins * 60000;

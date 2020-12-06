@@ -7,7 +7,7 @@ const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require(
 module.exports = {
   name: 'kick',
   description: `Kicks a certain user out of the server.`,
-  usage: 'kick @`user` `reason`',
+  usage: 'kick @`user` `(reason)`',
   requiredPerms: 'KICK_MEMBERS',
   permError: 'It appears that you lack permissions to kick.',
   async execute(message, args, prefix) {
@@ -20,8 +20,8 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    if (!member || !args[1]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}kick @[user] [reason]`);
+    if (!member) {
+      let msg = await message.channel.send(`Proper command usage: ${prefix}kick @[user] (reason)`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
     }
@@ -51,7 +51,6 @@ module.exports = {
     }
 
     args.shift();
-    const reason = '`' + args.join(' ') + '`';
     const author = message.author.username;
     let kicks = await kks.get(`kicks_${member.id}_${message.guild.id}`)
     if (!kicks) kicks = 1;
@@ -62,11 +61,16 @@ module.exports = {
       .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Kick Information`)
       .addFields(
         { name: `Defendant's name:`, value: `${member.user.tag}` },
-        { name: `Issued by:`, value: `${author}` },
-        { name: `Reason:`, value: `${reason}` }
+        { name: `Issued by:`, value: `${author}` }
       )
       .setTimestamp();
-    await member.send(`${author} kicked you from ${message.guild.name} for ${reason}.`);
+    let msg = `${author} kicked you from ${message.guild.name}.`;
+    if (args.length > 0) {
+      const reason = '`' + args.join(' ') + '`';
+      kickEmbed.addField('Reason', reason);
+      msg += ` Reason: ${reason}`;
+    }
+    await member.send(msg);
     const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
     const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
     if (!log) await message.channel.send(kickEmbed);
