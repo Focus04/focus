@@ -62,14 +62,6 @@ module.exports = {
       }
 
       args.shift();
-      let BanInfo = {};
-      BanInfo.userID = member.user.id;
-      BanInfo.username = member.user.username;
-      BanInfo.author = author;
-      let bannedUsersArr = await bannedUsers.get(message.guild.id);
-      if (!bannedUsersArr) bannedUsersArr = [];
-      bannedUsersArr.push(BanInfo);
-      await bannedUsers.set(message.guild.id, bannedUsersArr);
       let bans = await bns.get(`bans_${member.id}_${message.guild.id}`);
       if (!bans) bans = 1;
       else bans = bans + 1;
@@ -85,12 +77,20 @@ module.exports = {
         .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier.`)
         .setTimestamp();
       let msg = `${author} has permanently banned you from ${message.guild.name}.`;
+      let BanInfo = {};
+      BanInfo.userID = member.user.id;
+      BanInfo.username = member.user.username;
+      BanInfo.author = author;
       if (args.length > 0) {
         const reason = '`' + args.join(' ') + '`';
         banEmbed.addField('Reason', reason);
         msg += ` Reason: ${reason}.`;
-        BanInfo.reason = reason;
+        BanInfo.reason = '`' + reason + '`';
       }
+      let bannedUsersArr = await bannedUsers.get(message.guild.id);
+      if (!bannedUsersArr) bannedUsersArr = [];
+      bannedUsersArr.push(BanInfo);
+      await bannedUsers.set(message.guild.id, bannedUsersArr);
       const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
       const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
       if (!log) await message.channel.send(banEmbed);
@@ -135,10 +135,6 @@ module.exports = {
       BanInfo.username = member.user.username;
       BanInfo.unbanDate = Date.now() + days * 86400000;
       BanInfo.author = author;
-      let bannedUsersArr = await bannedUsers.get(message.guild.id);
-      if (!bannedUsersArr) bannedUsersArr = [];
-      bannedUsersArr.push(BanInfo);
-      await bannedUsers.set(message.guild.id, bannedUsersArr);
       let msg = `${author} has permanently banned you from ${message.guild.name}. Duration: ${days} days.`;
       if (args.length > 0) {
         const reason = '`' + args.join(' ') + '`';
@@ -146,6 +142,10 @@ module.exports = {
         msg += ` Reason: ${reason}`;
         BanInfo.reason = reason;
       }
+      let bannedUsersArr = await bannedUsers.get(message.guild.id);
+      if (!bannedUsersArr) bannedUsersArr = [];
+      bannedUsersArr.push(BanInfo);
+      await bannedUsers.set(message.guild.id, bannedUsersArr);
       const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
       const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
       if (!log) await message.channel.send(banEmbed);

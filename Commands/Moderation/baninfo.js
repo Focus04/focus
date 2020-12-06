@@ -5,13 +5,13 @@ const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require(
 
 module.exports = {
   name: 'baninfo',
-  description: 'View details about a banned user',
+  description: 'View details about a banned user.',
   usage: 'baninfo `username`',
   requiredPerms: 'BAN_MEMBERS',
   permError: 'You require the Ban Members permission in order to run this command.',
   async execute(message, args, prefix) {
     if (!args[0]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}baninfo username`);
+      let msg = await message.channel.send(`Proper command usage: ${prefix}baninfo [username]`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
     }
@@ -32,8 +32,8 @@ module.exports = {
         { name: `Issued by:`, value: bannedUser.author}
       )
       .setTimestamp();
-    if (bannedUser.reason) banInfoEmbed.addField('Reason:', bannedUser.reason);
-    if (bannedUser.unbanDate) banInfoEmbed.addField('Days Remaining:', Math.floor((bannedUser.unbanDate - Date.now()) / 86400000));
+    if (bannedUser.reason) banInfoEmbed.addField('Reason:', '`' + bannedUser.reason + '`');
+    if (bannedUser.unbanDate) banInfoEmbed.addField('Days Remaining:', Math.floor((bannedUser.unbanDate - Date.now()) / 86400000) + 1);
     await message.channel.send(banInfoEmbed);
     message.react(reactionSuccess);
   }
