@@ -27,9 +27,9 @@ module.exports = {
       return message.delete({ timeout: deletionTimeout });
     }
 
-    const notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
     let content = '';
-    notes.forEach((note) => content += note);
+    const notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
+    if (notes) notes.forEach((note) => content += note);
     await message.channel.send('Check your inbox.');
     if (!notes[0]) message.author.send(`There are no notes linked to ${member.user.username}.`);
     else {
