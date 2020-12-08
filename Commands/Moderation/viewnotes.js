@@ -10,11 +10,21 @@ module.exports = {
   requiredPerms: 'KICK_MEMBERS',
   permError: 'You require the Kick Members permission in order to run this command.',
   async execute(message, args, prefix) {
-    const member = message.mentions.members.first();
-    if (!member || !args[0]) {
+    if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}viewnotes @[user]`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
+    }
+
+    let member = {};
+    if (isNaN(args[0])) member = message.mentions.members.first();
+    else member = await message.guild.members.fetch(args[0]).catch(async (err) => {
+      let msg = await message.channel.send(`Couldn't find ${args[0]}`);
+      return message.delete({ timeout: deletionTimeout });
+    });
+    if (!member) {
+      let msg = await message.channel.send(`Couldn't find ${args[0]}`);
+      return message.delete({ timeout: deletionTimeout });
     }
 
     const notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
