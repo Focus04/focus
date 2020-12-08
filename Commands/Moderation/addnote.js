@@ -15,7 +15,9 @@ module.exports = {
       return msg.delete({ timeout: deletionTimeout });
     }
 
-    const member = await message.guild.members.fetch(args[0]).catch((err) => member = message.mentions.members.first());
+    let member = await message.guild.members.fetch(args[0]).catch((err) => {
+      if (err) member = message.mentions.members.first()
+    });
     if (!member) {
       let msg = await message.channel.send(`Couldn't find ${args[0]}`);
       return message.delete({ timeout: deletionTimeout });
