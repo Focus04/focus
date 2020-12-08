@@ -16,9 +16,8 @@ module.exports = {
     }
 
     let member = {};
-    member = await message.guild.members.fetch(args[0]).catch((err) => {
-      if (err) member = message.mentions.members.first()
-    });
+    if (isNaN(args[0])) member = message.mentions.members.first();
+    else member = await message.guild.members.fetch(args[0]);
     if (!member) {
       let msg = await message.channel.send(`Couldn't find ${args[0]}`);
       return message.delete({ timeout: deletionTimeout });
