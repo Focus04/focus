@@ -15,7 +15,8 @@ module.exports = {
       return msg.delete({ timeout: deletionTimeout });
     }
 
-    let member = await message.guild.members.fetch(args[0]).catch((err) => {
+    let member = {};
+    member = await message.guild.members.fetch(args[0]).catch((err) => {
       if (err) member = message.mentions.members.first()
     });
     if (!member) {
