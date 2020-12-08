@@ -11,12 +11,11 @@ module.exports = {
   permError: 'You require the Kick Members permission in order to run this command.',
   async execute(message, args, prefix) {
     if (!args[1]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}addnote @[user] [note]`);
+      let msg = await message.channel.send(`Proper command usage: ${prefix}addnote @[user]/[userID] [note]`);
       return msg.delete({ timeout: deletionTimeout });
     }
 
-    const member = await message.guild.members.fetch(args[0]);
-    if (!member) member = message.mentions.members.first();
+    const member = await message.guild.members.fetch(args[0]).catch((err) => member = message.mentions.members.first());
     if (!member) {
       let msg = await message.channel.send(`Couldn't find ${args[0]}`);
       return message.delete({ timeout: deletionTimeout });
