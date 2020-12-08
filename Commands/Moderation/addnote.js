@@ -6,14 +6,20 @@ const { deletionTimeout } = require('../../config.json');
 module.exports = {
   name: 'addnote',
   description: `Adds an admin note on someone's account. All staff members will be able to view this note.`,
-  usage: 'addnote @`user` `note`',
+  usage: 'addnote @`user`/`userID` `note`',
   requiredPerms: 'KICK_MEMBERS',
   permError: 'You require the Kick Members permission in order to run this command.',
   async execute(message, args, prefix) {
-    const member = message.mentions.members.first();
-    if (!args[1] || !member) {
+    if (!args[1]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}addnote @[user] [note]`);
       return msg.delete({ timeout: deletionTimeout });
+    }
+
+    const member = await message.guild.members.fetch(args[0]);
+    if (!member) member = message.mentions.members.first();
+    if (!member) {
+      let msg = await message.channel.send(`Couldn't find ${args[0]}`);
+      return message.delete({ timeout: deletionTimeout });
     }
 
     args.shift();
