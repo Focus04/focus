@@ -16,11 +16,11 @@ module.exports = {
     }
 
     let member = {};
-    if (isNaN(args[0])) member = message.mentions.members.first().catch((err) => {
+    if (isNaN(args[0])) member = message.mentions.members.first().catch(async (err) => {
       let msg = await message.channel.send(`Couldn't find ${args[0]}`);
       return message.delete({ timeout: deletionTimeout });
     });
-    else member = await message.guild.members.fetch(args[0]).catch((err) => {
+    else member = await message.guild.members.fetch(args[0]).catch(async (err) => {
       let msg = await message.channel.send(`Couldn't find ${args[0]}`);
       return message.delete({ timeout: deletionTimeout });
     });
