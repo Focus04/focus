@@ -3,9 +3,9 @@ const fetch = require('node-fetch');
 const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 
 module.exports = {
-  name: 'osgstatus',
+  name: 'rgstatus',
   description: `Tells you live information about your favourite SA-MP community!`,
-  usage: 'osgstatus',
+  usage: 'rgstatus',
   guildOnly: true,
   async execute(message) {
     if (message.guild.id !== '783743580119236709') return;
@@ -35,7 +35,7 @@ module.exports = {
         { name: 'Players', value: `${data.num_players}/${data.max_players}`, inline: true },
         { name: 'Name(ID) - Score - Ping', value: `${players}` }
       )
-      .setThumbnail('https://images-ext-1.discordapp.net/external/rzBGphe1bc-RWrbHzLQdbeSigBFw40lwLJS3PoppyCU/%3Fsize%3D1024/https/cdn.discordapp.com/icons/783743580119236709/29b4b6388600e4843c7bb52e721bec03.webp?width=475&height=475')
+      .setThumbnail('https://cdn.discordapp.com/icons/783743580119236709/d8883d48240bf0f14ec5e5941ecd4e9b.webp')
       .setTimestamp();
     await message.channel.send(rgembed);
     message.react(reactionSuccess);

@@ -16,7 +16,7 @@ module.exports = {
       let welcomeCmds = '';
       fs.readdirSync('./Commands/Debug').forEach((file) => debugCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
       fs.readdirSync('./Commands/Fun').forEach((file) => {
-        if (file !== 'osgstatus.js') funCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `;
+        if (file !== 'rgstatus.js') funCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `;
       });
       fs.readdirSync('./Commands/Info').forEach((file) => infoCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
       fs.readdirSync('./Commands/Logging').forEach((file) => loggingCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
