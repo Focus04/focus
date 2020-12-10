@@ -6,7 +6,7 @@ module.exports = {
   description: 'Displays the avatar(s) of certain users.',
   usage: 'avatar `(user(s))`',
   execute(message, args) {
-    if (!message.mentions.members[0]) {
+    if (!message.mentions.members.first()) {
       const avatarEmbed = new Discord.MessageEmbed()
         .setColor('#00ffbb')
         .setTitle('Your avatar')
