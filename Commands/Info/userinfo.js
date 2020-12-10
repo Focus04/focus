@@ -28,7 +28,7 @@ module.exports = {
         .setTimestamp();
       message.channel.send(userInfoEmbed);
     } else {
-      message.mentions.members.forEach((member) => {
+      message.mentions.members.forEach(async (member) => {
         let err = 0;
         if (!member) {
           err = 1;
