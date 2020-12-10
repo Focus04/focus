@@ -30,7 +30,7 @@ module.exports = {
         { name: 'Server IP', value: `${data.ip}:${data.port}`, inline: true },
         { name: 'Map', value: `${data.mapname}`, inline: true },
         { name: 'Time', value: `${data.worldtime}`, inline: true },
-        { name: 'Forums', value: 'https://osgclan.net/', inline: true },
+        { name: 'Forums', value: 'http://rg-clan.com/', inline: true },
         { name: 'Version', value: `${data.version}`, inline: true },
         { name: 'Players', value: `${data.num_players}/${data.max_players}`, inline: true },
         { name: 'Name(ID) - Score - Ping', value: `${players}` }
