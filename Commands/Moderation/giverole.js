@@ -25,6 +25,12 @@ module.exports = {
       return message.react(reactionError);
     }
 
+    if (!member) {
+      let msg = await message.channel.send(`Couldn't find ${args[0]}`);
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
+    }
+
     args.shift();
     const roleName = args.join(' ').toLowerCase();
     const role = message.guild.roles.cache.find((role) => role.name.toLowerCase().startsWith(roleName));

@@ -20,8 +20,14 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    if (!member) {
+    if (!args[1]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}kick @[user] (reason)`);
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
+    }
+
+    if (!member) {
+      let msg = await message.channel.send(`Couldn't find ${args[0]}`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
     }

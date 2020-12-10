@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const moment = require('moment');
+const { deletionTimeout } = require('../../config.json');
 
 module.exports = {
   name: 'userinfo',
@@ -28,25 +29,33 @@ module.exports = {
       message.channel.send(userInfoEmbed);
     } else {
       message.mentions.members.forEach((member) => {
-        const roles = '```' + member.roles.cache.map((role) => role.name).join(`, `) + '```';
-        const perms = '```' + member.permissions.toArray().join(`\n`) + '```';
-        let badges = '```' + member.user.flags.toArray().join(', ') + '```';
-        if(badges === '``````') badges = '```None```';
-        const userInfoEmbed = new Discord.MessageEmbed()
-          .setColor('#00ffbb')
-          .setTitle(`${member.user.username}'s User Information`)
-          .addFields(
-            { name: 'Username: ', value: `${member.user.tag}` },
-            { name: 'User ID: ', value: `${member.user.id}` },
-            { name: 'Account Since:', value: `${moment(member.user.createdTimestamp).format('LT')} ${moment(member.user.createdTimestamp).format('LL')} (${moment(member.user.createdTimestamp).fromNow()})` },
-            { name: 'Badges', value: `${badges}` },
-            { name: 'Joined At:', value: `${moment(member.joinedTimestamp).format('LT')} ${moment(member.joinedTimestamp).format('LL')} (${moment(member.joinedTimestamp).fromNow()})` },
-            { name: 'Roles:', value: `${roles}` },
-            { name: 'Permissions', value: `${perms}` }
-          )
-          .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
-          .setTimestamp();
-        message.channel.send(userInfoEmbed);
+        let err = 0;
+        if (!member) {
+          err = 1;
+          let msg = await message.channel.send(`Couldn't find ${member}`);
+          return msg.delete({ timeout: deletionTimeout });
+        }
+        if (err == 0) {
+          const roles = '```' + member.roles.cache.map((role) => role.name).join(`, `) + '```';
+          const perms = '```' + member.permissions.toArray().join(`\n`) + '```';
+          let badges = '```' + member.user.flags.toArray().join(', ') + '```';
+          if(badges === '``````') badges = '```None```';
+          const userInfoEmbed = new Discord.MessageEmbed()
+            .setColor('#00ffbb')
+            .setTitle(`${member.user.username}'s User Information`)
+            .addFields(
+              { name: 'Username: ', value: `${member.user.tag}` },
+              { name: 'User ID: ', value: `${member.user.id}` },
+              { name: 'Account Since:', value: `${moment(member.user.createdTimestamp).format('LT')} ${moment(member.user.createdTimestamp).format('LL')} (${moment(member.user.createdTimestamp).fromNow()})` },
+              { name: 'Badges', value: `${badges}` },
+              { name: 'Joined At:', value: `${moment(member.joinedTimestamp).format('LT')} ${moment(member.joinedTimestamp).format('LL')} (${moment(member.joinedTimestamp).fromNow()})` },
+              { name: 'Roles:', value: `${roles}` },
+              { name: 'Permissions', value: `${perms}` }
+            )
+            .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+            .setTimestamp();
+          message.channel.send(userInfoEmbed);
+        }
       });
     }
   }
