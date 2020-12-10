@@ -7,7 +7,7 @@ module.exports = {
   description: `Displays information about a user's account account.`,
   usage: 'userinfo `(user(s))`',
   execute(message, args) {
-    if (!args[0]) {
+    if (!message.mentions.members.first()) {
       const roles = '```' + message.member.roles.cache.map((role) => role.name).join(`, `) + '```';
       const perms = '```' + message.member.permissions.toArray().join(`\n`) + '```';
       let badges = '```' + message.author.flags.toArray().join(', ') + '```';
