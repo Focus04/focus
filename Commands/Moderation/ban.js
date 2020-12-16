@@ -34,15 +34,7 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    let modHighestRole = -1;
-    let memberHighestRole = -1;
-    message.member.roles.cache.forEach((r) => {
-      if (r.position > modHighestRole) modHighestRole = r.position;
-    });
-    member.roles.cache.forEach((r) => {
-      if (r.position > memberHighestRole) memberHighestRole = r.position;
-    });
-    if (modHighestRole <= memberHighestRole) {
+    if (message.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
       let msg = await message.channel.send('Your roles must be higher than the roles of the person you want to ban!');
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
