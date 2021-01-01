@@ -103,7 +103,7 @@ module.exports = {
     MuteInfo.userID = member.user.id;
     MuteInfo.unmuteDate = Date.now() + mins * 60000;
     MuteInfo.author = author;
-    let msg = `${ author } has muted you from ${ message.guild.name }. Duration: ${mins} minutes.`;
+    let msg = `${author} has muted you from ${message.guild.name}. Duration: ${mins} minutes.`;
     if (args.length > 0) {
       const reason = '`' + args.join(' ') + '`';
       muteEmbed.addField('Reason', reason);
