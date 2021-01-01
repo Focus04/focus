@@ -39,6 +39,7 @@ module.exports = (client) => {
 
         let mutedMembersArr = await mutedMembers.get(guild.id);
         if (mutedMembersArr) {
+          console.log(`Found ${guild.id}: ${mutedMembersArr}`);
           mutedMembersArr.forEach(async (arrElement) => {
             console.log(`Date: ${Date.now()} Unmute: ${arrElement.unmuteDate}`);
             if(arrElement.unmuteDate <= Date.now()) {
