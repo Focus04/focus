@@ -12,8 +12,6 @@ module.exports = {
   permError: 'It appears that you lack permissions to kick.',
   async execute(message, args, prefix) {
     const member = message.mentions.members.first();
-    let modHighestRole = -1;
-    let memberHighestRole = -1;
     if (!message.guild.me.hasPermission('KICK_MEMBERS')) {
       let msg = await message.channel.send('I require the `Kick Members` permission in order to perform this action.');
       msg.delete({ timeout: deletionTimeout });
@@ -38,13 +36,7 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    message.member.roles.cache.forEach((r) => {
-      if (r.position > modHighestRole) modHighestRole = r.position;
-    });
-    member.roles.cache.forEach((r) => {
-      if (r.position > memberHighestRole) memberHighestRole = r.position;
-    });
-    if (modHighestRole <= memberHighestRole) {
+    if (message.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
       let msg = await message.channel.send('Your roles must be higher than the roles of the person you want to kick!');
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);

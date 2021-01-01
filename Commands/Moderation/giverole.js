@@ -11,8 +11,6 @@ module.exports = {
   permError: 'You require the Manage Roles permission in order to run this command.',
   async execute(message, args, prefix) {
     const member = message.mentions.members.first();
-    let botHighestRole = -1;
-    let highestRole = -1;
     if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
       let msg = await message.channel.send('I need the Manage Roles permission in order to execute this command.');
       msg.delete({ timeout: deletionTimeout });
@@ -47,19 +45,13 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    message.guild.me.roles.cache.map((r) => {
-      if (r.position > botHighestRole) botHighestRole = r.position;
-    });
-    if (role.position >= botHighestRole) {
+    if (message.guild.me.roles.highest.comparePositionTo(role) <= 0) {
       let msg = await message.channel.send('My roles must be higher than the role that you want to give!');
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
     }
     
-    message.member.roles.cache.map((r) => {
-      if (r.position > highestRole) highestRole = r.position;
-    });
-    if (role.position >= highestRole) {
+    if (message.member.roles.highest.comparePositionTo(role) <= 0) {
       let msg = await message.channel.send('Your roles must be higher than the role that you want to give!');
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);

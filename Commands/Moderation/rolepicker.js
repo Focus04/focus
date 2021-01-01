@@ -17,21 +17,13 @@ module.exports = {
     args.forEach(async (arg) => {
       if (args.indexOf(arg) % 2 == 0 && arg.startsWith('<@&') && arg.endsWith('>') && arg.length == 22) {
         let role = message.guild.roles.cache.get(arg.substring(3, 21));
-        let botHighestRole = -1;
-        let highestRole = -1;
-        message.guild.me.roles.cache.forEach((r) => {
-          if (r.position > botHighestRole) botHighestRole = r.position;
-        });
-        if (role.position >= botHighestRole) {
+        if (message.guild.me.roles.highest.comparePositionTo(role) <= 0) {
           err = 1;
           let msg = await message.channel.send(`Error at role ${'`' + role.name + '`'}. My roles must be higher than the role that you want to set.`);
           return msg.delete({ timeout: deletionTimeout });
         }
 
-        message.member.roles.cache.forEach((r) => {
-          if (r.position > highestRole) highestRole = r.position;
-        });
-        if (role.position >= highestRole) {
+        if (message.member.roles.highest.comparePositionTo(role) <= 0) {
           err = 1;
           let msg = await message.channel.send(`Error at role ${'`' + role.name + '`'}. Your roles must be higher than the role that you want to set.`);
           return msg.delete({ timeout: deletionTimeout });

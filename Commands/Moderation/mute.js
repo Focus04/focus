@@ -17,8 +17,6 @@ module.exports = {
     const author = message.author.username;
     const mins = args[1];
     let mutedRole = message.guild.roles.cache.find((r) => r.name === 'Muted Member');
-    let modHighestRole = -1;
-    let memberHighestRole = -1;
     if (!message.guild.me.hasPermission('MANAGE_ROLES') || !message.guild.me.hasPermission('MANAGE_CHANNELS')) {
       let msg = await message.channel.send('I require the `Manage Roles` and `Manage Channels` permissions in order to perform this action.');
       msg.delete({ timeout: deletionTimeout });
@@ -49,13 +47,7 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    message.member.roles.cache.forEach((r) => {
-      if (r.position > modHighestRole) modHighestRole = r.position;
-    });
-    member.roles.cache.forEach((r) => {
-      if (r.position > memberHighestRole) memberHighestRole = r.position;
-    });
-    if (modHighestRole <= memberHighestRole) {
+    if (message.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
       let msg = await message.channel.send('Your roles must be higher than the roles of the person you want to mute!');
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);

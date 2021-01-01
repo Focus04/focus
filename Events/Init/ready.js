@@ -43,6 +43,8 @@ module.exports = (client) => {
             if(arrElement.unmuteDate <= Date.now()) {
               const member = await guild.members.fetch(arrElement.userID);
               const mutedRole = guild.roles.cache.find((role) => role.name === 'Muted Member');
+              console.log(member.roles.cache);
+              console.log(mutedRole.id);
               if (member.roles.cache.has(mutedRole.id)) {
                 member.roles.remove(mutedRole);
                 if (log) log.send(`${member} has been unmuted.`);

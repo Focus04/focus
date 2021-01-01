@@ -38,21 +38,13 @@ module.exports = {
       return message.react(reactionError)
     }
 
-    let botHighestRole = -1;
-    let highestRole = -1;
-    message.guild.me.roles.cache.map((r) => {
-      if (r.position > botHighestRole) botHighestRole = r.position;
-    });
-    if (role.position >= botHighestRole) {
+    if (message.guild.me.roles.highest.comparePositionTo(role) <= 0) {
       let msg = await message.channel.send('My roles must be higher than the role that you want to take!');
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
     }
 
-    message.member.roles.cache.map((r) => {
-      if (r.position > highestRole) highestRole = r.position;
-    });
-    if (role.position >= highestRole) {
+    if (message.member.roles.highest.comparePositionTo(role) <= 0) {
       let msg = await message.channel.send('Your roles must be higher than the role that you want to take.');
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
