@@ -12,8 +12,9 @@ module.exports = (client) => {
   setInterval(async () => {
     const guilds = await punishments.get('guilds');
     guilds.forEach(async (guildID) => {
+      console.log(`Found ${guildID}`);
+      const guild = await client.guilds.fetch(guildID);
       let bannedUsersArr = await bannedUsers.get(guildID);
-      const guild = client.guilds.cache.get(guildID);
       const logChName = await logChannels.get(`logchannel_${guildID}`);
       const log = guild.channels.cache.find((ch) => ch.name === `${logChName}`);
       if (bannedUsersArr) {
