@@ -15,8 +15,8 @@ module.exports = (client) => {
       console.log(`Found ${guildID}`);
       const guild = await client.guilds.fetch(guildID);
       console.log(`ID: ${guild.id}`);
-      let bannedUsersArr = await bannedUsers.get(guildID);
-      const logChName = await logChannels.get(`logchannel_${guildID}`);
+      let bannedUsersArr = await bannedUsers.get(guild.id);
+      const logChName = await logChannels.get(`logchannel_${guild.id}`);
       const log = guild.channels.cache.find((ch) => ch.name === `${logChName}`);
       if (bannedUsersArr) {
         bannedUsersArr.forEach((user) => {
@@ -29,10 +29,10 @@ module.exports = (client) => {
             }
           }
         });
-        bannedUsers.set(guildID, bannedUsersArr);
+        bannedUsers.set(guild.id, bannedUsersArr);
       }
 
-      let remindersArr = await reminders.get(guildID);
+      let remindersArr = await reminders.get(guild.id);
       if (remindersArr) {
         remindersArr.forEach(async (reminder) => {
           if (reminder.date <= Date.now()) {
@@ -41,9 +41,9 @@ module.exports = (client) => {
             remindersArr.splice(remindersArr.indexOf(reminder), 1);
           }
         });
-        reminders.set(guildID, remindersArr);
+        reminders.set(guild.id, remindersArr);
 
-        let mutedMembersArr = await mutedMembers.get(guildID);
+        let mutedMembersArr = await mutedMembers.get(guild.id);
         if (mutedMembersArr) {
           mutedMembersArr.forEach(async (arrElement) => {
             if (arrElement.unmuteDate <= Date.now()) {
@@ -57,7 +57,7 @@ module.exports = (client) => {
               mutedMembersArr.splice(mutedMembersArr.indexOf(arrElement), 1);
             }
           });
-          await mutedMembers.set(guildID, mutedMembersArr);
+          await mutedMembers.set(guild.id, mutedMembersArr);
         }
       }
     });
