@@ -13,7 +13,6 @@ module.exports = (client) => {
     const guilds = await punishments.get('guilds');
     guilds.forEach(async (guildID) => {
       const guild = await client.guilds.fetch(guildID);
-      console.log(`Fetched: ${guild.id}`);
       let bannedUsersArr = await bannedUsers.get(guild.id);
       const logChName = await logChannels.get(`logchannel_${guild.id}`);
       const log = guild.channels.cache.find((ch) => ch.name === `${logChName}`);
@@ -44,13 +43,10 @@ module.exports = (client) => {
       }
 
       let mutedMembersArr = await mutedMembers.get(guild.id);
-      console.log(mutedMembersArr);
       if (mutedMembersArr && mutedMembersArr.length > 0) {
-        console.log(`Found muted members on ${guild.id}`);
         mutedMembersArr.forEach(async (arrElement) => {
           if (arrElement.unmuteDate <= Date.now()) {
             const member = await guild.members.fetch(arrElement.userID);
-            console.log(`Time to unmute ${member.user.username}`);
             const mutedRole = guild.roles.cache.find((role) => role.name === 'Muted Member');
             if (member.roles.cache.has(mutedRole.id)) {
               member.roles.remove(mutedRole);
