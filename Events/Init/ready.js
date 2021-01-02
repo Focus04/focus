@@ -41,26 +41,26 @@ module.exports = (client) => {
           }
         });
         reminders.set(guild.id, remindersArr);
+      }
 
-        let mutedMembersArr = await mutedMembers.get(guild.id);
-        console.log(mutedMembersArr);
-        if (mutedMembersArr && mutedMembersArr.length > 0) {
-          console.log(`Found muted members on ${guild.id}`);
-          mutedMembersArr.forEach(async (arrElement) => {
-            if (arrElement.unmuteDate <= Date.now()) {
-              const member = await guild.members.fetch(arrElement.userID);
-              console.log(`Time to unmute ${member.user.username}`);
-              const mutedRole = guild.roles.cache.find((role) => role.name === 'Muted Member');
-              if (member.roles.cache.has(mutedRole.id)) {
-                member.roles.remove(mutedRole);
-                if (log) log.send(`${member} has been unmuted.`);
-                member.send(`You have been unmuted from ${guild.name}.`);
-              }
-              mutedMembersArr.splice(mutedMembersArr.indexOf(arrElement), 1);
+      let mutedMembersArr = await mutedMembers.get(guild.id);
+      console.log(mutedMembersArr);
+      if (mutedMembersArr && mutedMembersArr.length > 0) {
+        console.log(`Found muted members on ${guild.id}`);
+        mutedMembersArr.forEach(async (arrElement) => {
+          if (arrElement.unmuteDate <= Date.now()) {
+            const member = await guild.members.fetch(arrElement.userID);
+            console.log(`Time to unmute ${member.user.username}`);
+            const mutedRole = guild.roles.cache.find((role) => role.name === 'Muted Member');
+            if (member.roles.cache.has(mutedRole.id)) {
+              member.roles.remove(mutedRole);
+              if (log) log.send(`${member} has been unmuted.`);
+              member.send(`You have been unmuted from ${guild.name}.`);
             }
-          });
-          await mutedMembers.set(guild.id, mutedMembersArr);
-        }
+            mutedMembersArr.splice(mutedMembersArr.indexOf(arrElement), 1);
+          }
+        });
+        await mutedMembers.set(guild.id, mutedMembersArr);
       }
     });
   }, 60000);
