@@ -9,7 +9,7 @@ module.exports = (client) => {
   console.log('I am live!');
   client.user.setActivity('your people.', { type: 'WATCHING' });
 
-  setInterval(() => {
+  setInterval(async () => {
     const guilds = await punishments.get('guilds');
     guilds.forEach(async (guildID) => {
       let bannedUsersArr = await bannedUsers.get(guildID);
