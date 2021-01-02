@@ -35,8 +35,8 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    if (mins > 720 || mins < 5) {
-      let msg = await message.channel.send('Minutes must be a positive number higher than 5 and less than 720.');
+    if (mins > 720 || mins <= 0) {
+      let msg = await message.channel.send('Minutes must be a positive number less than 720.');
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
     }
