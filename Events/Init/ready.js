@@ -5,7 +5,7 @@ const logChannels = new Keyv(process.env.logChannels);
 const mutedMembers = new Keyv(process.env.mutedMembers);
 const punishments = new Keyv(process.env.punishments);
 
-module.exports = (client) => {
+module.exports = async (client) => {
   console.log('I am live!');
   client.user.setActivity('your people.', { type: 'WATCHING' });
   await punishments.set('guilds', []);
