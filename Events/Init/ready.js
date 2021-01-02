@@ -13,7 +13,7 @@ module.exports = (client) => {
     const guilds = await punishments.get('guilds');
     guilds.forEach(async (guildID) => {
       const guild = await client.guilds.fetch(guildID);
-      console.log(`ID: ${guild.id}`);
+      console.log(`Fetched: ${guild.id}`);
       let bannedUsersArr = await bannedUsers.get(guild.id);
       const logChName = await logChannels.get(`logchannel_${guild.id}`);
       const log = guild.channels.cache.find((ch) => ch.name === `${logChName}`);
@@ -43,6 +43,7 @@ module.exports = (client) => {
         reminders.set(guild.id, remindersArr);
 
         let mutedMembersArr = await mutedMembers.get(guild.id);
+        console.log(mutedMembersArr);
         if (mutedMembersArr && mutedMembersArr.length > 0) {
           console.log(`Found muted members on ${guild.id}`);
           mutedMembersArr.forEach(async (arrElement) => {
