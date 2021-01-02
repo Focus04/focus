@@ -3,6 +3,7 @@ const Keyv = require('keyv');
 const mts = new Keyv(process.env.mts);
 const logChannels = new Keyv(process.env.logChannels);
 const mutedMembers = new Keyv(process.env.mutedMembers);
+const punishments = new Keyv(process.env.punishments);
 const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
 
 module.exports = {
@@ -112,9 +113,12 @@ module.exports = {
     }
     member.send(msg);
     let mutedMembersArr = await mutedMembers.get(message.guild.id);
+    let guilds = await punishments.get('guilds');
     if (!mutedMembersArr) mutedMembersArr = [];
+    if (!guilds.includes(message.guild.id)) guilds.push(message.guild.id);
     mutedMembersArr.push(MuteInfo);
-    mutedMembers.set(message.guild.id, mutedMembersArr);
+    await mutedMembers.set(message.guild.id, mutedMembersArr);
+    await punishments.set('guilds', guilds);
     const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
     const log = await message.guild.channels.cache.find(ch => ch.name === `${logChName}`);
     if (!log) await message.channel.send(muteEmbed);

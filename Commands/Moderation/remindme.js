@@ -1,5 +1,6 @@
 const Keyv = require('keyv');
 const reminders = new Keyv(process.env.reminders);
+const punishments = new Keyv(process.env.punishments);
 const { reactionError, reactionSuccess, deletionTimeout } = require('../../config.json');
 
 module.exports = {
@@ -26,9 +27,12 @@ module.exports = {
     Reminder.text = '`' + args.join(' ') + '`';
     Reminder.date = Date.now() + days * 86400000;
     let remindersArr = await reminders.get(message.guild.id);
+    let guilds = await punishments.get('guilds');
     if (!remindersArr) remindersArr = [];
+    if (!guilds.includes(message.guild.id)) guilds.push(message.guild.id);
     remindersArr.push(Reminder);
     await reminders.set(message.guild.id, remindersArr);
+    await punishments.set('guilds', guilds);
     message.channel.send(`Reminder successfully set for ${days} days from now.`);
     message.react(reactionSuccess);
   }

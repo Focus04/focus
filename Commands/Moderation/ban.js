@@ -3,6 +3,7 @@ const Keyv = require('keyv');
 const bns = new Keyv(process.env.bns);
 const logChannels = new Keyv(process.env.logChannels);
 const bannedUsers = new Keyv(process.env.bannedUsers);
+const punishments = new Keyv(process.env.punishmens);
 const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
 
 module.exports = {
@@ -80,9 +81,12 @@ module.exports = {
         BanInfo.reason = '`' + reason + '`';
       }
       let bannedUsersArr = await bannedUsers.get(message.guild.id);
+      let guilds = await punishments.get('guilds');
+      if (!guilds.includes(message.guild.id)) guilds.push(message.guild.id);
       if (!bannedUsersArr) bannedUsersArr = [];
       bannedUsersArr.push(BanInfo);
       await bannedUsers.set(message.guild.id, bannedUsersArr);
+      await punishments.set('guilds', guilds);
       const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
       const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
       if (!log) await message.channel.send(banEmbed);

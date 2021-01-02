@@ -5,15 +5,16 @@ const logChannels = new Keyv(process.env.logChannels);
 const mutedMembers = new Keyv(process.env.mutedMembers);
 const punishments = new Keyv(process.env.punishments);
 
-module.exports = async (client) => {
+module.exports = (client) => {
   console.log('I am live!');
   client.user.setActivity('your people.', { type: 'WATCHING' });
-  await punishments.set('guilds', []);
 
   setInterval(() => {
-    client.guilds.cache.forEach(async (guild) => {
-      let bannedUsersArr = await bannedUsers.get(guild.id);
-      const logChName = await logChannels.get(`logchannel_${guild.id}`);
+    const guilds = await punishments.get('guilds');
+    guilds.forEach(async (guildID) => {
+      let bannedUsersArr = await bannedUsers.get(guildID);
+      const guild = client.guilds.cache.get(guildID);
+      const logChName = await logChannels.get(`logchannel_${guildID}`);
       const log = guild.channels.cache.find((ch) => ch.name === `${logChName}`);
       if (bannedUsersArr) {
         bannedUsersArr.forEach((user) => {
@@ -26,10 +27,10 @@ module.exports = async (client) => {
             }
           }
         });
-        bannedUsers.set(guild.id, bannedUsersArr);
+        bannedUsers.set(guildID, bannedUsersArr);
       }
 
-      let remindersArr = await reminders.get(guild.id);
+      let remindersArr = await reminders.get(guildID);
       if (remindersArr) {
         remindersArr.forEach(async (reminder) => {
           if (reminder.date <= Date.now()) {
@@ -38,9 +39,9 @@ module.exports = async (client) => {
             remindersArr.splice(remindersArr.indexOf(reminder), 1);
           }
         });
-        reminders.set(guild.id, remindersArr);
+        reminders.set(guildID, remindersArr);
 
-        let mutedMembersArr = await mutedMembers.get(guild.id);
+        let mutedMembersArr = await mutedMembers.get(guildID);
         if (mutedMembersArr) {
           mutedMembersArr.forEach(async (arrElement) => {
             if (arrElement.unmuteDate <= Date.now()) {
@@ -54,7 +55,7 @@ module.exports = async (client) => {
               mutedMembersArr.splice(mutedMembersArr.indexOf(arrElement), 1);
             }
           });
-          await mutedMembers.set(guild.id, mutedMembersArr);
+          await mutedMembers.set(guildID, mutedMembersArr);
         }
       }
     });
