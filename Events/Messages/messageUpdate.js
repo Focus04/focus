@@ -5,7 +5,7 @@ const msgLogs = new Keyv(process.env.msgLogs);
 const { pinEmojiId } = require('../../config.json');
 
 module.exports = async (client, oldmsg, newmsg) => {
-  if (newmsg.channel.type !== 'text' || oldmsg.attachments[0]) return;
+  if (newmsg.channel.type !== 'text' || !newmsg.editedTimestamp) return;
   const logChName = await logChannels.get(`logchannel_${newmsg.guild.id}`);
   const log = newmsg.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
   const msgLog = await msgLogs.get(`msglogs_${newmsg.guild.id}`);
