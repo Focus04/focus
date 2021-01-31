@@ -11,8 +11,11 @@ module.exports = async (client, oldmsg, newmsg) => {
   const log = newmsg.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
   const msgLog = await msgLogs.get(`msglogs_${newmsg.guild.id}`);
   if (log && msgLog == 1) {
+    let color;
+    if (message.guild.me.roles.highest.color === '#000000') color = '#b9bbbe';
+    else color = message.guild.me.roles.highest.color;
     const editEmbed = new Discord.MessageEmbed()
-      .setColor(newmsg.guild.me.roles.highest.color)
+      .setColor(color)
       .setTitle(`${newmsg.client.emojis.cache.get(pinEmojiId).toString()} Message Edited`)
       .addFields(
         { name: 'Author:', value: newmsg.member },

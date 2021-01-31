@@ -11,8 +11,11 @@ module.exports = async (client, message) => {
   const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
   const msgLog = await msglogs.get(`msglogs_${message.guild.id}`);
   if (log && msgLog == 1) {
+    let color;
+    if (message.guild.me.roles.highest.color === '#000000') color = '#b9bbbe';
+    else color = message.guild.me.roles.highest.color;
     const deleteEmbed = new Discord.MessageEmbed()
-      .setColor(message.guild.me.roles.highest.color)
+      .setColor(color)
       .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Message Deleted`)
       .addFields(
         { name: 'Author:', value: message.member },
