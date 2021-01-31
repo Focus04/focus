@@ -11,6 +11,7 @@ module.exports = async (client, message) => {
   const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
   const msgLog = await msglogs.get(`msglogs_${message.guild.id}`);
   if (log && msgLog == 1) {
+    console.log(message.guild.me.roles.highest.color);
     let color;
     if (message.guild.me.roles.highest.color === '#000000') color = '#b9bbbe';
     else color = message.guild.me.roles.highest.color;
