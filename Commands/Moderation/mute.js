@@ -90,8 +90,11 @@ module.exports = {
 
     await mts.set(`mutes_${member.id}_${message.guild.id}`, mutes);
     member.roles.add(mutedRole);
+    let color;
+    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = newmsg.guild.me.roles.highest.color;
     const muteEmbed = new Discord.MessageEmbed()
-      .setColor('#00ffbb')
+      .setColor(color)
       .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Mute Information`)
       .addFields(
         { name: `Defendant's name:`, value: `${member.user.tag}` },

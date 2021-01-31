@@ -81,8 +81,11 @@ module.exports = {
         break;
     }
 
+    let color;
+    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = newmsg.guild.me.roles.highest.color;
     const weatherEmbed = new Discord.MessageEmbed()
-      .setColor('#00ffbb')
+      .setColor(color)
       .setTitle(`Weather in ${data.name}, ${data.sys.country}`)
       .addFields(
         { name: 'Temperature', value: `${data.main.temp} °C` },

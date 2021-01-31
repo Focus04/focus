@@ -23,8 +23,11 @@ module.exports = {
       return message.react(reactionError);
     }
 
+    let color;
+    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = newmsg.guild.me.roles.highest.color;
     const nasaSearchEmbed = new Discord.MessageEmbed()
-      .setColor('#00ffbb')
+      .setColor(color)
       .setTitle(data.collection.items[0].data[0].title)
       .setDescription(data.collection.items[0].data[0].description)
       .setImage(data.collection.items[0].links[0].href.split(' ').join('%20'))

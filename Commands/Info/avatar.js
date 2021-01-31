@@ -6,9 +6,12 @@ module.exports = {
   description: 'Displays the avatar(s) of certain users.',
   usage: 'avatar `(user(s))`',
   execute(message, args) {
+    let color;
+    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = newmsg.guild.me.roles.highest.color;
     if (!message.mentions.members.first()) {
       const avatarEmbed = new Discord.MessageEmbed()
-        .setColor('#00ffbb')
+        .setColor(color)
         .setTitle('Your avatar')
         .setImage(message.author.displayAvatarURL({ dynamic: true }))
         .setTimestamp();
@@ -23,7 +26,7 @@ module.exports = {
         }
         if (err == 0) {
           const avatarEmbed = new Discord.MessageEmbed()
-            .setColor('#00ffbb')
+            .setColor(color)
             .setTimestamp()
             .setTitle(`${member.user.username}'s avatar`)
             .setImage(member.user.displayAvatarURL({ dynamic: true }));

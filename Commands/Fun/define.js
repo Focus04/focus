@@ -33,8 +33,11 @@ module.exports = {
       .join('')
       .split(']')
       .join('');
+    let color;
+    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = newmsg.guild.me.roles.highest.color;
     const defineEmbed = new Discord.MessageEmbed()
-      .setColor('#00ffbb')
+      .setColor(color)
       .setTitle(`What does ${args[0]} mean?`)
       .addFields(
         { name: 'Definition', value: '```' + definition + '```' },

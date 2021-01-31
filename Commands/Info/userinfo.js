@@ -7,13 +7,16 @@ module.exports = {
   description: `Displays information about a user's account account.`,
   usage: 'userinfo `(user(s))`',
   execute(message, args) {
+    let color;
+    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = newmsg.guild.me.roles.highest.color;
     if (!message.mentions.members.first()) {
       const roles = '```' + message.member.roles.cache.map((role) => role.name).join(`, `) + '```';
       const perms = '```' + message.member.permissions.toArray().join(`\n`) + '```';
       let badges = '```' + message.author.flags.toArray().join(', ') + '```';
       if(badges === '``````') badges = '```None```';
       const userInfoEmbed = new Discord.MessageEmbed()
-        .setColor('#00ffbb')
+        .setColor(color)
         .setTitle('User Information')
         .addFields(
           { name: 'Username:', value: `${message.author.tag}` },
@@ -41,7 +44,7 @@ module.exports = {
           let badges = '```' + member.user.flags.toArray().join(', ') + '```';
           if(badges === '``````') badges = '```None```';
           const userInfoEmbed = new Discord.MessageEmbed()
-            .setColor('#00ffbb')
+            .setColor(color)
             .setTitle(`${member.user.username}'s User Information`)
             .addFields(
               { name: 'Username: ', value: `${member.user.tag}` },

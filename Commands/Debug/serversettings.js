@@ -61,8 +61,11 @@ module.exports = {
     if (leaveMessageState == 1) leaveMessageState = 'enabled';
     else leaveMessageState = 'disabled';
 
+    let color;
+    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = newmsg.guild.me.roles.highest.color;
     const botSettingsEmbed = new Discord.MessageEmbed()
-      .setColor('#00ffbb')
+      .setColor(color)
       .setTitle(`Server settings for ${message.guild.name}`)
       .addFields(
         { name: 'Prefix', value: '```' + prefix + '```', inline: true },

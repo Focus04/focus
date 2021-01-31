@@ -6,8 +6,11 @@ module.exports = {
   description: `Displays information about the server you're in.`,
   usage: 'serverinfo',
   execute(message) {
+    let color;
+    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = newmsg.guild.me.roles.highest.color;
     const serverInfoEmbed = new Discord.MessageEmbed()
-      .setColor('#00ffbb')
+      .setColor(color)
       .setTitle('Server Information')
       .addFields(
         { name: 'Server Name', value: `${message.guild.name}` },

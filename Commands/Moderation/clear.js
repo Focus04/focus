@@ -31,8 +31,11 @@ module.exports = {
       return message.react(reactionError);
     });
 
+    let color;
+    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = newmsg.guild.me.roles.highest.color;
     const clearEmbed = new Discord.MessageEmbed()
-      .setColor('#00ffbb')
+      .setColor(color)
       .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Cleared Messages`)
       .addFields(
         { name: 'Cleared by:', value: `${message.author.username}` },

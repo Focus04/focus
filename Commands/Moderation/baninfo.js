@@ -24,8 +24,11 @@ module.exports = {
       return message.react(reactionError);
     }
 
+    let color;
+    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = newmsg.guild.me.roles.highest.color;
     const banInfoEmbed = new MessageEmbed()
-      .setColor('#00ffbb')
+      .setColor(color)
       .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Ban Information`)
       .addFields(
         { name: `Defendant's name:`, value: args[0] },

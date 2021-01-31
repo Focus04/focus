@@ -43,8 +43,11 @@ module.exports = {
     if (!warns) warns = 1;
     else warns = warns + 1;
 
+    let color;
+    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = newmsg.guild.me.roles.highest.color;
     const warnEmbed = new Discord.MessageEmbed()
-      .setColor('#00ffbb')
+      .setColor(color)
       .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Warn Information`)
       .addFields(
         { name: `Defendant's name:`, value: `${member.user.tag}` },

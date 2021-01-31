@@ -7,6 +7,9 @@ module.exports = {
   description: 'Displays a list of all available commands along with their usage.',
   usage: 'help `(command)`',
   async execute(message, args, prefix) {
+    let color;
+    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = newmsg.guild.me.roles.highest.color;
     if (!args.length) {
       let debugCmds = '';
       let funCmds = '';
@@ -15,16 +18,14 @@ module.exports = {
       let staffCmds = '';
       let welcomeCmds = '';
       fs.readdirSync('./Commands/Debug').forEach((file) => debugCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
-      fs.readdirSync('./Commands/Fun').forEach((file) => {
-        if (file !== 'rgstatus.js') funCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `;
-      });
+      fs.readdirSync('./Commands/Fun').forEach((file) => funCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
       fs.readdirSync('./Commands/Info').forEach((file) => infoCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
       fs.readdirSync('./Commands/Logging').forEach((file) => loggingCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
       fs.readdirSync('./Commands/Moderation').forEach((file) => staffCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
       fs.readdirSync('./Commands/Welcome').forEach((file) => welcomeCmds += `${prefix}${file.slice(0, file.lastIndexOf('.'))} `);
 
       const helpEmbed = new Discord.MessageEmbed()
-        .setColor('#00ffbb')
+        .setColor(color)
         .setTitle('Commands')
         .setDescription(`Pro tip: Type "${prefix}help [command]" for more detailed information about a specific command.`)
         .addFields(
@@ -48,7 +49,7 @@ module.exports = {
         return message.react(reactionError);
       } else {
         const commandEmbed = new Discord.MessageEmbed()
-          .setColor('#00ffbb')
+          .setColor(color)
           .setTitle(`${prefix}${command.name}`)
           .addFields(
             { name: '`Command Description:`', value: `${command.description}` },

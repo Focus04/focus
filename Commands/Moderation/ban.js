@@ -47,6 +47,9 @@ module.exports = {
       return message.react(reactionError);
     }
 
+    let color;
+    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = newmsg.guild.me.roles.highest.color;
     if (isNaN(days) || !days) {
       if (!member) {
         let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) (reason)`);
@@ -60,7 +63,7 @@ module.exports = {
       else bans = bans + 1;
 
       const banEmbed = new Discord.MessageEmbed()
-        .setColor('#00ffbb')
+        .setColor(color)
         .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Ban Information`)
         .addFields(
           { name: `Defendant's name:`, value: `${member.user.tag}` },
@@ -117,7 +120,7 @@ module.exports = {
       else bans = bans + 1;
 
       const banEmbed = new Discord.MessageEmbed()
-        .setColor('#00ffbb')
+        .setColor(color)
         .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Ban Information`)
         .addFields(
           { name: `Defendant's name:`, value: `${member}` },
