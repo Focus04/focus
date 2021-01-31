@@ -17,7 +17,7 @@ module.exports = async (client, message) => {
       .addFields(
         { name: 'Author:', value: message.member },
         { name: 'Channel:', value: `#${message.channel.name}` },
-        { name: 'Content:', value: '```' + message.conent + '```' }
+        { name: 'Content:', value: message.content }
       )
       .setTimestamp();
     log.send(deleteEmbed);
