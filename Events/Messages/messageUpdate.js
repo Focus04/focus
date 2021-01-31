@@ -12,7 +12,7 @@ module.exports = async (client, oldmsg, newmsg) => {
   const msgLog = await msgLogs.get(`msglogs_${newmsg.guild.id}`);
   if (log && msgLog == 1) {
     let color;
-    if (newmsg.guild.me.roles.highest.color === '0') color = '#b9bbbe';
+    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
     else color = newmsg.guild.me.roles.highest.color;
     const editEmbed = new Discord.MessageEmbed()
       .setColor(color)

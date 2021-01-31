@@ -13,7 +13,7 @@ module.exports = async (client, message) => {
   if (log && msgLog == 1) {
     console.log(message.guild.me.roles.highest.color);
     let color;
-    if (message.guild.me.roles.highest.color === '0') color = '#b9bbbe';
+    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
     else color = message.guild.me.roles.highest.color;
     const deleteEmbed = new Discord.MessageEmbed()
       .setColor(color)
