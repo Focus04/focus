@@ -17,8 +17,8 @@ module.exports = async (client, oldmsg, newmsg) => {
       .addFields(
         { name: 'Author:', value: newmsg.member },
         { name: 'Channel:', value: `#${newmsg.channel.name}` },
-        { name: 'Initial Content:', value: '```' + oldmsg.content + '```' },
-        { name: 'New Content:', value: '```' + newmsg.content + '```' }
+        { name: 'Initial Content:', value: oldmsg.content },
+        { name: 'New Content:', value: newmsg.content }
       )
       .setTimestamp();
     log.send(editEmbed);
