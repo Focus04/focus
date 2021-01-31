@@ -48,8 +48,8 @@ module.exports = {
     }
 
     let color;
-    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = newmsg.guild.me.roles.highest.color;
+    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = message.guild.me.roles.highest.color;
     if (isNaN(days) || !days) {
       if (!member) {
         let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) (reason)`);

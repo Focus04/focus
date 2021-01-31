@@ -25,8 +25,8 @@ module.exports = {
     }
 
     let color;
-    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = newmsg.guild.me.roles.highest.color;
+    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = message.guild.me.roles.highest.color;
     const banInfoEmbed = new MessageEmbed()
       .setColor(color)
       .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Ban Information`)

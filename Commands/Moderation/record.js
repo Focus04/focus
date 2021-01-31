@@ -30,8 +30,8 @@ module.exports = {
     if (!bans) bans = 0;
 
     let color;
-    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = newmsg.guild.me.roles.highest.color;
+    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = message.guild.me.roles.highest.color;
     const recordEmbed = new Discord.MessageEmbed()
       .setColor(color)
       .setTitle(`${member.username}'s record`)

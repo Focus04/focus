@@ -62,8 +62,8 @@ module.exports = {
     else leaveMessageState = 'disabled';
 
     let color;
-    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = newmsg.guild.me.roles.highest.color;
+    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = message.guild.me.roles.highest.color;
     const botSettingsEmbed = new Discord.MessageEmbed()
       .setColor(color)
       .setTitle(`Server settings for ${message.guild.name}`)

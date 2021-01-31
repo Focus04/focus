@@ -34,8 +34,8 @@ module.exports = {
     if (!notes[0]) message.author.send(`There are no notes linked to ${member.user.username}.`);
     else {
       let color;
-      if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-      else color = newmsg.guild.me.roles.highest.color;
+      if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+      else color = message.guild.me.roles.highest.color;
       const viewNotesEmbed = new Discord.MessageEmbed()
         .setColor(color)
         .setTitle(`${member.user.username}'s notes`)

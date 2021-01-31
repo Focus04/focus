@@ -62,8 +62,8 @@ module.exports = {
 
     let mappings = new Map();
     let color;
-    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = newmsg.guild.me.roles.highest.color;
+    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = message.guild.me.roles.highest.color;
     let rolePicker = new Discord.MessageEmbed()
       .setColor(color)
       .setTitle('Role Picker')

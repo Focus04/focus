@@ -7,8 +7,8 @@ module.exports = {
   usage: 'avatar `(user(s))`',
   execute(message, args) {
     let color;
-    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = newmsg.guild.me.roles.highest.color;
+    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = message.guild.me.roles.highest.color;
     if (!message.mentions.members.first()) {
       const avatarEmbed = new Discord.MessageEmbed()
         .setColor(color)

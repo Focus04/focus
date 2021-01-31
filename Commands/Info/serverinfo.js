@@ -7,8 +7,8 @@ module.exports = {
   usage: 'serverinfo',
   execute(message) {
     let color;
-    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = newmsg.guild.me.roles.highest.color;
+    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = message.guild.me.roles.highest.color;
     const serverInfoEmbed = new Discord.MessageEmbed()
       .setColor(color)
       .setTitle('Server Information')
