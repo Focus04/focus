@@ -32,7 +32,7 @@ module.exports = {
     }
 
     let content = '';
-    namesArr.forEach((name) => content += `${'`' + name.newName + '`'} - ${moment(name.time).format('LL')}, at ${moment(name.time).format('LT')} GMT`);
+    namesArr.forEach((name) => content += `${'`' + name.newName + '`'} - ${moment(name.time).format('LL')}, at ${moment(name.time).format('LT')} GMT\n`);
     let color;
     if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
     else color = message.guild.me.roles.highest.color;
