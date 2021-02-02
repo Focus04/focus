@@ -8,7 +8,7 @@ module.exports = async (client, oldMember, newMember) => {
   let namesArr = await names.get(`${oldMember.user.id}_${oldMember.guild.id}`);
   if (!namesArr) namesArr = [];
   let nameChange = {};
-  nameChange.newName = newMember.nickname;
+  nameChange.newName = newMember.nickname || newMember.user.username;
   nameChange.date = Date.now();
   namesArr.push(nameChange);
   await names.set(`${oldMember.user.id}_${oldMember.guild.id}`, namesArr);
