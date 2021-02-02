@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const moment = require('moment');
-const Keyv = requrie('keyv');
+const Keyv = require('keyv');
 const names = new Keyv(process.env.names);
 const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 
