@@ -32,13 +32,13 @@ module.exports = {
     }
 
     let content = '';
-    namesArr.forEach((name) => content += `${'`' + name.nickname + '`'} - ${moment(name.time).format('LL')}, at ${moment(name.time).format('LT')} GMT`);
+    namesArr.forEach((name) => content += `${'`' + name.newName + '`'} - ${moment(name.time).format('LL')}, at ${moment(name.time).format('LT')} GMT`);
     let color;
     if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
     else color = message.guild.me.roles.highest.color;
     const nameChangesEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`${member}'s nicknames`)
+      .setTitle(`${member.user.tag}'s nicknames`)
       .setDescription(content)
       .setTimestamp();
     await message.channel.send(nameChangesEmbed);
