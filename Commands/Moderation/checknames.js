@@ -26,7 +26,7 @@ module.exports = {
 
     const namesArr = await names.get(`${member.user.id}_${message.guild.id}`);
     if (!namesArr) {
-      let msg = await message.channel.send(`There aren't any name changes logged from this member`);
+      let msg = await message.channel.send(`There aren't any name changes logged from ${member}`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
     }
