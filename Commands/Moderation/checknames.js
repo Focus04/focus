@@ -41,7 +41,7 @@ module.exports = {
       .setTitle(`${member}'s nicknames`)
       .setDescription(content)
       .setTimestamp();
-    await message.channel.send(viewNotesEmbed);
+    await message.channel.send(nameChangesEmbed);
     message.react(reactionSuccess);
   }
 }
