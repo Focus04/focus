@@ -19,7 +19,7 @@ module.exports = {
     }
 
     if (!member) {
-      let msg = await message.channel.send(`Couldn't find ${member}`);
+      let msg = await message.channel.send(`Couldn't find ${args[0]}`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
     }
