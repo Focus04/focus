@@ -85,6 +85,7 @@ module.exports = {
       }
       let bannedUsersArr = await bannedUsers.get(message.guild.id);
       let guilds = await punishments.get('guilds');
+      console.log(guilds);
       if (!guilds.includes(message.guild.id)) guilds.push(message.guild.id);
       if (!bannedUsersArr) bannedUsersArr = [];
       bannedUsersArr.push(BanInfo);
