@@ -23,6 +23,12 @@ module.exports = {
       return message.react(reactionError);
     }
 
+    if (!args[0]) {
+      let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) (reason)`);
+      msg.delete({ timeout: deletionTimeout });
+      return message.react(reactionError);
+    }
+
     if (user.id == message.author.id) {
       let msg = await message.channel.send(`You can't ban youself, smarty pants!`);
       msg.delete({ timeout: deletionTimeout });
@@ -45,12 +51,6 @@ module.exports = {
     if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
     else color = message.guild.me.roles.highest.color;
     if (isNaN(days) || !days) {
-      if (!args[0]) {
-        let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) (reason)`);
-        msg.delete({ timeout: deletionTimeout });
-        return message.react(reactionError);
-      }
-
       if (!member) {
         let msg = await message.channel.send(`Couldn't find ${args[0]}`);
         msg.delete({ timeout: deletionTimeout });
