@@ -3,7 +3,7 @@ const Keyv = require('keyv');
 const bns = new Keyv(process.env.bns);
 const logChannels = new Keyv(process.env.logChannels);
 const bannedUsers = new Keyv(process.env.bannedUsers);
-const punishments = new Keyv(process.env.punishmens);
+const punishments = new Keyv(process.env.punishments);
 const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
 
 module.exports = {
@@ -19,12 +19,6 @@ module.exports = {
     const days = args[1];
     if (!message.guild.me.hasPermission('BAN_MEMBERS')) {
       let msg = await message.channel.send('I require the `Ban Members` permission in order to perform this action.');
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
-    if (!member) {
-      let msg = await message.channel.send(`Couldn't find ${args[0]}`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
     }
@@ -51,8 +45,14 @@ module.exports = {
     if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
     else color = message.guild.me.roles.highest.color;
     if (isNaN(days) || !days) {
-      if (!member) {
+      if (!args[0]) {
         let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) (reason)`);
+        msg.delete({ timeout: deletionTimeout });
+        return message.react(reactionError);
+      }
+
+      if (!member) {
+        let msg = await message.channel.send(`Couldn't find ${args[0]}`);
         msg.delete({ timeout: deletionTimeout });
         return message.react(reactionError);
       }
@@ -84,13 +84,9 @@ module.exports = {
         BanInfo.reason = '`' + reason + '`';
       }
       let bannedUsersArr = await bannedUsers.get(message.guild.id);
-      let guilds = await punishments.get('guilds');
-      console.log(guilds);
-      if (!guilds.includes(message.guild.id)) guilds.push(message.guild.id);
       if (!bannedUsersArr) bannedUsersArr = [];
       bannedUsersArr.push(BanInfo);
       await bannedUsers.set(message.guild.id, bannedUsersArr);
-      await punishments.set('guilds', guilds);
       const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
       const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
       if (!log) await message.channel.send(banEmbed);
@@ -103,7 +99,7 @@ module.exports = {
 
     if (!isNaN(days)) {
       if (!member) {
-        let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) (reason)`);
+        let msg = await message.channel.send(`Couldn't find ${args[0]}`);
         msg.delete({ timeout: deletionTimeout });
         return message.react(reactionError);
       }
@@ -143,9 +139,12 @@ module.exports = {
         BanInfo.reason = reason;
       }
       let bannedUsersArr = await bannedUsers.get(message.guild.id);
+      let guilds = await punishments.get('guilds');
+      if (!guilds.includes(message.guild.id)) guilds.push(message.guild.id);
       if (!bannedUsersArr) bannedUsersArr = [];
       bannedUsersArr.push(BanInfo);
       await bannedUsers.set(message.guild.id, bannedUsersArr);
+      await punishments.set('guilds', guilds);
       const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
       const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
       if (!log) await message.channel.send(banEmbed);
