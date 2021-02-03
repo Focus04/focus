@@ -23,7 +23,7 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    if (!args[0]) {
+    if (!member) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) (reason)`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
