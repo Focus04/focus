@@ -1,9 +1,9 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-  name: 'botsuggestion',
-  description: `Submits a bug report directly to the bot's Discord server. Make sure that you include all the steps needed to reproduce the bug.`,
-  usage: 'botsuggestion `suggestion`',
+  name: 'botinfo',
+  description: `Checks how many servers the bot is in.`,
+  usage: 'botinfo',
   async execute(message, args, prefix) {
     let color;
     if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
