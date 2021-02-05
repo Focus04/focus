@@ -9,12 +9,12 @@ module.exports = {
     if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
     else color = message.guild.me.roles.highest.color;
     let membercount = 0;
-    message.client.guilds.cache.forEach((guild) => membercount += guild.members.cache.length)
+    message.client.guilds.cache.forEach((guild) => membercount += guild.members.cache.size)
     const infoEmbed = new MessageEmbed()
       .setColor(color)
       .setTitle('Bot info')
       .addFields(
-        { name: 'Server Count', value: message.client.guilds.cache.length },
+        { name: 'Server Count', value: message.client.guilds.cache.size },
         { name: 'User Count', value: membercount }
       )
       .setTimestamp();
