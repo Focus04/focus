@@ -9,7 +9,10 @@ module.exports = {
     if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
     else color = message.guild.me.roles.highest.color;
     let membercount = 0;
-    message.client.guilds.cache.forEach((guild) => membercount += guild.members.cache.size)
+    message.client.guilds.cache.forEach((guild) => {
+      membercount += guild.members.cache.size;
+      console.log('guild');
+    });
     const infoEmbed = new MessageEmbed()
       .setColor(color)
       .setTitle('Bot info')
