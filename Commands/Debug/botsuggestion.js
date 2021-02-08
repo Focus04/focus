@@ -2,7 +2,7 @@ const { deletionTimeout, reactionError, reactionSuccess, suggestionChId, discord
 
 module.exports = {
   name: 'botsuggestion',
-  description: `Submits a bug report directly to the bot's Discord server. Make sure that you include all the steps needed to reproduce the bug.`,
+  description: `Submits a suggestion directly to the bot's Discord server. Be sure to make it as descriptive as possible.`,
   usage: 'botsuggestion `suggestion`',
   async execute(message, args, prefix) {
     const author = message.author.tag;
