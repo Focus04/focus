@@ -18,7 +18,7 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    if (!args[1]) {
+    if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}kick @[user] (reason)`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
