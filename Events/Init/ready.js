@@ -13,7 +13,7 @@ module.exports = (client) => {
   client.guilds.cache.forEach((guild) => {
     i++;
     const mutedRole = guild.roles.cache.find((role) => role.name === 'Muted Member');
-    mutedRole.delete();
+    if (mutedRole) mutedRole.delete();
     console.log(`Deleted muted role ${i}`);
   });
 
