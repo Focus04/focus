@@ -73,8 +73,6 @@ module.exports = {
       message.guild.channels.cache.forEach(async (channel, id) => {
         await channel.updateOverwrite(newMutedRole, {
           'SEND_MESSAGES': false,
-          'EMBED_LINKS': false,
-          'ATTACH_FILES': false,
           'ADD_REACTIONS': false,
           'SPEAK': false
         });

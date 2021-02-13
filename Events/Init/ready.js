@@ -9,14 +9,6 @@ module.exports = (client) => {
   console.log('I am live!');
   client.user.setActivity('your people.', { type: 'WATCHING' });
 
-  let i = 0;
-  client.guilds.cache.forEach((guild) => {
-    i++;
-    const mutedRole = guild.roles.cache.find((role) => role.name === 'Muted Member');
-    if (mutedRole) mutedRole.delete();
-    console.log(`Deleted muted role ${i}`);
-  });
-
   setInterval(async () => {
     const guilds = await punishments.get('guilds');
     guilds.forEach(async (guildID) => {
