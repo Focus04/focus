@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const Keyv = require('keyv');
 const prefixes = new Keyv(process.env.prefixes);
 const suggestionChannels = new Keyv(process.env.suggestionChannels);
+const diabledCmds = new Keyv(process.env.disabledCmds);
 const { defaultPrefix, deletionTimeout, reactionError, suggestionPending, suggestionApprove, suggestionDecline } = require('../../config.json');
 
 module.exports = async (client, message) => {
@@ -31,6 +32,13 @@ module.exports = async (client, message) => {
 
   if (command.requiredPerms && !message.member.hasPermission(command.requiredPerms)) {
     let msg = await message.channel.send(command.permError);
+    msg.delete({ timeout: deletionTimeout });
+    return message.react(reactionError);
+  }
+
+  const disabledCommands = await disabledCmds.get(message.guild.id);
+  if (disabledCommands.includes(command)) {
+    let msg = await message.channel.send('This command is currently disabled.');
     msg.delete({ timeout: deletionTimeout });
     return message.react(reactionError);
   }
