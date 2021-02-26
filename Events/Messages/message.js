@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const Keyv = require('keyv');
 const prefixes = new Keyv(process.env.prefixes);
 const suggestionChannels = new Keyv(process.env.suggestionChannels);
-const diabledCmds = new Keyv(process.env.disabledCmds);
+const disabledCmds = new Keyv(process.env.disabledCmds);
 const { defaultPrefix, deletionTimeout, reactionError, suggestionPending, suggestionApprove, suggestionDecline } = require('../../config.json');
 
 module.exports = async (client, message) => {
