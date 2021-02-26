@@ -37,7 +37,7 @@ module.exports = async (client, message) => {
   }
 
   const disabledCommands = await disabledCmds.get(message.guild.id);
-  if (disabledCommands && disabledCommands.includes(command)) {
+  if (disabledCommands && disabledCommands.includes(command.name)) {
     let msg = await message.channel.send('This command is currently disabled.');
     msg.delete({ timeout: deletionTimeout });
     return message.react(reactionError);
