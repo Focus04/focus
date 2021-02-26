@@ -19,7 +19,7 @@ module.exports = {
 
     let commands = [];
     fs.readdirSync('./Commands').forEach((folder) => {
-      fs.readdirSync(`./Commands/${folder}`).forEach((file) => commands.push(file.slice(0, lastIndexOf('.'))));
+      fs.readdirSync(`./Commands/${folder}`).forEach((file) => commands.push(file.slice(0, file.lastIndexOf('.'))));
     });
     if (!commands.includes(args[0])) {
       let msg = await message.channel.send(`${'`' + args[0] + '`'} is not a valid command.`);
