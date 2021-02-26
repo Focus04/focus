@@ -8,7 +8,7 @@ module.exports = {
   name: 'enablecmd',
   description: 'Enables a command from the server.',
   usage: 'enable `command`',
-  requriedPerms: 'MANAGE_GUILD',
+  requiredPerms: 'MANAGE_GUILD',
   permError: 'You require the Manage Server permission in order to run this command.',
   async execute(message, args, prefix) {
     if (!args[0]) {

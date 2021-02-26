@@ -8,7 +8,7 @@ module.exports = {
   name: 'disablecmd',
   description: 'Disables a command from the server.',
   usage: 'disablecmd `command`',
-  requriedPerms: 'MANAGE_GUILD',
+  requiredPerms: 'MANAGE_GUILD',
   permError: 'You require the Manage Server permission in order to run this command.',
   async execute(message, args, prefix) {
     if (!args[0]) {
