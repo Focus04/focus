@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { Client } = require('discord.js');
+const { Client, Collection } = require('discord.js');
 const DBL = require('dblapi.js');
 const options = {
   partials: ['MESSAGE', 'REACTION'],
@@ -10,7 +10,7 @@ const options = {
 const client = new Client(options);
 const dbl = new DBL(process.env.dblToken, client);
 
-client.commands = new Discord.Collection();
+client.commands = new Collection();
 fs.readdirSync('./Commands').forEach(folder => {
   fs.readdirSync(`./Commands/${folder}`).forEach(file => {
     const command = require(`./Commands/${folder}/${file}`);
