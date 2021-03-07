@@ -1,4 +1,4 @@
-const fs = require('fs');
+const { readdirSync } = require('fs');
 const { Client, Collection } = require('discord.js');
 const DBL = require('dblapi.js');
 const options = {
@@ -11,15 +11,15 @@ const client = new Client(options);
 const dbl = new DBL(process.env.dblToken, client);
 
 client.commands = new Collection();
-fs.readdirSync('./Commands').forEach(folder => {
-  fs.readdirSync(`./Commands/${folder}`).forEach(file => {
+readdirSync('./Commands').forEach(folder => {
+  readdirSync(`./Commands/${folder}`).forEach(file => {
     const command = require(`./Commands/${folder}/${file}`);
     client.commands.set(command.name, command);
   });
 });
 
-fs.readdirSync('./Events').forEach(folder => {
-  fs.readdirSync(`./Events/${folder}`).forEach(file => {
+readdirSync('./Events').forEach(folder => {
+  readdirSync(`./Events/${folder}`).forEach(file => {
     const event = require(`./Events/${folder}/${file}`);
     client.on(file.split('.')[0], event.bind(null, client));
   });
