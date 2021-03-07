@@ -1,7 +1,13 @@
 const fs = require('fs');
-const Discord = require('discord.js');
+const { Client } = require('discord.js');
 const DBL = require('dblapi.js');
-const client = new Discord.Client({ partials: ['MESSAGE', 'REACTION'] });
+const options = {
+  partials: ['MESSAGE', 'REACTION'],
+  ws: {
+    intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS']
+  }
+};
+const client = new Client(options);
 const dbl = new DBL(process.env.dblToken, client);
 
 client.commands = new Discord.Collection();
