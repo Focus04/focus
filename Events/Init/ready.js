@@ -11,6 +11,7 @@ module.exports = (client) => {
 
   setInterval(async () => {
     const guilds = await punishments.get('guilds');
+    if (!guilds) return;
     guilds.forEach(async (guildID) => {
       const guild = await client.guilds.fetch(guildID);
       let bannedUsersArr = await bannedUsers.get(guild.id);

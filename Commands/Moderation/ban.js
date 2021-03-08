@@ -91,7 +91,7 @@ module.exports = {
       const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
       if (!log) await message.channel.send(banEmbed);
       else await log.send(banEmbed);
-      await member.send(msg);
+      if (!member.user.bot) await member.send(msg);
       await bns.set(`bans_${member.id}_${message.guild.id}`, bans);
       await message.guild.member(member).ban();
       message.react(reactionSuccess);
@@ -149,7 +149,7 @@ module.exports = {
       const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
       if (!log) await message.channel.send(banEmbed);
       else await log.send(banEmbed);
-      await member.send(msg);
+      if (!member.user.bot) await member.send(msg);
       await bns.set(`bans_${member.id}_${message.guild.id}`, bans);
       await message.guild.member(member).ban();
       message.react(reactionSuccess);

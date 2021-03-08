@@ -71,7 +71,7 @@ module.exports = {
       kickEmbed.addField('Reason', reason);
       msg += ` Reason: ${reason}`;
     }
-    await member.send(msg);
+    if (!member.user.bot) await member.send(msg);
     const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
     const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
     if (!log) await message.channel.send(kickEmbed);
