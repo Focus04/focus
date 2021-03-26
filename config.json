@@ -14,7 +14,7 @@
   "bugChId": "725434669453279352",
   "deafultWelcomeMsg": "Wish [member] a pleasant stay!",
   "defaultLeaveMsg": "[user] has parted ways with us...",
-  "botInviteLink": "https://discordapp.com/oauth2/authorize?client_id=723094801175806024&scope=bot&permissions=268561494",
+  "botInviteLink": "https://discordapp.com/oauth2/authorize?client_id=723094801175806024&scope=applications.commands&permissions=268561494",
   "discordInviteLink": "https://discord.gg/r4bsXez",
   "topgg": "https://top.gg/bot/723094801175806024",
   "website": "https://focus04.github.io/Focus",
