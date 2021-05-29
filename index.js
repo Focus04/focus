@@ -1,6 +1,6 @@
+require('dotenv').config();
 const { readdirSync } = require('fs');
 const { Client, Collection } = require('discord.js');
-const DBL = require('dblapi.js');
 const options = {
   partials: ['MESSAGE', 'REACTION'],
   ws: {
@@ -8,7 +8,6 @@ const options = {
   }
 };
 const client = new Client(options);
-const dbl = new DBL(process.env.dblToken, client);
 
 client.commands = new Collection();
 readdirSync('./Commands').forEach(folder => {

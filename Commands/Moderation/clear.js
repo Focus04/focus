@@ -24,13 +24,7 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    message.channel.bulkDelete(amount, true).catch(async (err) => {
-      console.error(err);
-      let msg = await message.channel.send(`Can't delete messages older than 2 weeks.`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    });
-
+    message.channel.bulkDelete(amount, true);
     let color;
     if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
     else color = message.guild.me.roles.highest.color;

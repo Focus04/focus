@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageFlags } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const Keyv = require('keyv');
 const bannedUsers = new Keyv(process.env.bannedUsers);
 const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
@@ -17,7 +17,8 @@ module.exports = {
     }
 
     const bannedUsersArr = await bannedUsers.get(message.guild.id);
-    const bannedUser = bannedUsersArr.find((user) => user.username === args[0]);
+    let bannedUser;
+    if (bannedUsersArr) bannedUser = bannedUsersArr.find((user) => user.username === args[0]);
     if (!bannedUser) {
       let msg = await message.channel.send(`${args[0]} isn't banned.`);
       msg.delete({ timeout: deletionTimeout });

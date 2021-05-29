@@ -26,6 +26,7 @@ module.exports = {
     Reminder.userID = message.author.id;
     Reminder.text = '`' + args.join(' ') + '`';
     Reminder.date = Date.now() + days * 86400000;
+    Reminder.channel = message.channel.id;
     let remindersArr = await reminders.get(message.guild.id);
     let guilds = await punishments.get('guilds');
     if (!remindersArr) remindersArr = [];

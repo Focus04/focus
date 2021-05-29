@@ -36,8 +36,11 @@ module.exports = (client) => {
         remindersArr.forEach(async (reminder) => {
           if (reminder.date <= Date.now()) {
             const member = await guild.members.fetch(reminder.userID);
-            member.user.send(`⏰ Time to ${reminder.text}`);
             remindersArr.splice(remindersArr.indexOf(reminder), 1);
+            member.user.send(`⏰ Time to ${reminder.text}`).catch(async () => {
+              const channel = await client.channels.fetch(reminder.channel);
+              channel.send(`⏰ ${member}, time to ${reminder.text}`);
+            });
           }
         });
         reminders.set(guild.id, remindersArr);
