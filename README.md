@@ -1,13 +1,17 @@
 # Focus
 *Revamp your Discord server. Moderation, role management, logging and more, all in an easy to use, feature rich and bug free Discord bot!*
+> It's a really useful and good bot. Easy to manage. I would recommend everyone to add this to their respective servers.
+
+> A really useful and easy to use bot.
 ## Installation Guide
-This guide will cover all the steps needed to get your bot up and running from absolute scratch. If you stumble across any issues with setting it up, my [Discord server](https://discord.gg/r4bsXez) is the right place to seek help.
+This guide will cover all the steps needed to get a bot up and running from absolute scratch using my source code. If you stumble across any issues with setting it up, my [Discord server](https://discord.gg/r4bsXez) is the right place to seek help.
+Please note though, I strongly advice you to have a decent understanding of JavaScript, Node.js and discord.js before diving into this.
 ### 1. Creating a bot application
 *  Open your browser, go to Discord's [Developer Portal](https://discord.com/developers/applications), click on `New Application` and give your application a name.
 
 * Click on the application you've just created and navigate into `Bot`. Here you can give your bot a username and an avatar. You want to make sure that the `Server Members Intent` stays enabled.
 
-* In order to have your bot join any servers, you have to create an invite link. The invite url will contain your bot's user ID (which you can copy from the `Application` menu). Simply replace `[your_bot_id]` with your bot client ID you just copied, then use the link to invite the bot, just like you would invite any other bot.
+* In order to have your bot join any servers, you have to create an invite link. The invite url will contain your bot's user ID (which you can copy from the `Application` menu). Simply replace `[your_bot_id]` with your bot client ID you just copied in the template below, then use the link to invite the bot, just like you would invite any other bot.
   ```
   https://discord.com/oauth2/authorize?client_id=[your_bot_id]&permissions=268561494&scope=bot%20applications.commands
   ```
@@ -23,11 +27,11 @@ This guide will cover all the steps needed to get your bot up and running from a
 
 * Go back to the `Developer Portal` into your browser and navigate into `Bot`. Here you want to click on `Copy` to copy your bot's token. This token is the password for your bot account, so you want to keep that as secure as possible in an environment variable.
 
-* Open the code using your preferred text editor (I recommend [Visual Studio Code](https://code.visualstudio.com/)).
+* Open the code using your preferred text editor (I recommend sticking to [Visual Studio Code](https://code.visualstudio.com/)).
 
 * With your text editor, navigate into the `.env` file and replace `your_bot_token` with the token you just copied, then hit save. 
 
-* You can now run the following command to start the bot:
+* You can now run the following command to start the bot. Remember to use it everytime you update the source code (which you will several times over the course of this guide):
   ```
   node .
   ```
@@ -47,3 +51,5 @@ This guide will cover all the steps needed to get your bot up and running from a
   * Repeat for the bug reports channel by editing the `bugChId` field.
 
   * You can finally edit your `botInviteLink`, `discordInviteLink`, `topgg`, `website` and `github` fields with your own urls (or leave them empty).
+
+  * You can also edit the `package.json` file.
