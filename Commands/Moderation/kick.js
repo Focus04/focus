@@ -3,6 +3,7 @@ const Keyv = require('keyv');
 const kks = new Keyv(process.env.kks);
 const logChannels = new Keyv(process.env.logChannels);
 const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'kick',
@@ -54,9 +55,7 @@ module.exports = {
     if (!kicks) kicks = 1;
     else kicks = kicks + 1;
 
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    let color = getRoleColor(message.guild);
     const kickEmbed = new Discord.MessageEmbed()
       .setColor(color)
       .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Kick Information`)

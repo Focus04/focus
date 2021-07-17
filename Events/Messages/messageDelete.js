@@ -3,6 +3,7 @@ const Keyv = require('keyv');
 const logChannels = new Keyv(process.env.logChannels);
 const msglogs = new Keyv(process.env.msgLogs);
 const { pinEmojiId } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = async (client, message) => {
   if (message.channel.type !== 'text' || message.author.bot) return;
@@ -12,9 +13,7 @@ module.exports = async (client, message) => {
   const msgLog = await msglogs.get(`msglogs_${message.guild.id}`);
   if (log && msgLog == 1) {
     console.log(message.guild.me.roles.highest.color);
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    let color = getRoleColor(message.guild);
     const deleteEmbed = new Discord.MessageEmbed()
       .setColor(color)
       .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Message Deleted`)

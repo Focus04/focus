@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const fetch = require('node-fetch');
 const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'nasanews',
@@ -23,9 +24,7 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    let color = getRoleColor(message.guild);
     const nasaSearchEmbed = new Discord.MessageEmbed()
       .setColor(color)
       .setTitle(data.collection.items[0].data[0].title)

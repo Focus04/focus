@@ -1,14 +1,13 @@
 const Discord = require('discord.js');
 const moment = require('moment');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'serverinfo',
   description: `Displays information about the server you're in.`,
   usage: 'serverinfo',
   execute(message) {
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    let color = getRoleColor(message.guild);
     const serverInfoEmbed = new Discord.MessageEmbed()
       .setColor(color)
       .setTitle('Server Information')

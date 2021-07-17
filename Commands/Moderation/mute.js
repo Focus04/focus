@@ -5,6 +5,7 @@ const logChannels = new Keyv(process.env.logChannels);
 const mutedMembers = new Keyv(process.env.mutedMembers);
 const punishments = new Keyv(process.env.punishments);
 const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'mute',
@@ -88,9 +89,7 @@ module.exports = {
 
     await mts.set(`mutes_${member.id}_${message.guild.id}`, mutes);
     member.roles.add(mutedRole);
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    let color = getRoleColor(message.guild);
     const muteEmbed = new Discord.MessageEmbed()
       .setColor(color)
       .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Mute Information`)

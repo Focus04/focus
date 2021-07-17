@@ -3,6 +3,7 @@ const moment = require('moment');
 const Keyv = require('keyv');
 const names = new Keyv(process.env.names);
 const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'checknames',
@@ -32,10 +33,8 @@ module.exports = {
     }
 
     let content = '';
-    namesArr.forEach((name) => content += `${'`' + name.newName + '`'} - ${moment(name.time).format('LL')}, at ${moment(name.time).format('LT')} GMT\n`);
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    namesArr.forEach((name) => content += `${'`' + name.newName + '`'} - ${moment(name.date).format('D.M.Y')}, at ${moment(name.date).format('LT')} GMT\n`);
+    let color = getRoleColor(message.guild);
     const nameChangesEmbed = new MessageEmbed()
       .setColor(color)
       .setTitle(`${member.user.tag}'s nicknames`)

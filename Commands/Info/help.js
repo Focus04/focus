@@ -1,15 +1,14 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 const { staffEmojiId, infoEmojiId, loggingEmojiId, welcomeEmojiId, funEmojiId, debugEmojiId, discordInviteLink, botInviteLink, topgg, website, github, deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'help',
   description: 'Displays a list of all available commands along with their usage.',
   usage: 'help `(command)`',
   async execute(message, args, prefix) {
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    let color = getRoleColor(message.guild);
     if (!args.length) {
       let debugCmds = '';
       let funCmds = '';

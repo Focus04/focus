@@ -1,11 +1,12 @@
 const { MessageEmbed } = require('discord.js');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'botinfo',
   description: `Checks how many servers the bot is in.`,
   usage: 'botinfo',
   async execute(message, args, prefix) {
-    let color;
+    let color = getRoleColor(message.guild);
     if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
     else color = message.guild.me.roles.highest.color;
     let membercount = 0;

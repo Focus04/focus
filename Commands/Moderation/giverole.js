@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const Keyv = require('keyv');
 const logChannels = new Keyv(process.env.logChannels);
 const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'giverole',
@@ -60,9 +61,7 @@ module.exports = {
     member.roles.add(role);
     let perms = role.permissions.toArray().map((perm) => perm).join(`\n`);
     perms = '```' + perms + '```';
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    let color = getRoleColor(message.guild);
     const giveRoleEmbed = new Discord.MessageEmbed()
       .setColor(color)
       .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Given Role`)

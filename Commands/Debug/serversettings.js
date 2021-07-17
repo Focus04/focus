@@ -13,6 +13,7 @@ const toggleWelcomeMsg = new Keyv(process.env.toggleWelcomeMsg);
 const toggleWelcomeDm = new Keyv(process.env.toggleWelcomeDm);
 const toggleLeaveMsg = new Keyv(process.env.toggleLeaveMsg);
 const { reactionSuccess, deafultWelcomeMsg, defaultLeaveMsg } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'serversettings',
@@ -61,9 +62,7 @@ module.exports = {
     if (leaveMessageState == 1) leaveMessageState = 'enabled';
     else leaveMessageState = 'disabled';
 
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    let color = getRoleColor(message.guild);
     const botSettingsEmbed = new Discord.MessageEmbed()
       .setColor(color)
       .setTitle(`Server settings for ${message.guild.name}`)

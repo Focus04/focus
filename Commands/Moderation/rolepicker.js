@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const Keyv = require('keyv');
 const rolePickers = new Keyv(process.env.rolePickers);
 const { deletionTimeout } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'rolepicker',
@@ -61,9 +62,7 @@ module.exports = {
     }
 
     let mappings = new Map();
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    let color = getRoleColor(message.guild);
     let rolePicker = new Discord.MessageEmbed()
       .setColor(color)
       .setTitle('Role Picker')

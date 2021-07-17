@@ -5,6 +5,7 @@ const logChannels = new Keyv(process.env.logChannels);
 const bannedUsers = new Keyv(process.env.bannedUsers);
 const punishments = new Keyv(process.env.punishments);
 const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'ban',
@@ -47,9 +48,7 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    let color = getRoleColor(message.guild);
     if (isNaN(days) || !days) {
       if (!member) {
         let msg = await message.channel.send(`Couldn't find ${args[0]}`);

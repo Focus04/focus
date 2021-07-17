@@ -1,15 +1,14 @@
 const Discord = require('discord.js');
 const moment = require('moment');
 const { deletionTimeout } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'userinfo',
   description: `Displays information about a user's account account.`,
   usage: 'userinfo `(user(s))`',
   execute(message, args) {
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    let color = getRoleColor(message.guild);
     if (!message.mentions.members.first()) {
       const roles = '```' + message.member.roles.cache.map((role) => role.name).join(`, `) + '```';
       const perms = '```' + message.member.permissions.toArray().join(`\n`) + '```';

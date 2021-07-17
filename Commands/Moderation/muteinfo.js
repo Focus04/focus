@@ -2,6 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const Keyv = require('keyv');
 const mutedMembers = new Keyv(process.env.mutedMembers);
 const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'muteinfo',
@@ -25,9 +26,7 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    let color = getRoleColor(message.guild);
     const millisecondsPerMinute = 60 * 1000;
     const minutesRemaining = Math.ceil((mutedMember.unmuteDate - Date.now()) / millisecondsPerMinute);
     const muteInfoEmbed = new MessageEmbed()

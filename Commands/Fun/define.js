@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const fetch = require('node-fetch')
 const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'define',
@@ -33,9 +34,7 @@ module.exports = {
       .join('')
       .split(']')
       .join('');
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    let color = getRoleColor(message.guild);
     const defineEmbed = new Discord.MessageEmbed()
       .setColor(color)
       .setTitle(`What does ${args[0]} mean?`)

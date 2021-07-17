@@ -3,6 +3,7 @@ const Keyv = require('keyv');
 const logChannels = new Keyv(process.env.logChannels);
 const msgLogs = new Keyv(process.env.msgLogs);
 const { pinEmojiId } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = async (client, oldmsg, newmsg) => {
   if (!newmsg.editedTimestamp || newmsg.author.bot) return;
@@ -11,9 +12,7 @@ module.exports = async (client, oldmsg, newmsg) => {
   const log = newmsg.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
   const msgLog = await msgLogs.get(`msglogs_${newmsg.guild.id}`);
   if (log && msgLog == 1) {
-    let color;
-    if (newmsg.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = newmsg.guild.me.roles.highest.color;
+    let color = getRoleColor(newmsg.guild);
     const editEmbed = new Discord.MessageEmbed()
       .setColor(color)
       .setTitle(`${newmsg.client.emojis.cache.get(pinEmojiId).toString()} Message Edited`)

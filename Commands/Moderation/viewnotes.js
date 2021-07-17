@@ -2,6 +2,7 @@ const Discord =require('discord.js');
 const Keyv = require('keyv');
 const nts = new Keyv(process.env.notes);
 const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'viewnotes',
@@ -33,9 +34,7 @@ module.exports = {
     await message.channel.send('Check your inbox.');
     if (!notes[0]) message.author.send(`There are no notes linked to ${member.user.username}.`);
     else {
-      let color;
-      if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-      else color = message.guild.me.roles.highest.color;
+      let color = getRoleColor(message.guild);
       const viewNotesEmbed = new Discord.MessageEmbed()
         .setColor(color)
         .setTitle(`${member.user.username}'s notes`)

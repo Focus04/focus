@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const fetch = require('node-fetch');
 const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'weather',
@@ -81,9 +82,7 @@ module.exports = {
         break;
     }
 
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    let color = getRoleColor(message.guild);
     const weatherEmbed = new Discord.MessageEmbed()
       .setColor(color)
       .setTitle(`Weather in ${data.name}, ${data.sys.country}`)

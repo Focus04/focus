@@ -1,14 +1,13 @@
 const Discord = require('discord.js');
 const { deletionTimeout } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'avatar',
   description: 'Displays the avatar(s) of certain users.',
   usage: 'avatar `(user(s))`',
   execute(message, args) {
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    let color = getRoleColor(message.guild);
     if (!message.mentions.members.first()) {
       const avatarEmbed = new Discord.MessageEmbed()
         .setColor(color)

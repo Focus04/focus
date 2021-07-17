@@ -3,6 +3,7 @@ const Keyv = require('keyv');
 const warnings = new Keyv(process.env.wrns);
 const logChannels = new Keyv(process.env.logChannels);
 const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'warn',
@@ -43,9 +44,7 @@ module.exports = {
     if (!warns) warns = 1;
     else warns = warns + 1;
 
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    let color = getRoleColor(message.guild);
     const warnEmbed = new Discord.MessageEmbed()
       .setColor(color)
       .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Warn Information`)

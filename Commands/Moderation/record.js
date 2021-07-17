@@ -5,6 +5,7 @@ const bns = new Keyv(process.env.bns);
 const kks = new Keyv(process.env.kks);
 const mts = new Keyv(process.env.mts);
 const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
+const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
   name: 'record',
@@ -29,9 +30,7 @@ module.exports = {
     if (!mutes) mutes = 0;
     if (!bans) bans = 0;
 
-    let color;
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+    let color = getRoleColor(message.guild);
     const recordEmbed = new Discord.MessageEmbed()
       .setColor(color)
       .setTitle(`${member.username}'s record`)
