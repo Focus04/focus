@@ -126,10 +126,11 @@ module.exports = {
         )
         .setFooter(`You can use ${prefix}unban ${member.user.username} to unban ${member.user.username} earlier than ${days} days or ${prefix}baninfo ${member.user.username} to view information about his ban.`)
         .setTimestamp();
+      const millisecondsPerDay = 24 * 60 * 60 * 1000;
       let BanInfo = {};
       BanInfo.userID = member.user.id;
       BanInfo.username = member.user.username;
-      BanInfo.unbanDate = Date.now() + days * 86400000;
+      BanInfo.unbanDate = Date.now() + days * millisecondsPerDay;
       BanInfo.author = author;
       let msg = `${author} has permanently banned you from ${message.guild.name}. Duration: ${days} days.`;
       if (args.length > 0) {
