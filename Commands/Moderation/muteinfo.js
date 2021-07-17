@@ -28,13 +28,15 @@ module.exports = {
     let color;
     if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
     else color = message.guild.me.roles.highest.color;
+    const millisecondsPerMinute = 60 * 1000;
+    const minutesRemaining = Math.ceil((mutedMember.unmuteDate - Date.now()) / millisecondsPerMinute);
     const muteInfoEmbed = new MessageEmbed()
       .setColor(color)
       .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Mute Information`)
       .addFields(
         { name: `Defendant's name:`, value: member.user.tag },
         { name: `Issued by:`, value: mutedMember.author },
-        { name: `Minutes Remaining:`, value: Math.floor((mutedMember.unmuteDate - Date.now()) / 60000) + 1}
+        { name: `Minutes Remaining:`, value: minutesRemaining }
       )
       .setTimestamp();
     if (mutedMember.reason) muteInfoEmbed.addField('Reason', mutedMember.reason);

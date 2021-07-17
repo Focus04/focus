@@ -39,7 +39,7 @@ module.exports = {
     if (bannedUser.reason) banInfoEmbed.addField('Reason:', bannedUser.reason);
     if (bannedUser.unbanDate) {
       const millisecondsPerDay = 24 * 60 * 60 * 1000;
-      const daysRemaining = Math.ceil((bannedUser.unbanDate - Date.now()) / millisecondsPerDay) + 1;
+      const daysRemaining = Math.ceil((bannedUser.unbanDate - Date.now()) / millisecondsPerDay);
       banInfoEmbed.addField('Days Remaining:', daysRemaining);
     }
     await message.channel.send(banInfoEmbed);

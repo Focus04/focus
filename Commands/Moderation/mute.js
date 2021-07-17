@@ -101,9 +101,10 @@ module.exports = {
       )
       .setFooter(`You can use ${prefix}unmute to unmute the user earlier than ${mins} minutes and ${prefix}muteinfo to view information about his mute.`)
       .setTimestamp();
+    const millisecondsPerMinute = 60 * 1000;
     let MuteInfo = {};
     MuteInfo.userID = member.user.id;
-    MuteInfo.unmuteDate = Date.now() + mins * 60000;
+    MuteInfo.unmuteDate = Date.now() + mins * millisecondsPerMinute;
     MuteInfo.author = author;
     let msg = `${author} has muted you from ${message.guild.name}. Duration: ${mins} minutes.`;
     if (args.length > 0) {
