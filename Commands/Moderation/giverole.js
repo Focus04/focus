@@ -1,23 +1,16 @@
 const Discord = require('discord.js');
-const Keyv = require('keyv');
-const logChannels = new Keyv(process.env.logChannels);
 const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
+const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
   name: 'giverole',
   description: `Adds a role to a user.`,
   usage: 'giverole @`member` `role`',
-  requiredPerms: 'MANAGE_ROLES',
-  permError: 'You require the Manage Roles permission in order to run this command.',
+  requiredPerms: ['MANAGE_ROLES'],
+  botRequiredPerms: ['MANAGE_ROLES'],
   async execute(message, args, prefix) {
     const member = message.mentions.members.first();
-    if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
-      let msg = await message.channel.send('I need the Manage Roles permission in order to execute this command.');
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
     if (!args[1]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}giverole @[member] [role]`);
       msg.delete({ timeout: deletionTimeout });
@@ -72,10 +65,7 @@ module.exports = {
         { name: 'Permissions', value: `${perms}` }
       )
       .setTimestamp();
-    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
-    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
-    if (log) log.send(giveRoleEmbed);
-    else message.channel.send(giveRoleEmbed);
+    await sendLog(message.guild, message.channel, giveRoleEmbed);
     message.react(reactionSuccess);
   }
 }

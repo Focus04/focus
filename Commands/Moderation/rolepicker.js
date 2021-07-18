@@ -8,15 +8,20 @@ module.exports = {
   name: 'rolepicker',
   description: 'Creates a menu that automatically assigns roles to users that react to it.',
   usage: 'rolepicker @`role` emoji @`role` emoji @`role` emoji etc. (maximum 25)',
-  requiredPerms: 'MANAGE_GUILD',
-  permError: 'You require the Manage Server permission in order to run this command.',
+  requiredPerms: ['MANAGE_GUILD'],
+  botRequiredPerms: ['MANAGE_ROLES'],
   async execute(message, args, prefix) {
     let roles = [];
     let emojis = [];
     let err = 0;
     let emoji;
     args.forEach(async (arg) => {
-      if (args.indexOf(arg) % 2 == 0 && arg.startsWith('<@&') && arg.endsWith('>') && arg.length == 22) {
+      if (
+        args.indexOf(arg) % 2 == 0 &&
+        arg.startsWith('<@&') &&
+        arg.endsWith('>') &&
+        arg.length == 22
+      ) {
         let role = message.guild.roles.cache.get(arg.substring(3, 21));
         if (message.guild.me.roles.highest.comparePositionTo(role) <= 0) {
           err = 1;
@@ -47,16 +52,14 @@ module.exports = {
         emojis.push(emoji);
       }
     });
+    if (err === 1) return;
 
-    if (err == 1)
-      return;
-
-    if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
-      let msg = await message.channel.send('I require the Manage Roles permission in order to execute this command.');
-      return msg.delete({ timeout: deletionTimeout });
-    }
-
-    if (!args[1] || roles.length != args.length / 2 || emojis.length != args.length / 2 || args.length > 50) {
+    if (
+      !args[1] ||
+      roles.length != args.length / 2 ||
+      emojis.length != args.length / 2 ||
+      args.length > 50
+    ) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}rolepicker @[role] emoji @[role] emoji @[role] emoji etc. (maximum 25)`);
       return msg.delete({ timeout: deletionTimeout });
     }

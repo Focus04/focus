@@ -1,30 +1,24 @@
 const Discord = require('discord.js');
 const Keyv = require('keyv');
 const mts = new Keyv(process.env.mts);
-const logChannels = new Keyv(process.env.logChannels);
 const mutedMembers = new Keyv(process.env.mutedMembers);
 const punishments = new Keyv(process.env.punishments);
 const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
+const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
   name: 'mute',
   description: `Restricts a user from sending messages.`,
   usage: 'mute @`user` `minutes` `(reason)`',
-  requiredPerms: 'KICK_MEMBERS',
-  permError: 'You require the Kick Members permission in order to run this command.',
+  requiredPerms: ['KICK_MEMBERS'],
+  botRequiredPerms: ['MANAGE_ROLES', 'MANAGE_CHANNELS'],
   async execute(message, args, prefix) {
     const member = message.mentions.members.first();
     const user = message.mentions.users.first();
     const author = message.author.username;
     const mins = args[1];
     let mutedRole = message.guild.roles.cache.find((r) => r.name === 'Muted Member');
-    if (!message.guild.me.hasPermission('MANAGE_ROLES') || !message.guild.me.hasPermission('MANAGE_CHANNELS')) {
-      let msg = await message.channel.send('I require the `Manage Roles` and `Manage Channels` permissions in order to perform this action.');
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
     if (isNaN(mins) || !args[1]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}mute @[user] [minutes] (reason)`);
       msg.delete({ timeout: deletionTimeout });
@@ -120,10 +114,7 @@ module.exports = {
     mutedMembersArr.push(MuteInfo);
     await mutedMembers.set(message.guild.id, mutedMembersArr);
     await punishments.set('guilds', guilds);
-    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
-    const log = await message.guild.channels.cache.find(ch => ch.name === `${logChName}`);
-    if (!log) await message.channel.send(muteEmbed);
-    else await log.send(muteEmbed);
+    await sendLog(message.guild, message.channel, muteEmbed);
     message.react(reactionSuccess);
   }
 }

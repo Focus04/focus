@@ -7,8 +7,7 @@ module.exports = {
   name: 'editnote',
   description: 'Edits a note from a user.',
   usage: 'editnote @`user`/`userID` `noteID` `new content`',
-  requiredPerms: 'KICK_MEMBERS',
-  permError: 'You require the Kick Members permission in order to run this command.',
+  requiredPerms: ['KICK_MEMBERS'],
   async execute(message, args, prefix) {
     if (!args[2] || isNaN(args[1])) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}editnote @[user]/[userID] [noteID] [new content]`);

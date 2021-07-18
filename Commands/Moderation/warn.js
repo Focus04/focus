@@ -1,16 +1,15 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const Keyv = require('keyv');
 const warnings = new Keyv(process.env.wrns);
-const logChannels = new Keyv(process.env.logChannels);
 const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
+const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
   name: 'warn',
   description: `Sends a warning message to a user.`,
   usage: 'warn @`user` `reason`',
-  requiredPerms: 'KICK_MEMBERS',
-  permError: 'You require the Kick Members permission in order to run this command.',
+  requiredPerms: ['KICK_MEMBERS'],
   async execute(message, args, prefix) {
     const member = message.mentions.members.first();
     const author = message.author.username;
@@ -45,7 +44,7 @@ module.exports = {
     else warns = warns + 1;
 
     let color = getRoleColor(message.guild);
-    const warnEmbed = new Discord.MessageEmbed()
+    const warnEmbed = new MessageEmbed()
       .setColor(color)
       .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Warn Information`)
       .addFields(
@@ -54,10 +53,7 @@ module.exports = {
         { name: 'Reason:', value: `${reason}` }
       )
       .setTimestamp();
-    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
-    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
-    if (!log) message.channel.send(warnEmbed);
-    else log.send(warnEmbed);
+    await sendLog(message.guild, message.channel, warnEmbed);
     await member.user.send(`${author} is warning you in ${message.guild.name} for ${reason}.`);
     await warnings.set(`warns_${member.user.id}_${message.guild.id}`, warns);
     message.react(reactionSuccess);

@@ -8,8 +8,7 @@ module.exports = {
   name: 'viewnotes',
   description: `Views all notes linked to an account.`,
   usage: 'viewnotes @`user`',
-  requiredPerms: 'KICK_MEMBERS',
-  permError: 'You require the Kick Members permission in order to run this command.',
+  requiredPerms: ['KICK_MEMBERS'],
   async execute(message, args, prefix) {
     if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}viewnotes @[user]`);

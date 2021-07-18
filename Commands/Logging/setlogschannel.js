@@ -6,8 +6,7 @@ module.exports = {
   name: 'setlogschannel',
   description: `Sets a custom channel where moderation logs will be sent.`,
   usage: 'setlogschannel #`channel-name`',
-  requiredPerms: 'MANAGE_GUILD',
-  permError: 'You require the Manage Server permission in order to run this command.',
+  requiredPerms: ['MANAGE_GUILD'],
   async execute(message, args, prefix) {
     if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}setlogschannel #[channel-name]`);

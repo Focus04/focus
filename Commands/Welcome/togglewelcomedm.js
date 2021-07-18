@@ -1,15 +1,14 @@
 const Keyv = require('keyv');
 const welcomeDms = new Keyv(process.env.welcomeDms);
 const toggleWelcomeDm = new Keyv(process.env.toggleWelcomeDm);
-const logChannels = new Keyv(process.env.logChannels);
 const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
+const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
   name: 'togglewelcomedm',
   description: `Toggles welcome DMs on/off.`,
   usage: 'toggleWelcomedm',
-  requiredPerms: 'MANAGE_GUILD',
-  permError: 'You require the Manage Server permission in order to run this command.',
+  requiredPerms: ['MANAGE_GUILD'],
   async execute(message, prefix) {
     const welcomeDm = await welcomeDms.get(`welcomedm_${message.guild.id}`);
     let logs = await toggleWelcomeDm.get(`togglewelcomedm_${message.guild.id}`);
@@ -30,10 +29,7 @@ module.exports = {
     }
 
     await toggleWelcomeDm.set(`togglewelcomedm_${message.guild.id}`, logs);
-    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
-    const log = await message.guild.channels.cache.find((channel) => channel.name === logChName);
-    if (!log) message.channel.send(`Welcome DMs are now set to ${'`' + state + '`'}`);
-    else log.send(`Welcome DMs are now set to ${'`' + state + '`'}`);
+    await sendLog(message.guild, message.channel, `Welcome DMs are now set to ${'`' + state + '`'}`);
     message.react(reactionSuccess);
   }
 }

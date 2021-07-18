@@ -1,13 +1,13 @@
 const Keyv = require('keyv');
 const suggestionChanels = new Keyv(process.env.suggestionChannels);
 const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
+const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
   name: 'suggestionchannel',
   description: 'Sets a channel for suggestions to be sent in.',
   usage: 'suggestionchannel #`channel-name`',
-  requiredPerms: 'MANAGE_GUILD',
-  permError: 'You require the Manage Server permission in order to run this command.',
+  requiredPerms: ['MANAGE_GUILD'],
   async execute(message, args, prefix) {
     if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}suggestionchannel #[channel-name]`);
@@ -15,7 +15,9 @@ module.exports = {
       return message.react(reactionError);
     }
 
-    const channel = message.mentions.channels.first() || message.guild.channels.cache.find((ch) => ch.name === args[0]);
+    const channel =
+      message.mentions.channels.first() ||
+      message.guild.channels.cache.find((ch) => ch.name === args[0]);
     if (!channel) {
       let msg = await message.channel.send(`Couldn't find ${channel}.`);
       msg.delete({ timeout: deletionTimeout });
@@ -23,7 +25,7 @@ module.exports = {
     }
 
     await suggestionChanels.set(message.guild.id, channel.name);
-    await message.channel.send(`All suggestions will be sent in ${args[0]} from now on.`);
+    await sendLog(message.guild, message.channel, `All suggestions will be sent in ${args[0]} from now on.`);
     message.react(reactionSuccess);
   }
 }

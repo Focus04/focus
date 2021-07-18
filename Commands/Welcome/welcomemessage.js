@@ -2,15 +2,14 @@ const Keyv = require('keyv');
 const welcomeChannels = new Keyv(process.env.welcomeChannels);
 const welcomeMessages = new Keyv(process.env.welcomeMessages);
 const toggleWelcomeMsg = new Keyv(process.env.toggleWelcomeMsg);
-const logChannels = new Keyv(process.env.logChannels);
 const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
+const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
   name: 'welcomemessage',
   description: `Sets a custom welcome message to be displayed when someone joins the server.`,
   usage: 'welcomemessage [message]',
-  requiredPerms: 'MANAGE_GUILD',
-  permError: 'You require the Manage Server permission in order to run this command.',
+  requiredPerms: ['MANAGE_GUILD'],
   async execute(message, args, prefix) {
     if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}welcomemessage [message]. Use [user] to be replaced with a username.`);
@@ -29,10 +28,7 @@ module.exports = {
     const msg = args.join(' ');
     await welcomeMessages.set(`welcomemessage_${message.guild.id}`, msg);
     await toggleWelcomeMsg.set(`togglewelcomemsg_${message.guild.id}`, 1);
-    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
-    const log = await message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
-    if (!log) message.channel.send(`Welcome message successfully changed to ${'`' + msg + '`'}`);
-    else log.send(`Welcome message successfully changed to ${'`' + msg + '`'}`);
+    await sendLog(message.guild, message.channel, `Welcome message successfully changed to ${'`' + msg + '`'}`);
     message.react(reactionSuccess);
   }
 }

@@ -1,21 +1,15 @@
 const Keyv = require('keyv');
 const welcomeRoles = new Keyv(process.env.welcomeRoles);
-const logChannels = new Keyv(process.env.logChannels);
 const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
+const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
   name: 'welcomerole',
   description: `Sets a role to be assigned to new users when they join the server.`,
   usage: 'welcomerole `role`',
-  requiredPerms: 'MANAGE_ROLES',
-  permError: 'You require the Manage Roles permission in order to run this command.',
+  requiredPerms: ['MANAGE_ROLES', 'MANAGE_GUILD'],
+  botRequiredPerms: ['MANAGE_ROLES'],
   async execute(message, args, prefix) {
-    if (!message.guild.me.hasPermission('MANAGE_ROLES')) {
-      let msg = await message.channel.send('I need the Manage Roles permission in order to execute this command!');
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
     if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}welcomerole [role]`);
       msg.delete({ timeout: deletionTimeout });
@@ -54,10 +48,7 @@ module.exports = {
     }
 
     await welcomeRoles.set(`welcomerole_${message.guild.id}`, welcomeRole.name);
-    let logChName = await logChannels.get(`logchannel_${message.guild.id}`);
-    let log = await message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
-    if (!log) message.channel.send(`Welcome role successfully changed to ${'`' + welcomeRole.name + '`'}`);
-    else log.send(`Welcome role successfully changed to ${'`' + welcomeRole.name + '`'}`);
+    await sendLog(message.guild, message.channel, `Welcome role successfully changed to ${'`' + welcomeRole.name + '`'}`);
     message.react(reactionSuccess);
   }
 }

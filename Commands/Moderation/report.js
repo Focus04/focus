@@ -1,6 +1,4 @@
 const Discord = require('discord.js');
-const Keyv = require('keyv');
-const logChannels = new Keyv(process.env.logChannels);
 const { deletionTimeout, pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 

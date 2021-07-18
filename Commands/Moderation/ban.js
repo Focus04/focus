@@ -1,29 +1,23 @@
 const Discord = require('discord.js');
 const Keyv = require('keyv');
 const bns = new Keyv(process.env.bns);
-const logChannels = new Keyv(process.env.logChannels);
 const bannedUsers = new Keyv(process.env.bannedUsers);
 const punishments = new Keyv(process.env.punishments);
 const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
+const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
   name: 'ban',
   description: `Restricts a user's access to the server.`,
   usage: 'ban @`user` `(days)` `(reason)`',
-  requiredPerms: 'BAN_MEMBERS',
-  permError: 'It appears that you lack permissions to ban.',
+  requiredPerms: ['BAN_MEMBERS'],
+  botRequiredPerms: ['BAN_MEMBERS'],
   async execute(message, args, prefix) {
     const member = message.mentions.members.first();
     const user = message.mentions.users.first();
     const author = message.author.username;
     const days = args[1];
-    if (!message.guild.me.hasPermission('BAN_MEMBERS')) {
-      let msg = await message.channel.send('I require the `Ban Members` permission in order to perform this action.');
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
     if (!member) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}ban @[user] (days) (reason)`);
       msg.delete({ timeout: deletionTimeout });
@@ -86,10 +80,7 @@ module.exports = {
       if (!bannedUsersArr) bannedUsersArr = [];
       bannedUsersArr.push(BanInfo);
       await bannedUsers.set(message.guild.id, bannedUsersArr);
-      const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
-      const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
-      if (!log) await message.channel.send(banEmbed);
-      else await log.send(banEmbed);
+      await sendLog(message.guild, message.channel, banEmbed);
       if (!member.user.bot) await member.send(msg);
       await bns.set(`bans_${member.id}_${message.guild.id}`, bans);
       await message.guild.member(member).ban();
@@ -145,10 +136,7 @@ module.exports = {
       bannedUsersArr.push(BanInfo);
       await bannedUsers.set(message.guild.id, bannedUsersArr);
       await punishments.set('guilds', guilds);
-      const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
-      const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
-      if (!log) await message.channel.send(banEmbed);
-      else await log.send(banEmbed);
+      await sendLog(message.guild, message.channel, banEmbed);
       if (!member.user.bot) await member.send(msg);
       await bns.set(`bans_${member.id}_${message.guild.id}`, bans);
       await message.guild.member(member).ban();

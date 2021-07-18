@@ -19,8 +19,7 @@ module.exports = {
   name: 'serversettings',
   description: 'Sends current bot settings for this server.',
   usage: 'serversettings',
-  requiredPerms: 'KICK_MEMBERS',
-  permError: 'You require the Kick Members permission in order to run this command.',
+  requiredPerms: ['KICK_MEMBERS'],
   async execute(message, args, prefix) {
     let suggestionChannel = await suggestionChannels.get(message.guild.id);
     if(!suggestionChannel) suggestionChannel = 'N/A';

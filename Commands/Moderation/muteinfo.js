@@ -8,7 +8,7 @@ module.exports = {
   name: 'muteinfo',
   description: 'View details about a muted member.',
   usage: 'muteinfo @`member`',
-  requiredPerms: 'KICK_MEMBERS',
+  requiredPerms: ['KICK_MEMBERS'],
   permerror: 'You require the Kick Members permission in order to run this command.',
   async execute (message, args, prefix) {
     const member = message.mentions.members.first();

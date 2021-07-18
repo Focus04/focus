@@ -6,8 +6,7 @@ module.exports = {
   name: 'delnote',
   description: 'Deletes a note from a user.',
   usage: 'delnote @`user`/`userID` `noteID`',
-  requiredPerms: 'KICK_MEMBERS',
-  permError: 'You require the Kick Members permission in order to run this command.',
+  requiredPerms: ['KICK_MEMBERS'],
   async execute(message, args, prefix) {
     if (!args[1] || isNaN(args[1])) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}delnote @[user]/[userID] [noteID]`);

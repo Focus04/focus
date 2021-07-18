@@ -7,8 +7,7 @@ module.exports = {
   name: 'togglemsglogs',
   description: `Toggles message logs on/off.`,
   usage: 'togglemsglogs',
-  requiredPerms: 'MANAGE_GUILD',
-  permError: 'You require the Manage Server permission in order to run this command.',
+  requiredPerms: ['MANAGE_GUILD'],
   async execute(message, prefix) {
 
     const logChName = await logChannels.get(`logchannel_${message.guild.id}`);

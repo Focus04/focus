@@ -1,24 +1,18 @@
 const Discord = require('discord.js');
 const Keyv = require('keyv');
 const kks = new Keyv(process.env.kks);
-const logChannels = new Keyv(process.env.logChannels);
 const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
+const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
   name: 'kick',
   description: `Kicks a certain user out of the server.`,
   usage: 'kick @`user` `(reason)`',
-  requiredPerms: 'KICK_MEMBERS',
-  permError: 'It appears that you lack permissions to kick.',
+  requiredPerms: ['KICK_MEMBERS'],
+  botRequiredPerms: ['KICK_MEMBERS'],
   async execute(message, args, prefix) {
     const member = message.mentions.members.first();
-    if (!message.guild.me.hasPermission('KICK_MEMBERS')) {
-      let msg = await message.channel.send('I require the `Kick Members` permission in order to perform this action.');
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
     if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}kick @[user] (reason)`);
       msg.delete({ timeout: deletionTimeout });
@@ -71,10 +65,7 @@ module.exports = {
       msg += ` Reason: ${reason}`;
     }
     if (!member.user.bot) await member.send(msg);
-    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
-    const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
-    if (!log) await message.channel.send(kickEmbed);
-    else await log.send(kickEmbed);
+    await sendLog(message.guild, message.channel, kickEmbed);
     await kks.set(`kicks_${member.id}_${message.guild.id}`, kicks);
     await message.guild.member(member).kick();
     message.react(reactionSuccess);

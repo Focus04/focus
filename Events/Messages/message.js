@@ -30,11 +30,30 @@ module.exports = async (client, message) => {
 
   if (!command) return;
 
-  if (command.requiredPerms && !message.member.hasPermission(command.requiredPerms)) {
-    let msg = await message.channel.send(command.permError);
-    msg.delete({ timeout: deletionTimeout });
-    return message.react(reactionError);
+  let err = 0;
+  if (command.requiredPerms) {
+    command.requiredPerms.forEach(async (perm) => {
+      if (!message.member.hasPermission(perm)) {
+        err = 1;
+        let msg = await message.channel.send(`You need the following permission to run this: ${'`' + perm + '`'}`);
+        msg.delete({ timeout: deletionTimeout });
+        message.react(reactionError);
+      }
+    });
   }
+
+  if (command.botRequiredPerms) {
+    command.botRequiredPerms.forEach(async (perm) => {
+      if (!message.guild.me.hasPermission(perm)) {
+        err = 1;
+        let msg = await message.channel.send(`I need the following permission to run this: ${'`' + perm + '`'}`);
+        msg.delete({ timeout: deletionTimeout });
+        message.react(reactionError);
+      }
+    });
+  }
+
+  if (err) return;
 
   const disabledCommands = await disabledCmds.get(message.guild.id);
   if (disabledCommands && disabledCommands.includes(command.name)) {

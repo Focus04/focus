@@ -8,8 +8,7 @@ module.exports = {
   name: 'baninfo',
   description: 'View details about a banned user.',
   usage: 'baninfo `username`',
-  requiredPerms: 'BAN_MEMBERS',
-  permError: 'You require the Ban Members permission in order to run this command.',
+  requiredPerms: ['BAN_MEMBERS'],
   async execute(message, args, prefix) {
     if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}baninfo [username]`);

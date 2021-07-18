@@ -1,15 +1,14 @@
-const { Message } = require('discord.js');
 const fs = require('fs');
 const Keyv = require('keyv');
 const disabledcmds = new Keyv(process.env.disabledcmds);
 const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
+const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
   name: 'disablecmd',
   description: 'Disables a command from the server.',
   usage: 'disablecmd `command`',
-  requiredPerms: 'MANAGE_GUILD',
-  permError: 'You require the Manage Server permission in order to run this command.',
+  requiredPerms: ['MANAGE_GUILD'],
   async execute(message, args, prefix) {
     if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}disablecmd [command]`);
@@ -31,7 +30,7 @@ module.exports = {
     if (!disabledCommands) disabledCommands = [];
     disabledCommands.push(args[0]);
     await disabledcmds.set(message.guild.id, disabledCommands);
-    await message.channel.send(`${'`' + args[0] + '`'} has been disabled.`);
+    await sendLog(message.guild, message.channel, `${'`' + args[0] + '`'} has been disabled.`);
     message.react(reactionSuccess);
   }
 }

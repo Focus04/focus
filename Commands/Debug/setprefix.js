@@ -1,6 +1,7 @@
 const Keyv = require('keyv');
 const prefixes = new Keyv(process.env.prefixes);
 const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
+const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
   name: 'setprefix',
@@ -20,7 +21,7 @@ module.exports = {
     }
 
     await prefixes.set(message.guild.id, args[0]);
+    await sendLog(message.guild, message.channel, `Server prefix successfully changed to ${args[0]}.`);
     message.react(reactionSuccess);
-    message.channel.send(`Server prefix successfully changed to ${args[0]}.`);
   }
 }

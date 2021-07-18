@@ -1,15 +1,14 @@
 const Keyv = require('keyv');
 const leaveChannels = new Keyv(process.env.leaveChannels);
 const toggleLeave = new Keyv(process.env.toggleLeaveMsg);
-const logChannels = new Keyv(process.env.logChannels);
 const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
+const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
   name: 'toggleleavemsg',
   description: `Toggles leave messages on/off.`,
   usage: 'toggleleavemsg',
-  requiredPerms: 'MANAGE_GUILD',
-  permError: 'You require the Manage Server permission in order to run this command.',
+  requiredPerms: ['MANAGE_GUILD'],
   async execute(message, prefix) {
     const leaveChName = await leaveChannels.get(`leavechannel_${message.guild.id}`);
     const leave = message.guild.channels.cache.find((ch) => ch.name === `${leaveChName}`);
@@ -31,10 +30,7 @@ module.exports = {
     }
 
     await toggleLeave.set(`toggleleavemsg_${message.guild.id}`, logs);
-    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
-    const log = await message.guild.channels.cache.find((channel) => channel.name === logChName);
-    if (!log) message.channel.send(`Leave messages are now set to ${'`' + state + '`'}`);
-    else log.send(`Leave messages are now set to ${'`' + state + '`'}`);
+    await sendLog(message.guild, message.channel, `Leave messages are now set to ${'`' + state + '`'}`);
     message.react(reactionSuccess);
   }
 }

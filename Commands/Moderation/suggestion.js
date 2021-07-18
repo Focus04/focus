@@ -7,10 +7,13 @@ module.exports = {
   name: 'suggestion',
   description: 'Accept or decline a suggestion from your suggestion channel.',
   usage: 'suggestion `accept`/`decline` `messageID`',
-  requiredPerms: 'MANAGE_GUILD',
-  permError: 'You require the Manage Server permission in order to run this command.',
+  requiredPerms: ['MANAGE_GUILD'],
   async execute(message, args, prefix) {
-    if (!args[1] || (args[0].toLowerCase() !== 'accept' && args[0].toLowerCase() !== 'decline') || isNaN(args[1])) {
+    if (
+      !args[1] ||
+      (args[0].toLowerCase() !== 'accept' && args[0].toLowerCase() !== 'decline') ||
+      isNaN(args[1])
+    ) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}suggestion [accept]/[decline] [messageID]`);
       msg.delete({ timeout: deletionTimeout });
       return message.react(reactionError);
@@ -26,7 +29,9 @@ module.exports = {
 
     let error;
     let state;
-    const suggestionMessage = await suggestionChannel.messages.fetch(args[1]).catch((err) => error = err);
+    const suggestionMessage = await suggestionChannel.messages
+      .fetch(args[1])
+      .catch((err) => error = err);
     if (error) {
       let msg = await message.channel.send(`Couldn't find any suggestions with the id of ${'`' + args[1] + '`'}`);
       msg.delete({ timeout: deletionTimeout });

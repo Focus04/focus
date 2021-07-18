@@ -6,8 +6,8 @@ module.exports = {
   name: 'delrolepicker',
   description: 'Deletes an existent role picker.',
   usage: 'delrolepicker `messageID`',
-  requiredPerms: 'MANAGE_GUILD',
-  permError: 'You require the Manage Server permission in order to run this command!',
+  requiredPerms: ['MANAGE_GUILD'],
+  botRequiredPerms: ['MANAGE_MESSAGES'],
   async execute(message, args, prefix) {
     if (!args[0]) {
       let msg = await message.channel.send(`Proper command usage: ${prefix}delrolepicker [messageID]`);

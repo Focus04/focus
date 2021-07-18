@@ -9,8 +9,7 @@ module.exports = {
   name: 'checknames',
   description: `Check a member's previous nicknames.`,
   usage: 'checknames @`member`',
-  requiredPerms: 'KICK_MEMBERS',
-  permError: 'You require the Kick Members permission in order to run this command.',
+  requiredPerms: ['KICK_MEMBERS'],
   async execute(message, args, prefix) {
     const member = message.mentions.members.first();
     if (!args[0]) {

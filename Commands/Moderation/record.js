@@ -11,8 +11,7 @@ module.exports = {
   name: 'record',
   description: `Displays how many punishments a user has ever received on the server.`,
   usage: 'record @`user`',
-  requiredPerms: 'KICK_MEMBERS',
-  permError: 'You require the Kick Members permission in order to run this command.',
+  requiredPerms: ['KICK_MEMBERS'],
   async execute(message, prefix) {
     const member = message.mentions.users.first();
     if (!member) {
