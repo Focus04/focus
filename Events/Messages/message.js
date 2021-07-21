@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const Keyv = require('keyv');
-const prefixes = new Keyv(process.env.prefixes);
 const suggestionChannels = new Keyv(process.env.suggestionChannels);
 const disabledCmds = new Keyv(process.env.disabledcmds);
 const { defaultPrefix, deletionTimeout, reactionError, suggestionPending, suggestionApprove, suggestionDecline } = require('../../config.json');
@@ -21,7 +20,7 @@ module.exports = async (client, message) => {
     return message.delete();
   }
 
-  let prefix = await prefixes.get(`${message.guild.id}`) || defaultPrefix;
+  const { prefix = defaultPrefix } = client.guildConfigs.get(message.guild.id);
 
   if (!message.content.startsWith(prefix)) return;
 

@@ -21,6 +21,9 @@ module.exports = {
     }
 
     await prefixes.set(message.guild.id, args[0]);
+    const config = message.client.guildConfigs.get(message.guild.id);
+    config.prefix = args[0];
+    message.client.guildConfigs.set(message.guild.id, config);
     await sendLog(message.guild, message.channel, `Server prefix successfully changed to ${args[0]}.`);
     message.react(reactionSuccess);
   }

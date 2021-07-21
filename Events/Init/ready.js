@@ -1,17 +1,29 @@
+const { Collection } = require('discord.js');
 const Keyv = require('keyv');
 const bannedUsers = new Keyv(process.env.bannedUsers);
 const reminders = new Keyv(process.env.reminders);
 const logChannels = new Keyv(process.env.logChannels);
 const mutedMembers = new Keyv(process.env.mutedMembers);
 const punishments = new Keyv(process.env.punishments);
+const prefixes = new Keyv(process.env.prefixes);
 
 module.exports = (client) => {
   console.log('I am live!');
   client.user.setActivity('your people.', { type: 'WATCHING' });
-
+  client.guildConfigs = new Collection();
+  client.guilds.cache.forEach(async (guild) => {
+    const prefix = await prefixes.get(guild.id);
+    const config = {
+      prefix
+    };
+    client.guildConfigs.set(guild.id, config);
+  });
   setInterval(async () => {
     const guilds = await punishments.get('guilds');
-    if (!guilds) return;
+    if (!guilds) {
+      await punishments.set('guilds', []);
+      return;
+    }
     guilds.forEach(async (guildID) => {
       const guild = await client.guilds.fetch(guildID);
       let bannedUsersArr = await bannedUsers.get(guild.id);
