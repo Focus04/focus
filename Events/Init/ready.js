@@ -13,10 +13,9 @@ module.exports = (client) => {
   client.guildConfigs = new Collection();
   client.guilds.cache.forEach(async (guild) => {
     const prefix = await prefixes.get(guild.id);
-    const config = {
+    client.guildConfigs.set(guild.id, {
       prefix
-    };
-    client.guildConfigs.set(guild.id, config);
+    });
   });
   setInterval(async () => {
     const guilds = await punishments.get('guilds');
