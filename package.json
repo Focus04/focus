@@ -13,12 +13,12 @@
   },
   "dependencies": {
     "@discordjs/builders": "^0.7.0",
-    "@keyv/mongo": "^1.1.0",
+    "@keyv/mongo": "^1.2.3",
     "discord.js": "^13.2.0",
     "fs": "0.0.1-security",
-    "keyv": "^4.0.1",
+    "keyv": "^4.1.0",
     "moment": "^2.27.0",
     "mongodb": "^3.6.2",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.7"
   }
 }
