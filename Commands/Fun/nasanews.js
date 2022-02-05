@@ -1,37 +1,32 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const fetch = require('node-fetch');
-const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
-  name: 'nasanews',
-  description: `Looks up an astronomy-related term on NASA's Website and returns a fact about it.`,
-  usage: 'nasanews `term`',
-  async execute(message, args, prefix) {
-    if (!args[0]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}nasanews [term]`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
-    const term = args.join(' ');
+  data: new SlashCommandBuilder()
+    .setName('nasanews')
+    .setDescription(`Looks up an astronomy-related term on NASA's Website and returns a fact about it.`)
+    .addStringOption((option) => option
+      .setName('term')
+      .setDescription('The term you want to search.')
+      .setRequired(true)
+    ),
+  async execute(interaction) {
+    const term = interaction.options.getString('term');
     const response = await fetch(`https://images-api.nasa.gov/search?q=${term}`);
     const data = await response.json();
-    
     if (!data.collection.items[0].data[0].description) {
-      let msg = await message.channel.send(`Couldn't find any results for ${term}`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
+      return interaction.reply({ content: `Couldn't find any results for ${'`' + term + '`'}`, ephemeral: true });
     }
 
-    let color = getRoleColor(message.guild);
-    const nasaSearchEmbed = new Discord.MessageEmbed()
+    let color = getRoleColor(interaction.guild);
+    const nasaSearchEmbed = new MessageEmbed()
       .setColor(color)
       .setTitle(data.collection.items[0].data[0].title)
       .setDescription(data.collection.items[0].data[0].description)
       .setImage(data.collection.items[0].links[0].href.split(' ').join('%20'))
       .setTimestamp();
-    await message.channel.send(nasaSearchEmbed);
-    message.react(reactionSuccess);
+    interaction.reply({ embeds: [nasaSearchEmbed] });
   }
 }

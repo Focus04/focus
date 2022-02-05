@@ -31,14 +31,6 @@ Please note though, I strongly advice that you have a decent understanding of Ja
 
 * With your text editor, navigate into the `.env` file and replace `your_bot_token` with the token you just copied, then hit save. 
 ### 3. Configuring the bot
-  * The bot uses custom emojis for some of its commands, so it's mandatory that you supply it with custom emoji IDs. One of the cool things about bots is that they have some nitro privileges, which enables them to send custom emojis *anywhere*. With that said, you can proceed to open Discord and create a support server for the bot. There you can upload 7 custom emojis for the 6 different command categories and moderation actions logs (I personally use a pushpin). Or you can upload the emojis to any server as long as it has the bot in it. It's very important that you keep the bot in the server at all times!
-
-  * Go to your `User Settings`, navigate to `Advanced` and enable `Developer Mode`. This will allow you to copy IDs of any Discord element.
-
-  * Back to your server, type a `\` in the message input field, then select one of the custom emojis you uploaded. This will show you the ID of the emoji (an 18 digits number) - copy it. Go to the code editor, open the `config.json` file and replace the `changeme` in `staffEmojiId` with an emoji ID you copied.
-
-  * Repeat for the remaining 6 emojis (editing the `changeme` value in `infoEmojiId`, `loggingEmojiId`, `welcomeEmojiId`, `funEmojiId`, `debugEmojiId` and `pinEmojiId`).
-
   * The bot offers suggestions and bug reporting features. For those to work, you have to create 2 channels for suggestions and bug reports respectively.
 
   * Right click on the suggestions channel, then hit `Copy ID`. Replace the `changeme` in the `suggestionChId` field with the ID you copied.

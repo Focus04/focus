@@ -1,24 +1,25 @@
 const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
-  name: 'botinfo',
-  description: `Checks how many servers the bot is in.`,
-  usage: 'botinfo',
-  async execute(message, args, prefix) {
-    let color = getRoleColor(message.guild);
-    if (message.guild.me.roles.highest.color === 0) color = '#b9bbbe';
-    else color = message.guild.me.roles.highest.color;
+  data: new SlashCommandBuilder()
+    .setName('botinfo')
+    .setDescription(`Checks how many servers the bot is in.`),
+  async execute(interaction) {
+    let color = getRoleColor(interaction.guild);
+    if (interaction.guild.me.roles.highest.color === 0) color = '#b9bbbe';
+    else color = interaction.guild.me.roles.highest.color;
     let membercount = 0;
-    message.client.guilds.cache.forEach((guild) => membercount += guild.memberCount);
+    interaction.client.guilds.cache.forEach((guild) => membercount += guild.memberCount);
     const infoEmbed = new MessageEmbed()
       .setColor(color)
       .setTitle('Bot info')
       .addFields(
-        { name: 'Server Count', value: message.client.guilds.cache.size },
-        { name: 'User Count', value: membercount }
+        { name: 'Server Count', value: interaction.client.guilds.cache.size.toString() },
+        { name: 'User Count', value: membercount.toString() }
       )
       .setTimestamp();
-    message.channel.send(infoEmbed);
+    interaction.reply({ embeds: [infoEmbed] });
   }
 }

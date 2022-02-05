@@ -1,29 +1,30 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const moment = require('moment');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
-  name: 'serverinfo',
-  description: `Displays information about the server you're in.`,
-  usage: 'serverinfo',
-  execute(message) {
-    let color = getRoleColor(message.guild);
-    const serverInfoEmbed = new Discord.MessageEmbed()
+  data: new SlashCommandBuilder()
+    .setName('serverinfo')
+    .setDescription(`Displays information about the server you're in.`),
+  execute(interaction) {
+    let color = getRoleColor(interaction.guild);
+    const serverInfoEmbed = new MessageEmbed()
       .setColor(color)
       .setTitle('Server Information')
       .addFields(
-        { name: 'Server Name', value: `${message.guild.name}` },
-        { name: 'Server ID', value: `${message.guild.id}` },
-        { name: 'Total Members', value: `${message.guild.memberCount}` },
-        { name: 'Owner', value: `${message.guild.owner}` },
-        { name: 'Created At', value: `${moment(message.guild.createdTimestamp).format('LT')} ${moment(message.guild.createdTimestamp).format('LL')} (${moment(message.guild.createdTimestamp).fromNow()})` },
-        { name: 'Role Count', value: `${message.guild.roles.cache.size}` },
-        { name: 'Channel Count', value: `${message.guild.channels.cache.size}` },
-        { name: 'Custom Emoji Count', value: `${message.guild.emojis.cache.size}` },
-        { name: 'Boost Count', value: `${message.guild.premiumSubscriptionCount || '0'}` }
+        { name: 'Server Name', value: `${interaction.guild.name}` },
+        { name: 'Server ID', value: `${interaction.guild.id}` },
+        { name: 'Total Members', value: `${interaction.guild.memberCount}` },
+        { name: 'Owner', value: `${interaction.guild.owner}` },
+        { name: 'Created At', value: `${moment(interaction.guild.createdTimestamp).format('LT')} ${moment(interaction.guild.createdTimestamp).format('LL')} (${moment(interaction.guild.createdTimestamp).fromNow()})` },
+        { name: 'Role Count', value: `${interaction.guild.roles.cache.size}` },
+        { name: 'Channel Count', value: `${interaction.guild.channels.cache.size}` },
+        { name: 'Custom Emoji Count', value: `${interaction.guild.emojis.cache.size}` },
+        { name: 'Boost Count', value: `${interaction.guild.premiumSubscriptionCount || '0'}` }
       )
-      .setThumbnail(message.guild.iconURL({ dynamic: true }))
+      .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
       .setTimestamp();
-    message.channel.send(serverInfoEmbed);
+    interaction.reply({ embeds: [serverInfoEmbed] });
   }
 }

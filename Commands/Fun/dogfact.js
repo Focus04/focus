@@ -1,12 +1,13 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const fetch = require('node-fetch');
 
 module.exports = {
-  name: 'dogfact',
-  description: `Sends a lovely dog fact.`,
-  usage: 'dogfact',
-  async execute(message) {
+  data: new SlashCommandBuilder()
+    .setName('dogfact')
+    .setDescription(`Sends a lovely dog fact.`),
+  async execute(interaction) {
     let response = await fetch('https://dog-api.kinduff.com/api/facts');
     let data = await response.json();
-    message.channel.send(data.facts[0]);
+    interaction.reply({ content: data.facts[0] });
   }
 }

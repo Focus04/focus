@@ -1,39 +1,32 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
 const nts = new Keyv(process.env.notes);
-const { deletionTimeout } = require('../../config.json');
 
 module.exports = {
-  name: 'delnote',
-  description: 'Deletes a note from a user.',
-  usage: 'delnote @`user`/`userID` `noteID`',
+  data: new SlashCommandBuilder()
+    .setName('delnote')
+    .setDescription(`Deletes a note from a user.`)
+    .addUserOption((option) => option
+      .setName('user')
+      .setDescription(`The user that you want to remove a note from.`)
+      .setRequired(true)
+    )
+    .addIntegerOption((option) => option
+      .setName('id')
+      .setDescription(`The id of the note that you want to delete`)
+      .setRequired(true)
+    ),
   requiredPerms: ['KICK_MEMBERS'],
-  async execute(message, args, prefix) {
-    if (!args[1] || isNaN(args[1])) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}delnote @[user]/[userID] [noteID]`);
-      return msg.delete({ timeout: deletionTimeout });
+  async execute(interaction) {
+    const member = interaction.options.getMember('user');
+    const id = interaction.options.getInteger('id');
+    let notes = await nts.get(`notes_${member.id}_${interaction.guild.id}`);
+    if (id > notes.length || id < 1) {
+      return interaction.reply({ content: `Couldn't find any notes with the ID of ${'`' + id + '`'}`, ephemeral: true })
     }
 
-    let member = {};
-    if (isNaN(args[0])) member = message.mentions.members.first();
-    else member = await message.guild.members.fetch(args[0]).catch(async (err) => {
-      let msg = await message.channel.send(`Couldn't find ${args[0]}`);
-      return message.delete({ timeout: deletionTimeout });
-    });
-    if (!member) {
-      let msg = await message.channel.send(`Couldn't find ${args[0]}`);
-      return message.delete({ timeout: deletionTimeout });
-    }
-
-    let notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
-
-    if (parseInt(args[1]) > notes.length || parseInt(args[1]) < 1) {
-      await message.author.send(`Couldn't find any notes with the ID of ${args[1]}`);
-      return message.delete();
-    }
-
-    notes.splice(parseInt(args[1] - 1), 1);
-    await nts.set(`notes_${member.id}_${message.guild.id}`, notes);
-    await message.author.send(`Note successfully deleted from ${member.user.username}'s account.`);
-    message.delete();
+    notes.splice(id - 1, 1);
+    await nts.set(`notes_${member.id}_${interaction.guild.id}`, notes);
+    interaction.reply({ content: `Note successfully deleted from ${member.user.username}'s account.`, ephemeral: true });
   }
 }

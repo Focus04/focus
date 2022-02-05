@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
 const suggestionChannels = new Keyv(process.env.suggestionChannels);
 const logChannels = new Keyv(process.env.logChannels);
@@ -12,61 +13,60 @@ const leaveMessages = new Keyv(process.env.leaveMessages);
 const toggleWelcomeMsg = new Keyv(process.env.toggleWelcomeMsg);
 const toggleWelcomeDm = new Keyv(process.env.toggleWelcomeDm);
 const toggleLeaveMsg = new Keyv(process.env.toggleLeaveMsg);
-const { reactionSuccess, deafultWelcomeMsg, defaultLeaveMsg } = require('../../config.json');
+const { deafultWelcomeMsg, defaultLeaveMsg } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
-  name: 'serversettings',
-  description: 'Sends current bot settings for this server.',
-  usage: 'serversettings',
+  data: new SlashCommandBuilder()
+    .setName('serversettings')
+    .setDescription(`Sends current bot settings for this server.`),
   requiredPerms: ['KICK_MEMBERS'],
-  async execute(message, args, prefix) {
-    let suggestionChannel = await suggestionChannels.get(message.guild.id);
+  async execute(interaction) {
+    let suggestionChannel = await suggestionChannels.get(interaction.guild.id);
     if(!suggestionChannel) suggestionChannel = 'N/A';
 
-    let logChannel = await logChannels.get(`logchannel_${message.guild.id}`);
+    let logChannel = await logChannels.get(`logchannel_${interaction.guild.id}`);
     if (!logChannel) logChannel = 'N/A';
 
-    let logChannelState = await msgLogs.get(`msglogs_${message.guild.id}`);
+    let logChannelState = await msgLogs.get(`msglogs_${interaction.guild.id}`);
     if (logChannelState == 1) logChannelState = 'enabled';
     else logChannelState = 'disabled';
 
-    let welcomeChannel = await welcomeChannels.get(`welcomechannel_${message.guild.id}`);
+    let welcomeChannel = await welcomeChannels.get(`welcomechannel_${interaction.guild.id}`);
     if (!welcomeChannel) welcomeChannel = 'N/A';
 
-    let leaveChannel = await leaveChannels.get(`leavechannel_${message.guild.id}`);
+    let leaveChannel = await leaveChannels.get(`leavechannel_${interaction.guild.id}`);
     if (!leaveChannel) leaveChannel = 'N/A';
 
-    let welcomeMessage = await welcomeMessages.get(`welcomemessage_${message.guild.id}`);
+    let welcomeMessage = await welcomeMessages.get(`welcomemessage_${interaction.guild.id}`);
     if (!welcomeMessage) welcomeMessage = deafultWelcomeMsg;
 
-    let welcomeRole = await welcomeRoles.get(`welcomerole_${message.guild.id}`);
+    let welcomeRole = await welcomeRoles.get(`welcomerole_${interaction.guild.id}`);
     if(!welcomeRole) welcomeRole = 'N/A';
 
-    let leaveMessage = await leaveMessages.get(`leavemessage_${message.guild.id}`);
+    let leaveMessage = await leaveMessages.get(`leavemessage_${interaction.guild.id}`);
     if (!leaveMessage) leaveMessage = defaultLeaveMsg;
 
-    let welcomeDm = await welcomeDms.get(`welocmedm_${message.guild.id}`);
+    let welcomeDm = await welcomeDms.get(`welocmedm_${interaction.guild.id}`);
     if (!welcomeDm) welcomeDm = 'N/A';
 
-    let welcomeMessageState = await toggleWelcomeMsg.get(`togglewelcomemsg_${message.guild.id}`);
+    let welcomeMessageState = await toggleWelcomeMsg.get(`togglewelcomemsg_${interaction.guild.id}`);
     if (welcomeMessageState == 1) welcomeMessageState = 'enabled';
     else welcomeMessageState = 'disabled';
 
-    let welcomeDmState = await toggleWelcomeDm.get(`togglewelcomedm_${message.guild.id}`);
+    let welcomeDmState = await toggleWelcomeDm.get(`togglewelcomedm_${interaction.guild.id}`);
     if (welcomeDmState == 1) welcomeDmState = 'enabled';
     else welcomeDmState = 'disabled';
 
-    let leaveMessageState = await toggleLeaveMsg.get(`toggleleavemsg_${message.guild.id}`);
+    let leaveMessageState = await toggleLeaveMsg.get(`toggleleavemsg_${interaction.guild.id}`);
     if (leaveMessageState == 1) leaveMessageState = 'enabled';
     else leaveMessageState = 'disabled';
 
-    let color = getRoleColor(message.guild);
-    const botSettingsEmbed = new Discord.MessageEmbed()
+    let color = getRoleColor(interaction.guild);
+    const botSettingsEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`Server settings for ${message.guild.name}`)
+      .setTitle(`Server settings for ${interaction.guild.name}`)
       .addFields(
-        { name: 'Prefix', value: '```' + prefix + '```', inline: true },
         { name: 'Suggestion Channel', value: '```' + suggestionChannel + '```', inline: true },
         { name: 'Log Channel', value: '```' + `${logChannel} [${logChannelState}]` + '```', inline: true },
         { name: 'Welcome Channel', value: '```' + welcomeChannel + '```', inline: true },
@@ -77,7 +77,6 @@ module.exports = {
         { name: 'Leave Message', value: '```' + `${leaveMessage} [${leaveMessageState}]` + '```', inline: true }
       )
       .setTimestamp();
-    await message.channel.send(botSettingsEmbed);
-    message.react(reactionSuccess);
+    await interaction.reply({ embeds: [botSettingsEmbed] });
   }
 }

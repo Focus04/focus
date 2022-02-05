@@ -1,72 +1,62 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
 const mts = new Keyv(process.env.mts);
 const mutedMembers = new Keyv(process.env.mutedMembers);
 const punishments = new Keyv(process.env.punishments);
-const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
-  name: 'mute',
-  description: `Restricts a user from sending messages.`,
-  usage: 'mute @`user` `minutes` `(reason)`',
+  data: new SlashCommandBuilder()
+    .setName('mute')
+    .setDescription(`Restricts a user from sending messages.`)
+    .addUserOption((option) => option
+      .setName('user')
+      .setDescription(`The user that you want to mute.`)
+      .setRequired(true)
+    )
+    .addNumberOption((option) => option
+      .setName('minutes')
+      .setDescription(`The amount of minutes that you want the user to stay muted.`)
+      .setRequired(true)
+    )
+    .addStringOption((option) => option
+      .setName('reason')
+      .setDescription(`The reason you're muting this user for.`)
+    ),
   requiredPerms: ['KICK_MEMBERS'],
   botRequiredPerms: ['MANAGE_ROLES', 'MANAGE_CHANNELS'],
-  async execute(message, args, prefix) {
-    const member = message.mentions.members.first();
-    const user = message.mentions.users.first();
-    const author = message.author.username;
-    const mins = args[1];
-    let mutedRole = message.guild.roles.cache.find((r) => r.name === 'Muted Member');
-    if (isNaN(mins) || !args[1]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}mute @[user] [minutes] (reason)`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
-    if (!member) {
-      let msg = await message.channel.send(`Couldn't find ${args[0]}`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
+  async execute(interaction) {
+    const member = interaction.options.getMember('user');
+    const user = interaction.options.getUser('user');
+    const mins = interaction.options.getNumber('minutes');
+    const reason = interaction.options.getString('reason');
+    const author = interaction.member.user.username;
+    let mutedRole = interaction.guild.roles.cache.find((r) => r.name === 'Muted Member');
     if (mins > 720 || mins <= 0) {
-      let msg = await message.channel.send('Minutes must be a positive number less than 720.');
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
+      return interaction.reply({ content: `Minutes must be a positive number lower than 720.`, ephemeral: true });
     }
 
-    if (member.id == message.author.id) {
-      let msg = await message.channel.send(`You can't mute youself, smarty pants!`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
+    if (member.id == interaction.member.user.id) {
+      return interaction.reply({ content: `You can't mute youself, smarty pants!`, ephemeral: true });
     }
 
-    if (message.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
-      let msg = await message.channel.send('Your roles must be higher than the roles of the person you want to mute!');
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
+    if (interaction.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
+      return interaction.reply({ content: `Your roles must be higher than the roles of the person you want to mute!`, ephemeral: true });
     }
 
-    args.shift();
-    args.shift();
-    const reason = '`' + args.join(' ') + '`';
-    let mutes = await mts.get(`mutes_${member.id}_${message.guild.id}`);
+    let mutes = await mts.get(`mutes_${member.id}_${interaction.guild.id}`);
     if (!mutes) mutes = 1;
     else mutes = mutes + 1;
 
     if (!mutedRole) {
-      await message.guild.roles.create({
-        data: {
-          name: 'Muted Member',
-          permissions: []
-        }
+      const newMutedRole = await interaction.guild.roles.create({
+        name: 'Muted Member',
+        permissions: []
       });
-
-      const newMutedRole = await message.guild.roles.cache.find((r) => r.name === 'Muted Member');
-      message.guild.channels.cache.forEach(async (channel, id) => {
-        await channel.updateOverwrite(newMutedRole, {
+      interaction.guild.channels.cache.forEach(async (channel) => {
+        await channel.permissionOverwrites.edit(newMutedRole, {
           'SEND_MESSAGES': false,
           'ADD_REACTIONS': false,
           'SPEAK': false
@@ -76,45 +66,42 @@ module.exports = {
     }
 
     if (member.roles.cache.has(mutedRole.id)) {
-      let msg = await message.channel.send(`${user.username} is already muted!`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
+      return interaction.reply({ content: `${user.username} is already muted!`, ephemeral: true });
     }
 
-    await mts.set(`mutes_${member.id}_${message.guild.id}`, mutes);
+    await mts.set(`mutes_${member.id}_${interaction.guild.id}`, mutes);
     member.roles.add(mutedRole);
-    let color = getRoleColor(message.guild);
-    const muteEmbed = new Discord.MessageEmbed()
+    let color = getRoleColor(interaction.guild);
+    const muteEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Mute Information`)
+      .setTitle(`Mute Information`)
       .addFields(
         { name: `Defendant's name:`, value: `${member.user.tag}` },
         { name: `Issued by:`, value: `${author}` },
         { name: `Duration:`, value: `${mins} minutes` },
       )
-      .setFooter(`You can use ${prefix}unmute to unmute the user earlier than ${mins} minutes and ${prefix}muteinfo to view information about his mute.`)
+      .setFooter(`You can use /unmute to unmute the user earlier than ${mins} minutes and /muteinfo to view information about his mute.`)
       .setTimestamp();
     const millisecondsPerMinute = 60 * 1000;
     let MuteInfo = {};
-    MuteInfo.userID = member.user.id;
+    MuteInfo.userID = member.id;
     MuteInfo.unmuteDate = Date.now() + mins * millisecondsPerMinute;
     MuteInfo.author = author;
-    let msg = `${author} has muted you from ${message.guild.name}. Duration: ${mins} minutes.`;
-    if (args.length > 0) {
-      const reason = '`' + args.join(' ') + '`';
+    let msg = `${author} has muted you from ${interaction.guild.name}. Duration: ${mins} minutes.`;
+    if (reason) {
       muteEmbed.addField('Reason', reason);
       msg += ` Reason: ${reason}.`;
       MuteInfo.reason = reason;
     }
-    member.send(msg);
-    let mutedMembersArr = await mutedMembers.get(message.guild.id);
+
+    if (!member.user.bot) member.send({ content: msg });
+    let mutedMembersArr = await mutedMembers.get(interaction.guild.id);
     let guilds = await punishments.get('guilds');
     if (!mutedMembersArr) mutedMembersArr = [];
-    if (!guilds.includes(message.guild.id)) guilds.push(message.guild.id);
+    if (!guilds.includes(interaction.guild.id)) guilds.push(interaction.guild.id);
     mutedMembersArr.push(MuteInfo);
-    await mutedMembers.set(message.guild.id, mutedMembersArr);
+    await mutedMembers.set(interaction.guild.id, mutedMembersArr);
     await punishments.set('guilds', guilds);
-    await sendLog(message.guild, message.channel, muteEmbed);
-    message.react(reactionSuccess);
+    await sendLog(interaction, muteEmbed);
   }
 }

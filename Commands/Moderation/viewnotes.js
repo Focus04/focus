@@ -1,46 +1,34 @@
-const Discord =require('discord.js');
+const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
 const nts = new Keyv(process.env.notes);
-const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
-  name: 'viewnotes',
-  description: `Views all notes linked to an account.`,
-  usage: 'viewnotes @`user`',
+  data: new SlashCommandBuilder()
+    .setName('viewnotes')
+    .setDescription(`Shows all notes linked to a user from this server.`)
+    .addUserOption((option) => option
+      .setName('user')
+      .setDescription(`The user that you want to view the notes of.`)
+      .setRequired(true)
+    ),
   requiredPerms: ['KICK_MEMBERS'],
-  async execute(message, args, prefix) {
-    if (!args[0]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}viewnotes @[user]`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
-    let member = {};
-    if (isNaN(args[0])) member = message.mentions.members.first();
-    else member = await message.guild.members.fetch(args[0]).catch(async (err) => {
-      let msg = await message.channel.send(`Couldn't find ${args[0]}`);
-      return message.delete({ timeout: deletionTimeout });
-    });
-    if (!member) {
-      let msg = await message.channel.send(`Couldn't find ${args[0]}`);
-      return message.delete({ timeout: deletionTimeout });
-    }
-
+  async execute(interaction) {
+    let member = interaction.options.getMember('user');
     let content = '';
-    const notes = await nts.get(`notes_${member.id}_${message.guild.id}`);
+    const notes = await nts.get(`notes_${member.id}_${interaction.guild.id}`);
     if (notes) notes.forEach((note) => content += note);
-    await message.channel.send('Check your inbox.');
-    if (!notes[0]) message.author.send(`There are no notes linked to ${member.user.username}.`);
+    if (!notes[0]) interaction.reply({ content: `There are no notes linked to ${member.user.username}.`, ephemeral: true });
     else {
-      let color = getRoleColor(message.guild);
-      const viewNotesEmbed = new Discord.MessageEmbed()
+      let color = getRoleColor(interaction.guild);
+      const viewNotesEmbed = new MessageEmbed()
         .setColor(color)
         .setTitle(`${member.user.username}'s notes`)
         .setDescription(content)
         .setTimestamp();
-      message.author.send(viewNotesEmbed);
+      interaction.member.user.send({ embeds: [viewNotesEmbed] });
     }
-    message.react(reactionSuccess);
+    interaction.reply({ content: `Check your inbox.`, ephemeral: true });
   }
 }

@@ -16,6 +16,6 @@ module.exports = async (client, member) => {
     if (!leaveMessage) msg = defaultLeaveMsg.replace('[user]', member.user.username);
     else msg = leaveMessage.replace('[user]', member.user.username);
 
-    leave.send(msg);
+    leave.send({ content: msg });
   }
 }

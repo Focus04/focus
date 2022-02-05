@@ -1,39 +1,35 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
 const bannedUsers = new Keyv(process.env.bannedUsers);
-const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
-  name: 'unban',
-  description: `Removes a user's banned status earlier.`,
-  usage: 'unban `username`',
+  data: new SlashCommandBuilder()
+    .setName('unban')
+    .setDescription(`Unbans a user earlier.`)
+    .addStringOption((option) => option
+      .setName('username')
+      .setDescription(`The username of the banned user.`)
+      .setRequired(true)
+    ),
   requiredPerms: ['BAN_MEMBERS'],
   botRequiredPerms: ['BAN_MEMBERS'],
-  async execute(message, args, prefix) {
-    if (!args[0]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}unban username`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
-    const bannedUsersArr = await bannedUsers.get(message.guild.id);
-    const bannedUser = bannedUsersArr.find((user) => user.username === args[0]);
+  async execute(interaction) {
+    const username = interaction.options.getString('username');
+    const bannedUsersArr = await bannedUsers.get(interaction.guild.id);
+    const bannedUser = bannedUsersArr.find((user) => user.username === username);
     if (!bannedUser) {
-      let msg = await message.channel.send(`${args[0]} isn't banned.`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
+      return interaction.reply({ content: `${username} isn't banned.`, ephemeral: true });
     }
 
-    await message.guild.members.unban(bannedUser.userID).catch(async (err) => {
-      console.error(err);
-      let msg = await message.channel.send(`${args[0]} isn't banned.`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    });
+    let error = 0;
+    await interaction.guild.members.unban(bannedUser.userID).catch(async (err) => error = err);
+    if (error) {
+      return interaction.reply({ content: `${username} isn't banned.`, ephemeral: true });
+    }
 
     bannedUsersArr.splice(bannedUsersArr.indexOf(bannedUser), 1);
-    await bannedUsers.set(message.guild.id, bannedUsersArr);
-    await sendLog(message.guild, message.channel, `${args[0]} has been unbanned earlier.`);
-    message.react(reactionSuccess);
+    await bannedUsers.set(interaction.guild.id, bannedUsersArr);
+    await sendLog(interaction, `${username} has been unbanned earlier.`);
   }
 }

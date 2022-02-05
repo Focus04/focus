@@ -1,51 +1,42 @@
-const Discord = require('discord.js');
-const { deletionTimeout, pinEmojiId } = require('../../config.json');
+const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
-  name: 'report',
-  description: `Submits a report to the staff's logs channel.`,
-  usage: 'report @`user`/`userID` `offense`',
+  data: new SlashCommandBuilder()
+    .setName('report')
+    .setDescription(`Submits a report to the staff's logs channel.`)
+    .addUserOption((option) => option
+      .setName('user')
+      .setDescription(`The user that is breaking a rule.`)
+      .setRequired(true)
+    )
+    .addStringOption((option) => option
+      .setName('offense')
+      .setDescription(`The rule that the user broke.`)
+      .setRequired(true)
+    ),
   guildOnly: true,
-  async execute(message, args, prefix) {
-    if (!args[1]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}report @[user]/[userID] [offense]`);
-      return msg.delete({ timeout: deletionTimeout });
-    }
-
-    let member = {};
-    if (isNaN(args[0])) member = message.mentions.members.first();
-    else member = await message.guild.members.fetch(args[0]).catch(async (err) => {
-      let msg = await message.channel.send(`Couldn't find ${args[0]}`);
-      return message.delete({ timeout: deletionTimeout });
-    });
-    if (!member) {
-      let msg = await message.channel.send(`Couldn't find ${args[0]}`);
-      return message.delete({ timeout: deletionTimeout });
-    }
-
-    const logChName = await logChannels.get(`logchannel_${message.guild.id}`);
-    const log = message.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
-    
+  async execute(interaction) {
+    const member = interaction.options.getMember('user');
+    const report = interaction.options.getString('offense');
+    const logChName = await logChannels.get(`logchannel_${interaction.guild.id}`);
+    const log = interaction.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
     if (!log) {
-      let msg = await message.channel.send(`Looks like the server doesn't have any logs channel. Please ask a staff member to setup one using ${prefix}setlogschannel`);
-      return msg.delete({ timeout: deletionTimeout });
+      interaction.reply({ content: `Looks like the server doesn't have any logs channel. Please ask a staff member to setup one using /setlogschannel`, ephemeral: true });
     }
 
-    args.shift();
-    const report = args.join(' ');
-    let color = getRoleColor(message.guild);
-    const reportEmbed = new Discord.MessageEmbed()
+    let color = getRoleColor(interaction.guild);
+    const reportEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} New Report`)
+      .setTitle(`New Report`)
       .addFields(
-        { name: 'Submitted by:', value: `${message.author.username}` },
+        { name: 'Submitted by:', value: `${interaction.member.user.username}` },
         { name: 'Defendant:', value: `${member}` },
         { name: 'Offense', value: `${report}` }
       )
       .setTimestamp();
     await log.send(reportEmbed);
-    await message.author.send(`${member} has been successfully reported to the server's staff.`);
-    message.channel.bulkDelete(1);
+    interaction.reply({ content: `${member} has been successfully reported to the server's staff.`, ephemeral: true });
   }
 }

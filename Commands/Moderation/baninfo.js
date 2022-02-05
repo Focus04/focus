@@ -1,46 +1,43 @@
 const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
 const bannedUsers = new Keyv(process.env.bannedUsers);
-const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
-  name: 'baninfo',
-  description: 'View details about a banned user.',
-  usage: 'baninfo `username`',
+  data: new SlashCommandBuilder()
+    .setName('baninfo')
+    .setDescription(`View details about a banned user.`)
+    .addStringOption((option) => option
+      .setName('user')
+      .setDescription('The user that you want to view information about his ban.')
+      .setRequired(true)
+    ),
   requiredPerms: ['BAN_MEMBERS'],
-  async execute(message, args, prefix) {
-    if (!args[0]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}baninfo [username]`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
-    const bannedUsersArr = await bannedUsers.get(message.guild.id);
+  async execute(interaction) {
+    const username = interaction.options.getString('user');
+    const bannedUsersArr = await bannedUsers.get(interaction.guild.id);
     let bannedUser;
-    if (bannedUsersArr) bannedUser = bannedUsersArr.find((user) => user.username === args[0]);
+    if (bannedUsersArr) bannedUser = bannedUsersArr.find((user) => user.username === username);
     if (!bannedUser) {
-      let msg = await message.channel.send(`${args[0]} isn't banned.`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
+      return interaction.reply({ content: `${username} isn't banned.` });
     }
 
-    let color = getRoleColor(message.guild);
+    let color = getRoleColor(interaction.guild);
     const banInfoEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Ban Information`)
+      .setTitle(`Ban Information`)
       .addFields(
-        { name: `Defendant's name:`, value: args[0] },
-        { name: `Issued by:`, value: bannedUser.author}
+        { name: `Defendant's name:`, value: username },
+        { name: `Issued by:`, value: bannedUser.author }
       )
       .setTimestamp();
     if (bannedUser.reason) banInfoEmbed.addField('Reason:', bannedUser.reason);
     if (bannedUser.unbanDate) {
       const millisecondsPerDay = 24 * 60 * 60 * 1000;
       const daysRemaining = Math.ceil((bannedUser.unbanDate - Date.now()) / millisecondsPerDay);
-      banInfoEmbed.addField('Days Remaining:', daysRemaining);
+      banInfoEmbed.addField('Days Remaining:', daysRemaining.toString());
     }
-    await message.channel.send(banInfoEmbed);
-    message.react(reactionSuccess);
+    await interaction.reply({ embeds: [banInfoEmbed] });
   }
 }

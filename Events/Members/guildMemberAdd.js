@@ -14,7 +14,7 @@ module.exports = async (client, member) => {
   let dmState = await toggleWelcomeDm.get(`togglewelcomedm_${member.guild.id}`);
   if (!dmState && dmState != 0) dmState = 1;
 
-  if (dm && dmState == 1) member.send(dm.replace('[user]', member.user.username));
+  if (dm && dmState == 1) member.send({ content: dm.replace('[user]', member.user.username) });
 
   const welcomeRoleName = await welcomeRoles.get(`welcomerole_${member.guild.id}`);
   const welcomeRole = member.guild.roles.cache.find((role) => role.name === `${welcomeRoleName}`);
@@ -26,9 +26,9 @@ module.exports = async (client, member) => {
   if (welcome && state == 1) {
     let msg;
     let welcomeMessage = await welcomeMessages.get(`welcomemessage_${member.guild.id}`);
-    if (!welcomeMessage) msg = deafultWelcomeMsg.replace('[member]', member);
+    if (!welcomeMessage) msg = deafultWelcomeMsg.replace('[user]', member);
     else msg = welcomeMessage.replace('[user]', member);
 
-    welcome.send(msg);
+    welcome.send({ content: msg });
   }
 }

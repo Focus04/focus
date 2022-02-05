@@ -1,36 +1,30 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const fs = require('fs');
 const Keyv = require('keyv');
 const disabledcmds = new Keyv(process.env.disabledcmds);
-const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
-  name: 'disablecmd',
-  description: 'Disables a command from the server.',
-  usage: 'disablecmd `command`',
+  data: new SlashCommandBuilder()
+    .setName('disablecmd')
+    .setDescription(`Disables a command from the server.`)
+    .addStringOption((option) => option
+      .setName('command')
+      .setDescription(`The command that you want to disable`)
+      .setRequired(true)
+    ),
   requiredPerms: ['MANAGE_GUILD'],
-  async execute(message, args, prefix) {
-    if (!args[0]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}disablecmd [command]`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
+  async execute(interaction) {
+    const commandName = interaction.options.getString('command');
+    const command = interaction.client.commands.get(commandName);
+    if (!command) {
+      return interaction.reply({ content: `${'`' + commandName + '`'} is not a valid command.`, ephemeral: true });
     }
 
-    let commands = [];
-    fs.readdirSync('./Commands').forEach((folder) => {
-      fs.readdirSync(`./Commands/${folder}`).forEach((file) => commands.push(file.slice(0, file.lastIndexOf('.'))));
-    });
-    if (!commands.includes(args[0])) {
-      let msg = await message.channel.send(`${'`' + args[0] + '`'} is not a valid command.`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
-    let disabledCommands = await disabledcmds.get(message.guild.id);
+    let disabledCommands = await disabledcmds.get(interaction.guild.id);
     if (!disabledCommands) disabledCommands = [];
-    disabledCommands.push(args[0]);
-    await disabledcmds.set(message.guild.id, disabledCommands);
-    await sendLog(message.guild, message.channel, `${'`' + args[0] + '`'} has been disabled.`);
-    message.react(reactionSuccess);
+    disabledCommands.push(commandName);
+    await disabledcmds.set(interaction.guild.id, disabledCommands);
+    await sendLog(interaction, `${'`' + commandName + '`'} has been disabled.`);
   }
 }

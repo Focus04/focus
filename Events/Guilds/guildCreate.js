@@ -1,10 +1,5 @@
-const Keyv = require('keyv');
-const prefixes = new Keyv(process.env.prefixes);
+const commands = require('../../index');
 
 module.exports = async (client, guild) => {
-  client.user.setActivity('your people.', { type: 'WATCHING' });
-  const prefix = await prefixes.get(guild.id);
-  client.guildConfigs.set(guild.id, {
-    prefix
-  });
+  client.application.commands.set(commands, guild.id).catch((err) => console.log(err));
 }

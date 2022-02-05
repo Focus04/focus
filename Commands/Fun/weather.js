@@ -1,28 +1,24 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const fetch = require('node-fetch');
-const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
-  name: 'weather',
-  description: `Tells you information about the weather in a given location.`,
-  usage: 'weather `location`',
-  async execute(message, args, prefix) {
-    if (!args[0]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}weather [location]`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
-    const location = args.join(' ');
+  data: new SlashCommandBuilder()
+    .setName('weather')
+    .setDescription(`Tells you information about the weather in a given location.`)
+    .addStringOption((option) => option
+      .setName('city')
+      .setDescription('The city you want to search.')
+      .setRequired(true)
+    ),
+  async execute(interaction) {
+    const location = interaction.options.getString('city');
     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${process.env.weatherid}`);
     const data = await response.json();
     let icon;
-
     if (data.message === 'city not found') {
-      let msg = await message.channel.send(`Couldn't find any weather results for ${location}.`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
+      return interaction.reply({ content: `Couldn't find any data information for ${'`' + location + '`'}`, ephemeral: true });
     }
 
     switch (data.weather[0].icon) {
@@ -82,8 +78,8 @@ module.exports = {
         break;
     }
 
-    let color = getRoleColor(message.guild);
-    const weatherEmbed = new Discord.MessageEmbed()
+    let color = getRoleColor(interaction.guild);
+    const weatherEmbed = new MessageEmbed()
       .setColor(color)
       .setTitle(`Weather in ${data.name}, ${data.sys.country}`)
       .addFields(
@@ -96,7 +92,6 @@ module.exports = {
       )
       .setThumbnail(`${icon}.png`)
       .setTimestamp();
-    await message.channel.send(weatherEmbed);
-    message.react(reactionSuccess);
+    interaction.reply({ embeds: [weatherEmbed] });
   }
 }

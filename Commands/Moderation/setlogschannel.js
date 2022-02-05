@@ -1,15 +1,14 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
-const welcomeChannels = new Keyv(process.env.welcomeChannels);
-const { sendLog } = require('../../Utils/sendLog');
+const logChannels = new Keyv(process.env.logChannels);
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('setwelcomechannel')
-    .setDescription(`Sets a custom channel where newcommers will receive a welcome message.`)
+    .setName('setlogschannel')
+    .setDescription(`Sets a custom channel where moderation logs will be sent.`)
     .addChannelOption((option) => option
       .setName('channel-name')
-      .setDescription('The channel you want new members to be logged in.')
+      .setDescription('The channel you want logs to be sent in.')
       .setRequired(true)
     ),
   requiredPerms: ['MANAGE_GUILD'],
@@ -19,7 +18,7 @@ module.exports = {
       return interaction.reply({ content: `Invalid channel.`, ephemeral: true });
     }
 
-    await welcomeChannels.set(`welcomechannel_${interaction.guild.id}`, channel.name);
-    await sendLog(interaction, `All new members will be logged in #${channel.name} from now on.`);
+    await logChannels.set(`logchannel_${interaction.guild.id}`, channel.name);
+    interaction.reply({ content: `All moderation actions will be logged in ${'`' + channel.name + '`'} from now on.`, ephemeral: true });
   }
 }

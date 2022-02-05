@@ -1,24 +1,22 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
 const welcomeChannels = new Keyv(process.env.welcomeChannels);
 const toggleWelcome = new Keyv(process.env.toggleWelcomeMsg);
-const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
-  name: 'togglewelcomemsg',
-  description: `Toggles welcome messages on/off.`,
-  usage: 'togglewelcomemsg',
+  data: new SlashCommandBuilder()
+    .setName('togglewelcomemsg')
+    .setDescription(`Toggles welcome messages on/off.`),
   requiredPerms: ['MANAGE_GUILD'],
-  async execute(message, prefix) {
-    const welcomeChName = await welcomeChannels.get(`welcomechannel_${message.guild.id}`);
-    const welcome = message.guild.channels.cache.find((ch) => ch.name === `${welcomeChName}`);
-    let logs = await toggleWelcome.get(`togglewelcomemsg_${message.guild.id}`);
+  async execute(interaction) {
+    const welcomeChName = await welcomeChannels.get(`welcomechannel_${interaction.guild.id}`);
+    const welcome = interaction.guild.channels.cache.find((ch) => ch.name === `${welcomeChName}`);
+    let logs = await toggleWelcome.get(`togglewelcomemsg_${interaction.guild.id}`);
     let state;
     
     if (!welcome) {
-      let msg = await message.channel.send(`You first need to set a channel for messages to be sent in. Use ${prefix}setwelcomechannel to setup one.`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
+      return interaction.reply({ content: `You first need to set a channel for messages to be sent in. Use /setwelcomechannel to setup one.`, ephemeral: true });
     }
 
     if (logs == 0) {
@@ -29,8 +27,7 @@ module.exports = {
       state = 'off';
     }
 
-    await toggleWelcome.set(`togglewelcomemsg_${message.guild.id}`, logs);
-    await sendLog(message.guild, message.channel, `Welcome messages are now set to ${'`' + state + '`'}`);
-    message.react(reactionSuccess);
+    await toggleWelcome.set(`togglewelcomemsg_${interaction.guild.id}`, logs);
+    await sendLog(interaction, `Welcome messages are now set to ${'`' + state + '`'}`);
   }
 }

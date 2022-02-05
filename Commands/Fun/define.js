@@ -1,27 +1,23 @@
-const Discord = require('discord.js');
-const fetch = require('node-fetch')
-const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
+const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const fetch = require('node-fetch');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
-  name: 'define',
-  description: `Looks up a term in the dictionary.`,
-  usage: 'define `term`',
-  async execute(message, args, prefix) {
-    if (!args[0]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}define [term]`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
-    const term = args.join(' ');
+  data: new SlashCommandBuilder()
+    .setName('define')
+    .setDescription(`Looks up a term in the dictionary.`)
+    .addStringOption((option) => option
+      .setName('term')
+      .setDescription('The term you want to search.')
+      .setRequired(true)
+    ),
+  async execute(interaction) {
+    const term = interaction.options.getString('term');
     const response = await fetch(`http://api.urbandictionary.com/v0/define?term=${term}`);
     const data = await response.json();
-
-    if (!data.list[0].definition) {
-      let msg = await message.channel.send(`Couldn't find any results for ${term}`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
+    if (!data.list[0] || !data.list[0].definition) {
+      return interaction.reply({ content: `Couldn't find any results for ${'`' + term + '`'}`, ephemeral: true });
     }
 
     const definition = data.list[0].definition
@@ -34,16 +30,15 @@ module.exports = {
       .join('')
       .split(']')
       .join('');
-    let color = getRoleColor(message.guild);
-    const defineEmbed = new Discord.MessageEmbed()
+    let color = getRoleColor(interaction.guild);
+    const defineEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`What does ${args[0]} mean?`)
+      .setTitle(`What does ${term} mean?`)
       .addFields(
         { name: 'Definition', value: '```' + definition + '```' },
         { name: 'Example', value: '```' + (example || 'N/A') + '```' }
       )
       .setTimestamp();
-    await message.channel.send(defineEmbed);
-    message.react(reactionSuccess);
+    interaction.reply({ embeds: [defineEmbed] });
   }
 }

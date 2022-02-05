@@ -1,61 +1,52 @@
 const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
 const warnings = new Keyv(process.env.wrns);
-const { deletionTimeout, reactionError, reactionSuccess, pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
-  name: 'warn',
-  description: `Sends a warning message to a user.`,
-  usage: 'warn @`user` `reason`',
+  data: new SlashCommandBuilder()
+    .setName('warn')
+    .setDescription(`Sends a warning message to a user.`)
+    .addUserOption((option) => option
+      .setName('user')
+      .setDescription(`The user that you want to warn.`)
+      .setRequired(true)
+    )
+    .addStringOption((option) => option
+      .setName('reason')
+      .setDescription(`The reason that you're warning the user for.`)
+      .setRequired(true)
+    ),
   requiredPerms: ['KICK_MEMBERS'],
-  async execute(message, args, prefix) {
-    const member = message.mentions.members.first();
-    const author = message.author.username;
-    if (!args[1]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}warn @[user] [reason]`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
+  async execute(interaction) {
+    const member = interaction.options.getMember('user');
+    const reason = interaction.options.getString('reason');
+    const author = interaction.member.user.username;
+    if (member.id == interaction.member.user.id) {
+      return interaction.reply({ content: `You can't warn youself, smarty pants!`, ephemeral: true });
     }
 
-    if (!member) {
-      let msg = await message.channel.send(`Couldn't find ${args[0]}`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
+    if (interaction.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
+      return interaction.reply({ content: `Your roles must be higher than the roles of the person you want to ban!`, ephemeral: true });
     }
 
-    if (member.id == message.author.id) {
-      let msg = await message.channel.send(`You can't warn youself, smarty pants!`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
-    if (message.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
-      let msg = await message.channel.send('Your roles must be higher than the roles of the person you want to ban!');
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
-    args.shift();
-    const reason = '`' + args.join(' ') + '`';
-    let warns = await warnings.get(`warns_${member.id}_${message.guild.id}`);
+    let warns = await warnings.get(`warns_${member.id}_${interaction.guild.id}`);
     if (!warns) warns = 1;
-    else warns = warns + 1;
-
-    let color = getRoleColor(message.guild);
+    else warns++;
+    let color = getRoleColor(interaction.guild);
     const warnEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Warn Information`)
+      .setTitle(`Warn Information`)
       .addFields(
         { name: `Defendant's name:`, value: `${member.user.tag}` },
         { name: `Issued by:`, value: `${author}` },
         { name: 'Reason:', value: `${reason}` }
       )
       .setTimestamp();
-    await sendLog(message.guild, message.channel, warnEmbed);
-    await member.user.send(`${author} is warning you in ${message.guild.name} for ${reason}.`);
-    await warnings.set(`warns_${member.user.id}_${message.guild.id}`, warns);
-    message.react(reactionSuccess);
+    await sendLog(interaction, warnEmbed);
+    await member.user.send({ content: `${author} is warning you in ${interaction.guild.name} for ${reason}.` });
+    await warnings.set(`warns_${member.user.id}_${interaction.guild.id}`, warns);
   }
 }

@@ -2,10 +2,13 @@ const Keyv = require('keyv');
 const logChannels = new Keyv(process.env.logChannels);
 
 module.exports = {
-  sendLog: async (guild, channel, message) => {
-    const logChName = await logChannels.get(`logchannel_${guild.id}`);
-    const log = await guild.channels.cache.find((ch) => ch.name === `${logChName}`);
-    if (!log) channel.send(message);
-    else log.send(message);
+  sendLog: async (interaction, message) => {
+    const logChName = await logChannels.get(`logchannel_${interaction.guild.id}`);
+    const log = await interaction.guild.channels.cache.find((ch) => ch.name === `${logChName}`);
+    let msgContent = {};
+    if (message.color) msgContent = { embeds: [message] };
+    else msgContent = { content: message };
+    interaction.reply(msgContent);
+    if (log) log.send(msgContent);
   }
 }

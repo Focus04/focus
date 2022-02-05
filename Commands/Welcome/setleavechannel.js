@@ -1,31 +1,25 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
 const leaveChannels = new Keyv(process.env.leaveChannels);
-const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
-  name: 'setleavechannel',
-  description: `Sets a custom channel where leaving members will be logged.`,
-  usage: 'setleavechannel #`channel-name`',
+  data: new SlashCommandBuilder()
+    .setName('setleavechannel')
+    .setDescription(`Sets a custom channel where leaving members will be logged.`)
+    .addChannelOption((option) => option
+      .setName('channel-name')
+      .setDescription('The channel you want leaving members to be logged in.')
+      .setRequired(true)
+    ),
   requiredPerms: ['MANAGE_GUILD'],
-  async execute(message, args, prefix) {
-    if (!args[0]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}setleavechannel #[channel-name]`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
+  async execute(interaction) {
+    const channel = interaction.options.getChannel('channel-name');
+    if (!channel || channel.type !== 'GUILD_TEXT') {
+      return interaction.reply({ content: `Invalid channel`, ephemeral: true });
     }
 
-    const channel =
-      message.mentions.channels.first() ||
-      message.guild.channels.cache.find((ch) => ch.name === `${args[0]}`);
-    if (!channel) {
-      let msg = await message.channel.send(`Couldn't find ${args[0]}. Please make sure that I have access to that channel.`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-
-    await leaveChannels.set(`leavechannel_${message.guild.id}`, channel.name);
-    await sendLog(message.guild, message.channel, `All leaving members will be logged in ${args[0]} from now on.`);
-    message.react(reactionSuccess);
+    await leaveChannels.set(`leavechannel_${interaction.guild.id}`, channel.name);
+    await sendLog(interaction, `All leaving members will be logged in #${channel.name} from now on.`);
   }
 }

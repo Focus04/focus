@@ -1,31 +1,29 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
 const suggestionChannels = new Keyv(process.env.suggestionChannels);
-const { deletionTimeout, reactionError, reactionSuccess } = require('../../config.json');
 
 module.exports = {
-  name: 'delsuggestion',
-  description: 'Deletes a suggestion.',
-  usage: 'delsuggestion `messageID`',
+  data: new SlashCommandBuilder()
+    .setName('delsuggestion')
+    .setDescription(`Deletes a suggestion.`)
+    .addStringOption((option) => option
+      .setName('messageid')
+      .setDescription(`The ID of the message that contains the suggestion`)
+      .setRequired(true)
+    ),
   requiredPerms: ['MANAGE_GUILD'],
   botRequiredPerms: ['MANAGE_MESSAGES'],
-  async execute(message, args, prefix) {
-    if(!args[0]) {
-      let msg = await message.channel.send(`Proper command usage: ${prefix}delsuggestion [messageID]`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
-    }
-    let error;
-    let suggestionChName = await suggestionChannels.get(message.guild.id);
-    let suggestionChannel = message.guild.channels.cache.find((ch) => ch.name === suggestionChName);
-    let suggestion = await suggestionChannel.messages.fetch(args[0]).catch((err) => error = err);
-    if(error) {
-      let msg = await message.channel.send(`Couldn't find any messages with the ID of ${'`' + args[0] + '`'}`);
-      msg.delete({ timeout: deletionTimeout });
-      return message.react(reactionError);
+  async execute(interaction) {
+    const id = interaction.options.getString('messageid');
+    let suggestionChName = await suggestionChannels.get(interaction.guild.id);
+    let suggestionChannel = interaction.guild.channels.cache.find((ch) => ch.name === suggestionChName);
+    let error = 0;
+    let suggestion = await suggestionChannel.interactions.fetch(id).catch((err) => error = err);
+    if (error) {
+      return interaction.reply({ content: `Couldn't find any messages with the ID of ${'`' + id + '`'}`, ephemeral: true });
     }
 
-    await suggestionChannel.messages.delete(suggestion);
-    message.channel.send(`Suggestion ${'`' + args[0] + '`'} has been successfully deleted.`);
-    message.react(reactionSuccess);
+    await suggestionChannel.interaction.delete(suggestion);
+    interaction.reply({ content: `Suggestion ${'`' + id + '`'} has been successfully deleted.`, ephemeral: true });
   }
 }
