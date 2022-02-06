@@ -4,7 +4,6 @@ const Keyv = require('keyv');
 const logChannels = new Keyv(process.env.logChannels);
 const { pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
-const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -40,7 +39,7 @@ module.exports = {
         { name: 'Offense', value: `${report}` }
       )
       .setTimestamp();
-    await sendLog(interaction, reportEmbed);
+    log.send({ embeds: [reportEmbed] });
     interaction.reply({ content: `${member} has been successfully reported to the server's staff.`, ephemeral: true });
   }
 }
