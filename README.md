@@ -47,9 +47,9 @@ Please note though, I strongly advice that you have a decent understanding of Ja
 
   * Navigate to `Databases`, then hit `Create`. Select your prefered options (there are options for free tier clusters too). When you're done, click `Create Cluster`. The creation process can take several minutes, so be patient.
 
-  * Once the cluster goes live, click on `Browse Collections` and hit `Create Database`. Here you have to create a database for each field in the `.env` file (25 in total). You can start with `bannedUsers`. The name of the database is up to you but make sure it's something suggestive as you'll need it later. You can now click `Create`.
+  * Once the cluster goes live, click on `Browse Collections` and hit `Create Database`. Here you have to create a database for each field in the `.env` file (22 in total). You can start with `bannedUsers`. The name of the database is up to you but make sure it's something suggestive as you'll need it later. You can now click `Create`.
 
-  * Repeat for the remaining fields (`disabledCmds`, `kks`, `leaveMessages`, `leaveChannels`, `logChannels`, `msgLogs`, `mts`, `mutedMembers`, `names`, `notes`, `prefixes`, `punishments`, `reminders`, `rolePickers`, `suggestionChannels`, `toggleLeaveMsg`, `toggleWelcomeDm`, `toggleWelcomeMsg`, `welcomeChannels`, `welcomeDms`, `welcomeMessages`, `welcomeRoles` & `wrns`).
+  * Repeat for the remaining fields (`bns`, `disabledCmds`, `kks`, `leaveMessages`, `leaveChannels`, `logChannels`, `msgLogs`, `mts`, `mutedMembers`, `names`, `notes`, `punishments`, `reminders`, `suggestionChannels`, `toggleLeaveMsg`, `toggleWelcomeDm`, `toggleWelcomeMsg`, `welcomeChannels`, `welcomeDms`, `welcomeMessages`, `welcomeRoles` & `wrns`).
 
   * Go back to your cluster overview, click `Connect` and choose the second option. Here you have to choose `Node.js` and the `2.2.12 or later` version. Copy the connection string. Replace `database_url` with the url you copied in all fields of the `.env`. Replace `<password>` with the password you set on your cluster. Replace `myFirstDatabase` with the name of the database that you created for the corresponding field. There should be 25 databases in total, which equates to 25 connection strings.
 ### 5. Generating API Keys

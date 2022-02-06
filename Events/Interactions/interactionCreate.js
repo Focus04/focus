@@ -1,5 +1,4 @@
 const Keyv = require('keyv');
-const { invalid } = require('moment');
 const disabledCmds = new Keyv(process.env.disabledcmds);
 
 module.exports = async (client, interaction) => {
