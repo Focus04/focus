@@ -12,7 +12,7 @@
     "website": "[changeme]",
     "github": "[changeme]"
   },
-  "deafultWelcomeMsg": "Wish [member] a pleasant stay!",
+  "deafultWelcomeMsg": "Wish [user] a pleasant stay!",
   "defaultLeaveMsg": "[user] has parted ways with us...",
   "suggestionPending": {
     "color": "#ffff00",
