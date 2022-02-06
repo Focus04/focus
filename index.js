@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { readdirSync } = require('fs');
 const { Client, Collection } = require('discord.js');
 const client = new Client({
