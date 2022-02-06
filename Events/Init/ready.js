@@ -38,7 +38,7 @@ module.exports = (client) => {
             }
           }
         });
-        bannedUsers.set(guild.id, bannedUsersArr);
+        await bannedUsers.set(guild.id, bannedUsersArr);
       }
 
       let remindersArr = await reminders.get(guild.id);
@@ -54,7 +54,7 @@ module.exports = (client) => {
               });
           }
         });
-        reminders.set(guild.id, remindersArr);
+        await reminders.set(guild.id, remindersArr);
       }
 
       let mutedMembersArr = await mutedMembers.get(guild.id);
