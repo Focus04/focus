@@ -1,5 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const Keyv = require('keyv');
+const logChannels = new Keyv(process.env.logChannels);
 const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
