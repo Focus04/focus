@@ -18,7 +18,8 @@ module.exports = {
     const author = interaction.member.user.username;
     const member = interaction.options.getMember('user');
     const mutedRole = interaction.guild.roles.cache.find((r) => r.name === 'Muted Member');
-    let mutedMembersArr = await mutedMembers.get(interaction.guild.id);
+    let mutedMembersArr = [];
+    await mutedMembers.get(interaction.guild.id);
     let mutedMember = mutedMembersArr.find((arrElement) => arrElement.userID === member.user.id);
     mutedMembersArr.splice(mutedMembersArr.indexOf(mutedMember), 1);
     if (!mutedRole || !member.roles.cache.has(mutedRole.id)) {
