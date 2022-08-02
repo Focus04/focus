@@ -1,5 +1,76 @@
 # Focus
+## Overview
 *Revamp your Discord server. Moderation, role management, logging and more, all in an easy to use, feature rich and bug free Discord bot!*
+## Command List
+### Debug Commands
+- `/botinfo` Checks how many servers the bot is in.
+- `/botsuggestion` Submits a suggestion directly to the bot's Discord server.
+- `/bugreport` Submits a bug report directly to the bot's Discord server.
+- `/discordserver` Sends an invite link to the bot's support server.
+- `/invitelink` Sends the invite link for the bot.
+- `/ping` Displays the bot's current latency in ms.
+- `/serversettings` Sends current bot settings for this server.
+### Fun Commands
+- `/approved` Approves your profile picture or someone else's.
+- `/blur` Blurs your profile picture or someone else's.
+- `/dogfact` Sends a lovely dog fact.
+- `/catfact` Same as dogfact, except it's for cats.
+- `/contrast` Adds contrast effect to your profile picture or someone else's.
+- `/deepfry` Add deepfried effect to your profile picture or someone else's.
+- `/define` Looks up a term in the dictionary.
+- `/nasanews` Looks up an astronomy-related term on NASA's Website and returns a fact about it.
+- `/weather` Tells you information about the weather in a given location.
+- `/yomomma` Sends a your mom joke to someone.
+### Info Commands
+- `/avatar` Displays the avatar of a user.
+- `/help` Displays a list of all available commands along with their usage.
+- `/serverinfo`  Displays information about the server you're in.
+- `/userinfo` Displays information about a user's account account.
+### Staff Commands
+- `/addnote` Adds an admin note on someone's account. All staff members will be able to view this note.
+- `/ban` Restricts a user's access to the server.
+- `/baninfo` View details about a banned user.
+- `/checknames` Check a member's previous nicknames.
+- `/clear` Bulk deletes a certain amount of messages.
+- `/delnote` Deletes a note from a user.
+- `/delsuggestion` Deletes a suggestion.
+- `/disablecmd` Disables a command from the server.
+- `/editnote` Edits a note from a user.
+- `/enablecmd` Enables a command from the server.
+- `/kick` Kicks a user out of the server.
+- `/mute` Restricts a user from sending messages.
+- `/muteinfo` View details about a muted member.
+- `/record` Displays how many punishments a user has ever received on the server.
+- `/remindme` Sets a timer for a reminder.
+- `/report` Submits a report to the staff's logs channel.
+- `/serversuggestion` Submit a server suggestion.
+- `/setlogschannel` Sets a custom channel where moderation logs will be sent.
+- `/suggestion` Accept or decline a suggestion from your suggestion channel.
+- `/suggestionchannel` Sets a channel for suggestions to be sent in.
+- `/togglemsglogs` Toggles message logs on/off.
+- `/unban` The username of the banned user.
+- `/unmute` Removes a user's muted status earlier.
+- `/viewnotes` Shows all notes linked to a user from this server.
+- `/warn` Sends a warning message to a user.
+### Role Commands
+- `/rolepicker` Creates a menu that automatically assigns roles to users that react to it.
+- `/addroletorp` Adds a role option to an existent role picker.
+- `/removerolefromrp` Removes a role option from an existent role picker.
+- `/disablerp` Disables an existent role picker.
+- `/enablerp` Enables a disabled role picker.
+- `/giverole` Adds a role to a user.
+- `/takerole` Removes a role from a user.
+### Welcome Commands
+- `/setwelcomechannel` Sets a custom channel where newcommers will receive a welcome message.
+- `/setleavechannel` Sets a custom channel where leaving members will be logged.
+- `/welcomemessage` Sets a custom welcome message to be displayed when someone joins the server.
+- `/leavemessage` Sets a custom good bye message for those leaving the server.
+- `/welcomedm` Sets a custom welcome message that will be inboxed to new users.
+- `/welcomerole` Sets a role to be assigned to new users when they join the server.
+- `/togglewelcomemsg` Toggles welcome messages on/off.
+- `/toggleleavemsg` Toggles leave messages on/off.
+- `/togglewelcomedm` Toggles welcome DMs on/off.
+## Reviews
 > It's a really useful and good bot. Easy to manage. I would recommend everyone to add this to their respective servers.
 
 > A really useful and easy to use bot.

@@ -4,6 +4,7 @@ const Keyv = require('keyv');
 const mts = new Keyv(process.env.mts);
 const mutedMembers = new Keyv(process.env.mutedMembers);
 const punishments = new Keyv(process.env.punishments);
+const { pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 const { sendLog } = require('../../Utils/sendLog');
 
@@ -74,7 +75,7 @@ module.exports = {
     let color = getRoleColor(interaction.guild);
     const muteEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`Mute Information`)
+      .setTitle(`${interaction.client.emojis.cache.get(pinEmojiId).toString()} Mute Information`)
       .addFields(
         { name: `Defendant's name:`, value: `${member.user.tag}` },
         { name: `Issued by:`, value: `${author}` },

@@ -2,6 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
 const mutedMembers = new Keyv(process.env.mutedMembers);
+const { pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {
@@ -27,7 +28,7 @@ module.exports = {
     const minutesRemaining = Math.ceil((mutedMember.unmuteDate - Date.now()) / millisecondsPerMinute);
     const muteInfoEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`Mute Information`)
+      .setTitle(`${interaction.client.emojis.cache.get(pinEmojiId).toString()} Mute Information`)
       .addFields(
         { name: `Defendant's name:`, value: member.user.tag },
         { name: `Issued by:`, value: mutedMember.author },

@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 const { sendLog } = require('../../Utils/sendLog');
 
@@ -40,7 +41,7 @@ module.exports = {
     let color = getRoleColor(interaction.guild);
     const takeRoleEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`Deleted Role`)
+      .setTitle(`${interaction.client.emojis.cache.get(pinEmojiId).toString()} Deleted Role`)
       .addFields(
         { name: 'From', value: `${member}` },
         { name: 'By', value: `${interaction.member.user.username}` },

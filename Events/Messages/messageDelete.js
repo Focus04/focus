@@ -2,6 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const Keyv = require('keyv');
 const logChannels = new Keyv(process.env.logChannels);
 const msglogs = new Keyv(process.env.msgLogs);
+const { pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = async (client, message) => {
@@ -15,7 +16,7 @@ module.exports = async (client, message) => {
     let color = getRoleColor(message.guild);
     const deleteEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`Message Deleted`)
+      .setTitle(`${message.client.emojis.cache.get(pinEmojiId).toString()} Message Deleted`)
       .addFields(
         { name: 'Author:', value: message.member.user.tag },
         { name: 'Channel:', value: `#${message.channel.name}` },

@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 const { sendLog } = require('../../Utils/sendLog');
 
@@ -24,7 +25,7 @@ module.exports = {
     let color = getRoleColor(interaction.guild);
     const clearEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`Cleared Messages`)
+      .setTitle(`${interaction.client.emojis.cache.get(pinEmojiId).toString()} Cleared Messages`)
       .addFields(
         { name: 'Cleared by:', value: `${interaction.member.user.username}` },
         { name: 'Amount of Messages Deleted:', value: `${amount}` },

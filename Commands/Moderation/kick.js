@@ -2,6 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
 const kks = new Keyv(process.env.kks);
+const { pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 const { sendLog } = require('../../Utils/sendLog');
 
@@ -43,7 +44,7 @@ module.exports = {
     let color = getRoleColor(interaction.guild);
     const kickEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`Kick Information`)
+      .setTitle(`${interaction.client.emojis.cache.get(pinEmojiId).toString()} Kick Information`)
       .addFields(
         { name: `Defendant's name:`, value: `${member.user.tag}` },
         { name: `Issued by:`, value: `${author}` }

@@ -31,7 +31,7 @@ module.exports = {
     let color = getRoleColor(interaction.guild);
     const recordEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`${member.username}'s record`)
+      .setTitle(`${member.user.username}'s record`)
       .addFields(
         { name: 'Times warned', value: `${warns.toString()}` },
         { name: 'Times kicked', value: `${kicks.toString()}` },

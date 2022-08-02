@@ -1,6 +1,7 @@
 const { Collection } = require('discord.js');
 const Keyv = require('keyv');
 const commands = require('../../index');
+const helpCommand = require('../../Commands/Info/help');
 const bannedUsers = new Keyv(process.env.bannedUsers);
 const reminders = new Keyv(process.env.reminders);
 const logChannels = new Keyv(process.env.logChannels);
@@ -14,6 +15,7 @@ module.exports = (client) => {
   client.guilds.cache.forEach((guild) => {
     client.application.commands.set(commands, guild.id).catch((err) => console.log(err));
   });
+  client.application.commands.set([helpCommand.data.toJSON()]).catch((err) => console.log(err));
   client.guildConfigs = new Collection();
   setInterval(async () => {
     const guilds = await punishments.get('guilds');
