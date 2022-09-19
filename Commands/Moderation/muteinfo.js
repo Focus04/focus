@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
-const mutedMembers = new Keyv(process.env.DB_URI).replace('dbname', 'mutedmembers');
+const mutedMembers = new Keyv(process.env.DB_URI.replace('dbname', 'mutedmembers'));
 const { pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 

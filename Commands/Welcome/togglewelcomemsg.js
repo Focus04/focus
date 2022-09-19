@@ -1,12 +1,12 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
-const welcomeChannels = new Keyv(process.env.DB_URI).replace('dbname', 'welcomechannels');
+const welcomeChannels = new Keyv(process.env.DB_URI.replace('dbname', 'welcomechannels'));
 const toggleWelcome = new Keyv(process.env.toggleWelcomeMsg);
 const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('togglewelcomemsg')
+    .setName('togglewelcomemsg'))
     .setDescription(`Toggles welcome messages on/off.`),
   requiredPerms: ['MANAGE_GUILD'],
   async execute(interaction) {

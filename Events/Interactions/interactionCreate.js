@@ -1,5 +1,5 @@
 const Keyv = require('keyv');
-const disabledcmds = new Keyv(process.env.DB_URI).replace('dbname', 'disabledcmds');
+const disabledcmds = new Keyv(process.env.DB_URI.replace('dbname', 'disabledcmds'));
 
 module.exports = async (client, interaction) => {
   if (interaction.isCommand()) {

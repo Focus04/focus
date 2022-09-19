@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
-const bannedUsers = new Keyv(process.env.DB_URI).replace('dbname', 'bannedusers');
+const bannedUsers = new Keyv(process.env.DB_URI.replace('dbname', 'bannedusers'));
 const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {

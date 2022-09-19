@@ -1,7 +1,7 @@
 const Keyv = require('keyv');
-const logChannels = new Keyv(process.env.DB_URI).replace('dbname', 'logchannels');
-const welcomeChannels = new Keyv(process.env.DB_URI).replace('dbname', 'welcomechannels');
-const leaveChannels = new Keyv(process.env.DB_URI).replace('dbname', 'leavechannels');
+const logChannels = new Keyv(process.env.DB_URI.replace('dbname', 'logchannels'));
+const welcomeChannels = new Keyv(process.env.DB_URI.replace('dbname', 'welcomechannels'));
+const leaveChannels = new Keyv(process.env.DB_URI.replace('dbname', 'leavechannels'));
 const suggestionChanels = new Keyv(process.env.suggestionChanels);
 
 module.exports = async (client, oldChannel, newChannel) => {

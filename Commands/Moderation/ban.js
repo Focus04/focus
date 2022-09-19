@@ -1,9 +1,9 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
-const bns = new Keyv(process.env.DB_URI).replace('dbname', 'bns');
-const bannedUsers = new Keyv(process.env.DB_URI).replace('dbname', 'bannedusers');
-const punishments = new Keyv(process.env.DB_URI).replace('dbname', 'punishments');
+const bns = new Keyv(process.env.DB_URI.replace('dbname', 'bns'));
+const bannedUsers = new Keyv(process.env.DB_URI.replace('dbname', 'bannedusers'));
+const punishments = new Keyv(process.env.DB_URI.replace('dbname', 'punishments'));
 const { pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 const { sendLog } = require('../../Utils/sendLog');

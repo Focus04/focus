@@ -1,12 +1,12 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
-const leaveChannels = new Keyv(process.env.DB_URI).replace('dbname', 'leavechannels');
+const leaveChannels = new Keyv(process.env.DB_URI.replace('dbname', 'leavechannels'));
 const toggleLeave = new Keyv(process.env.toggleLeaveMsg);
 const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('toggleleavemsg')
+    .setName('toggleleavemsg'))
     .setDescription(`Toggles leave messages on/off.`),
   requiredPerms: ['MANAGE_GUILD'],
   async execute(interaction) {

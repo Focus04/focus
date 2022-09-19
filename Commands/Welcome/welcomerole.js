@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
-const welcomeRoles = new Keyv(process.env.DB_URI).replace('dbname', 'welcomeroles');
+const welcomeRoles = new Keyv(process.env.DB_URI.replace('dbname', 'welcomeroles'));
 const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {

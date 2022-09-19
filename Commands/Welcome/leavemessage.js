@@ -1,8 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
-const leaveChannels = new Keyv(process.env.DB_URI).replace('dbname', 'leavechannels');
-const leaveMessages = new Keyv(process.env.DB_URI).replace('dbname', 'leavemessages');
-const toggleLeaveMsg = new Keyv(process.env.DB_URI).replace('dbname', 'toggleleavemsg');
+const leaveChannels = new Keyv(process.env.DB_URI.replace('dbname', 'leavechannels'));
+const leaveMessages = new Keyv(process.env.DB_URI.replace('dbname', 'leavemessages'));
+const toggleLeaveMsg = new Keyv(process.env.DB_URI.replace('dbname', 'toggleleavemsg'));
 const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {
