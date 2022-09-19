@@ -1,5 +1,5 @@
 const Keyv = require('keyv');
-const logChannels = new Keyv(process.env.DB_URI.replace('dbname', 'logchannels'));
+const logChannels = new Keyv(process.env.logChannels);
 
 module.exports = {
   sendLog: async (interaction, message) => {

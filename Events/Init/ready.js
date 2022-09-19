@@ -2,11 +2,11 @@ const { Collection } = require('discord.js');
 const Keyv = require('keyv');
 const commands = require('../../index');
 const helpCommand = require('../../Commands/Info/help');
-const bannedUsers = new Keyv(process.env.DB_URI.replace('dbname', 'bannedusers'));
-const reminders = new Keyv(process.env.DB_URI.replace('dbname', 'reminders'));
-const logChannels = new Keyv(process.env.DB_URI.replace('dbname', 'logchannels'));
-const mutedMembers = new Keyv(process.env.DB_URI.replace('dbname', 'mutedmembers'));
-const punishments = new Keyv(process.env.DB_URI.replace('dbname', 'punishments'));
+const bannedUsers = new Keyv(process.env.bannedUsers);
+const reminders = new Keyv(process.env.reminders);
+const logChannels = new Keyv(process.env.logChannels);
+const mutedMembers = new Keyv(process.env.mutedMembers);
+const punishments = new Keyv(process.env.punishments);
 
 
 module.exports = (client) => {

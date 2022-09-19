@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
-const suggestionChanels = new Keyv(process.env.DB_URI.replace('dbname', 'suggestionChannels'));
+const suggestionChanels = new Keyv(process.env.suggestionChannels);
 const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {

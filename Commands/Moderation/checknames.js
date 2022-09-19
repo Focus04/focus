@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const moment = require('moment');
 const Keyv = require('keyv');
-const names = new Keyv(process.env.DB_URI.replace('dbname', 'names'));
+const names = new Keyv(process.env.names);
 const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {

@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
-const logChannels = new Keyv(process.env.DB_URI.replace('dbname', 'logchannels'));
+const logChannels = new Keyv(process.env.logChannels);
 const { pinEmojiId } = require('../../config.json');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 

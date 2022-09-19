@@ -1,10 +1,11 @@
-require('dotenv').config();
 const { readdirSync } = require('fs');
 const { Client, Collection } = require('discord.js');
+const DBL = require('dblapi.js');
 const client = new Client({
   partials: ['MESSAGE', 'REACTION'],
   intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS']
 });
+const dbl = new DBL(process.env.dblToken, client);
 
 let commands = [];
 client.commands = new Collection();
@@ -12,9 +13,9 @@ readdirSync('./Commands').forEach(folder => {
   readdirSync(`./Commands/${folder}`).forEach(file => {
     const command = require(`./Commands/${folder}/${file}`);
     client.commands.set(command.data.name, command);
-    commands.push(command.data.toJSON());
+    if (command.data.name !== 'help') commands.push(command.data.toJSON());
   });
-});
+}); 
 module.exports = commands;
 
 readdirSync('./Events').forEach(folder => {

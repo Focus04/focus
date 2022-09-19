@@ -1,5 +1,5 @@
 const Keyv = require('keyv');
-const names = new Keyv(process.env.DB_URI.replace('dbname', 'names'));
+const names = new Keyv(process.env.names);
 
 module.exports = async (client, oldMember, newMember) => {
   if (oldMember.nickname === newMember.nickname) return;

@@ -1,6 +1,6 @@
 const Keyv = require('keyv');
-const leaveChannels = new Keyv(process.env.DB_URI.replace('dbname', 'leavechannels'));
-const leaveMessages = new Keyv(process.env.DB_URI.replace('dbname', 'leavemessages'));
+const leaveChannels = new Keyv(process.env.leaveChannels);
+const leaveMessages = new Keyv(process.env.leaveMessages);
 const toggleLeave = new Keyv(process.env.toggleLeaveMsg);
 const { defaultLeaveMsg } = require('../../config.json');
 
