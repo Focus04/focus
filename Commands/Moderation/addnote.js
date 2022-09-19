@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const moment = require('moment');
 const Keyv = require('keyv');
-const nts = new Keyv(process.env.notes);
+const nts = new Keyv(process.env.DB_URI).replace('dbname', 'notes');
 
 module.exports = {
   data: new SlashCommandBuilder()

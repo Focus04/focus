@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
-const mutedMembers = new Keyv(process.env.mutedMembers);
+const mutedMembers = new Keyv(process.env.DB_URI).replace('dbname', 'mutedmembers');
 const { sendLog } = require('../../Utils/sendLog');
 
 module.exports = {

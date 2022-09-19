@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
-const suggestionChannels = new Keyv(process.env.suggestionChannels);
+const suggestionChannels = new Keyv(process.env.DB_URI).replace('dbname', 'suggestionChannels');
 const { suggestionAccepted, suggestionDeclined } = require('../../config.json');
 
 module.exports = {

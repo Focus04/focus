@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
-const reminders = new Keyv(process.env.reminders);
-const punishments = new Keyv(process.env.punishments);
+const reminders = new Keyv(process.env.DB_URI).replace('dbname', 'reminders');
+const punishments = new Keyv(process.env.DB_URI).replace('dbname', 'punishments');
 
 module.exports = {
   data: new SlashCommandBuilder()

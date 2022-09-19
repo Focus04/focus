@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
-const logChannels = new Keyv(process.env.logChannels);
+const logChannels = new Keyv(process.env.DB_URI).replace('dbname', 'logchannels');
 
 module.exports = {
   data: new SlashCommandBuilder()

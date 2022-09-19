@@ -1,10 +1,10 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
-const warnings = new Keyv(process.env.wrns);
-const bns = new Keyv(process.env.bns);
+const warnings = new Keyv(process.env.DB_URI).replace('dbname', 'warnings');
+const bns = new Keyv(process.env.DB_URI).replace('dbname', 'bns');
 const kks = new Keyv(process.env.kks);
-const mts = new Keyv(process.env.mts);
+const mts = new Keyv(process.env.DB_URI).replace('dbname', 'mts');
 const { getRoleColor } = require('../../Utils/getRoleColor');
 
 module.exports = {

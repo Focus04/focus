@@ -1,5 +1,5 @@
 const Keyv = require('keyv');
-const punishments = new Keyv(process.env.punishments);
+const punishments = new Keyv(process.env.DB_URI).replace('dbname', 'punishments');
 
 module.exports = async (client, guild) => {
   const guilds = await punishments.get('guilds');

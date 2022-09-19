@@ -1,10 +1,10 @@
 const Keyv = require('keyv');
-const welcomeChannels = new Keyv(process.env.welcomeChannels);
-const welcomeRoles = new Keyv(process.env.welcomeRoles);
-const welcomeMessages = new Keyv(process.env.welcomeMessages);
+const welcomeChannels = new Keyv(process.env.DB_URI).replace('dbname', 'welcomechannels');
+const welcomeRoles = new Keyv(process.env.DB_URI).replace('dbname', 'welcomeroles');
+const welcomeMessages = new Keyv(process.env.DB_URI).replace('dbname', 'welcomemessages');
 const toggleWelcome = new Keyv(process.env.toggleWelcomeMsg);
-const welcomeDms = new Keyv(process.env.welcomeDms);
-const toggleWelcomeDm = new Keyv(process.env.toggleWelcomeDm);
+const welcomeDms = new Keyv(process.env.DB_URI).replace('dbname', 'welcomedms');
+const toggleWelcomeDm = new Keyv(process.env.DB_URI).replace('dbname', 'togglewelcomedm');
 const { deafultWelcomeMsg } = require('../../config.json');
 
 module.exports = async (client, member) => {

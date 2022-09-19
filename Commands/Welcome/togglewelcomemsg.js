@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Keyv = require('keyv');
-const welcomeChannels = new Keyv(process.env.welcomeChannels);
+const welcomeChannels = new Keyv(process.env.DB_URI).replace('dbname', 'welcomechannels');
 const toggleWelcome = new Keyv(process.env.toggleWelcomeMsg);
 const { sendLog } = require('../../Utils/sendLog');
 
