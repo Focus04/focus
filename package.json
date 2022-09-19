@@ -12,7 +12,7 @@
     "node": "16.x"
   },
   "dependencies": {
-    "@discordjs/builders": "^0.7.0",
+    "@discordjs/builders": "^1.1.0",
     "@keyv/mongo": "^1.2.3",
     "discord.js": "^13.2.0",
     "dotenv": "^16.0.0",
