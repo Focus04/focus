@@ -24,3 +24,4 @@ readdirSync('./Events').forEach(folder => {
 });
 
 client.login(process.env.token);
+// test
