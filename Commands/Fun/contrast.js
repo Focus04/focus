@@ -11,6 +11,7 @@ module.exports = {
       .setDescription('The user you want to add contrast to.')
     ),
   async execute(interaction) {
+    await interaction.deferReply();
     const user = interaction.options.getUser('user') || interaction.user;
     const url = user.displayAvatarURL({ format: 'png' });
     const response = await fetch('https://v1.api.amethyste.moe/generate/contrast', {
@@ -21,6 +22,6 @@ module.exports = {
     const bufferArray = await response.arrayBuffer();
     const buffer = Buffer.from(bufferArray);
     const image = new MessageAttachment(buffer);
-    interaction.reply({ files: [image] });
+    interaction.editReply({ files: [image] });
   }
 }

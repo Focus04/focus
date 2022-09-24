@@ -22,6 +22,7 @@ module.exports = {
     .setDescription(`Sends current bot settings for this server.`),
   requiredPerms: ['KICK_MEMBERS'],
   async execute(interaction) {
+    await interaction.deferReply();
     let suggestionChannel = await suggestionChannels.get(interaction.guild.id);
     if(!suggestionChannel) suggestionChannel = 'N/A';
 
@@ -77,6 +78,6 @@ module.exports = {
         { name: 'Leave Message', value: '```' + `${leaveMessage} [${leaveMessageState}]` + '```', inline: true }
       )
       .setTimestamp();
-    await interaction.reply({ embeds: [botSettingsEmbed] });
+    await interaction.editReply({ embeds: [botSettingsEmbed] });
   }
 }
